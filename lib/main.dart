@@ -117,46 +117,64 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListView.separated(
                       itemCount: rss.items!.length,
                       separatorBuilder: (context, index) {
-                        // <-- SEE HERE
                         return const Divider();
                       },
                       itemBuilder: (BuildContext context, index) {
                         final item = rss.items![index];
 
                         return InkWell(
-                            onTap: () async {
-                              _launchInBrowser(
-                                  Uri.parse((item.link.toString())));
-                            },
-                            child: ListTile(
-                                /*leading: Image(
-                          image: CachedNetworkImageProvider(
-                              item.media!.contents![0].url.toString())),*/
-                                leading: const Icon(Icons.rss_feed),
-                                title: Text(Uri.parse(item.link.toString())
-                                    .host
-                                    .toString()),
-                                isThreeLine: true,
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      child: Text(
-                                        item.title.toString(),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
+                          onTap: () async {
+                            _launchInBrowser(Uri.parse((item.link.toString())));
+                          },
+                          child: ListTile(
+                              leading: const Icon(Icons.rss_feed),
+                              title: Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Text(
+                                  (Uri.parse(item.link.toString())
+                                      .host
+                                      .toString()),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color.fromARGB(255, 90, 90, 90),
+                                  ),
+                                ),
+                              ),
+                              isThreeLine: true,
+                              subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        child: Text(
+                                          item.title.toString(),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                            color:
+                                                Color.fromARGB(255, 20, 20, 20),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(DateFormat('dd/MM/yyyy hh:mm')
-                                            .format(DateTime.parse(
-                                                item.pubDate.toString()))),
-                                      ],
-                                    ),
-                                  ],
-                                )));
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Row(
+                                          children: [
+                                            Text(DateFormat('dd/MM/yyyy hh:mm')
+                                                .format(DateTime.parse(
+                                                    item.pubDate.toString()))),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ))),
+                        );
                       }))
               : const Center(
                   child: CircularProgressIndicator(),
