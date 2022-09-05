@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:webfeed/webfeed.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 /*import 'package:posts/screens/view_rss_feed.dart';*/
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -63,6 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
   loadData() async {
     try {
       setState(() {
@@ -70,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       });
 
       // This is an open REST API endpoint for testing purposes
-      const api = 'https://adeptosdebancada.com/rssfeed?content=articles';
+      const api = 'https://www.open.online/rss';
       final response = await get(Uri.parse(api));
       var channel = RssFeed.parse(response.body);
       setState(() {
@@ -86,54 +95,69 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const Icon(Icons.newspaper),
         title: const Text('Rss Feed Aggregator'),
         actions: <Widget>[
-          ElevatedButton(
-              onPressed: () => loadData(),
-              child: Row(
-                children: const [Icon(Icons.refresh)],
-              ))
-        ],
-        centerTitle: true,
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Refresh',
+            onPressed: () => loadData(),
+          ), //IconButton
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            tooltip: 'Setting',
+            onPressed: () {},
+          ), //IconButton
+        ], //<Widg
       ),
       body: Stack(
         children: [
           isLoading == false
-              ? ListView.builder(
-                  itemCount: rss.items!.length,
-                  itemBuilder: (BuildContext context, index) {
-                    final item = rss.items![index];
-                    final feedItems = {
-                      'title': item.title,
-                      'content': item.content!.value,
-                      'creator': item.dc!.creator,
-                      'image': item.media!.contents![0].url,
-                      'link': item.link,
-                      'pubDate': item.pubDate,
-                      'author': item.dc!.creator
-                    };
-                    return InkWell(
-                        /* onTap:() => Navigator.pushReplacement(context,
-                                     MaterialPageRoute(builder:
-                                         (context) => ViewRssScreen(RssFeed: feedItems)
-                                     )
-                                 ),*/
-                        child: ListTile(
-                      leading: Image(
+              ? Scrollbar(
+                  child: ListView.separated(
+                      itemCount: rss.items!.length,
+                      separatorBuilder: (context, index) {
+                        // <-- SEE HERE
+                        return const Divider();
+                      },
+                      itemBuilder: (BuildContext context, index) {
+                        final item = rss.items![index];
+
+                        return InkWell(
+                            onTap: () async {
+                              _launchInBrowser(
+                                  Uri.parse((item.link.toString())));
+                            },
+                            child: ListTile(
+                                /*leading: Image(
                           image: CachedNetworkImageProvider(
-                              item.media!.contents![0].url.toString())),
-                      title: Text(item.title.toString()),
-                      subtitle: Row(
-                        children: [
-                          Text(DateFormat('dd/MM/yyyy hh:mm')
-                              .format(DateTime.parse(item.pubDate.toString()))),
-                          const Spacer(),
-                          const Icon(Icons.person),
-                          Text(item.dc!.creator.toString())
-                        ],
-                      ),
-                    ));
-                  })
+                              item.media!.contents![0].url.toString())),*/
+                                leading: const Icon(Icons.rss_feed),
+                                title: Text(Uri.parse(item.link.toString())
+                                    .host
+                                    .toString()),
+                                isThreeLine: true,
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      child: Text(
+                                        item.title.toString(),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(DateFormat('dd/MM/yyyy hh:mm')
+                                            .format(DateTime.parse(
+                                                item.pubDate.toString()))),
+                                      ],
+                                    ),
+                                  ],
+                                )));
+                      }))
               : const Center(
                   child: CircularProgressIndicator(),
                 ),

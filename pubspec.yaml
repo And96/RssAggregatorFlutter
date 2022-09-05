@@ -39,6 +39,7 @@ dependencies:
   animations: ^2.0.4
   cached_network_image: ^3.2.1
   ionicons: ^0.2.1
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
