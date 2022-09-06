@@ -1,3 +1,4 @@
+import 'package:favicon/favicon.dart' hide Icon;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:webfeed/webfeed.dart';
@@ -13,7 +14,7 @@ class Elemento {
   var link = "";
   var title = "";
   DateTime? pubDate;
-  var icon = "";
+  Image? icon;
   var host = "";
   Elemento(
       {required this.link,
@@ -76,14 +77,26 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final response = await get(Uri.parse(url));
       var channel = RssFeed.parse(response.body);
+      String hostname = Uri.parse(url.toString()).host.toString();
+
+      /* img dont load */
+      /*List<String>? suffixesIcon;
+      suffixesIcon?.add("png");
+      var iconUrls = await Favicon.getAll(url, suffixes: suffixesIcon);
+      Image img = Image.network(
+        iconUrls[0].toString(),
+        height: 16,
+        width: 16,
+        alignment: Alignment.center,
+      );*/
 
       channel.items?.forEach((element) {
         var p1 = Elemento(
             title: element.title.toString(),
             link: element.link.toString(),
-            icon: "",
+            icon: null,
             pubDate: element.pubDate,
-            host: Uri.parse(element.link.toString()).host.toString());
+            host: hostname);
         listUpdated.add(p1);
       });
     } on Exception catch (_) {}
@@ -150,7 +163,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Uri.parse((item.link.toString())));
                               },
                               child: ListTile(
-                                  leading: const Icon(Icons.rss_feed),
+                                  leading: const Icon(Icons.refresh),
+                                  /*image: item.icon!.image,*/
+
                                   title: Padding(
                                     padding: const EdgeInsets.only(top: 0),
                                     child: Text(

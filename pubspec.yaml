@@ -41,6 +41,7 @@ dependencies:
   ionicons: ^0.2.1
   url_launcher: ^6.1.5
   flutter_launcher_icons: ^0.10.0
+  favicon: ^1.0.15
 
 flutter_launcher_icons:
     path: ../..
