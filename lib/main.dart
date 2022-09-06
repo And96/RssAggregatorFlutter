@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 void main() {
