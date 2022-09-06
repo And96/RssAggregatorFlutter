@@ -55,6 +55,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
   late List<Elemento> list = [];
+  late List<Elemento> listUpdated = [];
 
   @override
   void initState() {
@@ -71,24 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  loadData() async {
+  loadDataUrl(String url) async {
     try {
-      setState(() {
-        isLoading = true;
-      });
-
-      List<Elemento> listUpdated = [];
-      var p1 = Elemento(
-          title: "titolo",
-          link: "https://www.open.online/rss",
-          icon: "icona",
-          pubDate: DateTime.parse('2020-01-02 03:04:05'),
-          host: "https://www.open.online/rss");
-      listUpdated.add(p1);
-      listUpdated.add(p1);
-
-      const api = 'https://www.open.online/rss';
-      final response = await get(Uri.parse(api));
+      final response = await get(Uri.parse(url));
       var channel = RssFeed.parse(response.body);
 
       channel.items?.forEach((element) {
@@ -100,11 +86,22 @@ class _MyHomePageState extends State<MyHomePage> {
             host: Uri.parse(element.link.toString()).host.toString());
         listUpdated.add(p1);
       });
+    } on Exception catch (_) {}
+  }
 
-      /*channel.items?.add(p1);*/
+  loadData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      listUpdated = [];
+
+      await loadDataUrl("https://www.open.online/rss");
+      await loadDataUrl("https://myvalley.it/feed");
+      await loadDataUrl("https://hano.it/feed");
 
       setState(() {
-        /*rss = channel;*/
         list = listUpdated;
         isLoading = false;
       });
@@ -196,8 +193,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   (DateFormat(
                                                           'dd/MM/yyyy hh:mm')
                                                       .format(tryParse(item
-                                                          .pubDate
-                                                          .toString()))),
+                                                              .pubDate
+                                                              .toString())
+                                                          .toLocal())),
                                                   style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight:
