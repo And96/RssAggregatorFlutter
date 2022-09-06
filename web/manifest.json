@@ -1,6 +1,6 @@
 {
-    "name": "test_project_1",
-    "short_name": "test_project_1",
+    "name": "rss_aggregator_flutter",
+    "short_name": "rss_aggregator_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

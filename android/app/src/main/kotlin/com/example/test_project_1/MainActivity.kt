@@ -1,4 +1,4 @@
-package com.example.test_project_1
+package com.and96.rss_aggregator_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
