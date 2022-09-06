@@ -8,6 +8,35 @@ import 'package:intl/intl.dart';
 void main() {
   runApp(const MyApp());
 }
+/*
+class Lista {
+  var link;
+  var title;
+  var pubDate;
+  var icon;
+  var host;
+  Lista({link, title, pubDate, icon, host});
+}*/
+
+class x extends RssItem {
+  /*x({link, title, pubDate, icon, host}) {
+    link = super.link;
+    title = this.title;
+    pubDate = this.pubDate;
+  }*/
+
+  var host = '';
+
+  x({super.link, super.title, super.pubDate, required this.host});
+}
+
+DateTime tryParse(String formattedString) {
+  try {
+    return DateTime.parse(formattedString);
+  } on FormatException {
+    return DateTime.parse(DateTime.now().toString());
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -55,9 +84,27 @@ class _MyHomePageState extends State<MyHomePage> {
         isLoading = true;
       });
 
+      /* RssItemX ax = new RssItemX(
+          title: "titolo",
+          link: "link",
+          pubDate: DateTime.parse('2020-01-02 03:04:05'),
+          icon: "",
+          host: "www.google.it");*/
+
+      var p1 = x(
+          title: "titolo",
+          link: "https://www.open.online/rss",
+          pubDate: DateTime.parse('2020-01-02 03:04:05'),
+          host: "https://www.open.online/rss");
+
+      rss.items?.add(p1);
+
       const api = 'https://www.open.online/rss';
       final response = await get(Uri.parse(api));
       var channel = RssFeed.parse(response.body);
+
+      channel.items?.add(p1);
+
       setState(() {
         rss = channel;
         isLoading = false;
@@ -148,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               children: [
                                                 Text(DateFormat(
                                                         'dd/MM/yyyy hh:mm')
-                                                    .format(DateTime.parse(item
+                                                    .format(tryParse(item
                                                         .pubDate
                                                         .toString()))),
                                               ],
