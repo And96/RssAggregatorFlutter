@@ -8,33 +8,26 @@ import 'package:intl/intl.dart';
 void main() {
   runApp(const MyApp());
 }
-/*
-class Lista {
-  var link;
-  var title;
-  var pubDate;
-  var icon;
-  var host;
-  Lista({link, title, pubDate, icon, host});
-}*/
 
-class x extends RssItem {
-  /*x({link, title, pubDate, icon, host}) {
-    link = super.link;
-    title = this.title;
-    pubDate = this.pubDate;
-  }*/
-
-  var host = '';
-
-  x({super.link, super.title, super.pubDate, required this.host});
+class Elemento {
+  var link = "";
+  var title = "";
+  DateTime? pubDate;
+  var icon = "";
+  var host = "";
+  Elemento(
+      {required this.link,
+      required this.title,
+      required this.pubDate,
+      required this.icon,
+      required this.host});
 }
 
 DateTime tryParse(String formattedString) {
   try {
-    return DateTime.parse(formattedString);
+    return DateTime.parse(formattedString).toLocal();
   } on FormatException {
-    return DateTime.parse(DateTime.now().toString());
+    return DateTime.parse(DateTime.now().toLocal().toString());
   }
 }
 
@@ -61,7 +54,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
-  late RssFeed rss = RssFeed();
+  late List<Elemento> list = [];
 
   @override
   void initState() {
@@ -84,29 +77,35 @@ class _MyHomePageState extends State<MyHomePage> {
         isLoading = true;
       });
 
-      /* RssItemX ax = new RssItemX(
-          title: "titolo",
-          link: "link",
-          pubDate: DateTime.parse('2020-01-02 03:04:05'),
-          icon: "",
-          host: "www.google.it");*/
-
-      var p1 = x(
+      List<Elemento> listUpdated = [];
+      var p1 = Elemento(
           title: "titolo",
           link: "https://www.open.online/rss",
+          icon: "icona",
           pubDate: DateTime.parse('2020-01-02 03:04:05'),
           host: "https://www.open.online/rss");
-
-      rss.items?.add(p1);
+      listUpdated.add(p1);
+      listUpdated.add(p1);
 
       const api = 'https://www.open.online/rss';
       final response = await get(Uri.parse(api));
       var channel = RssFeed.parse(response.body);
 
-      channel.items?.add(p1);
+      channel.items?.forEach((element) {
+        var p1 = Elemento(
+            title: element.title.toString(),
+            link: element.link.toString(),
+            icon: "",
+            pubDate: element.pubDate,
+            host: Uri.parse(element.link.toString()).host.toString());
+        listUpdated.add(p1);
+      });
+
+      /*channel.items?.add(p1);*/
 
       setState(() {
-        rss = channel;
+        /*rss = channel;*/
+        list = listUpdated;
         isLoading = false;
       });
     } catch (err) {
@@ -140,13 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Scrollbar(
                       child: ListView.separated(
-                          itemCount: rss.items!.length,
+                          itemCount: list.length,
+                          /*itemCount: rss.items!.length,*/
                           separatorBuilder: (context, index) {
                             return const Divider();
                           },
                           itemBuilder: (BuildContext context, index) {
-                            final item = rss.items![index];
-
+                            /*final item = rss.items![index];*/
+                            final item = list[index];
                             return InkWell(
                               onTap: () async {
                                 _launchInBrowser(
@@ -157,13 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   title: Padding(
                                     padding: const EdgeInsets.only(top: 0),
                                     child: Text(
-                                      (Uri.parse(item.link.toString())
-                                          .host
-                                          .toString()),
+                                      (item.host.toString()),
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
-                                        color: Color.fromARGB(255, 90, 90, 90),
+                                        color:
+                                            Color.fromARGB(255, 110, 110, 110),
                                       ),
                                     ),
                                   ),
@@ -193,11 +192,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 const EdgeInsets.only(top: 5),
                                             child: Row(
                                               children: [
-                                                Text(DateFormat(
-                                                        'dd/MM/yyyy hh:mm')
-                                                    .format(tryParse(item
-                                                        .pubDate
-                                                        .toString()))),
+                                                Text(
+                                                  (DateFormat(
+                                                          'dd/MM/yyyy hh:mm')
+                                                      .format(tryParse(item
+                                                          .pubDate
+                                                          .toString()))),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Color.fromARGB(
+                                                        255, 110, 110, 110),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
