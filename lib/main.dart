@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -77,31 +77,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   loadDataUrl(String url) async {
     try {
-      final response = await get(Uri.parse(url));
+      final response =
+          await get(Uri.parse(url)); /*.timeout(const Duration(seconds: 2));*/
       var channel = RssFeed.parse(response.body);
       String hostname = Uri.parse(url.toString()).host.toString();
 
-      /* img dont load */
-      /*List<String>? suffixesIcon;
-      suffixesIcon?.add("png");*/
-      var iconUrls = await Favicon.getAll(url /*, suffixes: suffixesIcon*/);
-      var iconUrl = "";
-      if (iconUrls.isNotEmpty) {
-        iconUrl = iconUrls[0].url;
+      String iconUrl = "";
+      var favicon = await Favicon.getBest(
+          "https://$hostname" /*, suffixes: suffixesIcon*/);
+      /* .timeout(const Duration(seconds: 1));*/
+
+      if (favicon?.url != null) {
+        iconUrl = favicon!.url.toString();
       }
 
-      //Image img = ImageIcon(Icons.refresh).image;
-
-/*
-      if (iconUrls.isNotEmpty) {
-        Image img = Image.network(
-          iconUrls[0].url.toString(),
-          height: 16,
-          width: 16,
-          alignment: Alignment.center,
-        );
-      }
-*/
       channel.items?.forEach((element) {
         var p1 = Elemento(
             title: element.title.toString(),
@@ -122,9 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
       listUpdated = [];
 
-      await loadDataUrl("https://hano.it/feed");
-      await loadDataUrl("https://www.open.online/rss");
-      await loadDataUrl("https://myvalley.it/feed");
+//esegue tutte le richieste in parallelo
+      List responses = await Future.wait([
+        loadDataUrl("https://hano.it/feed"),
+        loadDataUrl("https://www.open.online/rss"),
+        loadDataUrl("https://myvalley.it/feed"),
+        loadDataUrl("https://www.ansa.it/sito/ansait_rss.xml"),
+        loadDataUrl(
+            "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait"),
+        loadDataUrl("http://feeds.feedburner.com/hd-blog"),
+        loadDataUrl("https://www.ilpost.it/rss"),
+        loadDataUrl("https://medium.com/feed/tag/programming")
+      ]);
+
+      //await loadDataUrl("https://medium.com/feed/tag/programming");
 
       setState(() {
         list = listUpdated;
@@ -135,11 +135,33 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Feed list',
+    ),
+    Text(
+      'Read later',
+    ),
+    Text(
+      'Starred items',
+    ),
+    Text(
+      'Discover new websites',
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.newspaper),
+        //leading: const Icon(Icons.newspaper),
         title: const Text('Rss Feed Aggregator'),
         actions: <Widget>[
           IconButton(
@@ -154,112 +176,204 @@ class _MyHomePageState extends State<MyHomePage> {
           ), //IconButton
         ], //<Widg
       ),
-      body: Stack(
-        children: [
-          isLoading == false
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Scrollbar(
-                      child: ListView.separated(
-                          itemCount: list.length,
-                          /*itemCount: rss.items!.length,*/
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          itemBuilder: (BuildContext context, index) {
-                            /*final item = rss.items![index];*/
-                            final item = list[index];
-                            return InkWell(
-                              onTap: () async {
-                                _launchInBrowser(
-                                    Uri.parse((item.link.toString())));
-                              },
-                              child: ListTile(
-                                  minLeadingWidth: 30,
-                                  /*leading: const Icon(Icons.link),*/
-                                  leading: /*Image(image: item.icon!.image),*/
-                                      /*image: item.icon!.image,*/
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const UserAccountsDrawerHeader(
+              accountName: Text("Aggregator RSS"),
+              accountEmail: Text("News Feed Reader"),
+              currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.white, child: Icon(Icons.rss_feed)),
+            ),
+            ListTile(
+              leading: const Icon(Icons.newspaper),
+              title: const Text("Read Feeds"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.new_label),
+              title: const Text("Edit Feed"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text("Info"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list_alt),
+            label: 'News Feed',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.watch_later_outlined),
+            label: 'Read Later',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Starred',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.travel_explore_rounded),
+            label: 'Discover',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.green,
+        onTap: _onItemTapped,
+        elevation: 1000,
+        type: BottomNavigationBarType.fixed,
+      ),
 
-                                      SizedBox(
-                                    height: double.infinity,
-                                    width: 17,
-                                    child: item.iconUrl.toString().trim() == ""
-                                        ? const Icon(Icons.link)
-                                        : CachedNetworkImage(
-                                            imageUrl: item.iconUrl,
-                                            placeholder: (context, url) =>
-                                                const Icon(Icons.link),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.link),
-                                          ),
-                                  ),
-                                  title: Padding(
-                                    padding: const EdgeInsets.only(top: 0),
-                                    child: Text(
-                                      (item.host.toString()),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        color:
-                                            Color.fromARGB(255, 120, 120, 120),
-                                      ),
-                                    ),
-                                  ),
-                                  isThreeLine: true,
-                                  subtitle: Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            child: Text(
-                                              item.title.toString(),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal,
-                                                color: Color.fromARGB(
-                                                    255, 10, 10, 10),
-                                              ),
+      /*body:  Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),*/
+
+      body: _selectedIndex != 0
+          ? Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            )
+          : Stack(
+              children: [
+                isLoading == false
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Scrollbar(
+                            child: ListView.separated(
+                                itemCount: list.length,
+                                /*itemCount: rss.items!.length,*/
+                                separatorBuilder: (context, index) {
+                                  return const Divider();
+                                },
+                                itemBuilder: (BuildContext context, index) {
+                                  /*final item = rss.items![index];*/
+                                  final item = list[index];
+                                  return InkWell(
+                                    onTap: () async {
+                                      _launchInBrowser(
+                                          Uri.parse((item.link.toString())));
+                                    },
+                                    child: ListTile(
+                                        minLeadingWidth: 30,
+                                        /*leading: const Icon(Icons.link),*/
+                                        leading: /*Image(image: item.icon!.image),*/
+                                            /*image: item.icon!.image,*/
+
+                                            SizedBox(
+                                          height: double.infinity,
+                                          width: 17,
+                                          child: item.iconUrl
+                                                      .toString()
+                                                      .trim() ==
+                                                  ""
+                                              ? const Icon(Icons.link)
+                                              : CachedNetworkImage(
+                                                  imageUrl: item.iconUrl,
+                                                  placeholder: (context, url) =>
+                                                      const Icon(Icons.link),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(Icons.link),
+                                                ),
+                                        ),
+                                        title: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 0),
+                                          child: Text(
+                                            (item.host.toString()),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              color: Color.fromARGB(
+                                                  255, 120, 120, 120),
                                             ),
                                           ),
-                                          Padding(
+                                        ),
+                                        isThreeLine: true,
+                                        subtitle: Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 5),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  (DateFormat(
-                                                          'dd/MM/yyyy hh:mm')
-                                                      .format(tryParse(item
-                                                              .pubDate
-                                                              .toString())
-                                                          .toLocal())),
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Color.fromARGB(
-                                                        255, 120, 120, 120),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  child: Text(
+                                                    item.title.toString(),
+                                                    maxLines: 3,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color.fromARGB(
+                                                          255, 10, 10, 10),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 5),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        (DateFormat(
+                                                                'dd/MM/yyyy hh:mm')
+                                                            .format(tryParse(item
+                                                                    .pubDate
+                                                                    .toString())
+                                                                .toLocal())),
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              120,
+                                                              120,
+                                                              120),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
-                                            ),
-                                          ),
-                                        ],
-                                      ))),
-                            );
-                          })),
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ],
-      ),
+                                            ))),
+                                  );
+                                })),
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+              ],
+            ),
     );
   }
 }
