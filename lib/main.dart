@@ -5,6 +5,7 @@ import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +15,14 @@ class Elemento {
   var link = "";
   var title = "";
   DateTime? pubDate;
-  Image? icon;
+  //Image? icon;
+  var iconUrl = "";
   var host = "";
   Elemento(
       {required this.link,
       required this.title,
       required this.pubDate,
-      required this.icon,
+      required this.iconUrl,
       required this.host});
 }
 
@@ -81,20 +83,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
       /* img dont load */
       /*List<String>? suffixesIcon;
-      suffixesIcon?.add("png");
-      var iconUrls = await Favicon.getAll(url, suffixes: suffixesIcon);
-      Image img = Image.network(
-        iconUrls[0].toString(),
-        height: 16,
-        width: 16,
-        alignment: Alignment.center,
-      );*/
+      suffixesIcon?.add("png");*/
+      var iconUrls = await Favicon.getAll(url /*, suffixes: suffixesIcon*/);
+      var iconUrl = "";
+      if (iconUrls.isNotEmpty) {
+        iconUrl = iconUrls[0].url;
+      }
 
+      //Image img = ImageIcon(Icons.refresh).image;
+
+/*
+      if (iconUrls.isNotEmpty) {
+        Image img = Image.network(
+          iconUrls[0].url.toString(),
+          height: 16,
+          width: 16,
+          alignment: Alignment.center,
+        );
+      }
+*/
       channel.items?.forEach((element) {
         var p1 = Elemento(
             title: element.title.toString(),
             link: element.link.toString(),
-            icon: null,
+            iconUrl: iconUrl,
             pubDate: element.pubDate,
             host: hostname);
         listUpdated.add(p1);
@@ -110,9 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
       listUpdated = [];
 
+      await loadDataUrl("https://hano.it/feed");
       await loadDataUrl("https://www.open.online/rss");
       await loadDataUrl("https://myvalley.it/feed");
-      await loadDataUrl("https://hano.it/feed");
 
       setState(() {
         list = listUpdated;
@@ -163,9 +175,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Uri.parse((item.link.toString())));
                               },
                               child: ListTile(
-                                  leading: const Icon(Icons.refresh),
-                                  /*image: item.icon!.image,*/
+                                  minLeadingWidth: 30,
+                                  /*leading: const Icon(Icons.link),*/
+                                  leading: /*Image(image: item.icon!.image),*/
+                                      /*image: item.icon!.image,*/
 
+                                      SizedBox(
+                                    height: double.infinity,
+                                    width: 17,
+                                    child: item.iconUrl.toString().trim() == ""
+                                        ? const Icon(Icons.link)
+                                        : CachedNetworkImage(
+                                            imageUrl: item.iconUrl,
+                                            placeholder: (context, url) =>
+                                                const Icon(Icons.link),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.link),
+                                          ),
+                                  ),
                                   title: Padding(
                                     padding: const EdgeInsets.only(top: 0),
                                     child: Text(
@@ -174,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                         color:
-                                            Color.fromARGB(255, 110, 110, 110),
+                                            Color.fromARGB(255, 120, 120, 120),
                                       ),
                                     ),
                                   ),
@@ -189,13 +217,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                           SizedBox(
                                             child: Text(
                                               item.title.toString(),
-                                              maxLines: 2,
+                                              maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.normal,
                                                 color: Color.fromARGB(
-                                                    255, 20, 20, 20),
+                                                    255, 10, 10, 10),
                                               ),
                                             ),
                                           ),
@@ -216,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     color: Color.fromARGB(
-                                                        255, 110, 110, 110),
+                                                        255, 120, 120, 120),
                                                   ),
                                                 ),
                                               ],
