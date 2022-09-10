@@ -10,6 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'add_feed.dart';
+
 class Sito {
   var link = "";
   var iconUrl = "";
@@ -54,6 +56,41 @@ class _EditFeedsState extends State<EditFeeds> {
     super.initState();
   }
 
+  showAlertDialog(BuildContext context, String url) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
+        deleteItem(url);
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete link"),
+      content: const Text("Do you confirm?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Future<void> salva(List<Sito> tList) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('feed_subscriptions', jsonEncode(tList));
@@ -69,16 +106,19 @@ class _EditFeedsState extends State<EditFeeds> {
   }
 
   void aggiungi(String url) async {
-    var s1 = Sito(
-      link: url,
-      iconUrl: "",
-    );
-    listUpdated.add(s1);
-    salva(listUpdated);
-    listUpdated = await leggiNew();
-    setState(() {
-      list = listUpdated;
-    });
+    if (url.isEmpty == false) {
+      listUpdated.removeWhere((e) => (e.link == url));
+      var s1 = Sito(
+        link: url,
+        iconUrl: "",
+      );
+      listUpdated.add(s1);
+      salva(listUpdated);
+      listUpdated = await leggiNew();
+      setState(() {
+        list = listUpdated;
+      });
+    }
   }
 
   Future<List<Sito>> leggiNew() async {
@@ -87,18 +127,6 @@ class _EditFeedsState extends State<EditFeeds> {
         await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
     return List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
   }
-
-/*
-  void leggi() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<dynamic> jsonData =
-        jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
-    listUpdated =
-        List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
-    setState(() {
-      list = listUpdated;
-    });
-  }*/
 
   loadData() async {
     try {
@@ -142,22 +170,47 @@ class _EditFeedsState extends State<EditFeeds> {
     }
   }
 
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+    // start the SecondScreen and wait for it to finish with a result
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AddFeed(),
+        ));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      if (result != null) {
+        aggiungi(result);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Feeds'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueGrey,
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: 'Refresh',
-            onPressed: () => aggiungi("xxxxxxxxxxxxxx"),
-          ),
+              icon: const Icon(Icons.add),
+              tooltip: 'Add feed',
+              onPressed: () => _awaitReturnValueFromSecondScreen(context)),
           IconButton(
-            icon: const Icon(Icons.maps_ugc_outlined),
+            icon: const Icon(Icons.model_training_outlined),
             tooltip: 'Default',
-            onPressed: () => aggiungi("https://www.open.online/rss"),
+            onPressed: () => {
+              aggiungi("https://hano.it/feed"),
+              aggiungi("https://www.open.online/rss"),
+              aggiungi("https://myvalley.it/feed"),
+              aggiungi("https://www.ansa.it/sito/ansait_rss.xml"),
+              aggiungi(
+                  "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait"),
+              aggiungi("http://feeds.feedburner.com/hd-blog"),
+              aggiungi("https://www.ilpost.it/rss"),
+              aggiungi("https://medium.com/feed/tag/programming")
+            },
           ),
         ],
       ),
@@ -217,7 +270,8 @@ class _EditFeedsState extends State<EditFeeds> {
                                   trailing: IconButton(
                                     icon: const Icon(Icons.delete),
                                     tooltip: 'Default',
-                                    onPressed: () => deleteItem(item.link),
+                                    onPressed: () =>
+                                        showAlertDialog(context, item.link),
                                   ),
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),

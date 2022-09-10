@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:favicon/favicon.dart' hide Icon;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -7,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -78,30 +82,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
   loadDataUrl(String url) async {
     try {
-      final response =
-          await get(Uri.parse(url)); /*.timeout(const Duration(seconds: 2));*/
-      var channel = RssFeed.parse(response.body);
-      String hostname = Uri.parse(url.toString()).host.toString();
+      if (url.trim().toLowerCase().contains("http")) {
+        final response =
+            await get(Uri.parse(url)); /*.timeout(const Duration(seconds: 2));*/
+        var channel = RssFeed.parse(response.body);
+        String hostname = Uri.parse(url.toString()).host.toString();
 
-      String iconUrl = "";
-      var favicon = await Favicon.getBest(
-          "https://$hostname" /*, suffixes: suffixesIcon*/);
-      /* .timeout(const Duration(seconds: 1));*/
+        String iconUrl = "";
+        var favicon = await Favicon.getBest(
+            "https://$hostname" /*, suffixes: suffixesIcon*/);
+        /* .timeout(const Duration(seconds: 1));*/
 
-      if (favicon?.url != null) {
-        iconUrl = favicon!.url.toString();
+        if (favicon?.url != null) {
+          iconUrl = favicon!.url.toString();
+        }
+
+        channel.items?.forEach((element) {
+          if (element.title?.isEmpty == false) {
+            if (element.title.toString().length > 5) {
+              var p1 = Elemento(
+                  title: element.title.toString(),
+                  link: element.link.toString(),
+                  iconUrl: iconUrl,
+                  pubDate: element.pubDate,
+                  host: hostname);
+              listUpdated.add(p1);
+            }
+          }
+        });
       }
-
-      channel.items?.forEach((element) {
-        var p1 = Elemento(
-            title: element.title.toString(),
-            link: element.link.toString(),
-            iconUrl: iconUrl,
-            pubDate: element.pubDate,
-            host: hostname);
-        listUpdated.add(p1);
-      });
     } on Exception catch (_) {}
+  }
+
+  Future<List<Sito>> leggiListaFeed() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<dynamic> jsonData =
+        await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
+    return List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
   }
 
   loadData() async {
@@ -112,6 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
       listUpdated = [];
 
+      List<Sito> listaSiti = await leggiListaFeed();
+      for (var sito in listaSiti) {
+        await loadDataUrl(sito.link);
+      }
+/*
 //esegue tutte le richieste in parallelo
       List responses = await Future.wait([
         loadDataUrl("https://hano.it/feed"),
@@ -124,16 +146,17 @@ class _MyHomePageState extends State<MyHomePage> {
         loadDataUrl("https://www.ilpost.it/rss"),
         loadDataUrl("https://medium.com/feed/tag/programming")
       ]);
+*/
 
       //await loadDataUrl("https://medium.com/feed/tag/programming");
+
+      listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
       setState(() {
         list = listUpdated;
         isLoading = false;
       });
-    } catch (err) {
-      rethrow;
-    }
+    } on Exception catch (_) {}
   }
 
   int _selectedIndex = 0;
@@ -205,7 +228,6 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => const EditFeeds()));
-                //Navigator.pop(context);
               },
             ),
             const Divider(),
@@ -246,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
+        selectedItemColor: Colors.blueGrey,
         onTap: _onItemTapped,
         elevation: 1000,
         type: BottomNavigationBarType.fixed,
@@ -348,7 +370,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     children: [
                                                       Text(
                                                         (DateFormat(
-                                                                'dd/MM/yyyy hh:mm')
+                                                                'dd/MM/yyyy HH:mm')
                                                             .format(tryParse(item
                                                                     .pubDate
                                                                     .toString())
