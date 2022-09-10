@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:favicon/favicon.dart' hide Icon;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/screens/edit_feeds.dart';
+import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
@@ -84,29 +82,26 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       if (url.trim().toLowerCase().contains("http")) {
         final response =
-            await get(Uri.parse(url)); /*.timeout(const Duration(seconds: 2));*/
+            await get(Uri.parse(url)).timeout(const Duration(seconds: 2));
         var channel = RssFeed.parse(response.body);
         String hostname = Uri.parse(url.toString()).host.toString();
+        String iconUrl = await SitesIcon().getIcon(hostname);
 
-        String iconUrl = "";
-        var favicon = await Favicon.getBest(
-            "https://$hostname" /*, suffixes: suffixesIcon*/);
-        /* .timeout(const Duration(seconds: 1));*/
-
-        if (favicon?.url != null) {
-          iconUrl = favicon!.url.toString();
-        }
-
+        int maxItem = 20;
+        int nItem = 0;
         channel.items?.forEach((element) {
           if (element.title?.isEmpty == false) {
             if (element.title.toString().length > 5) {
-              var p1 = Elemento(
-                  title: element.title.toString(),
-                  link: element.link.toString(),
-                  iconUrl: iconUrl,
-                  pubDate: element.pubDate,
-                  host: hostname);
-              listUpdated.add(p1);
+              if (nItem <= maxItem) {
+                nItem++;
+                var p1 = Elemento(
+                    title: element.title.toString(),
+                    link: element.link.toString(),
+                    iconUrl: iconUrl,
+                    pubDate: element.pubDate,
+                    host: hostname);
+                listUpdated.add(p1);
+              }
             }
           }
         });
@@ -130,6 +125,21 @@ class _MyHomePageState extends State<MyHomePage> {
       listUpdated = [];
 
       List<Sito> listaSiti = await leggiListaFeed();
+      for (var i = 0; i == listaSiti.length; i++) {
+        if (i + 3 <= listaSiti.length) {
+          // ignore: unused_local_variable
+          List responses = await Future.wait([
+            loadDataUrl(listaSiti[i].link),
+            loadDataUrl(listaSiti[i + 1].link),
+            loadDataUrl(listaSiti[i + 2].link),
+            loadDataUrl(listaSiti[i + 3].link)
+          ]);
+        } else {
+          String link = listaSiti[i].link;
+          await loadDataUrl(link);
+        }
+      }
+
       for (var sito in listaSiti) {
         await loadDataUrl(sito.link);
       }
@@ -286,7 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 isLoading == false
                     ? Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 5),
                         child: Scrollbar(
                             child: ListView.separated(
                                 itemCount: list.length,

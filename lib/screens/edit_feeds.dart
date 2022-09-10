@@ -1,27 +1,26 @@
 import 'dart:convert';
 
-import 'package:favicon/favicon.dart' hide Icon;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webfeed/webfeed.dart';
-import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 
 import 'add_feed.dart';
 
 class Sito {
+  var name = "";
   var link = "";
   var iconUrl = "";
   Sito({
+    required this.name,
     required this.link,
     required this.iconUrl,
   });
 
   factory Sito.fromJson(Map<String, dynamic> json) {
     return Sito(
+      name: json["name"],
       link: json["link"],
       iconUrl: json["iconUrl"],
     );
@@ -29,6 +28,7 @@ class Sito {
 
   Map<String, dynamic> toJson() {
     return {
+      "name": name,
       "link": link,
       "iconUrl": iconUrl,
     };
@@ -59,14 +59,14 @@ class _EditFeedsState extends State<EditFeeds> {
   showAlertDialog(BuildContext context, String url) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("OK"),
+      child: const Text("Yes"),
       onPressed: () {
         deleteItem(url);
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Cancel"),
+      child: const Text("No"),
       onPressed: () {
         Navigator.pop(context);
       },
@@ -74,8 +74,7 @@ class _EditFeedsState extends State<EditFeeds> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("Delete link"),
-      content: const Text("Do you confirm?"),
+      content: const Text("Delete the selected site?"),
       actions: [
         cancelButton,
         continueButton,
@@ -108,7 +107,12 @@ class _EditFeedsState extends State<EditFeeds> {
   void aggiungi(String url) async {
     if (url.isEmpty == false) {
       listUpdated.removeWhere((e) => (e.link == url));
+      String hostname = url;
+      if (hostname.contains("/")) {
+        hostname = Uri.parse(url.toString()).host.toString();
+      }
       var s1 = Sito(
+        name: hostname,
         link: url,
         iconUrl: "",
       );
@@ -125,7 +129,12 @@ class _EditFeedsState extends State<EditFeeds> {
     final prefs = await SharedPreferences.getInstance();
     final List<dynamic> jsonData =
         await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
-    return List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
+    late List<Sito> listLocal =
+        List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
+    for (Sito s in listLocal) {
+      s.iconUrl = await SitesIcon().getIcon(s.link);
+    }
+    return listLocal;
   }
 
   loadData() async {
@@ -218,7 +227,7 @@ class _EditFeedsState extends State<EditFeeds> {
         children: [
           isLoading == false
               ? Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 5),
                   child: Scrollbar(
                       child: ListView.separated(
                           itemCount: list.length,
@@ -236,11 +245,7 @@ class _EditFeedsState extends State<EditFeeds> {
                               },*/
                               child: ListTile(
                                   minLeadingWidth: 30,
-                                  /*leading: const Icon(Icons.link),*/
-                                  leading: /*Image(image: item.icon!.image),*/
-                                      /*image: item.icon!.image,*/
-
-                                      SizedBox(
+                                  leading: SizedBox(
                                     height: double.infinity,
                                     width: 17,
                                     child: item.iconUrl.toString().trim() == ""
@@ -257,7 +262,7 @@ class _EditFeedsState extends State<EditFeeds> {
                                   title: Padding(
                                     padding: const EdgeInsets.only(top: 0),
                                     child: Text(
-                                      (item.link.toString()),
+                                      (item.name.toString()),
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
@@ -283,7 +288,7 @@ class _EditFeedsState extends State<EditFeeds> {
                                           SizedBox(
                                             child: Text(
                                               item.link.toString(),
-                                              maxLines: 3,
+                                              maxLines: 4,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                 fontSize: 16,
