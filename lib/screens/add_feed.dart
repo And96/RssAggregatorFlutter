@@ -1,14 +1,5 @@
-import 'dart:convert';
-
-import 'package:favicon/favicon.dart' hide Icon;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webfeed/webfeed.dart';
-import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class Sito {
   var link = "";
