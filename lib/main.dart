@@ -1,6 +1,7 @@
 import 'package:favicon/favicon.dart' hide Icon;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:rss_aggregator_flutter/screens/edit_feeds.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
@@ -202,7 +203,9 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.new_label),
               title: const Text("Edit Feed"),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const EditFeeds()));
+                //Navigator.pop(context);
               },
             ),
             const Divider(),
