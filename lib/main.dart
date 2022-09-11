@@ -78,14 +78,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  String itemLoading = '';
+
   loadDataUrl(String url) async {
     try {
+      setState(() {
+        itemLoading = url;
+      });
+
       if (url.trim().toLowerCase().contains("http")) {
-        final response =
-            await get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+        final response = await get(Uri.parse(url))
+            .timeout(const Duration(milliseconds: 2000));
         var channel = RssFeed.parse(response.body);
         String hostname = Uri.parse(url.toString()).host.toString();
-        String iconUrl = await SitesIcon().getIcon(hostname);
+        String iconUrl = await SitesIcon()
+            .getIcon(hostname)
+            .timeout(const Duration(milliseconds: 2000));
 
         int maxItem = 20;
         int nItem = 0;
@@ -106,7 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         });
       }
-    } on Exception catch (_) {}
+    } catch (err) {
+      // print('Caught error: $err');
+    }
   }
 
   Future<List<Sito>> leggiListaFeed() async {
@@ -125,7 +135,15 @@ class _MyHomePageState extends State<MyHomePage> {
       listUpdated = [];
 
       List<Sito> listaSiti = await leggiListaFeed();
-      for (var i = 0; i == listaSiti.length; i++) {
+      for (var i = 0; i < listaSiti.length; i++) {
+        String link = listaSiti[i].link;
+        try {
+          await loadDataUrl(link);
+        } catch (err) {
+          // print('Caught error: $err');
+        }
+        continue;
+
         if (i + 3 <= listaSiti.length) {
           // ignore: unused_local_variable
           List responses = await Future.wait([
@@ -139,10 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
           await loadDataUrl(link);
         }
       }
-
+/*
       for (var sito in listaSiti) {
-        await loadDataUrl(sito.link);
-      }
+        try {
+          await loadDataUrl(sito.link);
+        } on Exception catch (_) {}
+      }*/
 /*
 //esegue tutte le richieste in parallelo
       List responses = await Future.wait([
@@ -166,7 +186,9 @@ class _MyHomePageState extends State<MyHomePage> {
         list = listUpdated;
         isLoading = false;
       });
-    } on Exception catch (_) {}
+    } catch (err) {
+      // print('Caught error: $err');
+    }
   }
 
   int _selectedIndex = 0;
@@ -404,8 +426,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                   );
                                 })),
                       )
-                    : const Center(
-                        child: CircularProgressIndicator(),
+                    : Center(
+                        child: SizedBox(
+                          height: 150,
+                          width: 300,
+                          child: Card(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Text('Loading'),
+                                const CircularProgressIndicator(),
+                                Text(itemLoading),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
               ],
             ),

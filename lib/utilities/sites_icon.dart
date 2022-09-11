@@ -62,10 +62,13 @@ class SitesIcon {
     try {
       //fetch icon from network
       var favicon = await FaviconFinder.getBest("https://$url");
+
       if (favicon?.url != null) {
         iconUrl = favicon!.url.toString();
       }
-    } catch (e) {}
+    } catch (err) {
+      // print('Caught error: $err');
+    }
     return iconUrl;
   }
 

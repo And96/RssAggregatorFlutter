@@ -105,36 +105,50 @@ class _EditFeedsState extends State<EditFeeds> {
   }
 
   void aggiungi(String url) async {
-    if (url.isEmpty == false) {
-      listUpdated.removeWhere((e) => (e.link == url));
-      String hostname = url;
-      if (hostname.contains("/")) {
-        hostname = Uri.parse(url.toString()).host.toString();
+    try {
+      if (url.isEmpty == false) {
+        listUpdated.removeWhere((e) => (e.link == url));
+        String hostname = url;
+        if (hostname.contains("/")) {
+          hostname = Uri.parse(url.toString()).host.toString();
+        }
+        var s1 = Sito(
+          name: hostname,
+          link: url,
+          iconUrl: "",
+        );
+        listUpdated.add(s1);
+        salva(listUpdated);
+        listUpdated = await leggiNew();
+        setState(() {
+          list = listUpdated;
+        });
       }
-      var s1 = Sito(
-        name: hostname,
-        link: url,
-        iconUrl: "",
-      );
-      listUpdated.add(s1);
-      salva(listUpdated);
-      listUpdated = await leggiNew();
-      setState(() {
-        list = listUpdated;
-      });
+    } catch (err) {
+      // print('Caught error: $err');
     }
   }
 
   Future<List<Sito>> leggiNew() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<dynamic> jsonData =
-        await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
-    late List<Sito> listLocal =
-        List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
-    for (Sito s in listLocal) {
-      s.iconUrl = await SitesIcon().getIcon(s.link);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final List<dynamic> jsonData =
+          await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
+      late List<Sito> listLocal =
+          List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
+      for (Sito s in listLocal) {
+        try {
+          s.iconUrl = await SitesIcon().getIcon(s.link);
+          /* .timeout(const Duration(milliseconds: 100000));*/
+        } catch (err) {
+          // print('Caught error: $err');
+        }
+      }
+      return listLocal;
+    } catch (err) {
+      // print('Caught error: $err');
     }
-    return listLocal;
+    return [];
   }
 
   loadData() async {
@@ -175,7 +189,7 @@ class _EditFeedsState extends State<EditFeeds> {
         isLoading = false;
       });
     } catch (err) {
-      rethrow;
+      //print('Caught error: $err');
     }
   }
 
