@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,8 +64,14 @@ class _MyHomePageState extends State<MyHomePage> {
   late List<Elemento> list = [];
   late List<Elemento> listUpdated = [];
 
+  String appName = "";
+  String packageName = "";
+  String version = "";
+  String buildNumber = "";
+
   @override
   void initState() {
+    loadPackageInfo();
     loadData();
     super.initState();
   }
@@ -80,17 +87,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String itemLoading = '';
 
+  loadPackageInfo() {
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      appName = packageInfo.appName;
+      packageName = packageInfo.packageName;
+      version = packageInfo.version;
+      buildNumber = packageInfo.buildNumber;
+    });
+  }
+
   loadDataUrl(String url) async {
     try {
-      setState(() {
-        itemLoading = url;
-      });
-
       if (url.trim().toLowerCase().contains("http")) {
+        String hostname = Uri.parse(url.toString()).host.toString();
+        setState(() {
+          itemLoading = hostname;
+        });
+
         final response = await get(Uri.parse(url))
             .timeout(const Duration(milliseconds: 2000));
         var channel = RssFeed.parse(response.body);
-        String hostname = Uri.parse(url.toString()).host.toString();
+
         String iconUrl = await SitesIcon()
             .getIcon(hostname)
             .timeout(const Duration(milliseconds: 2000));
@@ -213,6 +230,46 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _showAlertDialog(BuildContext context) async {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(appName),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(packageName),
+          const SizedBox(height: 15),
+          Text("Version: $version $buildNumber"),
+          const SizedBox(height: 15),
+          const Text("Developer: Andrea"),
+          const SizedBox(height: 15),
+          const Text("2022"),
+        ],
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -275,37 +332,43 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text("Info"),
               onTap: () {
                 Navigator.pop(context);
+                _showAlertDialog(context);
               },
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'News Feed',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later_outlined),
-            label: 'Read Later',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Starred',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.travel_explore_rounded),
-            label: 'Discover',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueGrey,
-        onTap: _onItemTapped,
-        elevation: 1000,
-        type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 10.0),
+          ],
+        ),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: 'News Feed',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.watch_later_outlined),
+              label: 'Read Later',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: 'Starred',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.travel_explore_rounded),
+              label: 'Discover',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blueGrey,
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
-
       /*body:  Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),*/
@@ -428,14 +491,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     : Center(
                         child: SizedBox(
-                          height: 150,
-                          width: 300,
+                          height: 175,
+                          width: 275,
                           child: Card(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 const Text('Loading'),
+                                const SizedBox(height: 15),
                                 const CircularProgressIndicator(),
+                                const SizedBox(height: 15),
                                 Text(itemLoading),
                               ],
                             ),

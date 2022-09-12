@@ -115,11 +115,11 @@ class _EditFeedsState extends State<EditFeeds> {
         var s1 = Sito(
           name: hostname,
           link: url,
-          iconUrl: "",
+          iconUrl: await SitesIcon().getIcon(hostname),
         );
         listUpdated.add(s1);
         salva(listUpdated);
-        listUpdated = await leggiNew();
+        //listUpdated = await leggiNew();
         setState(() {
           list = listUpdated;
         });
@@ -136,7 +136,11 @@ class _EditFeedsState extends State<EditFeeds> {
           await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
       late List<Sito> listLocal =
           List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
-      for (Sito s in listLocal) {
+
+      //NEW IT WORKS BUT SLOW
+/*
+
+  for (Sito s in listLocal) {
         try {
           s.iconUrl = await SitesIcon().getIcon(s.link);
           /* .timeout(const Duration(milliseconds: 100000));*/
@@ -144,6 +148,9 @@ class _EditFeedsState extends State<EditFeeds> {
           // print('Caught error: $err');
         }
       }
+
+*/
+
       return listLocal;
     } catch (err) {
       // print('Caught error: $err');
