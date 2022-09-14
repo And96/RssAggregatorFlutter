@@ -3,23 +3,19 @@ import 'package:flutter/material.dart';
 
 class Sito {
   var link = "";
-  var iconUrl = "";
   Sito({
     required this.link,
-    required this.iconUrl,
   });
 
   factory Sito.fromJson(Map<String, dynamic> json) {
     return Sito(
       link: json["link"],
-      iconUrl: json["iconUrl"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "link": link,
-      "iconUrl": iconUrl,
     };
   }
 
@@ -55,7 +51,7 @@ class _AddFeedState extends State<AddFeed> {
               keyboardType: TextInputType.multiline,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Paste RSS URLs here',
+                hintText: 'Paste RSS address or OPML text here',
               ),
             ),
           ),

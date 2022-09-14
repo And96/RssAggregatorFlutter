@@ -19,7 +19,6 @@ class Elemento {
   var link = "";
   var title = "";
   DateTime? pubDate;
-  //Image? icon;
   var iconUrl = "";
   var host = "";
   Elemento(
@@ -34,7 +33,8 @@ DateTime tryParse(String formattedString) {
   try {
     return DateTime.parse(formattedString).toLocal();
   } on FormatException {
-    return DateTime.parse(DateTime.now().toLocal().toString());
+    DateTime now = DateTime.now();
+    return DateTime(now.year, now.month, now.day).toLocal();
   }
 }
 
@@ -63,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
   late List<Elemento> list = [];
   late List<Elemento> listUpdated = [];
-
   String appName = "";
   String packageName = "";
   String version = "";
@@ -100,9 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       if (url.trim().toLowerCase().contains("http")) {
         String hostname = Uri.parse(url.toString()).host.toString();
-        setState(() {
-          itemLoading = hostname;
-        });
 
         final response = await get(Uri.parse(url))
             .timeout(const Duration(milliseconds: 2000));
@@ -123,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: element.title.toString(),
                     link: element.link.toString(),
                     iconUrl: iconUrl,
-                    pubDate: element.pubDate,
+                    pubDate: tryParse(element.pubDate.toString()),
                     host: hostname);
                 listUpdated.add(p1);
               }
@@ -149,53 +145,27 @@ class _MyHomePageState extends State<MyHomePage> {
         isLoading = true;
       });
 
+      list = [];
       listUpdated = [];
 
       List<Sito> listaSiti = await leggiListaFeed();
-      for (var i = 0; i < listaSiti.length; i++) {
+      for (var i = 0; i < listaSiti.length - 1; i++) {
         String link = listaSiti[i].link;
+        try {
+          String hostname = Uri.parse(link.toString()).host.toString();
+          setState(() {
+            itemLoading = hostname;
+          });
+        } catch (err) {
+          // print('Caught error: $err');
+        }
         try {
           await loadDataUrl(link);
         } catch (err) {
           // print('Caught error: $err');
         }
         continue;
-
-        if (i + 3 <= listaSiti.length) {
-          // ignore: unused_local_variable
-          List responses = await Future.wait([
-            loadDataUrl(listaSiti[i].link),
-            loadDataUrl(listaSiti[i + 1].link),
-            loadDataUrl(listaSiti[i + 2].link),
-            loadDataUrl(listaSiti[i + 3].link)
-          ]);
-        } else {
-          String link = listaSiti[i].link;
-          await loadDataUrl(link);
-        }
       }
-/*
-      for (var sito in listaSiti) {
-        try {
-          await loadDataUrl(sito.link);
-        } on Exception catch (_) {}
-      }*/
-/*
-//esegue tutte le richieste in parallelo
-      List responses = await Future.wait([
-        loadDataUrl("https://hano.it/feed"),
-        loadDataUrl("https://www.open.online/rss"),
-        loadDataUrl("https://myvalley.it/feed"),
-        loadDataUrl("https://www.ansa.it/sito/ansait_rss.xml"),
-        loadDataUrl(
-            "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait"),
-        loadDataUrl("http://feeds.feedburner.com/hd-blog"),
-        loadDataUrl("https://www.ilpost.it/rss"),
-        loadDataUrl("https://medium.com/feed/tag/programming")
-      ]);
-*/
-
-      //await loadDataUrl("https://medium.com/feed/tag/programming");
 
       listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
@@ -369,10 +339,6 @@ class _MyHomePageState extends State<MyHomePage> {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      /*body:  Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),*/
-
       body: _selectedIndex != 0
           ? Center(
               child: _widgetOptions.elementAt(_selectedIndex),
@@ -385,12 +351,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Scrollbar(
                             child: ListView.separated(
                                 itemCount: list.length,
-                                /*itemCount: rss.items!.length,*/
                                 separatorBuilder: (context, index) {
                                   return const Divider();
                                 },
                                 itemBuilder: (BuildContext context, index) {
-                                  /*final item = rss.items![index];*/
                                   final item = list[index];
                                   return InkWell(
                                     onTap: () async {
@@ -399,11 +363,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     },
                                     child: ListTile(
                                         minLeadingWidth: 30,
-                                        /*leading: const Icon(Icons.link),*/
-                                        leading: /*Image(image: item.icon!.image),*/
-                                            /*image: item.icon!.image,*/
-
-                                            SizedBox(
+                                        leading: SizedBox(
                                           height: double.infinity,
                                           width: 17,
                                           child: item.iconUrl
@@ -493,19 +453,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: SizedBox(
                           height: 175,
                           width: 275,
-                          child: Card(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                const Text('Loading'),
-                                const SizedBox(height: 15),
-                                const CircularProgressIndicator(),
-                                const SizedBox(height: 15),
-                                Text(itemLoading),
-                              ],
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Loading'),
+                              const SizedBox(height: 20),
+                              const CircularProgressIndicator(),
+                              const SizedBox(height: 20),
+                              Text(itemLoading),
+                            ],
                           ),
                         ),
                       ),

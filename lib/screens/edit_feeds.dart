@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
-
 import 'add_feed.dart';
 
 class Sito {
@@ -56,12 +55,12 @@ class _EditFeedsState extends State<EditFeeds> {
     super.initState();
   }
 
-  showAlertDialog(BuildContext context, String url) {
+  showDeleteAlertDialog(BuildContext context, String url) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("Yes"),
       onPressed: () {
-        deleteItem(url);
+        deleteSite(url);
         Navigator.pop(context);
       },
     );
@@ -74,7 +73,7 @@ class _EditFeedsState extends State<EditFeeds> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: const Text("Delete the selected site?"),
+      content: const Text("Confirm delete?"),
       actions: [
         cancelButton,
         continueButton,
@@ -90,26 +89,33 @@ class _EditFeedsState extends State<EditFeeds> {
     );
   }
 
-  Future<void> salva(List<Sito> tList) async {
+  Future<void> saveSites(List<Sito> tList) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('feed_subscriptions', jsonEncode(tList));
   }
 
-  void deleteItem(String url) async {
-    listUpdated.removeWhere((e) => (e.link == url));
-    salva(listUpdated);
-    listUpdated = await leggiNew();
+  void deleteSite(String url) async {
+    if (url == "*") {
+      listUpdated = [];
+    } else {
+      listUpdated.removeWhere((e) => (e.link == url));
+    }
+    saveSites(listUpdated);
+    listUpdated = await readSites();
     setState(() {
       list = listUpdated;
     });
   }
 
-  void aggiungi(String url) async {
+  void addSite(String url) async {
     try {
-      if (url.isEmpty == false) {
+      if (url.isEmpty == false &&
+          url.length > 7 &&
+          url.contains(".") &&
+          !url.trim().startsWith("%")) {
         listUpdated.removeWhere((e) => (e.link == url));
         String hostname = url;
-        if (hostname.contains("/")) {
+        if (hostname.replaceAll("//", "/").contains("/")) {
           hostname = Uri.parse(url.toString()).host.toString();
         }
         var s1 = Sito(
@@ -118,7 +124,7 @@ class _EditFeedsState extends State<EditFeeds> {
           iconUrl: await SitesIcon().getIcon(hostname),
         );
         listUpdated.add(s1);
-        salva(listUpdated);
+        saveSites(listUpdated);
         //listUpdated = await leggiNew();
         setState(() {
           list = listUpdated;
@@ -129,27 +135,13 @@ class _EditFeedsState extends State<EditFeeds> {
     }
   }
 
-  Future<List<Sito>> leggiNew() async {
+  Future<List<Sito>> readSites() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
       late List<Sito> listLocal =
           List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
-
-      //NEW IT WORKS BUT SLOW
-/*
-
-  for (Sito s in listLocal) {
-        try {
-          s.iconUrl = await SitesIcon().getIcon(s.link);
-          /* .timeout(const Duration(milliseconds: 100000));*/
-        } catch (err) {
-          // print('Caught error: $err');
-        }
-      }
-
-*/
 
       return listLocal;
     } catch (err) {
@@ -163,34 +155,8 @@ class _EditFeedsState extends State<EditFeeds> {
       setState(() {
         isLoading = true;
       });
-
       list = [];
-
-      /* if (list.isEmpty) {
-        var s1 = Sito(
-          link: "ss",
-          iconUrl: "",
-        );
-        listUpdated.add(s1);
-
-        var s2 = Sito(
-          link: "ss",
-          iconUrl: "",
-        );
-        listUpdated.add(s2);
-      }*/
-
-      //await salva(listUpdated);
-      listUpdated = await leggiNew();
-/*
-      for (var element in listUpdated) {
-        var s1 = Sito(
-          link: element.link.toString(),
-          iconUrl: "",
-        );
-        listUpdated.add(s1);
-      }*/
-
+      listUpdated = await readSites();
       setState(() {
         list = listUpdated;
         isLoading = false;
@@ -198,6 +164,24 @@ class _EditFeedsState extends State<EditFeeds> {
     } catch (err) {
       //print('Caught error: $err');
     }
+  }
+
+  List<String> getUrlsFromText(String text) {
+    try {
+      RegExp exp =
+          RegExp(r'(?:(?:https?|http):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+      Iterable<RegExpMatch> matches = exp.allMatches(text);
+      List<String> listUrl = [];
+      for (var match in matches) {
+        if (match.toString().length > 6) {
+          listUrl.add(text.substring(match.start, match.end));
+        }
+      }
+      return listUrl;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return [];
   }
 
   void _awaitReturnValueFromSecondScreen(BuildContext context) async {
@@ -209,18 +193,28 @@ class _EditFeedsState extends State<EditFeeds> {
         ));
 
     // after the SecondScreen result comes back update the Text widget with it
-    setState(() {
-      if (result != null) {
-        aggiungi(result);
+
+    if (result != null) {
+      if (result.toString().contains("<") ||
+          result.toString().contains(";") ||
+          result.toString().contains(" ")) {
+        List<String> listUrl = getUrlsFromText(result);
+        if (listUrl.length > 1) {
+          for (String item in listUrl) {
+            addSite(item);
+          }
+          return;
+        }
       }
-    });
+      addSite(result);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Feeds'),
+        title: Text('Edit Feeds (${list.length})'),
         backgroundColor: Colors.blueGrey,
         actions: <Widget>[
           IconButton(
@@ -231,17 +225,21 @@ class _EditFeedsState extends State<EditFeeds> {
             icon: const Icon(Icons.model_training_outlined),
             tooltip: 'Default',
             onPressed: () => {
-              aggiungi("https://hano.it/feed"),
-              aggiungi("https://www.open.online/rss"),
-              aggiungi("https://myvalley.it/feed"),
-              aggiungi("https://www.ansa.it/sito/ansait_rss.xml"),
-              aggiungi(
+              addSite("https://hano.it/feed"),
+              addSite("https://www.open.online/rss"),
+              addSite("https://myvalley.it/feed"),
+              addSite("https://www.ansa.it/sito/ansait_rss.xml"),
+              addSite(
                   "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait"),
-              aggiungi("http://feeds.feedburner.com/hd-blog"),
-              aggiungi("https://www.ilpost.it/rss"),
-              aggiungi("https://medium.com/feed/tag/programming")
+              addSite("http://feeds.feedburner.com/hd-blog"),
+              addSite("https://www.ilpost.it/rss"),
+              addSite("https://medium.com/feed/tag/programming")
             },
           ),
+          IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Delete',
+              onPressed: () => showDeleteAlertDialog(context, "*")),
         ],
       ),
       body: Stack(
@@ -252,12 +250,10 @@ class _EditFeedsState extends State<EditFeeds> {
                   child: Scrollbar(
                       child: ListView.separated(
                           itemCount: list.length,
-                          /*itemCount: rss.items!.length,*/
                           separatorBuilder: (context, index) {
                             return const Divider();
                           },
                           itemBuilder: (BuildContext context, index) {
-                            /*final item = rss.items![index];*/
                             final item = list[index];
                             return InkWell(
                               /*onTap: () async {
@@ -296,8 +292,8 @@ class _EditFeedsState extends State<EditFeeds> {
                                   trailing: IconButton(
                                     icon: const Icon(Icons.delete),
                                     tooltip: 'Default',
-                                    onPressed: () =>
-                                        showAlertDialog(context, item.link),
+                                    onPressed: () => showDeleteAlertDialog(
+                                        context, item.link),
                                   ),
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),

@@ -60,7 +60,7 @@ class SitesIcon {
   Future<String> getIconWeb(String url) async {
     String iconUrl = "";
     try {
-      /* List<String>? suffixesFormat = ["ico", "png"];
+      /*   List<String>? suffixesFormat = ["ico", "png"];
       List<Favicon> favicons =
           await FaviconFinder.getAll("https://$url", suffixes: suffixesFormat);
       iconUrl = favicons.isNotEmpty ? favicons.first.url.toString() : "";*/
