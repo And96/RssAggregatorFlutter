@@ -101,12 +101,20 @@ class _MyHomePageState extends State<MyHomePage> {
         String hostname = Uri.parse(url.toString()).host.toString();
 
         final response = await get(Uri.parse(url))
-            .timeout(const Duration(milliseconds: 2000));
-        var channel = RssFeed.parse(response.body);
+            .timeout(const Duration(milliseconds: 3000));
+        var channel = RssFeed.parse(utf8
+            .decode(response.bodyBytes)
+            .replaceAll('�', '')
+            .replaceAll("&#039;", ""));
 
-        String iconUrl = await SitesIcon()
-            .getIcon(hostname)
-            .timeout(const Duration(milliseconds: 2000));
+        String iconUrl = "";
+        try {
+          iconUrl = await SitesIcon()
+              .getIcon(hostname)
+              .timeout(const Duration(milliseconds: 2000));
+        } catch (err) {
+          // senza questo try/catch salta il pezzo sotto, quindi senza icone non caricherebbe
+        }
 
         int maxItem = 20;
         int nItem = 0;
@@ -149,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
       listUpdated = [];
 
       List<Sito> listaSiti = await leggiListaFeed();
-      for (var i = 0; i < listaSiti.length - 1; i++) {
+      for (var i = 0; i < listaSiti.length; i++) {
         String link = listaSiti[i].link;
         try {
           String hostname = Uri.parse(link.toString()).host.toString();

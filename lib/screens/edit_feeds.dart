@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
+import 'package:webfeed/webfeed.dart';
 import 'add_feed.dart';
+import 'package:feed_finder/feed_finder.dart';
 
 class Sito {
   var name = "";
@@ -48,6 +51,8 @@ class _EditFeedsState extends State<EditFeeds> {
   bool isLoading = false;
   late List<Sito> list = [];
   late List<Sito> listUpdated = [];
+
+  String itemLoading = '';
 
   @override
   void initState() {
@@ -107,17 +112,268 @@ class _EditFeedsState extends State<EditFeeds> {
     });
   }
 
-  void addSite(String url) async {
+  Future<bool> isUrlRSS(String url) async {
     try {
-      if (url.isEmpty == false &&
-          url.length > 7 &&
-          url.contains(".") &&
-          !url.trim().startsWith("%")) {
-        listUpdated.removeWhere((e) => (e.link == url));
+      final response =
+          await get(Uri.parse(url)).timeout(const Duration(milliseconds: 2000));
+      var channel = RssFeed.parse(response.body);
+      if (channel.items!.isNotEmpty) {
+        return true;
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
+  Future<String> getRssFromUrl(String url) async {
+    try {
+      //70% of websites use this template for rss
+      if (url.endsWith("/")) {
+        url = url.substring(0, url.length - 1);
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/feed/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+
+      //search rss in html
+      try {
+        List<String> rssUrls = await FeedFinder.scrape(url);
+        for (String rssUrl in rssUrls) {
+          if (!rssUrl.contains("comment")) {
+            bool valid = await isUrlRSS(rssUrl);
+            if (valid) {
+              return rssUrl;
+            }
+          }
+        }
+      } catch (err) {/**/}
+
+      //try common rss url
+      if (url.length > 1) {
+        String urlRss = "$url/rss/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("medium") && url.contains("/tag")) {
+        String urlRss = url.replaceAll("tag/", "feed/tag/");
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("medium.com")) {
+        String urlRss = url.replaceAll("medium.com/", "medium.com/feed/");
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("ecodibergamo")) {
+        String urlRss = "https://www.ecodibergamo.it/feeds/latesthp/268/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/blog/rss.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/blog/rss";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/blog/feed/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/feeds/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/category/feed/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/tag/feed/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/rss.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/feed.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/blog/rss.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/it/feed/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/en/feed/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/rss2.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/rss/home.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/rss/all/rss2.0.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/atom.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/feeds/news.rss";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/feed.rss";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss = "$url/latest.rss";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        String urlRss =
+            "https://news.google.com/rss/search?q=${url.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
         String hostname = url;
         if (hostname.replaceAll("//", "/").contains("/")) {
           hostname = Uri.parse(url.toString()).host.toString();
         }
+        String urlRss =
+            "http://feeds.feedburner.com/${hostname.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return "";
+  }
+
+  Future<String> getUrlFormatted(String url) async {
+    try {
+      if (url.isEmpty) {
+        return "";
+      }
+      url = url.trim();
+      if (url.length < 4) {
+        return "";
+      }
+      if (url.trim().startsWith("%")) {
+        return "";
+      }
+      if (!url.startsWith("http")) {
+        url = "https://$url";
+      }
+      bool valid = await isUrlRSS(url);
+      if (valid) {
+        return url;
+      }
+      url = await getRssFromUrl(url);
+      return url;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return "";
+  }
+
+  Future<bool> addSite(String url) async {
+    try {
+      String hostname = url;
+      if (hostname.replaceAll("//", "/").contains("/")) {
+        hostname = Uri.parse(url.toString()).host.toString();
+      }
+      setState(() {
+        itemLoading = hostname;
+      });
+      url = await getUrlFormatted(url);
+      if (url.length > 1) {
+        listUpdated.removeWhere((e) => (e.link == url));
+
         var s1 = Sito(
           name: hostname,
           link: url,
@@ -125,7 +381,6 @@ class _EditFeedsState extends State<EditFeeds> {
         );
         listUpdated.add(s1);
         saveSites(listUpdated);
-        //listUpdated = await leggiNew();
         setState(() {
           list = listUpdated;
         });
@@ -133,6 +388,7 @@ class _EditFeedsState extends State<EditFeeds> {
     } catch (err) {
       // print('Caught error: $err');
     }
+    return true;
   }
 
   Future<List<Sito>> readSites() async {
@@ -157,13 +413,13 @@ class _EditFeedsState extends State<EditFeeds> {
       });
       list = [];
       listUpdated = await readSites();
-      setState(() {
-        list = listUpdated;
-        isLoading = false;
-      });
     } catch (err) {
       //print('Caught error: $err');
     }
+    setState(() {
+      list = listUpdated;
+      isLoading = false;
+    });
   }
 
   List<String> getUrlsFromText(String text) {
@@ -194,6 +450,10 @@ class _EditFeedsState extends State<EditFeeds> {
 
     // after the SecondScreen result comes back update the Text widget with it
 
+    setState(() {
+      isLoading = true;
+    });
+
     if (result != null) {
       if (result.toString().contains("<") ||
           result.toString().contains(";") ||
@@ -201,13 +461,17 @@ class _EditFeedsState extends State<EditFeeds> {
         List<String> listUrl = getUrlsFromText(result);
         if (listUrl.length > 1) {
           for (String item in listUrl) {
-            addSite(item);
+            await addSite(item);
           }
           return;
         }
       }
-      addSite(result);
+      await addSite(result);
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -320,8 +584,23 @@ class _EditFeedsState extends State<EditFeeds> {
                             );
                           })),
                 )
-              : const Center(
-                  child: CircularProgressIndicator(),
+              : Center(
+                  child: SizedBox(
+                    height: 175,
+                    width: 275,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Text('Loading'),
+                        const SizedBox(height: 20),
+                        const CircularProgressIndicator(),
+                        const SizedBox(height: 20),
+                        Text(itemLoading),
+                      ],
+                    ),
+                  ),
                 ),
         ],
       ),

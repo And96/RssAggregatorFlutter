@@ -46,7 +46,7 @@ class _AddFeedState extends State<AddFeed> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: TextField(
               controller: mycontroller,
-              minLines: 6,
+              minLines: 8,
               maxLines: null,
               keyboardType: TextInputType.multiline,
               decoration: const InputDecoration(
