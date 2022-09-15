@@ -154,7 +154,7 @@ class _EditFeedsState extends State<EditFeeds> {
       } catch (err) {/**/}
 
       //try common rss url
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/rss/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
@@ -182,126 +182,126 @@ class _EditFeedsState extends State<EditFeeds> {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/blog/rss.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/blog/rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/blog/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/feeds/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/category/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/tag/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/rss.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/feed.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/blog/rss.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/it/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/en/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/rss2.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/rss/home.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/rss/all/rss2.0.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/atom.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/feeds/news.rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/feed.rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/latest.rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
@@ -373,7 +373,6 @@ class _EditFeedsState extends State<EditFeeds> {
       url = await getUrlFormatted(url);
       if (url.length > 1) {
         listUpdated.removeWhere((e) => (e.link == url));
-
         var s1 = Sito(
           name: hostname,
           link: url,
