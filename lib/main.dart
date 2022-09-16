@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
         try {
           String hostname = Uri.parse(link.toString()).host.toString();
           setState(() {
-            itemLoading = hostname;
+            itemLoading = listaSiti[i].name;
           });
         } catch (err) {
           // print('Caught error: $err');

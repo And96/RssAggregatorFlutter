@@ -126,7 +126,7 @@ class _EditFeedsState extends State<EditFeeds> {
     return false;
   }
 
-  Future<String> getRssFromUrl(String url) async {
+  Future<String> getRssFromUrl(String url, bool advancedSearch) async {
     try {
       //70% of websites use this template for rss
       if (url.endsWith("/")) {
@@ -139,7 +139,9 @@ class _EditFeedsState extends State<EditFeeds> {
           return urlRss;
         }
       }
-
+      if (!advancedSearch) {
+        return "";
+      }
       //search rss in html
       if (url.contains(".")) {
         try {
@@ -338,7 +340,7 @@ class _EditFeedsState extends State<EditFeeds> {
     return "";
   }
 
-  Future<String> getUrlFormatted(String url) async {
+  Future<String> getUrlFormatted(String url, bool advancedSearch) async {
     try {
       if (url.isEmpty) {
         return "";
@@ -357,7 +359,8 @@ class _EditFeedsState extends State<EditFeeds> {
       if (valid) {
         return url;
       }
-      url = await getRssFromUrl(url);
+      url = await getRssFromUrl(url, advancedSearch);
+
       return url;
     } catch (err) {
       // print('Caught error: $err');
@@ -365,7 +368,7 @@ class _EditFeedsState extends State<EditFeeds> {
     return "";
   }
 
-  Future<bool> addSite(String url) async {
+  Future<bool> addSite(String url, bool advancedSearch) async {
     try {
       String hostname = url;
       if (hostname.replaceAll("//", "/").contains("/")) {
@@ -374,7 +377,10 @@ class _EditFeedsState extends State<EditFeeds> {
       setState(() {
         itemLoading = hostname;
       });
-      url = await getUrlFormatted(url);
+      url = await getUrlFormatted(url, advancedSearch);
+      if (url.endsWith("/")) {
+        url = url.substring(0, url.length - 1);
+      }
       if (!hostname.contains(".")) {
         hostname = Uri.parse(url.toString()).host.toString();
       }
@@ -466,13 +472,14 @@ class _EditFeedsState extends State<EditFeeds> {
           result.toString().contains(" ")) {
         List<String> listUrl = getUrlsFromText(result);
         if (listUrl.length > 1) {
+          bool advancedSearch = !result.toString().contains("opml");
           for (String item in listUrl) {
-            await addSite(item);
+            await addSite(item, advancedSearch);
           }
           return;
         }
       }
-      await addSite(result.toString().trim().replaceAll("\n", ""));
+      await addSite(result.toString().trim().replaceAll("\n", ""), true);
     }
 
     setState(() {
@@ -495,15 +502,16 @@ class _EditFeedsState extends State<EditFeeds> {
             icon: const Icon(Icons.model_training_outlined),
             tooltip: 'Default',
             onPressed: () async => {
-              await addSite("http://feeds.feedburner.com/hd-blog"),
+              await addSite("http://feeds.feedburner.com/hd-blog", false),
               await addSite(
-                  "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait"),
-              await addSite("https://hano.it/feed"),
-              await addSite("https://www.open.online/rss"),
-              await addSite("https://myvalley.it/feed"),
-              await addSite("https://www.ansa.it/sito/ansait_rss.xml"),
-              await addSite("https://www.ilpost.it/rss"),
-              await addSite("https://medium.com/feed/tag/programming")
+                  "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait",
+                  false),
+              await addSite("https://hano.it/feed", false),
+              await addSite("https://www.open.online/rss", false),
+              await addSite("https://myvalley.it/feed", false),
+              await addSite("https://www.ansa.it/sito/ansait_rss.xml", false),
+              await addSite("https://www.ilpost.it/rss", false),
+              await addSite("https://medium.com/feed/tag/programming", false)
             },
           ),
           IconButton(
