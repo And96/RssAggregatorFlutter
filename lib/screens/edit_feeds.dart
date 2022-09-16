@@ -369,12 +369,15 @@ class _EditFeedsState extends State<EditFeeds> {
     try {
       String hostname = url;
       if (hostname.replaceAll("//", "/").contains("/")) {
-        hostname = Uri.parse(url.toString()).host.toString();
+        hostname = Uri.parse(url.toString()).host.toString().toLowerCase();
       }
       setState(() {
         itemLoading = hostname;
       });
       url = await getUrlFormatted(url);
+      if (!hostname.contains(".")) {
+        hostname = Uri.parse(url.toString()).host.toString();
+      }
       if (url.length > 1) {
         listUpdated.removeWhere((e) => (e.link == url));
         var s1 = Sito(
@@ -491,16 +494,16 @@ class _EditFeedsState extends State<EditFeeds> {
           IconButton(
             icon: const Icon(Icons.model_training_outlined),
             tooltip: 'Default',
-            onPressed: () => {
-              addSite("https://hano.it/feed"),
-              addSite("https://www.open.online/rss"),
-              addSite("https://myvalley.it/feed"),
-              addSite("https://www.ansa.it/sito/ansait_rss.xml"),
-              addSite(
+            onPressed: () async => {
+              await addSite("http://feeds.feedburner.com/hd-blog"),
+              await addSite(
                   "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait"),
-              addSite("http://feeds.feedburner.com/hd-blog"),
-              addSite("https://www.ilpost.it/rss"),
-              addSite("https://medium.com/feed/tag/programming")
+              await addSite("https://hano.it/feed"),
+              await addSite("https://www.open.online/rss"),
+              await addSite("https://myvalley.it/feed"),
+              await addSite("https://www.ansa.it/sito/ansait_rss.xml"),
+              await addSite("https://www.ilpost.it/rss"),
+              await addSite("https://medium.com/feed/tag/programming")
             },
           ),
           IconButton(
