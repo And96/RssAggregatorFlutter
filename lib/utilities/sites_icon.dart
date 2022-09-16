@@ -60,14 +60,23 @@ class SitesIcon {
   Future<String> getIconWeb(String url) async {
     String iconUrl = "";
     try {
-      /*   List<String>? suffixesFormat = ["ico", "png"];
-      List<Favicon> favicons =
-          await FaviconFinder.getAll("https://$url", suffixes: suffixesFormat);
-      iconUrl = favicons.isNotEmpty ? favicons.first.url.toString() : "";*/
+      try {
+        //fetch icon from network (.ico only for fast performance)
+        List<String>? suffixesFormat = ["ico"];
+        List<Favicon> favicons =
+            await FaviconFinder.getAll("https://$url", suffixes: suffixesFormat)
+                .timeout(const Duration(milliseconds: 2000));
+        iconUrl = favicons.isNotEmpty ? favicons.first.url.toString() : "";
+        if (iconUrl != "") {
+          return iconUrl;
+        }
+      } catch (err) {
+        // print('Caught error: $err');
+      }
 
       //fetch icon from network
       var favicon = await FaviconFinder.getBest("https://$url")
-          .timeout(const Duration(milliseconds: 2000));
+          .timeout(const Duration(milliseconds: 3000));
 
       if (favicon?.url != null) {
         iconUrl = favicon!.url.toString();

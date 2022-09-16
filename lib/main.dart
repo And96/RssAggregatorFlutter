@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/screens/edit_feeds.dart';
-import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
+//import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
@@ -95,26 +95,29 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  loadDataUrl(String url) async {
+  loadDataUrl(Sito site) async {
     try {
-      if (url.trim().toLowerCase().contains("http")) {
-        String hostname = Uri.parse(url.toString()).host.toString();
+      if (site.link.trim().toLowerCase().contains("http")) {
+        String hostname =
+            site.name; //Uri.parse(site.link.toString()).host.toString();
 
-        final response = await get(Uri.parse(url))
+        final response = await get(Uri.parse(site.link))
             .timeout(const Duration(milliseconds: 3000));
         var channel = RssFeed.parse(utf8
             .decode(response.bodyBytes)
             .replaceAll('�', '')
             .replaceAll("&#039;", ""));
 
-        String iconUrl = "";
+        /*String iconUrl = "";
         try {
           iconUrl = await SitesIcon()
               .getIcon(hostname)
               .timeout(const Duration(milliseconds: 2000));
         } catch (err) {
           // senza questo try/catch salta il pezzo sotto, quindi senza icone non caricherebbe
-        }
+        }*/
+
+        String iconUrl = site.iconUrl;
 
         int maxItem = 20;
         int nItem = 0;
@@ -168,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // print('Caught error: $err');
         }
         try {
-          await loadDataUrl(link);
+          await loadDataUrl(listaSiti[i]);
         } catch (err) {
           // print('Caught error: $err');
         }

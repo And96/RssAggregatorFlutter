@@ -132,7 +132,7 @@ class _EditFeedsState extends State<EditFeeds> {
       if (url.endsWith("/")) {
         url = url.substring(0, url.length - 1);
       }
-      if (url.length > 1) {
+      if (url.contains(".")) {
         String urlRss = "$url/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
@@ -141,17 +141,19 @@ class _EditFeedsState extends State<EditFeeds> {
       }
 
       //search rss in html
-      try {
-        List<String> rssUrls = await FeedFinder.scrape(url);
-        for (String rssUrl in rssUrls) {
-          if (!rssUrl.contains("comment")) {
-            bool valid = await isUrlRSS(rssUrl);
-            if (valid) {
-              return rssUrl;
+      if (url.contains(".")) {
+        try {
+          List<String> rssUrls = await FeedFinder.scrape(url);
+          for (String rssUrl in rssUrls) {
+            if (!rssUrl.contains("comment")) {
+              bool valid = await isUrlRSS(rssUrl);
+              if (valid) {
+                return rssUrl;
+              }
             }
           }
-        }
-      } catch (err) {/**/}
+        } catch (err) {/**/}
+      }
 
       //try common rss url
       if (url.contains(".")) {
@@ -175,7 +177,9 @@ class _EditFeedsState extends State<EditFeeds> {
           return urlRss;
         }
       }
-      if (url.contains("ecodibergamo")) {
+      if (url.contains("ecodibergamo") &&
+          !url.contains("/feed/") &&
+          !url.contains("rss")) {
         String urlRss = "https://www.ecodibergamo.it/feeds/latesthp/268/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
@@ -346,7 +350,7 @@ class _EditFeedsState extends State<EditFeeds> {
       if (url.trim().startsWith("%")) {
         return "";
       }
-      if (!url.startsWith("http")) {
+      if (url.contains(".") && !url.startsWith("http")) {
         url = "https://$url";
       }
       bool valid = await isUrlRSS(url);
@@ -465,7 +469,7 @@ class _EditFeedsState extends State<EditFeeds> {
           return;
         }
       }
-      await addSite(result);
+      await addSite(result.toString().trim().replaceAll("\n", ""));
     }
 
     setState(() {
