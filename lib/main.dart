@@ -95,13 +95,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  loadDataUrl(Sito site) async {
+  loadDataUrl(Site site) async {
     try {
-      if (site.link.trim().toLowerCase().contains("http")) {
+      if (site.siteLink.trim().toLowerCase().contains("http")) {
         String hostname =
-            site.name; //Uri.parse(site.link.toString()).host.toString();
-
-        final response = await get(Uri.parse(site.link))
+            site.siteName; //Uri.parse(site.link.toString()).host.toString();
+        setState(() {
+          itemLoading = hostname;
+        });
+        final response = await get(Uri.parse(site.siteLink))
             .timeout(const Duration(milliseconds: 3000));
         var channel = RssFeed.parse(utf8
             .decode(response.bodyBytes)
@@ -143,11 +145,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<List<Sito>> leggiListaFeed() async {
+  Future<List<Site>> leggiListaFeed() async {
     final prefs = await SharedPreferences.getInstance();
     final List<dynamic> jsonData =
-        await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
-    return List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
+        await jsonDecode(prefs.getString('db_site') ?? '[]');
+    return List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
   }
 
   loadData() async {
@@ -159,17 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
       list = [];
       listUpdated = [];
 
-      List<Sito> listaSiti = await leggiListaFeed();
+      List<Site> listaSiti = await leggiListaFeed();
       for (var i = 0; i < listaSiti.length; i++) {
-        String link = listaSiti[i].link;
-        try {
-          String hostname = Uri.parse(link.toString()).host.toString();
-          setState(() {
-            itemLoading = listaSiti[i].name;
-          });
-        } catch (err) {
-          // print('Caught error: $err');
-        }
         try {
           await loadDataUrl(listaSiti[i]);
         } catch (err) {

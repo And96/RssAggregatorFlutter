@@ -4,54 +4,52 @@ import 'dart:convert';
 import 'package:favicon/favicon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class IconUrl {
-  var websiteUrl = "";
-  var iconUrl = "";
-  IconUrl({
-    required this.websiteUrl,
-    required this.iconUrl,
+class SiteIcon {
+  String? siteName = "";
+  String? iconUrl = "";
+  SiteIcon({
+    this.siteName,
+    this.iconUrl,
   });
 
-  factory IconUrl.fromJson(Map<String, dynamic> json) {
-    return IconUrl(
-      websiteUrl: json["websiteUrl"],
+  factory SiteIcon.fromJson(Map<String, dynamic> json) {
+    return SiteIcon(
+      siteName: json["siteName"],
       iconUrl: json["iconUrl"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "websiteUrl": websiteUrl,
+      "siteName": siteName,
       "iconUrl": iconUrl,
     };
   }
 
   @override
-  String toString() => '{websiteUrl: $websiteUrl iconUrl: $iconUrl}';
-}
+  String toString() => '{siteName: $siteName iconUrl: $iconUrl}';
 
-class SitesIcon {
-  Future<String> getIcon(String url) async {
+  Future<String> getIcon(String siteName, String siteUrl) async {
     String iconUrl = "";
     try {
-      //get hostname from full url (Because some sites return rss file directly)
-      String hostname = url;
-      if (hostname.contains("/")) {
-        hostname = Uri.parse(url.toString()).host.toString();
+      //get siteHostname from full url (Because some sites return rss file directly)
+      String siteHostname = siteUrl;
+      if (siteHostname.contains("/")) {
+        siteHostname = Uri.parse(siteUrl.toString()).host.toString();
       }
 
       //search icon locally
-      iconUrl = await getIconLocal(hostname);
+      iconUrl = await getIconLocal(siteName);
       if (iconUrl.length > 5) {
         return iconUrl;
       }
 
       //fetch icon from web
-      iconUrl = await getIconWeb(hostname);
+      iconUrl = await getIconWeb(siteHostname);
       if (iconUrl.length < 5) {
         iconUrl = "";
       } else {
-        saveIconLocal(hostname, iconUrl);
+        saveIconLocal(siteHostname, iconUrl);
       }
     } catch (e) {}
     return iconUrl;
@@ -76,7 +74,7 @@ class SitesIcon {
 
       //fetch icon from network
       var favicon = await FaviconFinder.getBest("https://$url")
-          .timeout(const Duration(milliseconds: 3000));
+          .timeout(const Duration(milliseconds: 5000));
 
       if (favicon?.url != null) {
         iconUrl = favicon!.url.toString();
@@ -87,54 +85,54 @@ class SitesIcon {
     return iconUrl;
   }
 
-  Future<String> getIconLocal(String url) async {
+  Future<String> getIconLocal(String siteName) async {
     String iconUrl = "";
     try {
       //read all icons
-      List<IconUrl> listIconsUrl = await getListIconLocal(url);
+      List<SiteIcon> listIconUrl = await getListIconLocal();
 
       //search icon for this url
-      if (listIconsUrl.isNotEmpty) {
-        var iconUrl = listIconsUrl.where((e) => e.websiteUrl == url);
+      if (listIconUrl.isNotEmpty) {
+        var iconUrl = listIconUrl.where((e) => e.siteName == siteName);
         if (iconUrl.isNotEmpty) {
-          return iconUrl.first.iconUrl;
+          return iconUrl.first.iconUrl.toString();
         }
       }
     } catch (e) {}
     return iconUrl;
   }
 
-  Future<List<IconUrl>> getListIconLocal(String url) async {
+  Future<List<SiteIcon>> getListIconLocal() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
-          await jsonDecode(prefs.getString('icons_url') ?? '[]');
-      return List<IconUrl>.from(
-          jsonData.map((model) => IconUrl.fromJson(model)));
+          await jsonDecode(prefs.getString('db_site_icon') ?? '[]');
+      return List<SiteIcon>.from(
+          jsonData.map((model) => SiteIcon.fromJson(model)));
     } catch (e) {
-      throw 'Error reading icons url $url';
+      throw 'Error reading icons url';
     }
   }
 
-  Future<String> saveIconLocal(String url, String iconUrl) async {
+  Future<String> saveIconLocal(String siteName, String iconUrl) async {
     try {
-      if (url.trim.toString() != "" && iconUrl.trim().toString() != "") {
+      if (siteName.trim.toString() != "" && iconUrl.trim().toString() != "") {
         //read all icons
-        List<IconUrl> listIconsUrl = await getListIconLocal(url);
+        List<SiteIcon> listIconUrl = await getListIconLocal();
 
         //remove icon if exists
-        listIconsUrl.removeWhere((e) => (e.websiteUrl == url));
+        listIconUrl.removeWhere((e) => (e.siteName == siteName));
 
         //add new icon
-        var i = IconUrl(
-          websiteUrl: url,
+        var i = SiteIcon(
+          siteName: siteName,
           iconUrl: iconUrl,
         );
-        listIconsUrl.add(i);
+        listIconUrl.add(i);
 
         //save to memory
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString('icons_url', jsonEncode(listIconsUrl));
+        prefs.setString('db_site_icon', jsonEncode(listIconUrl));
       }
     } catch (e) {}
     return iconUrl;

@@ -1,43 +1,43 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
+import 'package:rss_aggregator_flutter/utilities/site_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'add_feed.dart';
 import 'package:feed_finder/feed_finder.dart';
 
-class Sito {
-  var name = "";
-  var link = "";
+class Site {
+  var siteName = "";
+  var siteLink = "";
   var iconUrl = "";
-  Sito({
-    required this.name,
-    required this.link,
+  Site({
+    required this.siteName,
+    required this.siteLink,
     required this.iconUrl,
   });
 
-  factory Sito.fromJson(Map<String, dynamic> json) {
-    return Sito(
-      name: json["name"],
-      link: json["link"],
+  factory Site.fromJson(Map<String, dynamic> json) {
+    return Site(
+      siteName: json["siteName"],
+      siteLink: json["siteLink"],
       iconUrl: json["iconUrl"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
-      "link": link,
+      "siteName": siteName,
+      "siteLink": siteLink,
       "iconUrl": iconUrl,
     };
   }
 
   @override
-  String toString() => '{link: $link}';
+  String toString() =>
+      '{siteName: $siteName siteLink: $siteLink iconUrl: $iconUrl}';
 }
 
 class EditFeeds extends StatefulWidget {
@@ -49,8 +49,8 @@ class EditFeeds extends StatefulWidget {
 
 class _EditFeedsState extends State<EditFeeds> {
   bool isLoading = false;
-  late List<Sito> list = [];
-  late List<Sito> listUpdated = [];
+  late List<Site> listSite = [];
+  //late List<Site> listUpdated = [];
 
   String itemLoading = '';
 
@@ -94,28 +94,28 @@ class _EditFeedsState extends State<EditFeeds> {
     );
   }
 
-  Future<void> saveSites(List<Sito> tList) async {
+  Future<void> saveSites(List<Site> tList) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('feed_subscriptions', jsonEncode(tList));
+    prefs.setString('db_site', jsonEncode(tList));
   }
 
   void deleteSite(String url) async {
     if (url == "*") {
-      listUpdated = [];
+      listSite = [];
     } else {
-      listUpdated.removeWhere((e) => (e.link == url));
+      listSite.removeWhere((e) => (e.siteLink == url));
     }
-    saveSites(listUpdated);
-    listUpdated = await readSites();
+    saveSites(listSite);
+    listSite = await readSites();
     setState(() {
-      list = listUpdated;
+      listSite = listSite;
     });
   }
 
   Future<bool> isUrlRSS(String url) async {
     try {
       final response =
-          await get(Uri.parse(url)).timeout(const Duration(milliseconds: 2000));
+          await get(Uri.parse(url)).timeout(const Duration(milliseconds: 3000));
       var channel = RssFeed.parse(response.body);
       if (channel.items!.isNotEmpty) {
         return true;
@@ -323,12 +323,12 @@ class _EditFeedsState extends State<EditFeeds> {
         }
       }
       if (url.length > 1) {
-        String hostname = url;
-        if (hostname.replaceAll("//", "/").contains("/")) {
-          hostname = Uri.parse(url.toString()).host.toString();
+        String hostsiteName = url;
+        if (hostsiteName.replaceAll("//", "/").contains("/")) {
+          hostsiteName = Uri.parse(url.toString()).host.toString();
         }
         String urlRss =
-            "http://feeds.feedburner.com/${hostname.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
+            "http://feeds.feedburner.com/${hostsiteName.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
@@ -370,31 +370,31 @@ class _EditFeedsState extends State<EditFeeds> {
 
   Future<bool> addSite(String url, bool advancedSearch) async {
     try {
-      String hostname = url;
-      if (hostname.replaceAll("//", "/").contains("/")) {
-        hostname = Uri.parse(url.toString()).host.toString().toLowerCase();
+      String hostsiteName = url;
+      if (hostsiteName.replaceAll("//", "/").contains("/")) {
+        hostsiteName = Uri.parse(url.toString()).host.toString().toLowerCase();
       }
       setState(() {
-        itemLoading = hostname;
+        itemLoading = hostsiteName;
       });
       url = await getUrlFormatted(url, advancedSearch);
       if (url.endsWith("/")) {
         url = url.substring(0, url.length - 1);
       }
-      if (!hostname.contains(".")) {
-        hostname = Uri.parse(url.toString()).host.toString();
+      if (!hostsiteName.contains(".")) {
+        hostsiteName = Uri.parse(url.toString()).host.toString();
       }
       if (url.length > 1) {
-        listUpdated.removeWhere((e) => (e.link == url));
-        var s1 = Sito(
-          name: hostname,
-          link: url,
-          iconUrl: await SitesIcon().getIcon(hostname),
+        listSite.removeWhere((e) => (e.siteLink == url));
+        var s1 = Site(
+          siteName: hostsiteName,
+          siteLink: url,
+          iconUrl: await SiteIcon().getIcon(hostsiteName, url),
         );
-        listUpdated.add(s1);
-        saveSites(listUpdated);
+        listSite.add(s1);
+        saveSites(listSite);
         setState(() {
-          list = listUpdated;
+          listSite = listSite;
         });
       }
     } catch (err) {
@@ -403,13 +403,13 @@ class _EditFeedsState extends State<EditFeeds> {
     return true;
   }
 
-  Future<List<Sito>> readSites() async {
+  Future<List<Site>> readSites() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
-          await jsonDecode(prefs.getString('feed_subscriptions') ?? '[]');
-      late List<Sito> listLocal =
-          List<Sito>.from(jsonData.map((model) => Sito.fromJson(model)));
+          await jsonDecode(prefs.getString('db_site') ?? '[]');
+      late List<Site> listLocal =
+          List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
 
       return listLocal;
     } catch (err) {
@@ -423,13 +423,12 @@ class _EditFeedsState extends State<EditFeeds> {
       setState(() {
         isLoading = true;
       });
-      list = [];
-      listUpdated = await readSites();
+      listSite = await readSites();
     } catch (err) {
       //print('Caught error: $err');
     }
     setState(() {
-      list = listUpdated;
+      listSite = listSite;
       isLoading = false;
     });
   }
@@ -476,22 +475,24 @@ class _EditFeedsState extends State<EditFeeds> {
           for (String item in listUrl) {
             await addSite(item, advancedSearch);
           }
+          setState(() {
+            isLoading = false;
+          });
           return;
         }
       }
       await addSite(result.toString().trim().replaceAll("\n", ""), true);
+      setState(() {
+        isLoading = false;
+      });
     }
-
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Feeds (${list.length})'),
+        title: Text('Edit Feeds (${listSite.length})'),
         backgroundColor: Colors.blueGrey,
         actions: <Widget>[
           IconButton(
@@ -509,7 +510,7 @@ class _EditFeedsState extends State<EditFeeds> {
               await addSite("https://hano.it/feed", false),
               await addSite("https://www.open.online/rss", false),
               await addSite("https://myvalley.it/feed", false),
-              await addSite("https://www.ansa.it/sito/ansait_rss.xml", false),
+              await addSite("https://www.ansa.it/Site/ansait_rss.xml", false),
               await addSite("https://www.ilpost.it/rss", false),
               await addSite("https://medium.com/feed/tag/programming", false)
             },
@@ -527,12 +528,12 @@ class _EditFeedsState extends State<EditFeeds> {
                   padding: const EdgeInsets.only(top: 5),
                   child: Scrollbar(
                       child: ListView.separated(
-                          itemCount: list.length,
+                          itemCount: listSite.length,
                           separatorBuilder: (context, index) {
                             return const Divider();
                           },
                           itemBuilder: (BuildContext context, index) {
-                            final item = list[index];
+                            final item = listSite[index];
                             return InkWell(
                               /*onTap: () async {
                                 _launchInBrowser(
@@ -557,7 +558,7 @@ class _EditFeedsState extends State<EditFeeds> {
                                   title: Padding(
                                     padding: const EdgeInsets.only(top: 0),
                                     child: Text(
-                                      (item.name.toString()),
+                                      (item.siteName.toString()),
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
@@ -571,7 +572,7 @@ class _EditFeedsState extends State<EditFeeds> {
                                     icon: const Icon(Icons.delete),
                                     tooltip: 'Default',
                                     onPressed: () => showDeleteAlertDialog(
-                                        context, item.link),
+                                        context, item.siteLink),
                                   ),
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),
@@ -582,7 +583,7 @@ class _EditFeedsState extends State<EditFeeds> {
                                         children: <Widget>[
                                           SizedBox(
                                             child: Text(
-                                              item.link.toString(),
+                                              item.siteLink.toString(),
                                               maxLines: 4,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(

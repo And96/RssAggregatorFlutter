@@ -1,28 +1,6 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 
-class Sito {
-  var link = "";
-  Sito({
-    required this.link,
-  });
-
-  factory Sito.fromJson(Map<String, dynamic> json) {
-    return Sito(
-      link: json["link"],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "link": link,
-    };
-  }
-
-  @override
-  String toString() => '{link: $link}';
-}
-
 class AddFeed extends StatefulWidget {
   const AddFeed({Key? key}) : super(key: key);
 
