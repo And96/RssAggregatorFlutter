@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:rss_aggregator_flutter/core/site.dart';
 
 void main() {
   runApp(const MyApp());
