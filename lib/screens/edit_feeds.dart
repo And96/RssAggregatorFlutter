@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:rss_aggregator_flutter/utilities/site_icon.dart';
+import 'package:rss_aggregator_flutter/core/site_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'add_feed.dart';
 import 'package:feed_finder/feed_finder.dart';
