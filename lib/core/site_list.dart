@@ -7,12 +7,14 @@ class SiteList {
   late List<Site> items = [];
   String itemLoading = "";
 
-  void load() async {
+  Future<bool> load() async {
     try {
       items = await readSites();
+      return true;
     } catch (err) {
       // print('Caught error: $err');
     }
+    return false;
   }
 
   Future<void> saveSites(List<Site> tList) async {

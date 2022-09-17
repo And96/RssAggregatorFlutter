@@ -63,7 +63,7 @@ class _EditFeedsState extends State<EditFeeds> {
       setState(() {
         isLoading = true;
       });
-      siteList.load();
+      await siteList.load();
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -142,7 +142,9 @@ class _EditFeedsState extends State<EditFeeds> {
           IconButton(
             icon: const Icon(Icons.model_training_outlined),
             tooltip: 'Default',
-            onPressed: () async => {await siteList.addDefaultSites()},
+            onPressed: () async => {
+              [await siteList.addDefaultSites(), setState(() {})]
+            },
           ),
           IconButton(
               icon: const Icon(Icons.delete),
