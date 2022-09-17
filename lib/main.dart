@@ -11,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,11 +45,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'FastFeed - RSS News Aggregator',
+      theme: ThemeData(primarySwatch: ThemeColor.primaryColor),
+      home: const MyHomePage(title: 'FastFeed - RSS News Aggregator'),
     );
   }
 }

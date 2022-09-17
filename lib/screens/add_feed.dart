@@ -15,8 +15,7 @@ class _AddFeedState extends State<AddFeed> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Feed'),
-        backgroundColor: Colors.blueGrey,
+        title: const Text('Add Site'),
       ),
       body: Stack(
         children: [
@@ -36,8 +35,8 @@ class _AddFeedState extends State<AddFeed> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.add),
-        label: const Text('Add Feed'),
+        icon: const Icon(Icons.check),
+        label: const Text('Save'),
         onPressed: () {
           Navigator.pop(context, mycontroller.text);
         },

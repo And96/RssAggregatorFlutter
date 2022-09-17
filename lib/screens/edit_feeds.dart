@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:rss_aggregator_flutter/screens/add_feed.dart';
 
 class EditFeeds extends StatefulWidget {
@@ -122,30 +121,30 @@ class _EditFeedsState extends State<EditFeeds> {
       }
       await siteList.addSite(
           result.toString().trim().replaceAll("\n", ""), true);
-      setState(() {
-        isLoading = false;
-      });
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Feeds (${siteList.items.length})'),
-        backgroundColor: Colors.blueGrey,
+        title: Text('Sites (${siteList.items.length})'),
         actions: <Widget>[
-          IconButton(
+          /* IconButton(
               icon: const Icon(Icons.add),
               tooltip: 'Add feed',
-              onPressed: () => _awaitReturnValueFromSecondScreen(context)),
-          IconButton(
+              onPressed: () => _awaitReturnValueFromSecondScreen(context)
+              ),*/
+          /*IconButton(
             icon: const Icon(Icons.model_training_outlined),
             tooltip: 'Default',
             onPressed: () async => {
               [await siteList.addDefaultSites(), setState(() {})]
             },
-          ),
+          ),*/
           IconButton(
               icon: const Icon(Icons.delete),
               tooltip: 'Delete',
@@ -249,6 +248,13 @@ class _EditFeedsState extends State<EditFeeds> {
                   ),
                 ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.add),
+        label: const Text('Add Site'),
+        onPressed: () {
+          _awaitReturnValueFromSecondScreen(context);
+        },
       ),
     );
   }

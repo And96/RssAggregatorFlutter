@@ -26,7 +26,8 @@ class SiteList {
     if (url == "*") {
       items = [];
     } else {
-      items.removeWhere((e) => (e.siteLink == url));
+      items.removeWhere(
+          (e) => (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
     }
     saveSites(items);
     items = await readSites();
@@ -36,7 +37,11 @@ class SiteList {
     try {
       String hostsiteName = url;
       if (hostsiteName.replaceAll("//", "/").contains("/")) {
-        hostsiteName = Uri.parse(url.toString()).host.toString().toLowerCase();
+        String tmp = Uri.parse(url.toString()).host.toString().toLowerCase();
+        if (tmp.trim() != "") {
+          hostsiteName = tmp;
+          url = url.replaceAll(hostsiteName, hostsiteName.toLowerCase());
+        }
       }
       itemLoading = hostsiteName;
       url = await Site.getUrlFormatted(url, advancedSearch);
@@ -47,7 +52,28 @@ class SiteList {
         hostsiteName = Uri.parse(url.toString()).host.toString();
       }
       if (url.length > 1) {
-        items.removeWhere((e) => (e.siteLink == url));
+        items.removeWhere((e) => (e.siteLink
+                .trim()
+                .toLowerCase()
+                .replaceAll("https", "")
+                .replaceAll("http", "")
+                .replaceAll(":", "")
+                .replaceAll("/", "")
+                .replaceAll("www", "")
+                .replaceAll(".", "")
+                .replaceAll("rss", "")
+                .replaceAll("feed", "") ==
+            url
+                .trim()
+                .toLowerCase()
+                .replaceAll("https", "")
+                .replaceAll("http", "")
+                .replaceAll(":", "")
+                .replaceAll("/", "")
+                .replaceAll("www", "")
+                .replaceAll(".", "")
+                .replaceAll("rss", "")
+                .replaceAll("feed", "")));
         var s1 = Site(
           siteName: hostsiteName,
           siteLink: url,
