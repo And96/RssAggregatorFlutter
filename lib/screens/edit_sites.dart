@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:rss_aggregator_flutter/screens/add_feed.dart';
+import 'package:rss_aggregator_flutter/screens/add_site.dart';
 
-class EditFeeds extends StatefulWidget {
-  const EditFeeds({Key? key}) : super(key: key);
+class EditSites extends StatefulWidget {
+  const EditSites({Key? key}) : super(key: key);
 
   @override
-  State<EditFeeds> createState() => _EditFeedsState();
+  State<EditSites> createState() => _EditSitesState();
 }
 
-class _EditFeedsState extends State<EditFeeds> {
+class _EditSitesState extends State<EditSites> {
   bool isLoading = false;
   late SiteList siteList = SiteList();
 
@@ -94,7 +94,7 @@ class _EditFeedsState extends State<EditFeeds> {
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const AddFeed(),
+          builder: (context) => const AddSite(),
         ));
 
     // after the SecondScreen result comes back update the Text widget with it
@@ -129,6 +129,7 @@ class _EditFeedsState extends State<EditFeeds> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDeleteMode = true;
     return Scaffold(
       appBar: AppBar(
         title: Text('Sites (${siteList.items.length})'),
@@ -145,10 +146,12 @@ class _EditFeedsState extends State<EditFeeds> {
               [await siteList.addDefaultSites(), setState(() {})]
             },
           ),*/
-          IconButton(
-              icon: const Icon(Icons.delete),
-              tooltip: 'Delete',
-              onPressed: () => showDeleteAlertDialog(context, "*")),
+
+          if (siteList.items.isNotEmpty)
+            IconButton(
+                icon: const Icon(Icons.delete),
+                tooltip: 'Delete',
+                onPressed: () => showDeleteAlertDialog(context, "*")),
         ],
       ),
       body: Stack(

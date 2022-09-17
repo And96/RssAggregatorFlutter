@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:rss_aggregator_flutter/screens/edit_feeds.dart';
+import 'package:rss_aggregator_flutter/screens/edit_sites.dart';
 //import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,9 +45,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FastFeed - RSS News Aggregator',
+      title: 'Aggregator RSS',
       theme: ThemeData(primarySwatch: ThemeColor.primaryColor),
-      home: const MyHomePage(title: 'FastFeed - RSS News Aggregator'),
+      home: const MyHomePage(title: 'News Feed Aggregator'),
     );
   }
 }
@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemLoading = hostname;
         });
         final response = await get(Uri.parse(site.siteLink))
-            .timeout(const Duration(milliseconds: 3000));
+            .timeout(const Duration(milliseconds: 4000));
         var channel = RssFeed.parse(utf8
             .decode(response.bodyBytes)
             .replaceAll('�', '')
@@ -290,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text("Edit Feed"),
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const EditFeeds()));
+                    MaterialPageRoute(builder: (context) => const EditSites()));
               },
             ),
             const Divider(),

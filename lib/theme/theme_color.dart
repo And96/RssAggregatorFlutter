@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ThemeColor {
+  //alterntive color: 0xFF 283593
+
   static MaterialColor primaryColor = const MaterialColor(0xFF004d40, {
     50: Color(0xFF004d40),
     100: Color(0xFF004d40),

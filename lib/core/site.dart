@@ -64,9 +64,11 @@ class Site {
     try {
       final response =
           await get(Uri.parse(url)).timeout(const Duration(milliseconds: 3000));
-      var channel = RssFeed.parse(response.body);
-      if (channel.items!.isNotEmpty) {
-        return true;
+      if (response.body.substring(0, 500).contains("<channel")) {
+        var channel = RssFeed.parse(response.body);
+        if (channel.items!.isNotEmpty) {
+          return true;
+        }
       }
     } catch (err) {
       // print('Caught error: $err');
@@ -131,6 +133,15 @@ class Site {
           !url.contains("/feed/") &&
           !url.contains("rss")) {
         String urlRss = "https://www.ecodibergamo.it/feeds/latesthp/268/";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("tg24.sky") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = "https://tg24.sky.it/rss/tg24_flipboard.cronaca.xml";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;

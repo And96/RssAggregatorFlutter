@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 
-class AddFeed extends StatefulWidget {
-  const AddFeed({Key? key}) : super(key: key);
+class AddSite extends StatefulWidget {
+  const AddSite({Key? key}) : super(key: key);
 
   @override
-  State<AddFeed> createState() => _AddFeedState();
+  State<AddSite> createState() => _AddSiteState();
 }
 
-class _AddFeedState extends State<AddFeed> {
+class _AddSiteState extends State<AddSite> {
   TextEditingController mycontroller = TextEditingController();
 
   @override
