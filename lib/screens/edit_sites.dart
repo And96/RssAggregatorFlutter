@@ -21,6 +21,50 @@ class _EditSitesState extends State<EditSites> {
     super.initState();
   }
 
+  void showOptionDialog(BuildContext context, String url) {
+    var dialog = SimpleDialog(
+      title: Row(
+        children: const <Widget>[
+          Text(
+            "Options",
+          )
+        ],
+      ),
+      contentPadding: const EdgeInsets.all(8),
+      children: <Widget>[
+        Divider(),
+        const ListTile(
+          leading: Icon(Icons.open_in_browser),
+          title: Text('Open in browser'),
+        ),
+        const ListTile(
+          leading: Icon(Icons.link),
+          title: Text('Copy link'),
+        ),
+        const ListTile(
+          leading: Icon(Icons.edit),
+          title: Text('Edit site'),
+        ),
+        ListTile(
+          leading: const Icon(Icons.delete),
+          title: const Text('Delete site'),
+          onTap: () {
+            setState(() {
+              siteList.deleteSite(url);
+            });
+            Navigator.pop(context);
+          },
+          //onTap: showDeleteAlertDialog(context, url),
+        ),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
   showDeleteAlertDialog(BuildContext context, String url) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -202,12 +246,15 @@ class _EditSitesState extends State<EditSites> {
                                     ),
                                   ),
                                   isThreeLine: false,
-                                  trailing: IconButton(
+                                  onTap: () {
+                                    showOptionDialog(context, item.siteLink);
+                                  },
+                                  /*trailing: IconButton(
                                     icon: const Icon(Icons.delete),
                                     tooltip: 'Default',
                                     onPressed: () => showDeleteAlertDialog(
                                         context, item.siteLink),
-                                  ),
+                                  ),*/
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Column(
