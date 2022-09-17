@@ -3,6 +3,9 @@ import 'package:rss_aggregator_flutter/core/site_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/screens/add_site.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class EditSites extends StatefulWidget {
   const EditSites({Key? key}) : super(key: key);
@@ -21,29 +24,75 @@ class _EditSitesState extends State<EditSites> {
     super.initState();
   }
 
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
   void showOptionDialog(BuildContext context, String url) {
     var dialog = SimpleDialog(
       title: Row(
-        children: const <Widget>[
-          Text(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          const Text(
             "Options",
-          )
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(Icons.close),
+            tooltip: 'Refresh',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
       contentPadding: const EdgeInsets.all(8),
       children: <Widget>[
-        Divider(),
-        const ListTile(
-          leading: Icon(Icons.open_in_browser),
-          title: Text('Open in browser'),
+        const Divider(),
+        ListTile(
+          leading: const Icon(Icons.open_in_browser),
+          title: const Text('Open in browser'),
+          onTap: () async {
+            _launchInBrowser(Uri.parse((url)));
+            Navigator.pop(context);
+          },
         ),
-        const ListTile(
-          leading: Icon(Icons.link),
-          title: Text('Copy link'),
+        ListTile(
+          leading: const Icon(Icons.share),
+          title: const Text('Share link'),
+          onTap: () {
+            Share.share(url);
+            Navigator.pop(context);
+          },
         ),
-        const ListTile(
-          leading: Icon(Icons.edit),
-          title: Text('Edit site'),
+        ListTile(
+          leading: const Icon(Icons.copy),
+          title: const Text('Copy link'),
+          onTap: () {
+            Clipboard.setData(ClipboardData(text: url));
+            Navigator.pop(context);
+            const snackBar = SnackBar(
+              duration: Duration(seconds: 1),
+              content: Text('Link copied to clipboard'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.edit),
+          title: const Text('Edit site'),
+          onTap: () {
+            Navigator.pop(context);
+            setState(() async {
+              _awaitReturnValueFromSecondScreen(context, url);
+            });
+          },
         ),
         ListTile(
           leading: const Icon(Icons.delete),
@@ -53,6 +102,11 @@ class _EditSitesState extends State<EditSites> {
               siteList.deleteSite(url);
             });
             Navigator.pop(context);
+            const snackBar = SnackBar(
+              duration: Duration(seconds: 1),
+              content: Text('Deleted'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           //onTap: showDeleteAlertDialog(context, url),
         ),
@@ -85,7 +139,7 @@ class _EditSitesState extends State<EditSites> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: const Text("Confirm delete?"),
+      content: const Text("Delete all sites?"),
       actions: [
         cancelButton,
         continueButton,
@@ -133,12 +187,13 @@ class _EditSitesState extends State<EditSites> {
     return [];
   }
 
-  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+  void _awaitReturnValueFromSecondScreen(
+      BuildContext context, String urlInput) async {
     // start the SecondScreen and wait for it to finish with a result
-    final result = await Navigator.push(
+    final resultTextInput = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const AddSite(),
+          builder: (context) => AddSite(textInput: urlInput),
         ));
 
     // after the SecondScreen result comes back update the Text widget with it
@@ -147,13 +202,14 @@ class _EditSitesState extends State<EditSites> {
       isLoading = true;
     });
 
-    if (result != null) {
-      if (result.toString().contains("<") ||
-          result.toString().contains(";") ||
-          result.toString().contains(" ")) {
-        List<String> listUrl = getUrlsFromText(result);
+    if (resultTextInput != null) {
+      siteList.deleteSite(urlInput);
+      if (resultTextInput.toString().contains("<") ||
+          resultTextInput.toString().contains(";") ||
+          resultTextInput.toString().contains(" ")) {
+        List<String> listUrl = getUrlsFromText(resultTextInput);
         if (listUrl.length > 1) {
-          bool advancedSearch = !result.toString().contains("opml");
+          bool advancedSearch = !resultTextInput.toString().contains("opml");
           for (String item in listUrl) {
             await siteList.addSite(item, advancedSearch);
           }
@@ -164,7 +220,13 @@ class _EditSitesState extends State<EditSites> {
         }
       }
       await siteList.addSite(
-          result.toString().trim().replaceAll("\n", ""), true);
+          resultTextInput.toString().trim().replaceAll("\n", ""), true);
+      const snackBar = SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Operation completed'),
+      );
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     setState(() {
       isLoading = false;
@@ -306,7 +368,7 @@ class _EditSitesState extends State<EditSites> {
               icon: const Icon(Icons.add),
               label: const Text('Add Site'),
               onPressed: () {
-                _awaitReturnValueFromSecondScreen(context);
+                _awaitReturnValueFromSecondScreen(context, "");
               },
             ),
     );

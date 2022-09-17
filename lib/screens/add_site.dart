@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 
 class AddSite extends StatefulWidget {
-  const AddSite({Key? key}) : super(key: key);
+  const AddSite({Key? key, required this.textInput}) : super(key: key);
+
+  final String textInput;
 
   @override
   State<AddSite> createState() => _AddSiteState();
@@ -12,10 +14,18 @@ class _AddSiteState extends State<AddSite> {
   TextEditingController mycontroller = TextEditingController();
 
   @override
+  void initState() {
+    mycontroller.text = widget.textInput;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Site'),
+        title: widget.textInput.trim() == ""
+            ? const Text('Edit Site')
+            : const Text('Add Site'),
       ),
       body: Stack(
         children: [
