@@ -147,6 +147,60 @@ class Site {
           return urlRss;
         }
       }
+      if (url.contains("rainews.it") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = "https://www.rainews.it/rss/tutti";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("la7.it") && !url.contains("/feed")) {
+        String urlRss = "https://tg.la7.it/rss.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("rai.it") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss =
+            "https://www.servizitelevideo.rai.it/televideo/pub/rss101.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("corriere.it") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = "http://xml2.corriereobjects.it/rss/homepage.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("ilsole24ore.com") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = "https://www.ilsole24ore.com/rss/italia--attualita.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("instagram.com") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = url.replaceAll("instagram.com/", "websta.me/rss/n/");
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+
       if (url.contains(".")) {
         String urlRss = "$url/blog/rss.xml";
         bool valid = await isUrlRSS(urlRss);

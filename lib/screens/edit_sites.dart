@@ -129,10 +129,11 @@ class _EditSitesState extends State<EditSites> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDeleteMode = true;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sites (${siteList.items.length})'),
+        title: siteList.items.isEmpty
+            ? const Text('Sites')
+            : Text('Sites (${siteList.items.length})'),
         actions: <Widget>[
           /* IconButton(
               icon: const Icon(Icons.add),
@@ -147,7 +148,7 @@ class _EditSitesState extends State<EditSites> {
             },
           ),*/
 
-          if (siteList.items.isNotEmpty)
+          if (siteList.items.isNotEmpty && !isLoading)
             IconButton(
                 icon: const Icon(Icons.delete),
                 tooltip: 'Delete',
@@ -252,13 +253,15 @@ class _EditSitesState extends State<EditSites> {
                 ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.add),
-        label: const Text('Add Site'),
-        onPressed: () {
-          _awaitReturnValueFromSecondScreen(context);
-        },
-      ),
+      floatingActionButton: isLoading
+          ? null
+          : FloatingActionButton.extended(
+              icon: const Icon(Icons.add),
+              label: const Text('Add Site'),
+              onPressed: () {
+                _awaitReturnValueFromSecondScreen(context);
+              },
+            ),
     );
   }
 }

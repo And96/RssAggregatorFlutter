@@ -105,15 +105,12 @@ class SiteList {
 
   Future<bool> addDefaultSites() async {
     try {
-      addSite("http://feeds.feedburner.com/hd-blog", false);
+      //TEST
       await addSite(
-          "https://news.google.com/rss/search?q=ecodibergamo&hl=it&gl=IT&ceid=IT%3Ait",
+          "https://news.google.com/rss/search?q=KEYWORD&hl=it&gl=IT&ceid=IT%3Ait",
           false);
       await addSite("https://hano.it/feed", false);
-      await addSite("https://www.open.online/rss", false);
       await addSite("https://myvalley.it/feed", false);
-      await addSite("https://www.ansa.it/Site/ansait_rss.xml", false);
-      await addSite("https://www.ilpost.it/rss", false);
       await addSite("https://medium.com/feed/tag/programming", false);
     } catch (err) {
       // print('Caught error: $err');

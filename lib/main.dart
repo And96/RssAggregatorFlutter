@@ -105,10 +105,9 @@ class _MyHomePageState extends State<MyHomePage> {
         });
         final response = await get(Uri.parse(site.siteLink))
             .timeout(const Duration(milliseconds: 4000));
-        var channel = RssFeed.parse(utf8
-            .decode(response.bodyBytes)
-            .replaceAll('�', '')
-            .replaceAll("&#039;", ""));
+        var channel = RssFeed.parse(utf8.decode(
+            response.bodyBytes)); //risolve accenti sbagliati esempio agi
+        //var channel = RssFeed.parse(response.body);
 
         /*String iconUrl = "";
         try {
@@ -129,7 +128,11 @@ class _MyHomePageState extends State<MyHomePage> {
               if (nItem <= maxItem) {
                 nItem++;
                 var p1 = Elemento(
-                    title: element.title.toString(),
+                    title: element.title
+                        .toString()
+                        .replaceAll("�", " ")
+                        .replaceAll("&#039;", " ")
+                        .replaceAll("&quot;", " "),
                     link: element.link.toString(),
                     iconUrl: iconUrl,
                     pubDate: tryParse(element.pubDate.toString()),
@@ -171,6 +174,11 @@ class _MyHomePageState extends State<MyHomePage> {
         continue;
       }
 
+      //remove feed older than 3 months
+      listUpdated
+          .removeWhere((e) => (daysBetween(e.pubDate!, DateTime.now()) > 90));
+
+//sort
       listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
       setState(() {
@@ -180,6 +188,12 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (err) {
       // print('Caught error: $err');
     }
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 
   int _selectedIndex = 0;
