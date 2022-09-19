@@ -118,7 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // senza questo try/catch salta il pezzo sotto, quindi senza icone non caricherebbe
         }*/
 
-        String iconUrl = site.iconUrl;
+        String? iconUrl = site.iconUrl.trim() != ""
+            ? site.iconUrl
+            : channel.image?.url?.toString();
 
         int maxItem = 20;
         int nItem = 0;
@@ -128,13 +130,25 @@ class _MyHomePageState extends State<MyHomePage> {
               if (nItem <= maxItem) {
                 nItem++;
                 var p1 = Elemento(
-                    title: element.title
-                        .toString()
-                        .replaceAll("�", " ")
-                        .replaceAll("&#039;", " ")
-                        .replaceAll("&quot;", " "),
-                    link: element.link.toString(),
-                    iconUrl: iconUrl,
+                    title: element.title == null ||
+                            element.title.toString().trim() == ""
+                        ? element.description
+                            .toString()
+                            .replaceAll("�", " ")
+                            .replaceAll("&#039;", " ")
+                            .replaceAll("&quot;", " ")
+                        : element.title
+                            .toString()
+                            .trim()
+                            .toString()
+                            .replaceAll("�", " ")
+                            .replaceAll("&#039;", " ")
+                            .replaceAll("&quot;", " "),
+                    link: element.link == null ||
+                            element.link.toString().trim() == ""
+                        ? element.guid.toString().trim()
+                        : element.link.toString().trim(),
+                    iconUrl: iconUrl.toString(),
                     pubDate: tryParse(element.pubDate.toString()),
                     host: hostname);
                 listUpdated.add(p1);
@@ -263,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         //leading: const Icon(Icons.newspaper),
-        title: const Text('Rss Feed Aggregator'),
+        title: const Text('Aggregator'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh),

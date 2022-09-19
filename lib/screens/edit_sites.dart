@@ -230,11 +230,15 @@ class _EditSitesState extends State<EditSites> {
 
         const snackBar = SnackBar(
           duration: Duration(seconds: 1),
-          content: Text('Operation completed'),
+          content: Text('Search completed'),
         );
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
+
+      setState(() {
+        isLoading = false;
+      });
     } catch (err) {
       // print('Caught error: $err');
     }

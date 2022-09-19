@@ -32,11 +32,11 @@ class SiteIcon {
   Future<String> getIcon(String siteName, String siteUrl) async {
     String iconUrl = "";
     try {
-      //get siteHostname from full url (Because some sites return rss file directly)
+      /*   //get siteHostname from full url (Because some sites return rss file directly)
       String siteHostname = siteUrl;
       if (siteHostname.contains("/")) {
         siteHostname = Uri.parse(siteUrl.toString()).host.toString();
-      }
+      }*/
 
       //search icon locally
       iconUrl = await getIconLocal(siteName);
@@ -45,11 +45,11 @@ class SiteIcon {
       }
 
       //fetch icon from web
-      iconUrl = await getIconWeb(siteHostname);
+      iconUrl = await getIconWeb(siteName);
       if (iconUrl.length < 5) {
         iconUrl = "";
       } else {
-        saveIconLocal(siteHostname, iconUrl);
+        saveIconLocal(siteName, iconUrl);
       }
     } catch (e) {}
     return iconUrl;

@@ -1,4 +1,5 @@
 import 'package:feed_finder/feed_finder.dart';
+import 'dart:io';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart';
 
@@ -107,6 +108,11 @@ class Site {
         } catch (err) {/**/}
       }
 
+      String name = url;
+      if (name.replaceAll("//", "/").contains("/")) {
+        name = Uri.parse(url.toString()).host.toString();
+      }
+
       //try common rss url
       if (url.contains(".")) {
         String urlRss = "$url/rss/";
@@ -191,10 +197,26 @@ class Site {
           return urlRss;
         }
       }
-      if (url.contains("instagram.com") &&
+
+      if (url.contains("sport.sky.it") &&
           !url.contains("/feed") &&
           !url.contains("rss")) {
-        String urlRss = url.replaceAll("instagram.com/", "websta.me/rss/n/");
+        String urlRss =
+            "https://news.google.com/rss/search?q=site:sport.sky.it&hl=it&gl=IT&ceid=IT:it";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.length > 1) {
+        final String defaultLocale = Platform.localeName;
+        String langGoogleNews = "";
+        if (defaultLocale.toString().toLowerCase().contains("it")) {
+          langGoogleNews = "&hl=it&gl=IT&ceid=IT:it";
+        }
+        //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
+        String urlRss =
+            "https://news.google.com/rss/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:3d$langGoogleNews";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
@@ -329,19 +351,16 @@ class Site {
       }
       if (url.length > 1) {
         String urlRss =
-            "https://news.google.com/rss/search?q=${url.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}";
+            "http://feeds.feedburner.com/${name.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
         }
       }
+
       if (url.length > 1) {
-        String hostsiteName = url;
-        if (hostsiteName.replaceAll("//", "/").contains("/")) {
-          hostsiteName = Uri.parse(url.toString()).host.toString();
-        }
         String urlRss =
-            "http://feeds.feedburner.com/${hostsiteName.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
+            "https://www.bing.com/news/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}&format=rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
