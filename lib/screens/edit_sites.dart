@@ -89,7 +89,7 @@ class _EditSitesState extends State<EditSites> {
           title: const Text('Edit site'),
           onTap: () {
             Navigator.pop(context);
-            setState(() async {
+            setState(() {
               _awaitReturnValueFromSecondScreen(context, url);
             });
           },
@@ -189,48 +189,55 @@ class _EditSitesState extends State<EditSites> {
 
   void _awaitReturnValueFromSecondScreen(
       BuildContext context, String urlInput) async {
-    // start the SecondScreen and wait for it to finish with a result
-    final resultTextInput = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AddSite(textInput: urlInput),
-        ));
+    try {
+      // start the SecondScreen and wait for it to finish with a result
+      final resultTextInput = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddSite(textInput: urlInput),
+          ));
 
-    // after the SecondScreen result comes back update the Text widget with it
+      // after the SecondScreen result comes back update the Text widget with it
 
-    setState(() {
-      isLoading = true;
-    });
+      setState(() {
+        isLoading = true;
+      });
 
-    if (resultTextInput != null) {
-      siteList.deleteSite(urlInput);
-      if (resultTextInput.toString().contains("<") ||
-          resultTextInput.toString().contains(";") ||
-          resultTextInput.toString().contains(" ")) {
-        List<String> listUrl = getUrlsFromText(resultTextInput);
-        if (listUrl.length > 1) {
-          bool advancedSearch = !resultTextInput.toString().contains("opml");
-          for (String item in listUrl) {
-            await siteList.addSite(item, advancedSearch);
+      if (resultTextInput != null) {
+        siteList.deleteSite(urlInput);
+        if (resultTextInput.toString().contains("<") ||
+            resultTextInput.toString().contains(";") ||
+            resultTextInput.toString().contains(" ")) {
+          List<String> listUrl = getUrlsFromText(resultTextInput);
+          if (listUrl.length > 1) {
+            bool advancedSearch = !resultTextInput.toString().contains("opml");
+            for (String item in listUrl) {
+              await siteList.addSite(item, advancedSearch);
+            }
+
+            setState(() {
+              isLoading = false;
+            });
           }
-          setState(() {
-            isLoading = false;
-          });
-          return;
+        } else {
+          await siteList.addSite(
+              resultTextInput.toString().trim().replaceAll("\n", ""), true);
         }
+
+        setState(() {
+          isLoading = false;
+        });
+
+        const snackBar = SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('Operation completed'),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-      await siteList.addSite(
-          resultTextInput.toString().trim().replaceAll("\n", ""), true);
-      const snackBar = SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Operation completed'),
-      );
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (err) {
+      // print('Caught error: $err');
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
