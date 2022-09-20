@@ -45,9 +45,9 @@ class SiteList {
       }
       itemLoading = hostsiteName;
       url = await Site.getUrlFormatted(url, advancedSearch);
-      if (url.endsWith("/")) {
+      /*if (url.endsWith("/")) { 'tuttosport dont work if missing / at the end
         url = url.substring(0, url.length - 1);
-      }
+      }*/
       if (!hostsiteName.contains(".")) {
         hostsiteName = Uri.parse(url.toString()).host.toString();
       }

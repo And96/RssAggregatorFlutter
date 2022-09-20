@@ -105,8 +105,19 @@ class _MyHomePageState extends State<MyHomePage> {
         });
         final response = await get(Uri.parse(site.siteLink))
             .timeout(const Duration(milliseconds: 4000));
-        var channel = RssFeed.parse(utf8.decode(
-            response.bodyBytes)); //risolve accenti sbagliati esempio agi
+        RssFeed channel = RssFeed();
+        try {
+          channel = RssFeed.parse(utf8.decode(
+              response.bodyBytes)); //risolve accenti sbagliati esempio agi
+        } catch (err) {
+          //nel caso di ilmattino crasha in utf8, quindi ritenta senza utf8
+          try {
+            channel = RssFeed.parse(response.body);
+          } catch (err) {
+            // print('Caught error: $err');
+          }
+        }
+
         //var channel = RssFeed.parse(response.body);
 
         /*String iconUrl = "";
