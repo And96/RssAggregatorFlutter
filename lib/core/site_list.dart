@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/core/site_icon.dart';
@@ -6,6 +7,9 @@ import 'package:rss_aggregator_flutter/core/site_icon.dart';
 class SiteList {
   late List<Site> items = [];
   String itemLoading = "";
+
+  late final ValueChanged<String> updateItemLoading;
+  SiteList({required this.updateItemLoading});
 
   Future<bool> load() async {
     try {
@@ -44,6 +48,7 @@ class SiteList {
         }
       }
       itemLoading = hostsiteName;
+      updateItemLoading(itemLoading);
       url = await Site.getUrlFormatted(url, advancedSearch);
       /*if (url.endsWith("/")) { 'tuttosport dont work if missing / at the end
         url = url.substring(0, url.length - 1);

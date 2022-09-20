@@ -16,12 +16,17 @@ class EditSites extends StatefulWidget {
 
 class _EditSitesState extends State<EditSites> {
   bool isLoading = false;
-  late SiteList siteList = SiteList();
+  late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
 
   @override
   void initState() {
     loadData();
     super.initState();
+  }
+
+  // Pass this method to the child page.
+  void _updateItemLoading(String itemLoading) {
+    setState(() {});
   }
 
   Future<void> _launchInBrowser(Uri url) async {
@@ -252,19 +257,6 @@ class _EditSitesState extends State<EditSites> {
             ? const Text('Sites')
             : Text('Sites (${siteList.items.length})'),
         actions: <Widget>[
-          /* IconButton(
-              icon: const Icon(Icons.add),
-              tooltip: 'Add feed',
-              onPressed: () => _awaitReturnValueFromSecondScreen(context)
-              ),*/
-          /*IconButton(
-            icon: const Icon(Icons.model_training_outlined),
-            tooltip: 'Default',
-            onPressed: () async => {
-              [await siteList.addDefaultSites(), setState(() {})]
-            },
-          ),*/
-
           if (siteList.items.isNotEmpty && !isLoading)
             IconButton(
                 icon: const Icon(Icons.delete),
@@ -286,10 +278,6 @@ class _EditSitesState extends State<EditSites> {
                           itemBuilder: (BuildContext context, index) {
                             final item = siteList.items[index];
                             return InkWell(
-                              /*onTap: () async {
-                                _launchInBrowser(
-                                    Uri.parse((item.link.toString())));
-                              },*/
                               child: ListTile(
                                   minLeadingWidth: 30,
                                   leading: SizedBox(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/screens/edit_sites.dart';
+import 'package:rss_aggregator_flutter/screens/settings.dart';
 //import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -221,18 +222,59 @@ class _MyHomePageState extends State<MyHomePage> {
     return (to.difference(from).inHours / 24).round();
   }
 
+  TextStyle header = const TextStyle(
+      color: Color.fromARGB(100, 100, 100, 100),
+      fontSize: 20,
+      fontWeight: FontWeight.bold);
+
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
+  static final List<Widget> _widgetOptions = <Widget>[
+    const Text(
       'Feed list',
     ),
-    Text(
-      'Read later',
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 1),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Icon(
+            Icons.watch_later,
+            size: 100,
+            color: Color.fromARGB(255, 240, 240, 240),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              'Non hai niente in sospeso',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: Color.fromARGB(255, 75, 75, 75)),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+                'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Color.fromARGB(255, 130, 130, 130))),
+          )
+        ],
+      ),
     ),
-    Text(
+    const Text(
       'Starred items',
     ),
-    Text(
+    const Text(
       'Discover new websites',
     ),
   ];
@@ -262,11 +304,12 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Text(packageName),
           const SizedBox(height: 15),
-          Text("Version: $version $buildNumber"),
+          Text("Version: $buildNumber"),
+          const SizedBox(height: 15),
+          Text("Build Number: $buildNumber"),
           const SizedBox(height: 15),
           const Text("Developer: Andrea"),
           const SizedBox(height: 15),
-          const Text("2022"),
         ],
       ),
       actions: [
@@ -337,7 +380,8 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.settings),
               title: const Text("Settings"),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Settings()));
               },
             ),
             ListTile(

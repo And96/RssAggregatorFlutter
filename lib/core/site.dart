@@ -197,6 +197,15 @@ class Site {
           return urlRss;
         }
       }
+      if (url.contains("ansa.it") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = "https://www.ansa.it/sito/ansait_rss.xml";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
 
       if (url.contains("sport.sky.it") &&
           !url.contains("/feed") &&
