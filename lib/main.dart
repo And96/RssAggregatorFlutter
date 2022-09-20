@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 
 void main() {
   runApp(const MyApp());
@@ -229,53 +230,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      'Feed list',
+    const EmptySection(
+      title: 'News',
+      description:
+          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+      icon: Icons.fiber_new_sharp,
     ),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 1),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(
-            Icons.watch_later,
-            size: 100,
-            color: Color.fromARGB(255, 240, 240, 240),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Non hai niente in sospeso',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.normal,
-                  color: Color.fromARGB(255, 75, 75, 75)),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Text(
-                'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: Color.fromARGB(255, 130, 130, 130))),
-          )
-        ],
-      ),
+    const EmptySection(
+      title: 'Non hai niente in sospeso',
+      description:
+          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+      icon: Icons.watch_later,
     ),
-    const Text(
-      'Starred items',
+    const EmptySection(
+      title: 'Starred item',
+      description:
+          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+      icon: Icons.star_rate,
     ),
-    const Text(
-      'Discover new websites',
+    const EmptySection(
+      title: 'Discover new websites',
+      description:
+          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+      icon: Icons.safety_check_sharp,
     ),
   ];
 
