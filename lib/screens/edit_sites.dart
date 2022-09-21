@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
+import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 
 class EditSites extends StatefulWidget {
   const EditSites({Key? key}) : super(key: key);
@@ -350,6 +351,18 @@ class _EditSitesState extends State<EditSites> {
                           })),
                 )
               : Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      EmptySection(
+                        title: 'Ricerca in corso',
+                        description: siteList.itemLoading,
+                        icon: Icons.manage_search,
+                      ),
+                    ],
+                  ), /*Center(
                   child: SizedBox(
                     height: 175,
                     width: 275,
@@ -361,11 +374,11 @@ class _EditSitesState extends State<EditSites> {
                         const Text('Loading'),
                         const SizedBox(height: 20),
                         const CircularProgressIndicator(),
-                        const SizedBox(height: 20),
-                        Text(siteList.itemLoading),
-                      ],
-                    ),
-                  ),
+                      const SizedBox(height: 20),
+                        Text(siteList.itemLoading),  
+                      ],  
+                    ),  
+                  ),  */
                 ),
         ],
       ),

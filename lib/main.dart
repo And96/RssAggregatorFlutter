@@ -438,101 +438,91 @@ class _MyHomePageState extends State<MyHomePage> {
           : Stack(
               children: [
                 isLoading == false
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Scrollbar(
-                            child: ListView.separated(
-                                itemCount: list.length,
-                                separatorBuilder: (context, index) {
-                                  return const Divider();
-                                },
-                                itemBuilder: (BuildContext context, index) {
-                                  final item = list[index];
-                                  return InkWell(
-                                    onTap: () async {
-                                      _launchInBrowser(
-                                          Uri.parse((item.link.toString())));
+                    ? list.isEmpty
+                        ? Center(
+                            child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const <Widget>[
+                              EmptySection(
+                                title: 'Nessun sito definito',
+                                description: 'Aggiungi i tuoi siti da seguire',
+                                icon: Icons.new_label,
+                              ),
+                            ],
+                          ))
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Scrollbar(
+                                child: ListView.separated(
+                                    itemCount: list.length,
+                                    separatorBuilder: (context, index) {
+                                      return const Divider();
                                     },
-                                    child: ListTile(
-                                        minLeadingWidth: 30,
-                                        leading: SizedBox(
-                                          height: double.infinity,
-                                          width: 17,
-                                          child: item.iconUrl
-                                                      .toString()
-                                                      .trim() ==
-                                                  ""
-                                              ? const Icon(Icons.link)
-                                              : CachedNetworkImage(
-                                                  imageUrl: item.iconUrl,
-                                                  placeholder: (context, url) =>
-                                                      const Icon(Icons.link),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(Icons.link),
-                                                ),
-                                        ),
-                                        title: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 0),
-                                          child: Text(
-                                            (item.host.toString()),
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                              color: ThemeColor.isDarkMode()
-                                                  ? const Color.fromARGB(
-                                                      255, 150, 150, 150)
-                                                  : const Color.fromARGB(
-                                                      255, 120, 120, 120),
-                                            ),
-                                          ),
-                                        ),
-                                        isThreeLine: true,
-                                        subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  child: Text(
-                                                    item.title.toString(),
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: ThemeColor
-                                                              .isDarkMode()
-                                                          ? const Color
-                                                                  .fromARGB(255,
-                                                              210, 210, 210)
-                                                          : const Color
-                                                                  .fromARGB(
-                                                              255, 5, 5, 5),
+                                    itemBuilder: (BuildContext context, index) {
+                                      final item = list[index];
+                                      return InkWell(
+                                        onTap: () async {
+                                          _launchInBrowser(Uri.parse(
+                                              (item.link.toString())));
+                                        },
+                                        child: ListTile(
+                                            minLeadingWidth: 30,
+                                            leading: SizedBox(
+                                              height: double.infinity,
+                                              width: 17,
+                                              child: item.iconUrl
+                                                          .toString()
+                                                          .trim() ==
+                                                      ""
+                                                  ? const Icon(Icons.link)
+                                                  : CachedNetworkImage(
+                                                      imageUrl: item.iconUrl,
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          const Icon(
+                                                              Icons.link),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const Icon(
+                                                              Icons.link),
                                                     ),
-                                                  ),
+                                            ),
+                                            title: Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 0),
+                                              child: Text(
+                                                (item.host.toString()),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: ThemeColor.isDarkMode()
+                                                      ? const Color.fromARGB(
+                                                          255, 150, 150, 150)
+                                                      : const Color.fromARGB(
+                                                          255, 120, 120, 120),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        (DateFormat(
-                                                                'dd/MM/yyyy HH:mm')
-                                                            .format(tryParse(item
-                                                                    .pubDate
-                                                                    .toString())
-                                                                .toLocal())),
+                                              ),
+                                            ),
+                                            isThreeLine: true,
+                                            subtitle: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    SizedBox(
+                                                      child: Text(
+                                                        item.title.toString(),
+                                                        maxLines: 3,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
-                                                          fontSize: 14,
+                                                          fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           color: ThemeColor
@@ -540,27 +530,72 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               ? const Color
                                                                       .fromARGB(
                                                                   255,
-                                                                  150,
-                                                                  150,
-                                                                  150)
+                                                                  210,
+                                                                  210,
+                                                                  210)
                                                               : const Color
                                                                       .fromARGB(
-                                                                  255,
-                                                                  120,
-                                                                  120,
-                                                                  120),
+                                                                  255, 5, 5, 5),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ))),
-                                  );
-                                })),
-                      )
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 5),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            (DateFormat(
+                                                                    'dd/MM/yyyy HH:mm')
+                                                                .format(tryParse(item
+                                                                        .pubDate
+                                                                        .toString())
+                                                                    .toLocal())),
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              color: ThemeColor
+                                                                      .isDarkMode()
+                                                                  ? const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      150,
+                                                                      150,
+                                                                      150)
+                                                                  : const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      120,
+                                                                      120,
+                                                                      120),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ))),
+                                      );
+                                    })),
+                          )
                     : Center(
-                        child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            EmptySection(
+                              title: 'Ricerca notizie in corso',
+                              description: itemLoading,
+                              icon: Icons.query_stats,
+                            ),
+                          ],
+                        ),
+
+                        /*SizedBox(
                           height: 175,
                           width: 275,
                           child: Column(
@@ -575,7 +610,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Text(itemLoading),
                             ],
                           ),
-                        ),
+                        ),*/
                       ),
               ],
             ),
