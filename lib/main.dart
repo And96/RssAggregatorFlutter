@@ -44,11 +44,28 @@ DateTime tryParse(String formattedString) {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Aggregator RSS',
-      theme: ThemeData(primarySwatch: ThemeColor.primaryColor),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: ThemeColor.primaryColorLight,
+
+        /* light theme settings */
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: ThemeColor.primaryColorDark,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: ThemeColor.primaryColorLight,
+          foregroundColor: ThemeColor.primaryColorDark,
+        ),
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode
+          .light, // DARK MODE FUNZIONA BENE, METTENDO .system in automatico legge la impostazione di sistema, solo che non refresha tutti i widget ThemeMode.system,
       home: const MyHomePage(title: 'News Feed Aggregator'),
     );
   }
@@ -184,6 +201,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   loadData() async {
     try {
+      if (isLoading) {
+        return;
+      }
+
       setState(() {
         isLoading = true;
       });
@@ -205,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
       listUpdated
           .removeWhere((e) => (daysBetween(e.pubDate!, DateTime.now()) > 90));
 
-//sort
+      //sort
       listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
       setState(() {
@@ -330,10 +351,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const UserAccountsDrawerHeader(
-              accountName: Text("Aggregator RSS"),
-              accountEmail: Text("News Feed Reader"),
-              currentAccountPicture: CircleAvatar(
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: ThemeColor.isDarkMode()
+                    ? Colors.black12
+                    : ThemeColor.primaryColorLight,
+              ),
+              accountName: const Text("Aggregator RSS"),
+              accountEmail: const Text("News Feed Reader"),
+              currentAccountPicture: const CircleAvatar(
                   backgroundColor: Colors.white, child: Icon(Icons.rss_feed)),
             ),
             ListTile(
@@ -398,7 +424,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blueGrey,
+          selectedItemColor: ThemeColor.isDarkMode()
+              ? const Color.fromARGB(255, 220, 220, 220)
+              : ThemeColor.primaryColorLight,
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
         ),
@@ -449,11 +477,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                               const EdgeInsets.only(top: 0),
                                           child: Text(
                                             (item.host.toString()),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.normal,
-                                              color: Color.fromARGB(
-                                                  255, 120, 120, 120),
+                                              color: ThemeColor.isDarkMode()
+                                                  ? const Color.fromARGB(
+                                                      255, 150, 150, 150)
+                                                  : const Color.fromARGB(
+                                                      255, 120, 120, 120),
                                             ),
                                           ),
                                         ),
@@ -472,12 +503,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     maxLines: 3,
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.normal,
-                                                      color: Color.fromARGB(
-                                                          255, 10, 10, 10),
+                                                      color: ThemeColor
+                                                              .isDarkMode()
+                                                          ? const Color
+                                                                  .fromARGB(255,
+                                                              210, 210, 210)
+                                                          : const Color
+                                                                  .fromARGB(
+                                                              255, 5, 5, 5),
                                                     ),
                                                   ),
                                                 ),
@@ -494,15 +531,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                     .pubDate
                                                                     .toString())
                                                                 .toLocal())),
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.normal,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              120,
-                                                              120,
-                                                              120),
+                                                          color: ThemeColor
+                                                                  .isDarkMode()
+                                                              ? const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  150,
+                                                                  150,
+                                                                  150)
+                                                              : const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  120,
+                                                                  120,
+                                                                  120),
                                                         ),
                                                       ),
                                                     ],

@@ -47,6 +47,7 @@ dependencies:
   feed_finder: ^1.0.9
   share_plus: ^4.1.0
   settings_ui: ^2.0.2
+  adaptive_theme: ^3.1.1
 
 flutter_launcher_icons:
     path: ../..

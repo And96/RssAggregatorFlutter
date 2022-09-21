@@ -6,6 +6,8 @@ import 'package:rss_aggregator_flutter/screens/add_site.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/core/site.dart';
 
 class EditSites extends StatefulWidget {
   const EditSites({Key? key}) : super(key: key);
@@ -61,18 +63,20 @@ class _EditSitesState extends State<EditSites> {
       children: <Widget>[
         const Divider(),
         ListTile(
-          leading: const Icon(Icons.open_in_browser),
-          title: const Text('Open in browser'),
-          onTap: () async {
-            _launchInBrowser(Uri.parse((url)));
+          leading: const Icon(Icons.edit),
+          title: const Text('Edit site'),
+          onTap: () {
             Navigator.pop(context);
+            setState(() {
+              _awaitReturnValueFromSecondScreen(context, url);
+            });
           },
         ),
         ListTile(
-          leading: const Icon(Icons.share),
-          title: const Text('Share link'),
-          onTap: () {
-            Share.share(url);
+          leading: const Icon(Icons.open_in_new),
+          title: const Text('Open site'),
+          onTap: () async {
+            _launchInBrowser(Uri.parse((Site.getHostName(url, true))));
             Navigator.pop(context);
           },
         ),
@@ -90,13 +94,11 @@ class _EditSitesState extends State<EditSites> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.edit),
-          title: const Text('Edit site'),
+          leading: const Icon(Icons.share),
+          title: const Text('Share link'),
           onTap: () {
+            Share.share(url);
             Navigator.pop(context);
-            setState(() {
-              _awaitReturnValueFromSecondScreen(context, url);
-            });
           },
         ),
         ListTile(
@@ -298,11 +300,14 @@ class _EditSitesState extends State<EditSites> {
                                     padding: const EdgeInsets.only(top: 0),
                                     child: Text(
                                       (item.siteName.toString()),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
-                                        color:
-                                            Color.fromARGB(255, 120, 120, 120),
+                                        color: ThemeColor.isDarkMode()
+                                            ? const Color.fromARGB(
+                                                255, 150, 150, 150)
+                                            : const Color.fromARGB(
+                                                255, 120, 120, 120),
                                       ),
                                     ),
                                   ),
@@ -328,11 +333,14 @@ class _EditSitesState extends State<EditSites> {
                                               item.siteLink.toString(),
                                               maxLines: 4,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.normal,
-                                                color: Color.fromARGB(
-                                                    255, 10, 10, 10),
+                                                color: ThemeColor.isDarkMode()
+                                                    ? const Color.fromARGB(
+                                                        255, 210, 210, 210)
+                                                    : const Color.fromARGB(
+                                                        255, 5, 5, 5),
                                               ),
                                             ),
                                           ),

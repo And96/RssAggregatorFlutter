@@ -77,6 +77,23 @@ class Site {
     return false;
   }
 
+  static String getHostName(String url, bool includeProtocol) {
+    try {
+      String hostName = url;
+      if (hostName.replaceAll("//", "/").contains("/")) {
+        hostName = Uri.parse(url.toString()).host.toString();
+      }
+      if (url.contains("http:")) {
+        return 'http://$hostName';
+      } else {
+        return 'https://$hostName';
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return url;
+  }
+
   static Future<String> getRssFromUrl(String url, bool advancedSearch) async {
     try {
       //70% of websites use this template for rss
@@ -108,10 +125,7 @@ class Site {
         } catch (err) {/**/}
       }
 
-      String name = url;
-      if (name.replaceAll("//", "/").contains("/")) {
-        name = Uri.parse(url.toString()).host.toString();
-      }
+      String name = getHostName(url, false);
 
       //try common rss url
       if (url.contains(".")) {

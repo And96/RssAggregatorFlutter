@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 class EmptySection extends StatelessWidget {
   const EmptySection({
@@ -22,7 +23,9 @@ class EmptySection extends StatelessWidget {
           Icon(
             icon,
             size: 100,
-            color: const Color.fromARGB(255, 235, 235, 235),
+            color: ThemeColor.isDarkMode()
+                ? const Color.fromARGB(30, 235, 235, 235)
+                : const Color.fromARGB(255, 235, 235, 235),
           ),
           const SizedBox(
             height: 10,
@@ -31,24 +34,29 @@ class EmptySection extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               title,
-              style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.normal,
-                  color: Color.fromARGB(255, 75, 75, 75)),
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+                color: ThemeColor.isDarkMode()
+                    ? const Color.fromARGB(255, 190, 190, 190)
+                    : const Color.fromARGB(255, 75, 75, 75),
+              ),
             ),
           ),
           const SizedBox(
             height: 10,
           ),
           SizedBox(
-            width: double.infinity,
-            child: Text(description,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
+              width: double.infinity,
+              child: Text(description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
-                    color: Color.fromARGB(255, 130, 130, 130))),
-          )
+                    color: ThemeColor.isDarkMode()
+                        ? const Color.fromARGB(255, 130, 130, 130)
+                        : const Color.fromARGB(255, 130, 130, 130),
+                  ))),
         ],
       ),
     );
