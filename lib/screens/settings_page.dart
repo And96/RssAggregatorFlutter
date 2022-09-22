@@ -20,11 +20,12 @@ class SettingsPageState extends State<SettingsPage> {
           PrefTitle(
               title: Text('Configuration'),
               subtitle: Text('Customize parameters'),
-              padding: EdgeInsets.only(top: 20.0)),
+              padding: EdgeInsets.only(top: 22.0)),
           PrefDropdown<int>(
             title: Text('Timeout'),
             pref: 'settings_timeout',
-            fullWidth: true,
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
             items: [
               DropdownMenuItem(value: 1, child: Text('1 second')),
               DropdownMenuItem(value: 2, child: Text('2 seconds')),
@@ -35,7 +36,8 @@ class SettingsPageState extends State<SettingsPage> {
           PrefDropdown<int>(
             title: Text('Days limit'),
             pref: 'settings_days_limit',
-            fullWidth: true,
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
             items: [
               DropdownMenuItem(value: 1, child: Text('1 day')),
               DropdownMenuItem(value: 2, child: Text('2 days')),
@@ -49,12 +51,13 @@ class SettingsPageState extends State<SettingsPage> {
           PrefTitle(
             title: Text('Personalization'),
             subtitle: Text('Customize colors'),
-            padding: EdgeInsets.only(top: 20.0),
+            padding: EdgeInsets.only(top: 22.0),
           ),
           PrefDropdown<int>(
             title: Text('Color'),
             pref: 'settings_ui_color',
-            fullWidth: true,
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
             items: [
               DropdownMenuItem(value: (0x004d40), child: Text('Green')),
               DropdownMenuItem(value: (0x1055AA), child: Text('Blue')),
@@ -66,7 +69,8 @@ class SettingsPageState extends State<SettingsPage> {
           PrefDropdown<String>(
             title: Text('Theme'),
             pref: 'settings_ui_theme',
-            fullWidth: true,
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
             items: [
               DropdownMenuItem(value: 'system', child: Text('System')),
               DropdownMenuItem(value: 'light', child: Text('Light')),
