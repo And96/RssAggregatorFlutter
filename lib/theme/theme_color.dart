@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:flutter/scheduler.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:flutter/scheduler.dart';
 
 class ThemeColor {
@@ -30,17 +34,27 @@ class ThemeColor {
     900: Color(0xFFaaaaaa)
   });
 
-  static bool isDarkMode() {
+  static Future<bool> isDarkMode() async {
     try {
-      /* var brightness = MediaQuery.of(context).platformBrightness;
+      final prefs = await SharedPreferences.getInstance();
+      final String? settingsUiTheme = prefs.getString('settings_ui_theme');
+      if (settingsUiTheme == 'dark') {
+        return true;
+      }
+      if (settingsUiTheme == 'system') {
+        var brightness = SchedulerBinding.instance.window.platformBrightness;
+        bool dark = brightness == Brightness.dark;
+        return dark;
+      }
+      /*
+      var brightness = MediaQuery.of(context).platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;*/
-
+/*
 //QUESTO RESTITUISCE LA MODALITA DI SISTEMA NON LA MODALITA ATTUALE
-      /*var brightness = SchedulerBinding.instance.window.platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;
-      return isDarkMode;*/
+      var brightness = SchedulerBinding.instance.window.platformBrightness;
+      bool isDarkMode = brightness == Brightness.dark;*/
+      // return isDarkMode;
 
-      return false;
     } catch (err) {
       // print('Caught error: $err');
     }

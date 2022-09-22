@@ -48,6 +48,8 @@ dependencies:
   share_plus: ^4.1.0
   settings_ui: ^2.0.2
   adaptive_theme: ^3.1.1
+  pref: ^2.6.0
+  flutter_phoenix: ^1.1.0
 
 flutter_launcher_icons:
     path: ../..

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 // ignore: depend_on_referenced_packages
 
 class AddSite extends StatefulWidget {
@@ -12,11 +13,13 @@ class AddSite extends StatefulWidget {
 
 class _AddSiteState extends State<AddSite> {
   TextEditingController mycontroller = TextEditingController();
+  bool darkMode = false;
 
   @override
   void initState() {
     mycontroller.text = widget.textInput;
-    super.initState();
+    ThemeColor.isDarkMode()
+        .then((value) => {darkMode = value, super.initState()});
   }
 
   @override

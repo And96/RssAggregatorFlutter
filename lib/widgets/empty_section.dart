@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+//import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+
+bool darkMode = false;
 
 class EmptySection extends StatelessWidget {
   const EmptySection({
@@ -7,11 +9,13 @@ class EmptySection extends StatelessWidget {
     required this.title,
     required this.description,
     required this.icon,
+    required this.darkMode,
   });
 
   final String title;
   final String description;
   final IconData icon;
+  final bool darkMode;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class EmptySection extends StatelessWidget {
           Icon(
             icon,
             size: 100,
-            color: ThemeColor.isDarkMode()
+            color: darkMode
                 ? const Color.fromARGB(30, 235, 235, 235)
                 : const Color.fromARGB(255, 235, 235, 235),
           ),
@@ -37,7 +41,7 @@ class EmptySection extends StatelessWidget {
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.normal,
-                color: ThemeColor.isDarkMode()
+                color: darkMode
                     ? const Color.fromARGB(255, 190, 190, 190)
                     : const Color.fromARGB(255, 75, 75, 75),
               ),
@@ -53,7 +57,7 @@ class EmptySection extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
-                    color: ThemeColor.isDarkMode()
+                    color: darkMode
                         ? const Color.fromARGB(255, 130, 130, 130)
                         : const Color.fromARGB(255, 130, 130, 130),
                   ))),

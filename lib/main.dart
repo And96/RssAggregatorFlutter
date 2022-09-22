@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+//import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/screens/edit_sites.dart';
-import 'package:rss_aggregator_flutter/screens/settings.dart';
+import 'package:rss_aggregator_flutter/screens/settings_page.dart';
 //import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,66 +15,104 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
+import 'dart:async';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
-void main() {
-  runApp(const MyApp());
+// ignore: depend_on_referenced_packages
+import 'package:pref/pref.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final service = await PrefServiceShared.init(
+    defaults: {
+      'settings_ui_theme': 'light',
+      'settings_ui_color': ThemeColor.primaryColorLight,
+      'settings_timeout': 4,
+      'settings_days_limit': 90,
+    },
+  );
+
+  runApp(
+    Phoenix(
+      child: MyApp(service),
+    ),
+  );
 }
 
-class Elemento {
-  var link = "";
-  var title = "";
-  DateTime? pubDate;
-  var iconUrl = "";
-  var host = "";
-  Elemento(
-      {required this.link,
-      required this.title,
-      required this.pubDate,
-      required this.iconUrl,
-      required this.host});
+class MyApp extends StatefulWidget {
+  const MyApp(this.service, {Key? key}) : super(key: key);
+
+  final BasePrefService service;
+
+  @override
+  MyAppState createState() => MyAppState();
 }
 
-DateTime tryParse(String formattedString) {
-  try {
-    return DateTime.parse(formattedString).toLocal();
-  } on FormatException {
-    DateTime now = DateTime.now();
-    return DateTime(now.year, now.month, now.day).toLocal();
+class MyAppState extends State<MyApp> {
+  ThemeMode? _brightness;
+  Color? _uiColor = ThemeColor.primaryColorLight;
+
+  StreamSubscription<String>? _stream;
+  StreamSubscription<int?>? _streamColor;
+
+  @override
+  void dispose() {
+    _stream?.cancel();
+    _streamColor?.cancel();
+    super.dispose();
   }
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Aggregator RSS',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: ThemeColor.primaryColorLight,
+    _stream ??=
+        widget.service.stream<String>('settings_ui_theme').listen((event) {
+      setState(() {
+        switch (event) {
+          case 'system':
+            _brightness = ThemeMode.system;
+            break;
+          case 'light':
+            _brightness = ThemeMode.light;
+            break;
+          case 'dark':
+            _brightness = ThemeMode.dark;
+            break;
+        }
+      });
+    });
 
-        /* light theme settings */
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: ThemeColor.primaryColorDark,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: ThemeColor.primaryColorLight,
-          foregroundColor: ThemeColor.primaryColorDark,
+    _streamColor ??=
+        widget.service.stream<int?>('settings_ui_color').listen((event) {
+      setState(() {
+        _uiColor = event == null ? null : Color(event);
+      });
+    });
+
+    return PrefService(
+      service: widget.service,
+      child: MaterialApp(
+        title: 'Aggregator',
+        themeMode: _brightness,
+        theme: ThemeData.light()
+            .copyWith(colorScheme: ColorScheme.fromSeed(seedColor: _uiColor!)),
+        darkTheme: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: _uiColor!, brightness: Brightness.dark),
+          brightness: Brightness.dark,
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color.fromARGB(255, 180, 180, 180),
+            foregroundColor: Color.fromARGB(255, 10, 10, 10),
+          ),
         ),
-        /* dark theme settings */
+        home: const MyHomePage(),
       ),
-      themeMode: ThemeMode
-          .light, // DARK MODE FUNZIONA BENE, METTENDO .system in automatico legge la impostazione di sistema, solo che non refresha tutti i widget ThemeMode.system,
-      home: const MyHomePage(title: 'News Feed Aggregator'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -87,11 +126,14 @@ class _MyHomePageState extends State<MyHomePage> {
   String version = "";
   String buildNumber = "";
 
+  static bool darkMode = false;
+
   @override
-  void initState() {
+  initState() {
     loadPackageInfo();
     loadData();
-    super.initState();
+    ThemeColor.isDarkMode()
+        .then((value) => {darkMode = value, super.initState()});
   }
 
   Future<void> _launchInBrowser(Uri url) async {
@@ -136,17 +178,6 @@ class _MyHomePageState extends State<MyHomePage> {
             // print('Caught error: $err');
           }
         }
-
-        //var channel = RssFeed.parse(response.body);
-
-        /*String iconUrl = "";
-        try {
-          iconUrl = await SitesIcon()
-              .getIcon(hostname)
-              .timeout(const Duration(milliseconds: 2000));
-        } catch (err) {
-          // senza questo try/catch salta il pezzo sotto, quindi senza icone non caricherebbe
-        }*/
 
         String? iconUrl = site.iconUrl.trim() != ""
             ? site.iconUrl
@@ -250,32 +281,6 @@ class _MyHomePageState extends State<MyHomePage> {
       fontWeight: FontWeight.bold);
 
   int _selectedIndex = 0;
-  static final List<Widget> _widgetOptions = <Widget>[
-    const EmptySection(
-      title: 'News',
-      description:
-          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-      icon: Icons.fiber_new_sharp,
-    ),
-    const EmptySection(
-      title: 'Non hai niente in sospeso',
-      description:
-          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-      icon: Icons.watch_later,
-    ),
-    const EmptySection(
-      title: 'Starred item',
-      description:
-          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-      icon: Icons.star_rate,
-    ),
-    const EmptySection(
-      title: 'Discover new websites',
-      description:
-          'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-      icon: Icons.safety_check_sharp,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -353,9 +358,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                color: ThemeColor.isDarkMode()
-                    ? Colors.black12
-                    : ThemeColor.primaryColorLight,
+                color: darkMode ? Colors.black12 : ThemeColor.primaryColorLight,
               ),
               accountName: const Text("Aggregator RSS"),
               accountEmail: const Text("News Feed Reader"),
@@ -383,8 +386,10 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.settings),
               title: const Text("Settings"),
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Settings()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) => const SettingsPage()))
+                    .then((value) => Phoenix.rebirth(context));
               },
             ),
             ListTile(
@@ -424,178 +429,230 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: ThemeColor.isDarkMode()
+          selectedItemColor: darkMode
               ? const Color.fromARGB(255, 220, 220, 220)
               : ThemeColor.primaryColorLight,
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      body: _selectedIndex != 0
+      body: _selectedIndex == 1
           ? Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
+              child: EmptySection(
+                title: 'Non hai niente in sospeso',
+                description:
+                    'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+                icon: Icons.watch_later,
+                darkMode: darkMode,
+              ),
             )
-          : Stack(
-              children: [
-                isLoading == false
-                    ? list.isEmpty
-                        ? Center(
-                            child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: const <Widget>[
-                              EmptySection(
-                                title: 'Nessun sito definito',
-                                description: 'Aggiungi i tuoi siti da seguire',
-                                icon: Icons.new_label,
-                              ),
-                            ],
-                          ))
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: Scrollbar(
-                                child: ListView.separated(
-                                    itemCount: list.length,
-                                    separatorBuilder: (context, index) {
-                                      return const Divider();
-                                    },
-                                    itemBuilder: (BuildContext context, index) {
-                                      final item = list[index];
-                                      return InkWell(
-                                        onTap: () async {
-                                          _launchInBrowser(Uri.parse(
-                                              (item.link.toString())));
-                                        },
-                                        child: ListTile(
-                                            minLeadingWidth: 30,
-                                            leading: SizedBox(
-                                              height: double.infinity,
-                                              width: 17,
-                                              child: item.iconUrl
-                                                          .toString()
-                                                          .trim() ==
-                                                      ""
-                                                  ? const Icon(Icons.link)
-                                                  : CachedNetworkImage(
-                                                      imageUrl: item.iconUrl,
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          const Icon(
-                                                              Icons.link),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          const Icon(
-                                                              Icons.link),
+          : _selectedIndex == 2
+              ? Center(
+                  child: EmptySection(
+                    title: 'Starred item',
+                    description:
+                        'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+                    icon: Icons.star_rate,
+                    darkMode: darkMode,
+                  ),
+                )
+              : _selectedIndex == 3
+                  ? Center(
+                      child: EmptySection(
+                        title: 'Discover new websites',
+                        description:
+                            'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+                        icon: Icons.safety_check_sharp,
+                        darkMode: darkMode,
+                      ),
+                    )
+                  : Stack(
+                      children: [
+                        isLoading == false
+                            ? list.isEmpty
+                                ? Center(
+                                    child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      EmptySection(
+                                        title: 'Nessuna notizia presente',
+                                        description:
+                                            'Aggiungi i tuoi siti da seguire',
+                                        icon: Icons.new_label,
+                                        darkMode: darkMode,
+                                      ),
+                                    ],
+                                  ))
+                                : Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Scrollbar(
+                                        child: ListView.separated(
+                                            itemCount: list.length,
+                                            separatorBuilder: (context, index) {
+                                              return const Divider();
+                                            },
+                                            itemBuilder:
+                                                (BuildContext context, index) {
+                                              final item = list[index];
+                                              return InkWell(
+                                                onTap: () async {
+                                                  _launchInBrowser(Uri.parse(
+                                                      (item.link.toString())));
+                                                },
+                                                child: ListTile(
+                                                    minLeadingWidth: 30,
+                                                    leading: SizedBox(
+                                                      height: double.infinity,
+                                                      width: 17,
+                                                      child: item.iconUrl
+                                                                  .toString()
+                                                                  .trim() ==
+                                                              ""
+                                                          ? const Icon(
+                                                              Icons.link)
+                                                          : CachedNetworkImage(
+                                                              imageUrl:
+                                                                  item.iconUrl,
+                                                              placeholder: (context,
+                                                                      url) =>
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .link),
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .link),
+                                                            ),
                                                     ),
-                                            ),
-                                            title: Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 0),
-                                              child: Text(
-                                                (item.host.toString()),
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: ThemeColor.isDarkMode()
-                                                      ? const Color.fromARGB(
-                                                          255, 150, 150, 150)
-                                                      : const Color.fromARGB(
-                                                          255, 120, 120, 120),
-                                                ),
-                                              ),
-                                            ),
-                                            isThreeLine: true,
-                                            subtitle: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: <Widget>[
-                                                    SizedBox(
+                                                    title: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 0),
                                                       child: Text(
-                                                        item.title.toString(),
-                                                        maxLines: 3,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
+                                                        (item.host.toString()),
                                                         style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.normal,
-                                                          color: ThemeColor
-                                                                  .isDarkMode()
+                                                          color: darkMode
                                                               ? const Color
                                                                       .fromARGB(
                                                                   255,
-                                                                  210,
-                                                                  210,
-                                                                  210)
+                                                                  150,
+                                                                  150,
+                                                                  150)
                                                               : const Color
                                                                       .fromARGB(
-                                                                  255, 5, 5, 5),
+                                                                  255,
+                                                                  120,
+                                                                  120,
+                                                                  120),
                                                         ),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5),
-                                                      child: Row(
-                                                        children: [
-                                                          Text(
-                                                            (DateFormat(
-                                                                    'dd/MM/yyyy HH:mm')
-                                                                .format(tryParse(item
-                                                                        .pubDate
-                                                                        .toString())
-                                                                    .toLocal())),
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              color: ThemeColor
-                                                                      .isDarkMode()
-                                                                  ? const Color
-                                                                          .fromARGB(
-                                                                      255,
-                                                                      150,
-                                                                      150,
-                                                                      150)
-                                                                  : const Color
-                                                                          .fromARGB(
-                                                                      255,
-                                                                      120,
-                                                                      120,
-                                                                      120),
+                                                    isThreeLine: true,
+                                                    subtitle: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 5),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            SizedBox(
+                                                              child: Text(
+                                                                item.title
+                                                                    .toString(),
+                                                                maxLines: 3,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  color: darkMode
+                                                                      ? const Color
+                                                                              .fromARGB(
+                                                                          255,
+                                                                          210,
+                                                                          210,
+                                                                          210)
+                                                                      : const Color
+                                                                              .fromARGB(
+                                                                          255,
+                                                                          5,
+                                                                          5,
+                                                                          5),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ))),
-                                      );
-                                    })),
-                          )
-                    : Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            EmptySection(
-                              title: 'Ricerca notizie in corso',
-                              description: itemLoading,
-                              icon: Icons.query_stats,
-                            ),
-                          ],
-                        ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 5),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    (DateFormat(
+                                                                            'dd/MM/yyyy HH:mm')
+                                                                        .format(
+                                                                            tryParse(item.pubDate.toString()).toLocal())),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      color: darkMode
+                                                                          ? const Color.fromARGB(
+                                                                              255,
+                                                                              150,
+                                                                              150,
+                                                                              150)
+                                                                          : const Color.fromARGB(
+                                                                              255,
+                                                                              120,
+                                                                              120,
+                                                                              120),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ))),
+                                              );
+                                            })),
+                                  )
+                            : Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    EmptySection(
+                                      title: 'Ricerca notizie in corso',
+                                      description: itemLoading,
+                                      icon: Icons.query_stats,
+                                      darkMode: darkMode,
+                                    ),
+                                  ],
+                                ),
 
-                        /*SizedBox(
+                                /*SizedBox(
                           height: 175,
                           width: 275,
                           child: Column(
@@ -611,9 +668,32 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),*/
-                      ),
-              ],
-            ),
+                              ),
+                      ],
+                    ),
     );
+  }
+}
+
+class Elemento {
+  var link = "";
+  var title = "";
+  DateTime? pubDate;
+  var iconUrl = "";
+  var host = "";
+  Elemento(
+      {required this.link,
+      required this.title,
+      required this.pubDate,
+      required this.iconUrl,
+      required this.host});
+}
+
+DateTime tryParse(String formattedString) {
+  try {
+    return DateTime.parse(formattedString).toLocal();
+  } on FormatException {
+    DateTime now = DateTime.now();
+    return DateTime(now.year, now.month, now.day).toLocal();
   }
 }

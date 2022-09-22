@@ -4,9 +4,10 @@ import 'package:rss_aggregator_flutter/core/site_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/screens/add_site.dart';
 import 'package:flutter/services.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+//import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 
@@ -21,10 +22,14 @@ class _EditSitesState extends State<EditSites> {
   bool isLoading = false;
   late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
 
+//da implementare anche qua se va nel main
+  bool darkMode = false;
+
   @override
   void initState() {
     loadData();
-    super.initState();
+    ThemeColor.isDarkMode()
+        .then((value) => {darkMode = value, super.initState()});
   }
 
   // Pass this method to the child page.
@@ -304,7 +309,7 @@ class _EditSitesState extends State<EditSites> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
-                                        color: ThemeColor.isDarkMode()
+                                        color: darkMode
                                             ? const Color.fromARGB(
                                                 255, 150, 150, 150)
                                             : const Color.fromARGB(
@@ -337,7 +342,7 @@ class _EditSitesState extends State<EditSites> {
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.normal,
-                                                color: ThemeColor.isDarkMode()
+                                                color: darkMode
                                                     ? const Color.fromARGB(
                                                         255, 210, 210, 210)
                                                     : const Color.fromARGB(
@@ -360,6 +365,7 @@ class _EditSitesState extends State<EditSites> {
                         title: 'Ricerca in corso',
                         description: siteList.itemLoading,
                         icon: Icons.manage_search,
+                        darkMode: darkMode,
                       ),
                     ],
                   ), /*Center(
