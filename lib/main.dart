@@ -303,65 +303,128 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  void _showBottomSheet(BuildContext context, Elemento elemento) {
+  void _showBottomSheet(BuildContext context, Elemento item) {
     showModalBottomSheet(
-      /* shape: RoundedRectangleBorder(
+        /* shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),*/
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'This is a Modal bottom sheet!',
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 2, 2, 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: item.iconUrl.toString().trim() == ""
+                                ? const Icon(Icons.link)
+                                : CachedNetworkImage(
+                                    imageUrl: item.iconUrl,
+                                    placeholder: (context, url) =>
+                                        const Icon(Icons.link),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.link),
+                                  ),
+                          ),
+                          Text(
+                            item.host,
+                            style: Theme.of(context).textTheme.titleLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(Icons.close),
+                            tooltip: 'Close',
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(children: const <Widget>[
+                      Expanded(child: Divider()),
+                    ]),
+                    Text(
+                      DateFormat('dd/MM/yyyy HH:mm')
+                          .format(tryParse(item.pubDate.toString()).toLocal()),
+                      style: Theme.of(context).textTheme.titleSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    Row(children: const <Widget>[
+                      Expanded(child: Divider()),
+                    ]),
+                    Text(
+                      item.link,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    Row(children: const <Widget>[
+                      Expanded(child: Divider()),
+                    ]),
+                    Text(
+                      item.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      item.description,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FloatingActionButton.extended(
+                            icon: const Icon(Icons.open_in_full),
+                            label: const Text('Read Website'),
+                            shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0,
+                                ),
+                                borderRadius: BorderRadius.circular(8)),
+                            onPressed: () => _launchInBrowser(
+                                Uri.parse((item.link.toString()))),
+                          ),
+                          FloatingActionButton.extended(
+                            icon: const Icon(Icons.watch_later),
+                            label: const Text(''),
+                            shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0,
+                                ),
+                                borderRadius: BorderRadius.circular(8)),
+                            onPressed: () {},
+                          ),
+                          FloatingActionButton.extended(
+                            icon: const Icon(Icons.star),
+                            label: const Text(''),
+                            shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0,
+                                ),
+                                borderRadius: BorderRadius.circular(8)),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Row(children: const <Widget>[
-                Expanded(child: Divider()),
-                Text("OR"),
-                Expanded(child: Divider()),
-              ]),
-              Text(
-                elemento.host,
-                style: Theme.of(context).textTheme.titleSmall,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                elemento.link,
-                style: Theme.of(context).textTheme.titleSmall,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                elemento.pubDate.toString(),
-                style: Theme.of(context).textTheme.titleSmall,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                elemento.title,
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                elemento.description,
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-              FloatingActionButton.extended(
-                icon: const Icon(Icons.add),
-                label: const Text('Add Site'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ));
   }
 
   _showAlertDialog(BuildContext context) async {

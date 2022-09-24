@@ -270,25 +270,20 @@ class _EditSitesState extends State<EditSites>
             ? const Text('Sites')
             : Text('Sites (${siteList.items.length})'),
         actions: <Widget>[
-          !isLoading
-              ? IconButton(
-                  icon: const Icon(Icons.refresh),
-                  tooltip: 'Refresh',
-                  onPressed: () => loadData(),
-                )
-              : IconButton(
-                  icon: AnimatedBuilder(
-                    animation: _refreshIconController,
-                    builder: (_, child) {
-                      return Transform.rotate(
-                        angle: _refreshIconController.value * 4 * 3.1415,
-                        child: child,
-                      );
-                    },
-                    child: const Icon(Icons.refresh),
-                  ),
-                  onPressed: () => {},
-                ),
+          if (isLoading)
+            IconButton(
+              icon: AnimatedBuilder(
+                animation: _refreshIconController,
+                builder: (_, child) {
+                  return Transform.rotate(
+                    angle: _refreshIconController.value * 4 * 3.1415,
+                    child: child,
+                  );
+                },
+                child: const Icon(Icons.refresh),
+              ),
+              onPressed: () => {},
+            ),
           if (siteList.items.isNotEmpty && !isLoading)
             IconButton(
                 icon: const Icon(Icons.delete),
