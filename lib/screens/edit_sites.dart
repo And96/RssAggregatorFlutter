@@ -18,7 +18,8 @@ class EditSites extends StatefulWidget {
   State<EditSites> createState() => _EditSitesState();
 }
 
-class _EditSitesState extends State<EditSites> {
+class _EditSitesState extends State<EditSites>
+    with SingleTickerProviderStateMixin {
   bool isLoading = false;
   late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
 
@@ -216,38 +217,38 @@ class _EditSitesState extends State<EditSites> {
         isLoading = true;
       });
 
-      if (resultTextInput != null) {
-        siteList.deleteSite(urlInput);
-        if (resultTextInput.toString().contains("<") ||
-            resultTextInput.toString().contains(";") ||
-            resultTextInput.toString().contains(" ")) {
-          List<String> listUrl = getUrlsFromText(resultTextInput);
-          if (listUrl.length > 1) {
-            bool advancedSearch = !resultTextInput.toString().contains("opml");
-            for (String item in listUrl) {
-              await siteList.addSite(item, advancedSearch);
-            }
-
-            setState(() {
-              isLoading = false;
-            });
+      siteList.deleteSite(urlInput);
+      String inputText = resultTextInput.toString().replaceAll("amp;", "");
+      if (inputText.toString().contains("<") ||
+          inputText.toString().contains(";") ||
+          inputText.toString().contains(" ")) {
+        List<String> listUrl = getUrlsFromText(inputText);
+        if (listUrl.isNotEmpty) {
+          bool advancedSearch = !inputText.toString().contains("opml");
+          for (String item in listUrl) {
+            await siteList.addSite(item, advancedSearch);
           }
-        } else {
-          await siteList.addSite(
-              resultTextInput.toString().trim().replaceAll("\n", ""), true);
+
+          setState(() {
+            isLoading = false;
+          });
         }
-
-        setState(() {
-          isLoading = false;
-        });
-
-        const snackBar = SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Search completed'),
-        );
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        await siteList.addSite(
+            inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
+            true);
       }
+
+      setState(() {
+        isLoading = false;
+      });
+
+      const snackBar = SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Search completed'),
+      );
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
       setState(() {
         isLoading = false;
@@ -257,6 +258,10 @@ class _EditSitesState extends State<EditSites> {
     }
   }
 
+  late final AnimationController _refreshIconController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..repeat();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -265,6 +270,25 @@ class _EditSitesState extends State<EditSites> {
             ? const Text('Sites')
             : Text('Sites (${siteList.items.length})'),
         actions: <Widget>[
+          !isLoading
+              ? IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: 'Refresh',
+                  onPressed: () => loadData(),
+                )
+              : IconButton(
+                  icon: AnimatedBuilder(
+                    animation: _refreshIconController,
+                    builder: (_, child) {
+                      return Transform.rotate(
+                        angle: _refreshIconController.value * 4 * 3.1415,
+                        child: child,
+                      );
+                    },
+                    child: const Icon(Icons.refresh),
+                  ),
+                  onPressed: () => {},
+                ),
           if (siteList.items.isNotEmpty && !isLoading)
             IconButton(
                 icon: const Icon(Icons.delete),

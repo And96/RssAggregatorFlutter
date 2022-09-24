@@ -31,6 +31,7 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 2, child: Text('2 seconds')),
               DropdownMenuItem(value: 4, child: Text('4 seconds')),
               DropdownMenuItem(value: 8, child: Text('8 seconds')),
+              DropdownMenuItem(value: 8, child: Text('16 seconds')),
             ],
           ),
           PrefDropdown<int>(
@@ -46,6 +47,21 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 30, child: Text('30 days')),
               DropdownMenuItem(value: 90, child: Text('90 days')),
               DropdownMenuItem(value: 365, child: Text('365 days')),
+            ],
+          ),
+          PrefDropdown<int>(
+            title: Text('Feed limit'),
+            pref: 'settings_feeds_limit',
+            subtitle: Text('Max number of feed to fetch per each site'),
+            fullWidth: false,
+            items: [
+              DropdownMenuItem(value: 1, child: Text('1 feed')),
+              DropdownMenuItem(value: 2, child: Text('2 feeds')),
+              DropdownMenuItem(value: 3, child: Text('3 feeds')),
+              DropdownMenuItem(value: 5, child: Text('5 feeds')),
+              DropdownMenuItem(value: 10, child: Text('10 feeds')),
+              DropdownMenuItem(value: 20, child: Text('20 feeds')),
+              DropdownMenuItem(value: 0, child: Text('All')),
             ],
           ),
           PrefTitle(

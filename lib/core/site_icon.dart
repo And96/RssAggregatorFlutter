@@ -44,6 +44,8 @@ class SiteIcon {
         return iconUrl;
       }
 
+      //l'icona si potrebbe prendere anche dal feed rss per i siti che la mpilano da image > link, li ce l'url esempio HDBLOG
+
       //fetch icon from web
       iconUrl = await getIconWeb(siteName);
       if (iconUrl.length < 5) {

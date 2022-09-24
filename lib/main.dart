@@ -30,6 +30,7 @@ Future<void> main() async {
       'settings_ui_color': ThemeColor.primaryColorLight,
       'settings_timeout': 4,
       'settings_days_limit': 90,
+      'settings_feeds_limit': 20,
     },
   );
 
@@ -50,9 +51,8 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  ThemeMode? _brightness;
   Color? _uiColor = ThemeColor.primaryColorLight;
-
+  ThemeMode? _brightness;
   StreamSubscription<String>? _stream;
   StreamSubscription<int?>? _streamColor;
 
@@ -94,16 +94,19 @@ class MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'Aggregator',
         themeMode: _brightness,
-        theme: ThemeData.light()
-            .copyWith(colorScheme: ColorScheme.fromSeed(seedColor: _uiColor!)),
+        theme: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: _uiColor!,
+            brightness: Brightness.light,
+          ),
+        ),
         darkTheme: ThemeData.dark().copyWith(
           colorScheme: ColorScheme.fromSeed(
               seedColor: _uiColor!, brightness: Brightness.dark),
           brightness: Brightness.dark,
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color.fromARGB(255, 180, 180, 180),
-            foregroundColor: Color.fromARGB(255, 10, 10, 10),
-          ),
+          /*floatingActionButtonTheme: FloatingActionButtonThemeData(
+            foregroundColor: const Color.fromARGB(255, 10, 10, 10),
+          ),*/
         ),
         home: const MyHomePage(),
       ),
@@ -117,7 +120,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   bool isLoading = false;
   late List<Elemento> list = [];
   late List<Elemento> listUpdated = [];
@@ -132,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
   initState() {
     loadPackageInfo();
     loadData();
+
     ThemeColor.isDarkMode()
         .then((value) => {darkMode = value, super.initState()});
   }
@@ -210,6 +215,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         ? element.guid.toString().trim()
                         : element.link.toString().trim(),
                     iconUrl: iconUrl.toString(),
+                    description: element.description == null ||
+                            element.description.toString().trim() == ""
+                        ? " "
+                        : element.description
+                            .toString()
+                            .trim()
+                            .toString()
+                            .replaceAll("�", " ")
+                            .replaceAll("&#039;", " ")
+                            .replaceAll("&quot;", " "),
                     pubDate: tryParse(element.pubDate.toString()),
                     host: hostname);
                 listUpdated.add(p1);
@@ -288,6 +303,67 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _showBottomSheet(BuildContext context, Elemento elemento) {
+    showModalBottomSheet(
+      /* shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),*/
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'This is a Modal bottom sheet!',
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
+              Row(children: const <Widget>[
+                Expanded(child: Divider()),
+                Text("OR"),
+                Expanded(child: Divider()),
+              ]),
+              Text(
+                elemento.host,
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                elemento.link,
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                elemento.pubDate.toString(),
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                elemento.title,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                elemento.description,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              FloatingActionButton.extended(
+                icon: const Icon(Icons.add),
+                label: const Text('Add Site'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   _showAlertDialog(BuildContext context) async {
     // set up the button
     Widget okButton = TextButton(
@@ -329,6 +405,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  late final AnimationController _refreshIconController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..repeat();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -336,11 +416,25 @@ class _MyHomePageState extends State<MyHomePage> {
         //leading: const Icon(Icons.newspaper),
         title: const Text('Aggregator'),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: 'Refresh',
-            onPressed: () => loadData(),
-          ), //IconButton
+          !isLoading
+              ? IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: 'Refresh',
+                  onPressed: () => loadData(),
+                )
+              : IconButton(
+                  icon: AnimatedBuilder(
+                    animation: _refreshIconController,
+                    builder: (_, child) {
+                      return Transform.rotate(
+                        angle: _refreshIconController.value * 4 * 3.1415,
+                        child: child,
+                      );
+                    },
+                    child: const Icon(Icons.refresh),
+                  ),
+                  onPressed: () => {},
+                ),
           IconButton(
             icon: const Icon(Icons.more_vert),
             tooltip: 'Setting',
@@ -358,12 +452,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                color: darkMode ? Colors.black12 : ThemeColor.primaryColorLight,
-              ),
+                  color: darkMode
+                      ? Colors.black12
+                      : Theme.of(context).colorScheme.primary),
               accountName: const Text("Aggregator RSS"),
               accountEmail: const Text("News Feed Reader"),
               currentAccountPicture: const CircleAvatar(
-                  backgroundColor: Colors.white, child: Icon(Icons.rss_feed)),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black87,
+                child: Icon(Icons.rss_feed),
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.newspaper),
@@ -431,7 +529,7 @@ class _MyHomePageState extends State<MyHomePage> {
           currentIndex: _selectedIndex,
           selectedItemColor: darkMode
               ? const Color.fromARGB(255, 220, 220, 220)
-              : ThemeColor.primaryColorLight,
+              : Theme.of(context).colorScheme.primary,
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
         ),
@@ -498,10 +596,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 (BuildContext context, index) {
                                               final item = list[index];
                                               return InkWell(
-                                                onTap: () async {
+                                                /*onTap: () async {
                                                   _launchInBrowser(Uri.parse(
                                                       (item.link.toString())));
-                                                },
+                                                },*/
+                                                onTap: () => _showBottomSheet(
+                                                    context, list[index]),
                                                 child: ListTile(
                                                     minLeadingWidth: 30,
                                                     leading: SizedBox(
@@ -651,23 +751,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ],
                                 ),
-
-                                /*SizedBox(
-                          height: 175,
-                          width: 275,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              const Text('Loading'),
-                              const SizedBox(height: 20),
-                              const CircularProgressIndicator(),
-                              const SizedBox(height: 20),
-                              Text(itemLoading),
-                            ],
-                          ),
-                        ),*/
                               ),
                       ],
                     ),
@@ -678,6 +761,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class Elemento {
   var link = "";
   var title = "";
+  var description = "";
   DateTime? pubDate;
   var iconUrl = "";
   var host = "";
@@ -686,7 +770,8 @@ class Elemento {
       required this.title,
       required this.pubDate,
       required this.iconUrl,
-      required this.host});
+      required this.host,
+      required this.description});
 }
 
 DateTime tryParse(String formattedString) {

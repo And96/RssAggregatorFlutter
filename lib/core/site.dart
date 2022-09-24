@@ -158,6 +158,7 @@ class Site {
           return urlRss;
         }
       }
+
       if (url.contains("tg24.sky") &&
           !url.contains("/feed") &&
           !url.contains("rss")) {
@@ -226,20 +227,6 @@ class Site {
           !url.contains("rss")) {
         String urlRss =
             "https://news.google.com/rss/search?q=site:sport.sky.it&hl=it&gl=IT&ceid=IT:it";
-        bool valid = await isUrlRSS(urlRss);
-        if (valid) {
-          return urlRss;
-        }
-      }
-      if (url.length > 1) {
-        final String defaultLocale = Platform.localeName;
-        String langGoogleNews = "";
-        if (defaultLocale.toString().toLowerCase().contains("it")) {
-          langGoogleNews = "&hl=it&gl=IT&ceid=IT:it";
-        }
-        //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
-        String urlRss =
-            "https://news.google.com/rss/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:3d$langGoogleNews";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
@@ -372,6 +359,22 @@ class Site {
           return urlRss;
         }
       }
+
+      if (url.length > 1) {
+        final String defaultLocale = Platform.localeName;
+        String langGoogleNews = "";
+        if (defaultLocale.toString().toLowerCase().contains("it")) {
+          langGoogleNews = "&hl=it&gl=IT&ceid=IT:it";
+        }
+        //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
+        String urlRss =
+            "https://news.google.com/rss/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:2d$langGoogleNews";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+
       if (url.length > 1) {
         String urlRss =
             "http://feeds.feedburner.com/${name.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
