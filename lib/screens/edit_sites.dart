@@ -36,9 +36,9 @@ class _EditSitesState extends State<EditSites>
   }
 
   changeOpacity() {
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 800), () {
       setState(() {
-        opacity = opacity == 0.0 ? 1.0 : 0.0;
+        opacity = opacity <= 0.5 ? 1.0 : 0.5;
         changeOpacity();
       });
     });
@@ -104,7 +104,7 @@ class _EditSitesState extends State<EditSites>
             Clipboard.setData(ClipboardData(text: url));
             Navigator.pop(context);
             const snackBar = SnackBar(
-              duration: Duration(seconds: 1),
+              duration: Duration(milliseconds: 500),
               content: Text('Link copied to clipboard'),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -245,19 +245,14 @@ class _EditSitesState extends State<EditSites>
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true);
         }
+
+        const snackBar = SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('Search completed'),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-
-      setState(() {
-        isLoading = false;
-      });
-
-      const snackBar = SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Search completed'),
-      );
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
       setState(() {
         isLoading = false;
       });
@@ -334,7 +329,7 @@ class _EditSitesState extends State<EditSites>
                                     child: Text(
                                       (item.siteName.toString()),
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.normal,
                                         color: darkMode
                                             ? const Color.fromARGB(
@@ -358,16 +353,16 @@ class _EditSitesState extends State<EditSites>
                                           SizedBox(
                                             child: Text(
                                               item.siteLink.toString(),
-                                              maxLines: 4,
+                                              maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.normal,
                                                 color: darkMode
                                                     ? const Color.fromARGB(
                                                         255, 150, 150, 150)
                                                     : const Color.fromARGB(
-                                                        255, 120, 120, 120),
+                                                        255, 80, 80, 80),
                                               ),
                                             ),
                                           ),
@@ -384,7 +379,7 @@ class _EditSitesState extends State<EditSites>
                     children: <Widget>[
                       AnimatedOpacity(
                         opacity: isLoading ? opacity : 1.0,
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(milliseconds: 500),
                         child: EmptySection(
                           title: 'Ricerca in corso',
                           description: siteList.itemLoading,

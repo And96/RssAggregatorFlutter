@@ -132,13 +132,24 @@ class _MyHomePageState extends State<MyHomePage>
 
   static bool darkMode = false;
 
+  double opacity = 1.0;
+
   @override
   initState() {
     loadPackageInfo();
     loadData();
-
+    changeOpacity();
     ThemeColor.isDarkMode()
         .then((value) => {darkMode = value, super.initState()});
+  }
+
+  changeOpacity() {
+    Future.delayed(const Duration(milliseconds: 800), () {
+      setState(() {
+        opacity = opacity <= 0.5 ? 1.0 : 0.5;
+        changeOpacity();
+      });
+    });
   }
 
   Future<void> _launchInBrowser(Uri url) async {
@@ -200,9 +211,12 @@ class _MyHomePageState extends State<MyHomePage>
                             element.title.toString().trim() == ""
                         ? element.description
                             .toString()
+                            .trim()
+                            .toString()
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
+                            .replaceAll("&#8217;", "'")
                             .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
                             .replaceAll("  ", " ")
                         : element.title
@@ -212,6 +226,7 @@ class _MyHomePageState extends State<MyHomePage>
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
+                            .replaceAll("&#8217;", "'")
                             .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
                             .replaceAll("  ", " "),
                     link: element.link == null ||
@@ -229,6 +244,7 @@ class _MyHomePageState extends State<MyHomePage>
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
+                            .replaceAll("&#8217;", "'")
                             .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
                             .replaceAll("  ", " "),
                     pubDate: tryParse(element.pubDate.toString()),
@@ -812,11 +828,16 @@ class _MyHomePageState extends State<MyHomePage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    EmptySection(
-                                      title: 'Ricerca notizie in corso',
-                                      description: itemLoading,
-                                      icon: Icons.query_stats,
-                                      darkMode: darkMode,
+                                    AnimatedOpacity(
+                                      opacity: isLoading ? opacity : 1.0,
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      child: EmptySection(
+                                        title: 'Ricerca notizie in corso',
+                                        description: itemLoading,
+                                        icon: Icons.query_stats,
+                                        darkMode: darkMode,
+                                      ),
                                     ),
                                   ],
                                 ),
