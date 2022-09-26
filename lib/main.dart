@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 //import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/screens/edit_sites.dart';
@@ -147,10 +148,12 @@ class _MyHomePageState extends State<MyHomePage>
 
   changeOpacity() {
     Future.delayed(const Duration(milliseconds: 800), () {
-      setState(() {
-        opacity = opacity <= 0.5 ? 1.0 : 0.5;
-        changeOpacity();
-      });
+      if (mounted) {
+        setState(() {
+          opacity = opacity <= 0.5 ? 1.0 : 0.5;
+          changeOpacity();
+        });
+      }
     });
   }
 
@@ -370,6 +373,15 @@ class _MyHomePageState extends State<MyHomePage>
                         ],
                       ),
                     ),
+                    Text(item.link, textAlign: TextAlign.left, maxLines: 2),
+                    Row(children: const <Widget>[
+                      Expanded(child: Divider()),
+                    ]),
+                    Text(
+                      item.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
                     Row(children: const <Widget>[
                       Expanded(child: Divider()),
                     ]),
@@ -382,24 +394,17 @@ class _MyHomePageState extends State<MyHomePage>
                     Row(children: const <Widget>[
                       Expanded(child: Divider()),
                     ]),
-                    Text(
-                      item.link,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      textAlign: TextAlign.center,
+                    SingleChildScrollView(
+                      child: Html(
+                        data: item.description,
+                      ),
                     ),
-                    Row(children: const <Widget>[
-                      Expanded(child: Divider()),
-                    ]),
-                    Text(
-                      item.title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
+
+                    /*  Text(
                       item.description,
                       style: Theme.of(context).textTheme.titleMedium,
                       textAlign: TextAlign.center,
-                    ),
+                    ),*/
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
                       child: Row(

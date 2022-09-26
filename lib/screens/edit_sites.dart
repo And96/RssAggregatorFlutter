@@ -37,10 +37,12 @@ class _EditSitesState extends State<EditSites>
 
   changeOpacity() {
     Future.delayed(const Duration(milliseconds: 800), () {
-      setState(() {
-        opacity = opacity <= 0.5 ? 1.0 : 0.5;
-        changeOpacity();
-      });
+      if (mounted) {
+        setState(() {
+          opacity = opacity <= 0.5 ? 1.0 : 0.5;
+          changeOpacity();
+        });
+      }
     });
   }
 
