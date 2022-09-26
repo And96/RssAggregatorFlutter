@@ -203,13 +203,17 @@ class _MyHomePageState extends State<MyHomePage>
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
+                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
+                            .replaceAll("  ", " ")
                         : element.title
                             .toString()
                             .trim()
                             .toString()
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
-                            .replaceAll("&quot;", " "),
+                            .replaceAll("&quot;", " ")
+                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
+                            .replaceAll("  ", " "),
                     link: element.link == null ||
                             element.link.toString().trim() == ""
                         ? element.guid.toString().trim()
@@ -224,7 +228,9 @@ class _MyHomePageState extends State<MyHomePage>
                             .toString()
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
-                            .replaceAll("&quot;", " "),
+                            .replaceAll("&quot;", " ")
+                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
+                            .replaceAll("  ", " "),
                     pubDate: tryParse(element.pubDate.toString()),
                     host: hostname);
                 listUpdated.add(p1);
