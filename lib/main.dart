@@ -321,12 +321,6 @@ class _MyHomePageState extends State<MyHomePage>
 
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   void _showBottomSheet(BuildContext context, Elemento item) {
     showModalBottomSheet(
         /* shape: RoundedRectangleBorder(
@@ -496,133 +490,325 @@ class _MyHomePageState extends State<MyHomePage>
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
 
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
+
+  void pageChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void bottomTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 500), curve: Curves.ease);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //leading: const Icon(Icons.newspaper),
-        title: const Text('Aggregator'),
-        actions: <Widget>[
-          !isLoading
-              ? IconButton(
-                  icon: const Icon(Icons.refresh),
-                  tooltip: 'Refresh',
-                  onPressed: () => loadData(),
-                )
-              : IconButton(
-                  icon: AnimatedBuilder(
-                    animation: _refreshIconController,
-                    builder: (_, child) {
-                      return Transform.rotate(
-                        angle: _refreshIconController.value * 4 * 3.1415,
-                        child: child,
-                      );
-                    },
-                    child: const Icon(Icons.refresh),
+        appBar: AppBar(
+          //leading: const Icon(Icons.newspaper),
+          title: const Text('Aggregator'),
+          actions: <Widget>[
+            !isLoading
+                ? IconButton(
+                    icon: const Icon(Icons.refresh),
+                    tooltip: 'Refresh',
+                    onPressed: () => loadData(),
+                  )
+                : IconButton(
+                    icon: AnimatedBuilder(
+                      animation: _refreshIconController,
+                      builder: (_, child) {
+                        return Transform.rotate(
+                          angle: _refreshIconController.value * 4 * 3.1415,
+                          child: child,
+                        );
+                      },
+                      child: const Icon(Icons.refresh),
+                    ),
+                    onPressed: () => {},
                   ),
-                  onPressed: () => {},
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              tooltip: 'Setting',
+              onPressed: () {},
+            ), //IconButton
+          ], //<Widg
+        ),
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                    color: darkMode
+                        ? Colors.black12
+                        : Theme.of(context).colorScheme.primary),
+                accountName: const Text("Aggregator RSS"),
+                accountEmail: const Text("News Feed Reader"),
+                currentAccountPicture: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  child: Icon(Icons.rss_feed),
                 ),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            tooltip: 'Setting',
-            onPressed: () {},
-          ), //IconButton
-        ], //<Widg
-      ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                  color: darkMode
-                      ? Colors.black12
-                      : Theme.of(context).colorScheme.primary),
-              accountName: const Text("Aggregator RSS"),
-              accountEmail: const Text("News Feed Reader"),
-              currentAccountPicture: const CircleAvatar(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black87,
-                child: Icon(Icons.rss_feed),
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.newspaper),
-              title: const Text("Read Feeds"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.new_label),
-              title: const Text("Edit Feed"),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const EditSites()));
-              },
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text("Settings"),
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(
-                        builder: (context) => const SettingsPage()))
-                    .then((value) => Phoenix.rebirth(context));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text("Info"),
-              onTap: () {
-                Navigator.pop(context);
-                _showAlertDialog(context);
-              },
-            ),
-          ],
+              ListTile(
+                leading: const Icon(Icons.newspaper),
+                title: const Text("Read Feeds"),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.new_label),
+                title: const Text("Edit Feed"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const EditSites()));
+                },
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Settings"),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(
+                          builder: (context) => const SettingsPage()))
+                      .then((value) => Phoenix.rebirth(context));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text("Info"),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showAlertDialog(context);
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 10.0),
-          ],
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Colors.black12, blurRadius: 10.0),
+            ],
+          ),
+          child: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt),
+                label: 'News Feed',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.watch_later_outlined),
+                label: 'Read Later',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.star),
+                label: 'Starred',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.travel_explore_rounded),
+                label: 'Discover',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: darkMode
+                ? const Color.fromARGB(255, 220, 220, 220)
+                : Theme.of(context).colorScheme.primary,
+            onTap: bottomTapped,
+            type: BottomNavigationBarType.fixed,
+          ),
         ),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt),
-              label: 'News Feed',
+        body: PageView(
+          controller: pageController,
+          onPageChanged: (index) {
+            pageChanged(index);
+          },
+          children: <Widget>[
+            Stack(
+              children: [
+                isLoading == false
+                    ? list.isEmpty
+                        ? Center(
+                            child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              EmptySection(
+                                title: 'Nessuna notizia presente',
+                                description: 'Aggiungi i tuoi siti da seguire',
+                                icon: Icons.new_label,
+                                darkMode: darkMode,
+                              ),
+                            ],
+                          ))
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Scrollbar(
+                                child: ListView.separated(
+                                    itemCount: list.length,
+                                    separatorBuilder: (context, index) {
+                                      return const Divider();
+                                    },
+                                    itemBuilder: (BuildContext context, index) {
+                                      final item = list[index];
+                                      return InkWell(
+                                        /*onTap: () async {
+                                                  _launchInBrowser(Uri.parse(
+                                                      (item.link.toString())));
+                                                },*/
+                                        onTap: () => _showBottomSheet(
+                                            context, list[index]),
+                                        child: ListTile(
+                                            minLeadingWidth: 30,
+                                            leading: SizedBox(
+                                              height: double.infinity,
+                                              width: 17,
+                                              child: item.iconUrl
+                                                          .toString()
+                                                          .trim() ==
+                                                      ""
+                                                  ? const Icon(Icons.link)
+                                                  : CachedNetworkImage(
+                                                      imageUrl: item.iconUrl,
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          const Icon(
+                                                              Icons.link),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const Icon(
+                                                              Icons.link),
+                                                    ),
+                                            ),
+                                            title: Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 0),
+                                              child: Text(
+                                                (item.host.toString()),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: darkMode
+                                                      ? const Color.fromARGB(
+                                                          255, 150, 150, 150)
+                                                      : const Color.fromARGB(
+                                                          255, 120, 120, 120),
+                                                ),
+                                              ),
+                                            ),
+                                            isThreeLine: true,
+                                            subtitle: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    SizedBox(
+                                                      child: Text(
+                                                        item.title.toString(),
+                                                        maxLines: 3,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: darkMode
+                                                              ? const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  210,
+                                                                  210,
+                                                                  210)
+                                                              : const Color
+                                                                      .fromARGB(
+                                                                  255, 5, 5, 5),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 5),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            (DateFormat(
+                                                                    'dd/MM/yyyy HH:mm')
+                                                                .format(tryParse(item
+                                                                        .pubDate
+                                                                        .toString())
+                                                                    .toLocal())),
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              color: darkMode
+                                                                  ? const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      150,
+                                                                      150,
+                                                                      150)
+                                                                  : const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      120,
+                                                                      120,
+                                                                      120),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ))),
+                                      );
+                                    })),
+                          )
+                    : Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            AnimatedOpacity(
+                              opacity: isLoading ? opacity : 1.0,
+                              duration: const Duration(milliseconds: 500),
+                              child: EmptySection(
+                                title: 'Ricerca notizie in corso',
+                                description: itemLoading,
+                                icon: Icons.query_stats,
+                                darkMode: darkMode,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.watch_later_outlined),
-              label: 'Read Later',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'Starred',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.travel_explore_rounded),
-              label: 'Discover',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: darkMode
-              ? const Color.fromARGB(255, 220, 220, 220)
-              : Theme.of(context).colorScheme.primary,
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-        ),
-      ),
-      body: _selectedIndex == 1
-          ? Center(
+            Center(
               child: EmptySection(
                 title: 'Non hai niente in sospeso',
                 description:
@@ -630,223 +816,27 @@ class _MyHomePageState extends State<MyHomePage>
                 icon: Icons.watch_later,
                 darkMode: darkMode,
               ),
-            )
-          : _selectedIndex == 2
-              ? Center(
-                  child: EmptySection(
-                    title: 'Starred item',
-                    description:
-                        'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-                    icon: Icons.star_rate,
-                    darkMode: darkMode,
-                  ),
-                )
-              : _selectedIndex == 3
-                  ? Center(
-                      child: EmptySection(
-                        title: 'Discover new websites',
-                        description:
-                            'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-                        icon: Icons.safety_check_sharp,
-                        darkMode: darkMode,
-                      ),
-                    )
-                  : Stack(
-                      children: [
-                        isLoading == false
-                            ? list.isEmpty
-                                ? Center(
-                                    child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      EmptySection(
-                                        title: 'Nessuna notizia presente',
-                                        description:
-                                            'Aggiungi i tuoi siti da seguire',
-                                        icon: Icons.new_label,
-                                        darkMode: darkMode,
-                                      ),
-                                    ],
-                                  ))
-                                : Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Scrollbar(
-                                        child: ListView.separated(
-                                            itemCount: list.length,
-                                            separatorBuilder: (context, index) {
-                                              return const Divider();
-                                            },
-                                            itemBuilder:
-                                                (BuildContext context, index) {
-                                              final item = list[index];
-                                              return InkWell(
-                                                /*onTap: () async {
-                                                  _launchInBrowser(Uri.parse(
-                                                      (item.link.toString())));
-                                                },*/
-                                                onTap: () => _showBottomSheet(
-                                                    context, list[index]),
-                                                child: ListTile(
-                                                    minLeadingWidth: 30,
-                                                    leading: SizedBox(
-                                                      height: double.infinity,
-                                                      width: 17,
-                                                      child: item.iconUrl
-                                                                  .toString()
-                                                                  .trim() ==
-                                                              ""
-                                                          ? const Icon(
-                                                              Icons.link)
-                                                          : CachedNetworkImage(
-                                                              imageUrl:
-                                                                  item.iconUrl,
-                                                              placeholder: (context,
-                                                                      url) =>
-                                                                  const Icon(
-                                                                      Icons
-                                                                          .link),
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  const Icon(
-                                                                      Icons
-                                                                          .link),
-                                                            ),
-                                                    ),
-                                                    title: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 0),
-                                                      child: Text(
-                                                        (item.host.toString()),
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          color: darkMode
-                                                              ? const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  150,
-                                                                  150,
-                                                                  150)
-                                                              : const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  120,
-                                                                  120,
-                                                                  120),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    isThreeLine: true,
-                                                    subtitle: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(top: 5),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            SizedBox(
-                                                              child: Text(
-                                                                item.title
-                                                                    .toString(),
-                                                                maxLines: 3,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: darkMode
-                                                                      ? const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          210,
-                                                                          210,
-                                                                          210)
-                                                                      : const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          5,
-                                                                          5,
-                                                                          5),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      top: 5),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    (DateFormat(
-                                                                            'dd/MM/yyyy HH:mm')
-                                                                        .format(
-                                                                            tryParse(item.pubDate.toString()).toLocal())),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      color: darkMode
-                                                                          ? const Color.fromARGB(
-                                                                              255,
-                                                                              150,
-                                                                              150,
-                                                                              150)
-                                                                          : const Color.fromARGB(
-                                                                              255,
-                                                                              120,
-                                                                              120,
-                                                                              120),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ))),
-                                              );
-                                            })),
-                                  )
-                            : Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    AnimatedOpacity(
-                                      opacity: isLoading ? opacity : 1.0,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      child: EmptySection(
-                                        title: 'Ricerca notizie in corso',
-                                        description: itemLoading,
-                                        icon: Icons.query_stats,
-                                        darkMode: darkMode,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      ],
-                    ),
-    );
+            ),
+            Center(
+              child: EmptySection(
+                title: 'Starred item',
+                description:
+                    'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+                icon: Icons.star_rate,
+                darkMode: darkMode,
+              ),
+            ),
+            Center(
+              child: EmptySection(
+                title: 'Discover new websites',
+                description:
+                    'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
+                icon: Icons.safety_check_sharp,
+                darkMode: darkMode,
+              ),
+            ),
+          ],
+        ));
   }
 }
 
