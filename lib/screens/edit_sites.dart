@@ -25,11 +25,23 @@ class _EditSitesState extends State<EditSites>
 
   bool darkMode = false;
 
+  double opacity = 1.0;
+
   @override
   void initState() {
     loadData();
+    changeOpacity();
     ThemeColor.isDarkMode()
         .then((value) => {darkMode = value, super.initState()});
+  }
+
+  changeOpacity() {
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        opacity = opacity == 0.0 ? 1.0 : 0.0;
+        changeOpacity();
+      });
+    });
   }
 
   void _updateItemLoading(String itemLoading) {
@@ -370,11 +382,15 @@ class _EditSitesState extends State<EditSites>
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      EmptySection(
-                        title: 'Ricerca in corso',
-                        description: siteList.itemLoading,
-                        icon: Icons.manage_search,
-                        darkMode: darkMode,
+                      AnimatedOpacity(
+                        opacity: isLoading ? opacity : 1.0,
+                        duration: const Duration(seconds: 1),
+                        child: EmptySection(
+                          title: 'Ricerca in corso',
+                          description: siteList.itemLoading,
+                          icon: Icons.manage_search,
+                          darkMode: darkMode,
+                        ),
                       ),
                     ],
                   ),
