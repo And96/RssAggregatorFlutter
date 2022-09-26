@@ -23,7 +23,6 @@ class _EditSitesState extends State<EditSites>
   bool isLoading = false;
   late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
 
-//da implementare anche qua se va nel main
   bool darkMode = false;
 
   @override
@@ -33,7 +32,6 @@ class _EditSitesState extends State<EditSites>
         .then((value) => {darkMode = value, super.initState()});
   }
 
-  // Pass this method to the child page.
   void _updateItemLoading(String itemLoading) {
     setState(() {});
   }
@@ -150,8 +148,6 @@ class _EditSitesState extends State<EditSites>
         Navigator.pop(context);
       },
     );
-
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       content: const Text("Delete all sites?"),
       actions: [
@@ -159,8 +155,6 @@ class _EditSitesState extends State<EditSites>
         continueButton,
       ],
     );
-
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -218,25 +212,27 @@ class _EditSitesState extends State<EditSites>
       });
 
       siteList.deleteSite(urlInput);
-      String inputText = resultTextInput.toString().replaceAll("amp;", "");
-      if (inputText.toString().contains("<") ||
-          inputText.toString().contains(";") ||
-          inputText.toString().contains(" ")) {
-        List<String> listUrl = getUrlsFromText(inputText);
-        if (listUrl.isNotEmpty) {
-          bool advancedSearch = !inputText.toString().contains("opml");
-          for (String item in listUrl) {
-            await siteList.addSite(item, advancedSearch);
-          }
+      if (resultTextInput != null) {
+        String inputText = resultTextInput.toString().replaceAll("amp;", "");
+        if (inputText.toString().contains("<") ||
+            inputText.toString().contains(";") ||
+            inputText.toString().contains(" ")) {
+          List<String> listUrl = getUrlsFromText(inputText);
+          if (listUrl.isNotEmpty) {
+            bool advancedSearch = !inputText.toString().contains("opml");
+            for (String item in listUrl) {
+              await siteList.addSite(item, advancedSearch);
+            }
 
-          setState(() {
-            isLoading = false;
-          });
+            setState(() {
+              isLoading = false;
+            });
+          }
+        } else {
+          await siteList.addSite(
+              inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
+              true);
         }
-      } else {
-        await siteList.addSite(
-            inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
-            true);
       }
 
       setState(() {
@@ -340,12 +336,6 @@ class _EditSitesState extends State<EditSites>
                                   onTap: () {
                                     showOptionDialog(context, item.siteLink);
                                   },
-                                  /*trailing: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    tooltip: 'Default',
-                                    onPressed: () => showDeleteAlertDialog(
-                                        context, item.siteLink),
-                                  ),*/
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Column(
@@ -387,23 +377,7 @@ class _EditSitesState extends State<EditSites>
                         darkMode: darkMode,
                       ),
                     ],
-                  ), /*Center(
-                  child: SizedBox(
-                    height: 175,
-                    width: 275,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const Text('Loading'),
-                        const SizedBox(height: 20),
-                        const CircularProgressIndicator(),
-                      const SizedBox(height: 20),
-                        Text(siteList.itemLoading),  
-                      ],  
-                    ),  
-                  ),  */
+                  ),
                 ),
         ],
       ),
