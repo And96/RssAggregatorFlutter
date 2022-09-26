@@ -330,9 +330,9 @@ class _EditSitesState extends State<EditSites>
                                         fontWeight: FontWeight.normal,
                                         color: darkMode
                                             ? const Color.fromARGB(
-                                                255, 150, 150, 150)
+                                                255, 210, 210, 210)
                                             : const Color.fromARGB(
-                                                255, 120, 120, 120),
+                                                255, 5, 5, 5),
                                       ),
                                     ),
                                   ),
@@ -363,9 +363,9 @@ class _EditSitesState extends State<EditSites>
                                                 fontWeight: FontWeight.normal,
                                                 color: darkMode
                                                     ? const Color.fromARGB(
-                                                        255, 210, 210, 210)
+                                                        255, 150, 150, 150)
                                                     : const Color.fromARGB(
-                                                        255, 5, 5, 5),
+                                                        255, 120, 120, 120),
                                               ),
                                             ),
                                           ),
