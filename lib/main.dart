@@ -31,6 +31,7 @@ Future<void> main() async {
       'settings_timeout': 4,
       'settings_days_limit': 90,
       'settings_feeds_limit': 20,
+      'settings_load_images': true,
     },
   );
 
@@ -104,6 +105,7 @@ class MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.fromSeed(
               seedColor: _uiColor!, brightness: Brightness.dark),
           brightness: Brightness.dark,
+
           /*floatingActionButtonTheme: FloatingActionButtonThemeData(
             foregroundColor: const Color.fromARGB(255, 10, 10, 10),
           ),*/
