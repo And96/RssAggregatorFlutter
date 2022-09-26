@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -15,13 +17,42 @@ class SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: const PrefPage(
+      body: PrefPage(
         children: [
-          PrefTitle(
+          const PrefTitle(
+            title: Text('Personalization'),
+            subtitle: Text('Customize colors'),
+            padding: EdgeInsets.only(top: 22.0),
+          ),
+          const PrefDropdown<int>(
+            title: Text('Color'),
+            pref: 'settings_ui_color',
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
+            items: [
+              DropdownMenuItem(value: (0x004d40), child: Text('Green')),
+              DropdownMenuItem(value: (0x1055AA), child: Text('Blue')),
+              DropdownMenuItem(value: (0xB71C1C), child: Text('Red')),
+              DropdownMenuItem(value: (0XFFAB00), child: Text('Brown')),
+              DropdownMenuItem(value: (0x252270), child: Text('Violet')),
+            ],
+          ),
+          const PrefDropdown<String>(
+            title: Text('Theme'),
+            pref: 'settings_ui_theme',
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
+            items: [
+              DropdownMenuItem(value: 'system', child: Text('System')),
+              DropdownMenuItem(value: 'light', child: Text('Light')),
+              DropdownMenuItem(value: 'dark', child: Text('Dark')),
+            ],
+          ),
+          const PrefTitle(
               title: Text('Configuration'),
               subtitle: Text('Customize parameters'),
               padding: EdgeInsets.only(top: 22.0)),
-          PrefDropdown<int>(
+          const PrefDropdown<int>(
             title: Text('Timeout'),
             pref: 'settings_timeout',
             subtitle: Text('Customize parameters'),
@@ -34,7 +65,7 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 8, child: Text('16 seconds')),
             ],
           ),
-          PrefDropdown<int>(
+          const PrefDropdown<int>(
             title: Text('Days limit'),
             pref: 'settings_days_limit',
             subtitle: Text('Customize parameters'),
@@ -49,7 +80,7 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 365, child: Text('365 days')),
             ],
           ),
-          PrefDropdown<int>(
+          const PrefDropdown<int>(
             title: Text('Feed limit'),
             pref: 'settings_feeds_limit',
             subtitle: Text('Max number of feed to fetch per each site'),
@@ -64,34 +95,34 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 0, child: Text('All')),
             ],
           ),
-          PrefTitle(
-            title: Text('Personalization'),
-            subtitle: Text('Customize colors'),
-            padding: EdgeInsets.only(top: 22.0),
+          const PrefTitle(
+              title: Text('Storage'),
+              subtitle: Text('Customize parameters'),
+              padding: EdgeInsets.only(top: 22.0)),
+          PrefCheckbox(
+            title: const Text('Load images'),
+            subtitle: const Text('Fetch image from network'),
+            pref: 'settings_load_images',
+            onChange: (value) {
+              setState(() {});
+              if (!value) {
+                PrefService.of(context).set('settings_load_images', false);
+              }
+            },
           ),
-          PrefDropdown<int>(
-            title: Text('Color'),
-            pref: 'settings_ui_color',
-            subtitle: Text('Customize parameters'),
-            fullWidth: false,
-            items: [
-              DropdownMenuItem(value: (0x004d40), child: Text('Green')),
-              DropdownMenuItem(value: (0x1055AA), child: Text('Blue')),
-              DropdownMenuItem(value: (0xB71C1C), child: Text('Red')),
-              DropdownMenuItem(value: (0XFFAB00), child: Text('Brown')),
-              DropdownMenuItem(value: (0x252270), child: Text('Violet')),
-            ],
-          ),
-          PrefDropdown<String>(
-            title: Text('Theme'),
-            pref: 'settings_ui_theme',
-            subtitle: Text('Customize parameters'),
-            fullWidth: false,
-            items: [
-              DropdownMenuItem(value: 'system', child: Text('System')),
-              DropdownMenuItem(value: 'light', child: Text('Light')),
-              DropdownMenuItem(value: 'dark', child: Text('Dark')),
-            ],
+          PrefLabel(
+            title: const Text(
+              'Clear cache',
+            ),
+            subtitle: const Text('Delete temp files'),
+            onTap: () {
+              DefaultCacheManager().emptyCache();
+              const snackBar = SnackBar(
+                duration: Duration(milliseconds: 500),
+                content: Text('Cache cleaned'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
           ),
         ],
       ),
