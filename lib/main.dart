@@ -136,14 +136,21 @@ class _MyHomePageState extends State<MyHomePage>
   static bool darkMode = false;
 
   double opacity = 1.0;
+  int settingsFeedsLimit = 20;
 
   @override
   initState() {
     loadPackageInfo();
+    loadSettings();
     loadData();
     changeOpacity();
     ThemeColor.isDarkMode()
         .then((value) => {darkMode = value, super.initState()});
+  }
+
+  loadSettings() {
+    settingsFeedsLimit =
+        PrefService.of(context).get<int>('settings_feeds_limit')!;
   }
 
   changeOpacity() {
@@ -204,12 +211,11 @@ class _MyHomePageState extends State<MyHomePage>
             ? site.iconUrl
             : channel.image?.url?.toString();
 
-        int maxItem = 20;
         int nItem = 0;
         channel.items?.forEach((element) {
           if (element.title?.isEmpty == false) {
             if (element.title.toString().length > 5) {
-              if (nItem <= maxItem) {
+              if (nItem <= settingsFeedsLimit) {
                 nItem++;
                 var p1 = Elemento(
                     title: element.title == null ||
