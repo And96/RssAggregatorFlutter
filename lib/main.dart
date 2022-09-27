@@ -136,21 +136,33 @@ class _MyHomePageState extends State<MyHomePage>
   static bool darkMode = false;
 
   double opacity = 1.0;
+
   int settingsFeedsLimit = 20;
+  int settingsDaysLimit = 90;
+  bool settingsLoadImages = true;
+  int settingsTimeout = 4;
 
   @override
   initState() {
-    loadPackageInfo();
-    loadSettings();
-    loadData();
-    changeOpacity();
-    ThemeColor.isDarkMode()
-        .then((value) => {darkMode = value, super.initState()});
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await loadPackageInfo();
+      await loadSettings();
+      await loadData();
+      await changeOpacity();
+      ThemeColor.isDarkMode().then((value) => {
+            darkMode = value,
+          });
+    });
   }
 
-  loadSettings() {
-    settingsFeedsLimit =
-        PrefService.of(context).get<int>('settings_feeds_limit')!;
+  Future<bool> loadSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    settingsFeedsLimit = (prefs.getInt('settings_feeds_limit'))!;
+    settingsDaysLimit = (prefs.getInt('settings_days_limit'))!;
+    settingsLoadImages = (prefs.getBool('settings_load_images'))!;
+    settingsTimeout = (prefs.getInt('settings_timeout'))!;
+    return true;
   }
 
   changeOpacity() {
@@ -193,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage>
           itemLoading = hostname;
         });
         final response = await get(Uri.parse(site.siteLink))
-            .timeout(const Duration(milliseconds: 4000));
+            .timeout(Duration(seconds: settingsTimeout));
         RssFeed channel = RssFeed();
         try {
           channel = RssFeed.parse(utf8.decode(
@@ -215,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage>
         channel.items?.forEach((element) {
           if (element.title?.isEmpty == false) {
             if (element.title.toString().length > 5) {
-              if (nItem <= settingsFeedsLimit) {
+              if (nItem < settingsFeedsLimit) {
                 nItem++;
                 var p1 = Elemento(
                     title: element.title == null ||
@@ -301,9 +313,9 @@ class _MyHomePageState extends State<MyHomePage>
         continue;
       }
 
-      //remove feed older than 3 months
-      listUpdated
-          .removeWhere((e) => (daysBetween(e.pubDate!, DateTime.now()) > 90));
+      //remove feed older than N days
+      listUpdated.removeWhere(
+          (e) => (daysBetween(e.pubDate!, DateTime.now()) > settingsDaysLimit));
 
       //sort
       listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
