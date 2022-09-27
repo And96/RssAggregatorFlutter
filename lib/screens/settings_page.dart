@@ -62,7 +62,7 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 2, child: Text('2 seconds')),
               DropdownMenuItem(value: 4, child: Text('4 seconds')),
               DropdownMenuItem(value: 8, child: Text('8 seconds')),
-              DropdownMenuItem(value: 8, child: Text('16 seconds')),
+              DropdownMenuItem(value: 16, child: Text('16 seconds')),
             ],
           ),
           const PrefDropdown<int>(

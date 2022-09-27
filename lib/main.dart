@@ -227,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage>
         channel.items?.forEach((element) {
           if (element.title?.isEmpty == false) {
             if (element.title.toString().length > 5) {
-              if (nItem < settingsFeedsLimit) {
+              if (nItem < settingsFeedsLimit || settingsFeedsLimit == 0) {
                 nItem++;
                 var p1 = Elemento(
                     title: element.title == null ||
@@ -235,7 +235,6 @@ class _MyHomePageState extends State<MyHomePage>
                         ? element.description
                             .toString()
                             .trim()
-                            .toString()
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
@@ -245,7 +244,6 @@ class _MyHomePageState extends State<MyHomePage>
                         : element.title
                             .toString()
                             .trim()
-                            .toString()
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
@@ -257,13 +255,20 @@ class _MyHomePageState extends State<MyHomePage>
                         ? element.guid.toString().trim()
                         : element.link.toString().trim(),
                     iconUrl: iconUrl.toString(),
-                    description: element.description == null ||
-                            element.description.toString().trim() == ""
-                        ? " "
+                    description: element.content != null &&
+                            element.content!.value.toString().trim().length > 10
+                        ? element.content!.value
+                            .toString()
+                            .trim()
+                            .replaceAll("�", " ")
+                            .replaceAll("&#039;", " ")
+                            .replaceAll("&quot;", " ")
+                            .replaceAll("&#8217;", "'")
+                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
+                            .replaceAll("  ", " ")
                         : element.description
                             .toString()
                             .trim()
-                            .toString()
                             .replaceAll("�", " ")
                             .replaceAll("&#039;", " ")
                             .replaceAll("&quot;", " ")
@@ -279,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage>
         });
       }
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
   }
 
@@ -382,6 +387,24 @@ class _MyHomePageState extends State<MyHomePage>
                           IconButton(
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
+                            icon: const Icon(Icons.watch_later),
+                            tooltip: 'Later',
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(Icons.star_border),
+                            tooltip: 'Star',
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
                             icon: const Icon(Icons.close),
                             tooltip: 'Close',
                             onPressed: () {
@@ -391,73 +414,83 @@ class _MyHomePageState extends State<MyHomePage>
                         ],
                       ),
                     ),
-                    Text(item.link, textAlign: TextAlign.left, maxLines: 2),
-                    Row(children: const <Widget>[
-                      Expanded(child: Divider()),
-                    ]),
-                    Text(
-                      item.title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    Row(children: const <Widget>[
-                      Expanded(child: Divider()),
-                    ]),
-                    Text(
-                      DateFormat('dd/MM/yyyy HH:mm')
-                          .format(tryParse(item.pubDate.toString()).toLocal()),
-                      style: Theme.of(context).textTheme.titleSmall,
-                      textAlign: TextAlign.center,
-                    ),
-                    Row(children: const <Widget>[
-                      Expanded(child: Divider()),
-                    ]),
-                    SingleChildScrollView(
-                      child: Html(
-                        data: item.description,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              item.title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                            Row(children: const <Widget>[
+                              Expanded(child: Divider()),
+                            ]),
+                            Text(item.link,
+                                textAlign: TextAlign.left, maxLines: 2),
+                            Row(children: const <Widget>[
+                              Expanded(child: Divider()),
+                            ]),
+                            Text(
+                              DateFormat('dd/MM/yyyy HH:mm').format(
+                                  tryParse(item.pubDate.toString()).toLocal()),
+                              style: Theme.of(context).textTheme.titleSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                            Row(children: const <Widget>[
+                              Expanded(child: Divider()),
+                            ]),
+                            Html(
+                                data: item.description,
+                                shrinkWrap: true,
+                                customImageRenders: {
+                                  networkSourceMatcher(): networkImageRender(
+                                    headers: {"Custom-Header": "some-value"},
+                                    altWidget: (alt) => Text(alt ?? ""),
+                                    loadingWidget: () =>
+                                        const Text("Loading..."),
+                                  ),
+                                },
+                                tagsList: Html.tags
+                                  ..remove(settingsLoadImages ? "" : "video")
+                                  ..remove(settingsLoadImages ? "" : "iframe")
+                                  ..remove(settingsLoadImages ? "" : "img")
+                                  ..remove(settingsLoadImages ? "" : "svg"),
+                                //   ..remove("div"),
+                                style: {
+                                  // remove body padding
+                                  "a": Style(color: Colors.black),
+                                  "body": Style(
+                                    margin: EdgeInsets.zero,
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                }),
+                          ],
+                        ),
                       ),
                     ),
-
-                    /*  Text(
-                      item.description,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),*/
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+                      padding: const EdgeInsets.fromLTRB(2, 2, 2, 2),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          FloatingActionButton.extended(
-                            icon: const Icon(Icons.open_in_full),
-                            label: const Text('Read Website'),
-                            shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0,
-                                ),
-                                borderRadius: BorderRadius.circular(8)),
-                            onPressed: () => _launchInBrowser(
-                                Uri.parse((item.link.toString()))),
-                          ),
-                          FloatingActionButton.extended(
-                            icon: const Icon(Icons.watch_later),
-                            label: const Text(''),
-                            shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0,
-                                ),
-                                borderRadius: BorderRadius.circular(8)),
-                            onPressed: () {},
-                          ),
-                          FloatingActionButton.extended(
-                            icon: const Icon(Icons.star),
-                            label: const Text(''),
-                            shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0,
-                                ),
-                                borderRadius: BorderRadius.circular(8)),
-                            onPressed: () {},
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              FloatingActionButton.extended(
+                                icon: const Icon(Icons.open_in_full),
+                                label: const Text('Read Website'),
+                                shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      width: 0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8)),
+                                onPressed: () => _launchInBrowser(
+                                    Uri.parse((item.link.toString()))),
+                              ),
+                            ],
                           ),
                         ],
                       ),
