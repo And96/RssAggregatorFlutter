@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void dispose() {
     searchController.dispose();
-
+    _refreshIconController.dispose();
     super.dispose();
   }
 
@@ -174,16 +174,14 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   changeOpacity() {
-    if (mounted) {
-      Future.delayed(const Duration(milliseconds: 800), () {
-        if (mounted) {
-          setState(() {
-            opacity = opacity <= 0.5 ? 1.0 : 0.5;
-            changeOpacity();
-          });
-        }
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) {
+        setState(() {
+          opacity = opacity <= 0.5 ? 1.0 : 0.5;
+          changeOpacity();
+        });
+      }
+    });
   }
 
   Future<void> _launchInBrowser(Uri url) async {

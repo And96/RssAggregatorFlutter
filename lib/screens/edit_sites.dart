@@ -35,6 +35,12 @@ class _EditSitesState extends State<EditSites>
         .then((value) => {darkMode = value, super.initState()});
   }
 
+  @override
+  dispose() {
+    _refreshIconController.dispose(); // you need this
+    super.dispose();
+  }
+
   changeOpacity() {
     Future.delayed(const Duration(milliseconds: 800), () {
       if (mounted) {
@@ -383,7 +389,7 @@ class _EditSitesState extends State<EditSites>
                         opacity: isLoading ? opacity : 1.0,
                         duration: const Duration(milliseconds: 500),
                         child: EmptySection(
-                          title: 'Ricerca in corso',
+                          title: 'Searching...',
                           description: siteList.itemLoading,
                           icon: Icons.manage_search,
                           darkMode: darkMode,
