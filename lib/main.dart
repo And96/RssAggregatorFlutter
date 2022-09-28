@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 //import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/screens/edit_sites.dart';
@@ -18,6 +17,10 @@ import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'dart:async';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:share_plus/share_plus.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter/services.dart';
+//import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:pref/pref.dart';
@@ -347,6 +350,104 @@ class _MyHomePageState extends State<MyHomePage>
 
   int _selectedIndex = 0;
 
+  void showOptionDialog(BuildContext context, Elemento item) {
+    var dialog = SimpleDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          SizedBox(
+            height: 17,
+            width: 17,
+            child: item.iconUrl.toString().trim() == ""
+                ? const Icon(Icons.link)
+                : CachedNetworkImage(
+                    imageUrl: item.iconUrl,
+                    placeholder: (context, url) => const Icon(Icons.link),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.link),
+                  ),
+          ),
+          Text(
+            item.host,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(Icons.close),
+            tooltip: 'Close',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      contentPadding: const EdgeInsets.all(8),
+      children: <Widget>[
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+          child: Text(
+            item.link,
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: TextAlign.left,
+            maxLines: 2,
+          ),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const Icon(Icons.open_in_new),
+          title: const Text('Open site'),
+          onTap: () async {
+            _launchInBrowser(Uri.parse((Site.getHostName(item.link, true))));
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.watch_later_outlined),
+          title: const Text('Read later'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.star_border),
+          title: const Text('Add to starred'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.copy),
+          title: const Text('Copy link'),
+          onTap: () {
+            Clipboard.setData(ClipboardData(text: item.link));
+            Navigator.pop(context);
+            const snackBar = SnackBar(
+              duration: Duration(milliseconds: 500),
+              content: Text('Link copied to clipboard'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.share),
+          title: const Text('Share link'),
+          onTap: () {
+            Share.share(item.link);
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+/*
   void _showBottomSheet(BuildContext context, Elemento item) {
     showModalBottomSheet(
         /* shape: RoundedRectangleBorder(
@@ -442,31 +543,6 @@ class _MyHomePageState extends State<MyHomePage>
                             Row(children: const <Widget>[
                               Expanded(child: Divider()),
                             ]),
-                            Html(
-                                data: item.description,
-                                shrinkWrap: true,
-                                customImageRenders: {
-                                  networkSourceMatcher(): networkImageRender(
-                                    headers: {"Custom-Header": "some-value"},
-                                    altWidget: (alt) => Text(alt ?? ""),
-                                    loadingWidget: () =>
-                                        const Text("Loading..."),
-                                  ),
-                                },
-                                tagsList: Html.tags
-                                  ..remove(settingsLoadImages ? "" : "video")
-                                  ..remove(settingsLoadImages ? "" : "iframe")
-                                  ..remove(settingsLoadImages ? "" : "img")
-                                  ..remove(settingsLoadImages ? "" : "svg"),
-                                //   ..remove("div"),
-                                style: {
-                                  // remove body padding
-                                  "a": Style(color: Colors.black),
-                                  "body": Style(
-                                    margin: EdgeInsets.zero,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                }),
                           ],
                         ),
                       ),
@@ -499,7 +575,7 @@ class _MyHomePageState extends State<MyHomePage>
                 ),
               ),
             ));
-  }
+  }*/
 
   _showAlertDialog(BuildContext context) async {
     // set up the button
@@ -565,98 +641,141 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
+  bool onSearch = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          //leading: const Icon(Icons.newspaper),
-          title: const Text('Aggregator'),
-          actions: <Widget>[
-            !isLoading
-                ? IconButton(
-                    icon: const Icon(Icons.refresh),
-                    tooltip: 'Refresh',
-                    onPressed: () => loadData(),
-                  )
-                : IconButton(
-                    icon: AnimatedBuilder(
-                      animation: _refreshIconController,
-                      builder: (_, child) {
-                        return Transform.rotate(
-                          angle: _refreshIconController.value * 4 * 3.1415,
-                          child: child,
-                        );
+        appBar: !onSearch || isLoading || list.isEmpty
+            ? AppBar(
+                title: const Text("Aggregator"),
+                actions: <Widget>[
+                  if (!isLoading)
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      tooltip: 'Search',
+                      onPressed: () {
+                        setState(() {
+                          onSearch = onSearch ? false : true;
+                        });
                       },
-                      child: const Icon(Icons.refresh),
-                    ),
-                    onPressed: () => {},
+                    ), //
+                  !isLoading
+                      ? IconButton(
+                          icon: const Icon(Icons.refresh),
+                          tooltip: 'Refresh',
+                          onPressed: () => loadData(),
+                        )
+                      : IconButton(
+                          icon: AnimatedBuilder(
+                            animation: _refreshIconController,
+                            builder: (_, child) {
+                              return Transform.rotate(
+                                angle:
+                                    _refreshIconController.value * 4 * 3.1415,
+                                child: child,
+                              );
+                            },
+                            child: const Icon(Icons.refresh),
+                          ),
+                          onPressed: () => {},
+                        ),
+                  IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    tooltip: 'Setting',
+                    onPressed: () {},
                   ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              tooltip: 'Setting',
-              onPressed: () {},
-            ), //IconButton
-          ], //<Widg
-        ),
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                    color: darkMode
-                        ? Colors.black12
-                        : Theme.of(context).colorScheme.primary),
-                accountName: const Text("Aggregator RSS"),
-                accountEmail: const Text("News Feed Reader"),
-                currentAccountPicture: const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black87,
-                  child: Icon(Icons.rss_feed),
+                ],
+              )
+            : AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  tooltip: 'Back',
+                  onPressed: () {
+                    setState(() {
+                      onSearch = false;
+                    });
+                  },
+                ), //
+
+                title: const TextField(
+                  autofocus: true,
+                  style: TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
+                ),
+                actions: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    tooltip: 'Search',
+                    onPressed: () {
+                      setState(() {
+                        onSearch = onSearch ? false : true;
+                      });
+                    },
+                  ), //
+                ],
+              ),
+        drawer: onSearch
+            ? null
+            : Drawer(
+                // Add a ListView to the drawer. This ensures the user can scroll
+                // through the options in the drawer if there isn't enough vertical
+                // space to fit everything.
+                child: ListView(
+                  // Important: Remove any padding from the ListView.
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                          color: darkMode
+                              ? Colors.black12
+                              : Theme.of(context).colorScheme.primary),
+                      accountName: const Text("Aggregator RSS"),
+                      accountEmail: const Text("News Feed Reader"),
+                      currentAccountPicture: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black87,
+                        child: Icon(Icons.rss_feed),
+                      ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.newspaper),
+                      title: const Text("Read Feeds"),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.new_label),
+                      title: const Text("Edit Feed"),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const EditSites()));
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.settings),
+                      title: const Text("Settings"),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) => const SettingsPage()))
+                            .then((value) => Phoenix.rebirth(context));
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.info),
+                      title: const Text("Info"),
+                      onTap: () {
+                        Navigator.pop(context);
+                        _showAlertDialog(context);
+                      },
+                    ),
+                  ],
                 ),
               ),
-              ListTile(
-                leading: const Icon(Icons.newspaper),
-                title: const Text("Read Feeds"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              const Divider(),
-              ListTile(
-                leading: const Icon(Icons.new_label),
-                title: const Text("Edit Feed"),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const EditSites()));
-                },
-              ),
-              const Divider(),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text("Settings"),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(
-                          builder: (context) => const SettingsPage()))
-                      .then((value) => Phoenix.rebirth(context));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.info),
-                title: const Text("Info"),
-                onTap: () {
-                  Navigator.pop(context);
-                  _showAlertDialog(context);
-                },
-              ),
-            ],
-          ),
-        ),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
             boxShadow: [
@@ -729,7 +848,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                   _launchInBrowser(Uri.parse(
                                                       (item.link.toString())));
                                                 },*/
-                                        onTap: () => _showBottomSheet(
+                                        onTap: () => showOptionDialog(
                                             context, list[index]),
                                         child: ListTile(
                                             minLeadingWidth: 30,

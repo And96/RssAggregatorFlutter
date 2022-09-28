@@ -179,7 +179,7 @@ class Site {
       }
       if (url.contains("la7.it") && !url.contains("/feed")) {
         String urlRss =
-            "https://news.google.com/rss/search?q=site:la7.it+when:2d&hl=it&gl=IT&ceid=IT:itt";
+            "https://news.google.com/rss/search?q=site:la7.it+when:2d&hl=it&gl=IT&ceid=IT:it";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;

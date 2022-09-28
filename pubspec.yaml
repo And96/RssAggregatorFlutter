@@ -50,7 +50,6 @@ dependencies:
   adaptive_theme: ^3.1.1
   pref: ^2.6.0
   flutter_phoenix: ^1.1.0
-  flutter_html: ^2.2.1
 
 flutter_launcher_icons:
     path: ../..

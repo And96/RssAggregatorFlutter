@@ -71,7 +71,7 @@ class _EditSitesState extends State<EditSites>
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             icon: const Icon(Icons.close),
-            tooltip: 'Refresh',
+            tooltip: 'Close',
             onPressed: () {
               Navigator.pop(context);
             },
