@@ -178,7 +178,8 @@ class Site {
         }
       }
       if (url.contains("la7.it") && !url.contains("/feed")) {
-        String urlRss = "https://tg.la7.it/rss.xml";
+        String urlRss =
+            "https://news.google.com/rss/search?q=site:la7.it+when:2d&hl=it&gl=IT&ceid=IT:itt";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
@@ -226,7 +227,7 @@ class Site {
           !url.contains("/feed") &&
           !url.contains("rss")) {
         String urlRss =
-            "https://news.google.com/rss/search?q=site:sport.sky.it&hl=it&gl=IT&ceid=IT:it";
+            "https://news.google.com/rss/search?q=site:sport.sky.it+when:2d&hl=it&gl=IT&ceid=IT:it";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;

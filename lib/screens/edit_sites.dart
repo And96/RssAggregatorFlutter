@@ -225,8 +225,8 @@ class _EditSitesState extends State<EditSites>
         isLoading = true;
       });
 
-      siteList.deleteSite(urlInput);
       if (resultTextInput != null) {
+        siteList.deleteSite(urlInput);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (inputText.toString().contains("<") ||
             inputText.toString().contains(";") ||

@@ -144,15 +144,15 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await loadPackageInfo();
       await loadSettings();
-      await loadData();
       await changeOpacity();
-      ThemeColor.isDarkMode().then((value) => {
+      await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
+      await loadData();
+      super.initState();
     });
   }
 
