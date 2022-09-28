@@ -109,10 +109,6 @@ class MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.fromSeed(
               seedColor: _uiColor!, brightness: Brightness.dark),
           brightness: Brightness.dark,
-
-          /*floatingActionButtonTheme: FloatingActionButtonThemeData(
-            foregroundColor: const Color.fromARGB(255, 10, 10, 10),
-          ),*/
         ),
         home: const MyHomePage(),
       ),
@@ -145,6 +141,15 @@ class _MyHomePageState extends State<MyHomePage>
   bool settingsLoadImages = true;
   int settingsTimeout = 4;
 
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    searchController.dispose();
+
+    super.dispose();
+  }
+
   @override
   initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -169,14 +174,16 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   changeOpacity() {
-    Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) {
-        setState(() {
-          opacity = opacity <= 0.5 ? 1.0 : 0.5;
-          changeOpacity();
-        });
-      }
-    });
+    if (mounted) {
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+          setState(() {
+            opacity = opacity <= 0.5 ? 1.0 : 0.5;
+            changeOpacity();
+          });
+        }
+      });
+    }
   }
 
   Future<void> _launchInBrowser(Uri url) async {
@@ -202,8 +209,7 @@ class _MyHomePageState extends State<MyHomePage>
   loadDataUrl(Site site) async {
     try {
       if (site.siteLink.trim().toLowerCase().contains("http")) {
-        String hostname =
-            site.siteName; //Uri.parse(site.link.toString()).host.toString();
+        String hostname = site.siteName;
         setState(() {
           itemLoading = hostname;
         });
@@ -387,7 +393,7 @@ class _MyHomePageState extends State<MyHomePage>
       children: <Widget>[
         const Divider(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Text(
             item.link,
             style: Theme.of(context).textTheme.bodyMedium,
@@ -447,146 +453,14 @@ class _MyHomePageState extends State<MyHomePage>
           return dialog;
         });
   }
-/*
-  void _showBottomSheet(BuildContext context, Elemento item) {
-    showModalBottomSheet(
-        /* shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),*/
-        isScrollControlled: true,
-        context: context,
-        builder: (context) => SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 2, 2, 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: item.iconUrl.toString().trim() == ""
-                                ? const Icon(Icons.link)
-                                : CachedNetworkImage(
-                                    imageUrl: item.iconUrl,
-                                    placeholder: (context, url) =>
-                                        const Icon(Icons.link),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.link),
-                                  ),
-                          ),
-                          Text(
-                            item.host,
-                            style: Theme.of(context).textTheme.titleLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            icon: const Icon(Icons.watch_later),
-                            tooltip: 'Later',
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            icon: const Icon(Icons.star_border),
-                            tooltip: 'Star',
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            icon: const Icon(Icons.close),
-                            tooltip: 'Close',
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              item.title,
-                              style: Theme.of(context).textTheme.titleMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                            Row(children: const <Widget>[
-                              Expanded(child: Divider()),
-                            ]),
-                            Text(item.link,
-                                textAlign: TextAlign.left, maxLines: 2),
-                            Row(children: const <Widget>[
-                              Expanded(child: Divider()),
-                            ]),
-                            Text(
-                              DateFormat('dd/MM/yyyy HH:mm').format(
-                                  tryParse(item.pubDate.toString()).toLocal()),
-                              style: Theme.of(context).textTheme.titleSmall,
-                              textAlign: TextAlign.center,
-                            ),
-                            Row(children: const <Widget>[
-                              Expanded(child: Divider()),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 2, 2, 2),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              FloatingActionButton.extended(
-                                icon: const Icon(Icons.open_in_full),
-                                label: const Text('Read Website'),
-                                shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8)),
-                                onPressed: () => _launchInBrowser(
-                                    Uri.parse((item.link.toString()))),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ));
-  }*/
 
   _showAlertDialog(BuildContext context) async {
-    // set up the button
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
         Navigator.pop(context);
       },
     );
-
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text(appName),
       content: Column(
@@ -608,8 +482,6 @@ class _MyHomePageState extends State<MyHomePage>
         okButton,
       ],
     );
-
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -657,6 +529,7 @@ class _MyHomePageState extends State<MyHomePage>
                       onPressed: () {
                         setState(() {
                           onSearch = onSearch ? false : true;
+                          searchController.text = '';
                         });
                       },
                     ), //
@@ -694,14 +567,16 @@ class _MyHomePageState extends State<MyHomePage>
                   onPressed: () {
                     setState(() {
                       onSearch = false;
+                      searchController.text = '';
                     });
                   },
                 ), //
 
-                title: const TextField(
+                title: TextField(
                   autofocus: true,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
+                  controller: searchController,
                 ),
                 actions: <Widget>[
                   IconButton(
@@ -709,7 +584,7 @@ class _MyHomePageState extends State<MyHomePage>
                     tooltip: 'Search',
                     onPressed: () {
                       setState(() {
-                        onSearch = onSearch ? false : true;
+                        list = list;
                       });
                     },
                   ), //
@@ -839,103 +714,125 @@ class _MyHomePageState extends State<MyHomePage>
                                 child: ListView.separated(
                                     itemCount: list.length,
                                     separatorBuilder: (context, index) {
-                                      return const Divider();
+                                      return Visibility(
+                                          visible: !onSearch ||
+                                              list[index]
+                                                  .title
+                                                  .toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toString()
+                                                      .toLowerCase()) ||
+                                              list[index]
+                                                  .link
+                                                  .toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toString()
+                                                      .toLowerCase()) ||
+                                              list[index]
+                                                  .host
+                                                  .toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toString()
+                                                      .toLowerCase()),
+                                          child: const Divider());
                                     },
                                     itemBuilder: (BuildContext context, index) {
                                       final item = list[index];
-                                      return InkWell(
-                                        /*onTap: () async {
-                                                  _launchInBrowser(Uri.parse(
-                                                      (item.link.toString())));
-                                                },*/
-                                        onTap: () => showOptionDialog(
-                                            context, list[index]),
-                                        child: ListTile(
-                                            minLeadingWidth: 30,
-                                            leading: SizedBox(
-                                              height: double.infinity,
-                                              width: 17,
-                                              child: item.iconUrl
-                                                          .toString()
-                                                          .trim() ==
-                                                      ""
-                                                  ? const Icon(Icons.link)
-                                                  : CachedNetworkImage(
-                                                      imageUrl: item.iconUrl,
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          const Icon(
-                                                              Icons.link),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          const Icon(
-                                                              Icons.link),
-                                                    ),
-                                            ),
-                                            title: Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 0),
-                                              child: Text(
-                                                (item.host.toString()),
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: darkMode
-                                                      ? const Color.fromARGB(
-                                                          255, 150, 150, 150)
-                                                      : const Color.fromARGB(
-                                                          255, 120, 120, 120),
-                                                ),
-                                              ),
-                                            ),
-                                            isThreeLine: true,
-                                            subtitle: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: <Widget>[
-                                                    SizedBox(
-                                                      child: Text(
-                                                        item.title.toString(),
-                                                        maxLines: 3,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          color: darkMode
-                                                              ? const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  210,
-                                                                  210,
-                                                                  210)
-                                                              : const Color
-                                                                      .fromARGB(
-                                                                  255, 5, 5, 5),
+
+                                      return Visibility(
+                                          visible: !onSearch ||
+                                              list[index]
+                                                  .title
+                                                  .toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toString()
+                                                      .toLowerCase()) ||
+                                              list[index]
+                                                  .link
+                                                  .toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toString()
+                                                      .toLowerCase()) ||
+                                              list[index]
+                                                  .host
+                                                  .toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toString()
+                                                      .toLowerCase()),
+                                          child: InkWell(
+                                            onTap: () => showOptionDialog(
+                                                context, list[index]),
+                                            child: ListTile(
+                                                minLeadingWidth: 30,
+                                                leading: SizedBox(
+                                                  height: double.infinity,
+                                                  width: 17,
+                                                  child: item.iconUrl
+                                                              .toString()
+                                                              .trim() ==
+                                                          ""
+                                                      ? const Icon(Icons.link)
+                                                      : CachedNetworkImage(
+                                                          imageUrl:
+                                                              item.iconUrl,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              const Icon(
+                                                                  Icons.link),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              const Icon(
+                                                                  Icons.link),
                                                         ),
-                                                      ),
+                                                ),
+                                                title: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 0),
+                                                  child: Text(
+                                                    (item.host.toString()),
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: darkMode
+                                                          ? const Color
+                                                                  .fromARGB(255,
+                                                              150, 150, 150)
+                                                          : const Color
+                                                                  .fromARGB(255,
+                                                              120, 120, 120),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5),
-                                                      child: Row(
-                                                        children: [
-                                                          Text(
-                                                            (DateFormat(
-                                                                    'dd/MM/yyyy HH:mm')
-                                                                .format(tryParse(item
-                                                                        .pubDate
-                                                                        .toString())
-                                                                    .toLocal())),
+                                                  ),
+                                                ),
+                                                isThreeLine: true,
+                                                subtitle: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          child: Text(
+                                                            item.title
+                                                                .toString(),
+                                                            maxLines: 3,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             style: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .normal,
@@ -943,23 +840,58 @@ class _MyHomePageState extends State<MyHomePage>
                                                                   ? const Color
                                                                           .fromARGB(
                                                                       255,
-                                                                      150,
-                                                                      150,
-                                                                      150)
+                                                                      210,
+                                                                      210,
+                                                                      210)
                                                                   : const Color
                                                                           .fromARGB(
                                                                       255,
-                                                                      120,
-                                                                      120,
-                                                                      120),
+                                                                      5,
+                                                                      5,
+                                                                      5),
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ))),
-                                      );
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                (DateFormat(
+                                                                        'dd/MM/yyyy HH:mm')
+                                                                    .format(tryParse(item
+                                                                            .pubDate
+                                                                            .toString())
+                                                                        .toLocal())),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  color: darkMode
+                                                                      ? const Color
+                                                                              .fromARGB(
+                                                                          255,
+                                                                          150,
+                                                                          150,
+                                                                          150)
+                                                                      : const Color
+                                                                              .fromARGB(
+                                                                          255,
+                                                                          120,
+                                                                          120,
+                                                                          120),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ))),
+                                          ));
                                     })),
                           )
                     : Center(
