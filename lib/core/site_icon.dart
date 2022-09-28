@@ -76,7 +76,7 @@ class SiteIcon {
 
       //fetch icon from network
       var favicon = await FaviconFinder.getBest("https://$url")
-          .timeout(const Duration(milliseconds: 5000));
+          .timeout(const Duration(milliseconds: 6000));
 
       if (favicon?.url != null) {
         iconUrl = favicon!.url.toString();
