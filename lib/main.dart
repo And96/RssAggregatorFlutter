@@ -126,8 +126,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
-  late List<Elemento> list = [];
-  late List<Elemento> listUpdated = [];
+  late List<FeedItem> listFeed = [];
   String appName = "";
   String packageName = "";
   String version = "";
@@ -228,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage>
             if (element.title.toString().length > 5) {
               if (nItem < settingsFeedsLimit || settingsFeedsLimit == 0) {
                 nItem++;
-                var p1 = Elemento(
+                var p1 = FeedItem(
                     title: element.title == null ||
                             element.title.toString().trim() == ""
                         ? Utility().cleanText(element.description)
@@ -244,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage>
                         : Utility().cleanText(element.description),
                     pubDate: Utility().tryParse(element.pubDate.toString()),
                     host: hostname);
-                listUpdated.add(p1);
+                listFeed.add(p1);
               }
             }
           }
@@ -272,8 +271,7 @@ class _MyHomePageState extends State<MyHomePage>
         isLoading = true;
       });
 
-      list = [];
-      listUpdated = [];
+      listFeed = [];
 
       List<Site> listaSiti = await leggiListaFeed();
       for (var i = 0; i < listaSiti.length; i++) {
@@ -286,15 +284,15 @@ class _MyHomePageState extends State<MyHomePage>
       }
 
       //remove feed older than N days
-      listUpdated.removeWhere((e) =>
+      listFeed.removeWhere((e) =>
           (Utility().daysBetween(e.pubDate!, DateTime.now()) >
               settingsDaysLimit));
 
       //sort
-      listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+      listFeed.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
       setState(() {
-        list = listUpdated;
+        listFeed = listFeed;
         isLoading = false;
       });
     } catch (err) {
@@ -302,14 +300,9 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-  TextStyle header = const TextStyle(
-      color: Color.fromARGB(100, 100, 100, 100),
-      fontSize: 20,
-      fontWeight: FontWeight.bold);
-
   int _selectedIndex = 0;
 
-  void showOptionDialog(BuildContext context, Elemento item) {
+  void showOptionDialog(BuildContext context, FeedItem item) {
     var dialog = SimpleDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -471,7 +464,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: !onSearch || isLoading || list.isEmpty
+        appBar: !onSearch || isLoading || listFeed.isEmpty
             ? AppBar(
                 title: const Text("Aggregator"),
                 actions: <Widget>[
@@ -541,7 +534,7 @@ class _MyHomePageState extends State<MyHomePage>
                     tooltip: 'Search',
                     onPressed: () {
                       setState(() {
-                        list = list;
+                        listFeed = listFeed;
                       });
                     },
                   ), //
@@ -568,18 +561,26 @@ class _MyHomePageState extends State<MyHomePage>
                     ),
                     ListTile(
                       leading: const Icon(Icons.newspaper),
-                      title: const Text("Read Feeds"),
+                      title: const Text("Read News"),
                       onTap: () {
                         Navigator.pop(context);
                       },
                     ),
                     const Divider(),
                     ListTile(
-                      leading: const Icon(Icons.new_label),
-                      title: const Text("Edit Feed"),
+                      leading: const Icon(Icons.toc_outlined),
+                      title: const Text("Manage Sites"),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const SitesPage()));
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.label),
+                      title: const Text("Categories"),
+                      onTap: () {
+                        Navigator.pop(context);
                       },
                     ),
                     const Divider(),
@@ -593,6 +594,7 @@ class _MyHomePageState extends State<MyHomePage>
                             .then((value) => Phoenix.rebirth(context));
                       },
                     ),
+                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.info),
                       title: const Text("Info"),
@@ -646,7 +648,7 @@ class _MyHomePageState extends State<MyHomePage>
             Stack(
               children: [
                 isLoading == false
-                    ? list.isEmpty
+                    ? listFeed.isEmpty
                         ? Center(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -665,25 +667,25 @@ class _MyHomePageState extends State<MyHomePage>
                             padding: const EdgeInsets.only(top: 5),
                             child: Scrollbar(
                                 child: ListView.separated(
-                                    itemCount: list.length,
+                                    itemCount: listFeed.length,
                                     separatorBuilder: (context, index) {
                                       return Visibility(
                                           visible: !onSearch ||
-                                              list[index]
+                                              listFeed[index]
                                                   .title
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
                                                       .toLowerCase()) ||
-                                              list[index]
+                                              listFeed[index]
                                                   .link
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
                                                       .toLowerCase()) ||
-                                              list[index]
+                                              listFeed[index]
                                                   .host
                                                   .toLowerCase()
                                                   .contains(searchController
@@ -693,25 +695,25 @@ class _MyHomePageState extends State<MyHomePage>
                                           child: const Divider());
                                     },
                                     itemBuilder: (BuildContext context, index) {
-                                      final item = list[index];
+                                      final item = listFeed[index];
 
                                       return Visibility(
                                           visible: !onSearch ||
-                                              list[index]
+                                              listFeed[index]
                                                   .title
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
                                                       .toLowerCase()) ||
-                                              list[index]
+                                              listFeed[index]
                                                   .link
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
                                                       .toLowerCase()) ||
-                                              list[index]
+                                              listFeed[index]
                                                   .host
                                                   .toLowerCase()
                                                   .contains(searchController
@@ -720,7 +722,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                       .toLowerCase()),
                                           child: InkWell(
                                             onTap: () => showOptionDialog(
-                                                context, list[index]),
+                                                context, listFeed[index]),
                                             child: ListTile(
                                                 minLeadingWidth: 30,
                                                 leading: SizedBox(
@@ -899,14 +901,14 @@ class _MyHomePageState extends State<MyHomePage>
   }
 }
 
-class Elemento {
-  var link = "";
+class FeedItem {
   var title = "";
   var description = "";
+  var link = "";
+  var host = "";
   DateTime? pubDate;
   var iconUrl = "";
-  var host = "";
-  Elemento(
+  FeedItem(
       {required this.link,
       required this.title,
       required this.pubDate,
