@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 // ignore: depend_on_referenced_packages
 
-class AddSite extends StatefulWidget {
-  const AddSite({Key? key, required this.textInput}) : super(key: key);
+class SiteUrlPage extends StatefulWidget {
+  const SiteUrlPage({Key? key, required this.textInput}) : super(key: key);
 
   final String textInput;
 
   @override
-  State<AddSite> createState() => _AddSiteState();
+  State<SiteUrlPage> createState() => _SiteUrlPageState();
 }
 
-class _AddSiteState extends State<AddSite> {
+class _SiteUrlPageState extends State<SiteUrlPage> {
   TextEditingController mycontroller = TextEditingController();
   bool darkMode = false;
 

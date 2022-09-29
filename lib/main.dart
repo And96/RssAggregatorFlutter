@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
-import 'package:rss_aggregator_flutter/screens/edit_sites.dart';
+import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
 //import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
@@ -629,7 +629,7 @@ class _MyHomePageState extends State<MyHomePage>
                       title: const Text("Edit Feed"),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const EditSites()));
+                            builder: (context) => const SitesPage()));
                       },
                     ),
                     const Divider(),

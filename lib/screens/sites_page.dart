@@ -3,7 +3,7 @@ import 'package:rss_aggregator_flutter/core/site_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
-import 'package:rss_aggregator_flutter/screens/add_site.dart';
+import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:share_plus/share_plus.dart';
@@ -11,14 +11,14 @@ import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 
-class EditSites extends StatefulWidget {
-  const EditSites({Key? key}) : super(key: key);
+class SitesPage extends StatefulWidget {
+  const SitesPage({Key? key}) : super(key: key);
 
   @override
-  State<EditSites> createState() => _EditSitesState();
+  State<SitesPage> createState() => _SitesPageState();
 }
 
-class _EditSitesState extends State<EditSites>
+class _SitesPageState extends State<SitesPage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
   late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
@@ -197,7 +197,7 @@ class _EditSitesState extends State<EditSites>
       final resultTextInput = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSite(textInput: urlInput),
+            builder: (context) => SiteUrlPage(textInput: urlInput),
           ));
 
       // after the SecondScreen result comes back update the Text widget with it
