@@ -404,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage>
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
           onTap: () async {
-            _launchInBrowser(Uri.parse((Site.getHostName(item.link, true))));
+            _launchInBrowser(Uri.parse(item.link));
             Navigator.pop(context);
           },
         ),
