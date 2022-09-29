@@ -41,4 +41,36 @@ class Utility {
     }
     return false;
   }
+
+  String cleanText(String? inputText) {
+    try {
+      return inputText
+          .toString()
+          .trim()
+          .replaceAll("�", " ")
+          .replaceAll("&#039;", " ")
+          .replaceAll("&quot;", " ")
+          .replaceAll("&#8217;", "'")
+          .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
+          .replaceAll("  ", " ");
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return inputText.toString();
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
+
+  DateTime tryParse(String formattedString) {
+    try {
+      return DateTime.parse(formattedString).toLocal();
+    } on FormatException {
+      DateTime now = DateTime.now();
+      return DateTime(now.year, now.month, now.day).toLocal();
+    }
+  }
 }
