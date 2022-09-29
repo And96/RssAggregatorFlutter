@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/screens/add_site.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 //import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
@@ -22,15 +22,13 @@ class _EditSitesState extends State<EditSites>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
   late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
-
   bool darkMode = false;
-
-  double opacity = 1.0;
+  double opacityAnimation = 1.0;
 
   @override
   void initState() {
     loadData();
-    changeOpacity();
+    setOpacityAnimation();
     ThemeColor.isDarkMode()
         .then((value) => {darkMode = value, super.initState()});
   }
@@ -41,12 +39,16 @@ class _EditSitesState extends State<EditSites>
     super.dispose();
   }
 
-  changeOpacity() {
+  late final AnimationController _refreshIconController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..repeat();
+
+  setOpacityAnimation() {
     Future.delayed(const Duration(milliseconds: 800), () {
       if (mounted) {
         setState(() {
-          opacity = opacity <= 0.5 ? 1.0 : 0.5;
-          changeOpacity();
+          opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
+          setOpacityAnimation();
         });
       }
     });
@@ -54,15 +56,6 @@ class _EditSitesState extends State<EditSites>
 
   void _updateItemLoading(String itemLoading) {
     setState(() {});
-  }
-
-  Future<void> _launchInBrowser(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw 'Could not launch $url';
-    }
   }
 
   void showOptionDialog(BuildContext context, String url) {
@@ -101,7 +94,7 @@ class _EditSitesState extends State<EditSites>
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
           onTap: () async {
-            _launchInBrowser(Uri.parse((Site.getHostName(url, true))));
+            Utility().launchInBrowser(Uri.parse((Site.getHostName(url, true))));
             Navigator.pop(context);
           },
         ),
@@ -151,7 +144,7 @@ class _EditSitesState extends State<EditSites>
         });
   }
 
-  showDeleteAlertDialog(BuildContext context, String url) {
+  showDeleteDialog(BuildContext context, String url) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("Yes"),
@@ -197,24 +190,6 @@ class _EditSitesState extends State<EditSites>
     });
   }
 
-  List<String> getUrlsFromText(String text) {
-    try {
-      RegExp exp =
-          RegExp(r'(?:(?:https?|http):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
-      Iterable<RegExpMatch> matches = exp.allMatches(text);
-      List<String> listUrl = [];
-      for (var match in matches) {
-        if (match.toString().length > 6) {
-          listUrl.add(text.substring(match.start, match.end));
-        }
-      }
-      return listUrl;
-    } catch (err) {
-      // print('Caught error: $err');
-    }
-    return [];
-  }
-
   void _awaitReturnValueFromSecondScreen(
       BuildContext context, String urlInput) async {
     try {
@@ -234,10 +209,8 @@ class _EditSitesState extends State<EditSites>
 
         siteList.deleteSite(urlInput);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
-        if (inputText.toString().contains("<") ||
-            inputText.toString().contains(";") ||
-            inputText.toString().contains(" ")) {
-          List<String> listUrl = getUrlsFromText(inputText);
+        if (Utility().isMultipleLink(inputText)) {
+          List<String> listUrl = Utility().getUrlsFromText(inputText);
           if (listUrl.isNotEmpty) {
             bool advancedSearch = !inputText.toString().contains("opml");
             for (String item in listUrl) {
@@ -263,10 +236,6 @@ class _EditSitesState extends State<EditSites>
       // print('Caught error: $err');
     }
   }
-
-  late final AnimationController _refreshIconController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 2))
-        ..repeat();
 
   @override
   Widget build(BuildContext context) {
@@ -294,7 +263,7 @@ class _EditSitesState extends State<EditSites>
             IconButton(
                 icon: const Icon(Icons.delete),
                 tooltip: 'Delete',
-                onPressed: () => showDeleteAlertDialog(context, "*")),
+                onPressed: () => showDeleteDialog(context, "*")),
         ],
       ),
       body: Stack(
@@ -381,7 +350,7 @@ class _EditSitesState extends State<EditSites>
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       AnimatedOpacity(
-                        opacity: isLoading ? opacity : 1.0,
+                        opacity: isLoading ? opacityAnimation : 1.0,
                         duration: const Duration(milliseconds: 500),
                         child: EmptySection(
                           title: 'Searching...',

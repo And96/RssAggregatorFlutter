@@ -400,4 +400,22 @@ class Site {
     }
     return "";
   }
+
+  List<String> getUrlsFromText(String text) {
+    try {
+      RegExp exp =
+          RegExp(r'(?:(?:https?|http):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+      Iterable<RegExpMatch> matches = exp.allMatches(text);
+      List<String> listUrl = [];
+      for (var match in matches) {
+        if (match.toString().length > 6) {
+          listUrl.add(text.substring(match.start, match.end));
+        }
+      }
+      return listUrl;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return [];
+  }
 }

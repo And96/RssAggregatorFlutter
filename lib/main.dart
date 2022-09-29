@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   static bool darkMode = false;
 
-  double opacity = 1.0;
+  double opacityAnimation = 1.0;
 
   int settingsFeedsLimit = 20;
   int settingsDaysLimit = 90;
@@ -156,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await loadPackageInfo();
       await loadSettings();
-      await changeOpacity();
+      await setOpacityAnimation();
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
@@ -174,12 +174,12 @@ class _MyHomePageState extends State<MyHomePage>
     return true;
   }
 
-  changeOpacity() {
+  setOpacityAnimation() {
     Future.delayed(const Duration(milliseconds: 800), () {
       if (mounted) {
         setState(() {
-          opacity = opacity <= 0.5 ? 1.0 : 0.5;
-          changeOpacity();
+          opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
+          setOpacityAnimation();
         });
       }
     });
@@ -904,7 +904,7 @@ class _MyHomePageState extends State<MyHomePage>
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             AnimatedOpacity(
-                              opacity: isLoading ? opacity : 1.0,
+                              opacity: isLoading ? opacityAnimation : 1.0,
                               duration: const Duration(milliseconds: 500),
                               child: EmptySection(
                                 title: 'Ricerca notizie in corso',
