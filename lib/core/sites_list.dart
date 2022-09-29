@@ -4,12 +4,12 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/core/site_icon.dart';
 
-class SiteList {
+class SitesList {
   late List<Site> items = [];
   String itemLoading = "";
 
   late final ValueChanged<String> updateItemLoading;
-  SiteList({required this.updateItemLoading});
+  SitesList({required this.updateItemLoading});
 
   Future<bool> load() async {
     try {

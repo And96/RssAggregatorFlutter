@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
+import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
 //import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
-import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -185,15 +185,6 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  Future<void> _launchInBrowser(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw 'Could not launch $url';
-    }
-  }
-
   String itemLoading = '';
 
   loadPackageInfo() {
@@ -219,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage>
           channel = RssFeed.parse(utf8.decode(
               response.bodyBytes)); //risolve accenti sbagliati esempio agi
         } catch (err) {
-          //nel caso di ilmattino crasha in utf8, quindi ritenta senza utf8
+          //crash in utf8 with some site e.g. ilmattino, so try again without it and it works
           try {
             channel = RssFeed.parse(response.body);
           } catch (err) {
@@ -240,24 +231,8 @@ class _MyHomePageState extends State<MyHomePage>
                 var p1 = Elemento(
                     title: element.title == null ||
                             element.title.toString().trim() == ""
-                        ? element.description
-                            .toString()
-                            .trim()
-                            .replaceAll("�", " ")
-                            .replaceAll("&#039;", " ")
-                            .replaceAll("&quot;", " ")
-                            .replaceAll("&#8217;", "'")
-                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
-                            .replaceAll("  ", " ")
-                        : element.title
-                            .toString()
-                            .trim()
-                            .replaceAll("�", " ")
-                            .replaceAll("&#039;", " ")
-                            .replaceAll("&quot;", " ")
-                            .replaceAll("&#8217;", "'")
-                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
-                            .replaceAll("  ", " "),
+                        ? Utility().cleanText(element.description)
+                        : Utility().cleanText(element.title),
                     link: element.link == null ||
                             element.link.toString().trim() == ""
                         ? element.guid.toString().trim()
@@ -265,25 +240,9 @@ class _MyHomePageState extends State<MyHomePage>
                     iconUrl: iconUrl.toString(),
                     description: element.content != null &&
                             element.content!.value.toString().trim().length > 10
-                        ? element.content!.value
-                            .toString()
-                            .trim()
-                            .replaceAll("�", " ")
-                            .replaceAll("&#039;", " ")
-                            .replaceAll("&quot;", " ")
-                            .replaceAll("&#8217;", "'")
-                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
-                            .replaceAll("  ", " ")
-                        : element.description
-                            .toString()
-                            .trim()
-                            .replaceAll("�", " ")
-                            .replaceAll("&#039;", " ")
-                            .replaceAll("&quot;", " ")
-                            .replaceAll("&#8217;", "'")
-                            .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
-                            .replaceAll("  ", " "),
-                    pubDate: tryParse(element.pubDate.toString()),
+                        ? Utility().cleanText(element.content!.value)
+                        : Utility().cleanText(element.description),
+                    pubDate: Utility().tryParse(element.pubDate.toString()),
                     host: hostname);
                 listUpdated.add(p1);
               }
@@ -327,8 +286,9 @@ class _MyHomePageState extends State<MyHomePage>
       }
 
       //remove feed older than N days
-      listUpdated.removeWhere(
-          (e) => (daysBetween(e.pubDate!, DateTime.now()) > settingsDaysLimit));
+      listUpdated.removeWhere((e) =>
+          (Utility().daysBetween(e.pubDate!, DateTime.now()) >
+              settingsDaysLimit));
 
       //sort
       listUpdated.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
@@ -340,12 +300,6 @@ class _MyHomePageState extends State<MyHomePage>
     } catch (err) {
       // print('Caught error: $err');
     }
-  }
-
-  int daysBetween(DateTime from, DateTime to) {
-    from = DateTime(from.year, from.month, from.day);
-    to = DateTime(to.year, to.month, to.day);
-    return (to.difference(from).inHours / 24).round();
   }
 
   TextStyle header = const TextStyle(
@@ -405,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage>
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
           onTap: () async {
-            _launchInBrowser(Uri.parse(item.link));
+            Utility().launchInBrowser(Uri.parse(item.link));
             Navigator.pop(context);
           },
         ),
@@ -596,11 +550,7 @@ class _MyHomePageState extends State<MyHomePage>
         drawer: onSearch
             ? null
             : Drawer(
-                // Add a ListView to the drawer. This ensures the user can scroll
-                // through the options in the drawer if there isn't enough vertical
-                // space to fit everything.
                 child: ListView(
-                  // Important: Remove any padding from the ListView.
                   padding: EdgeInsets.zero,
                   children: <Widget>[
                     UserAccountsDrawerHeader(
@@ -862,12 +812,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                           child: Row(
                                                             children: [
                                                               Text(
-                                                                (DateFormat(
-                                                                        'dd/MM/yyyy HH:mm')
-                                                                    .format(tryParse(item
-                                                                            .pubDate
-                                                                            .toString())
-                                                                        .toLocal())),
+                                                                (DateFormat('dd/MM/yyyy HH:mm').format(Utility()
+                                                                    .tryParse(item
+                                                                        .pubDate
+                                                                        .toString())
+                                                                    .toLocal())),
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 14,
@@ -964,13 +913,4 @@ class Elemento {
       required this.iconUrl,
       required this.host,
       required this.description});
-}
-
-DateTime tryParse(String formattedString) {
-  try {
-    return DateTime.parse(formattedString).toLocal();
-  } on FormatException {
-    DateTime now = DateTime.now();
-    return DateTime(now.year, now.month, now.day).toLocal();
-  }
 }

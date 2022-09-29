@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rss_aggregator_flutter/core/site_list.dart';
+import 'package:rss_aggregator_flutter/core/sites_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -21,7 +21,7 @@ class SitesPage extends StatefulWidget {
 class _SitesPageState extends State<SitesPage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
-  late SiteList siteList = SiteList(updateItemLoading: _updateItemLoading);
+  late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
   bool darkMode = false;
   double opacityAnimation = 1.0;
 
@@ -124,7 +124,7 @@ class _SitesPageState extends State<SitesPage>
           title: const Text('Delete site'),
           onTap: () {
             setState(() {
-              siteList.deleteSite(url);
+              sitesList.deleteSite(url);
             });
             Navigator.pop(context);
             const snackBar = SnackBar(
@@ -150,7 +150,7 @@ class _SitesPageState extends State<SitesPage>
       child: const Text("Yes"),
       onPressed: () {
         setState(() {
-          siteList.deleteSite(url);
+          sitesList.deleteSite(url);
         });
         Navigator.pop(context);
       },
@@ -181,7 +181,7 @@ class _SitesPageState extends State<SitesPage>
       setState(() {
         isLoading = true;
       });
-      await siteList.load();
+      await sitesList.load();
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -207,18 +207,18 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        siteList.deleteSite(urlInput);
+        sitesList.deleteSite(urlInput);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
           if (listUrl.isNotEmpty) {
             bool advancedSearch = !inputText.toString().contains("opml");
             for (String item in listUrl) {
-              await siteList.addSite(item, advancedSearch);
+              await sitesList.addSite(item, advancedSearch);
             }
           }
         } else {
-          await siteList.addSite(
+          await sitesList.addSite(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true);
         }
@@ -241,9 +241,9 @@ class _SitesPageState extends State<SitesPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: siteList.items.isEmpty
+        title: sitesList.items.isEmpty
             ? const Text('Sites')
-            : Text('Sites (${siteList.items.length})'),
+            : Text('Sites (${sitesList.items.length})'),
         actions: <Widget>[
           if (isLoading)
             IconButton(
@@ -259,7 +259,7 @@ class _SitesPageState extends State<SitesPage>
               ),
               onPressed: () => {},
             ),
-          if (siteList.items.isNotEmpty && !isLoading)
+          if (sitesList.items.isNotEmpty && !isLoading)
             IconButton(
                 icon: const Icon(Icons.delete),
                 tooltip: 'Delete',
@@ -273,12 +273,12 @@ class _SitesPageState extends State<SitesPage>
                   padding: const EdgeInsets.only(top: 5),
                   child: Scrollbar(
                       child: ListView.separated(
-                          itemCount: siteList.items.length,
+                          itemCount: sitesList.items.length,
                           separatorBuilder: (context, index) {
                             return const Divider();
                           },
                           itemBuilder: (BuildContext context, index) {
-                            final item = siteList.items[index];
+                            final item = sitesList.items[index];
                             return InkWell(
                               child: ListTile(
                                   minLeadingWidth: 30,
@@ -354,7 +354,7 @@ class _SitesPageState extends State<SitesPage>
                         duration: const Duration(milliseconds: 500),
                         child: EmptySection(
                           title: 'Searching...',
-                          description: siteList.itemLoading,
+                          description: sitesList.itemLoading,
                           icon: Icons.manage_search,
                           darkMode: darkMode,
                         ),
