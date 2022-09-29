@@ -311,9 +311,16 @@ class _SitesPageState extends State<SitesPage>
                                       ),
                                     ),
                                   ),
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.more_vert),
+                                    tooltip: 'Options',
+                                    onPressed: () {
+                                      showOptionDialog(context, item.siteLink);
+                                    },
+                                  ), //,
                                   isThreeLine: false,
                                   onTap: () {
-                                    showOptionDialog(context, item.siteLink);
+                                    Navigator.pop(context, item.siteName);
                                   },
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),

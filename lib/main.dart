@@ -459,6 +459,33 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
+  void _awaitReturnValueFromSecondScreen(
+      BuildContext context, String urlInput) async {
+    try {
+      // start the SecondScreen and wait for it to finish with a result
+      final resultTextInput = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SitesPage(),
+          ));
+
+      // after the SecondScreen result comes back update the Text widget with it
+
+      if (resultTextInput != null) {
+        setState(() {
+          searchController.text = resultTextInput.toString();
+          onSearch = true;
+          FocusScope.of(context).unfocus();
+        });
+        FocusManager.instance.primaryFocus?.unfocus();
+
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }
+
   bool onSearch = false;
 
   @override
@@ -535,6 +562,10 @@ class _MyHomePageState extends State<MyHomePage>
                     onPressed: () {
                       setState(() {
                         listFeed = listFeed;
+                        FocusManager.instance.primaryFocus?.unfocus();
+
+                        WidgetsBinding.instance.focusManager.primaryFocus
+                            ?.unfocus();
                       });
                     },
                   ), //
@@ -571,8 +602,7 @@ class _MyHomePageState extends State<MyHomePage>
                       leading: const Icon(Icons.toc_outlined),
                       title: const Text("Manage Sites"),
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SitesPage()));
+                        _awaitReturnValueFromSecondScreen(context, "");
                       },
                     ),
                     const Divider(),
