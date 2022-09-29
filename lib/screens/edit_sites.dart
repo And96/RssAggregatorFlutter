@@ -227,11 +227,11 @@ class _EditSitesState extends State<EditSites>
 
       // after the SecondScreen result comes back update the Text widget with it
 
-      setState(() {
-        isLoading = true;
-      });
-
       if (resultTextInput != null) {
+        setState(() {
+          isLoading = true;
+        });
+
         siteList.deleteSite(urlInput);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (inputText.toString().contains("<") ||
@@ -243,17 +243,15 @@ class _EditSitesState extends State<EditSites>
             for (String item in listUrl) {
               await siteList.addSite(item, advancedSearch);
             }
-
-            setState(() {
-              isLoading = false;
-            });
           }
         } else {
           await siteList.addSite(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true);
         }
-
+        setState(() {
+          isLoading = false;
+        });
         const snackBar = SnackBar(
           duration: Duration(seconds: 1),
           content: Text('Search completed'),
@@ -261,9 +259,6 @@ class _EditSitesState extends State<EditSites>
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-      setState(() {
-        isLoading = false;
-      });
     } catch (err) {
       // print('Caught error: $err');
     }

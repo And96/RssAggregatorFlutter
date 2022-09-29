@@ -366,6 +366,8 @@ class Site {
         String langGoogleNews = "";
         if (defaultLocale.toString().toLowerCase().contains("it")) {
           langGoogleNews = "&hl=it&gl=IT&ceid=IT:it";
+        } else {
+          langGoogleNews = "&hl=en-US&gl=US&ceid=US:en";
         }
         //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
         String urlRss =

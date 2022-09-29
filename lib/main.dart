@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
@@ -525,6 +526,7 @@ class _MyHomePageState extends State<MyHomePage>
                       icon: const Icon(Icons.search),
                       tooltip: 'Search',
                       onPressed: () {
+                        sleep(const Duration(milliseconds: 200));
                         setState(() {
                           onSearch = onSearch ? false : true;
                           searchController.text = '';
@@ -535,7 +537,10 @@ class _MyHomePageState extends State<MyHomePage>
                       ? IconButton(
                           icon: const Icon(Icons.refresh),
                           tooltip: 'Refresh',
-                          onPressed: () => loadData(),
+                          onPressed: () => {
+                            sleep(const Duration(milliseconds: 200)),
+                            loadData()
+                          },
                         )
                       : IconButton(
                           icon: AnimatedBuilder(
@@ -564,12 +569,12 @@ class _MyHomePageState extends State<MyHomePage>
                   tooltip: 'Back',
                   onPressed: () {
                     setState(() {
+                      sleep(const Duration(milliseconds: 200));
                       onSearch = false;
                       searchController.text = '';
                     });
                   },
                 ), //
-
                 title: TextField(
                   autofocus: true,
                   style: const TextStyle(color: Colors.white),
