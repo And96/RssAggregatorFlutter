@@ -191,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   Timer? _timerOpacityAnimation;
   setOpacityAnimation() {
-    if (mounted && _timerOpacityAnimation?.isActive == true) {
+    if (mounted) {
       _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
         setState(() {
           opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
@@ -931,7 +931,7 @@ class _MyHomePageState extends State<MyHomePage>
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(100, 10, 100, 0),
+                                  const EdgeInsets.fromLTRB(100, 15, 100, 0),
                               child: LinearPercentIndicator(
                                 animation: true,
                                 progressColor:

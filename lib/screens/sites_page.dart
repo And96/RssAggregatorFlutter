@@ -389,7 +389,7 @@ class _SitesPageState extends State<SitesPage>
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
+                        padding: const EdgeInsets.fromLTRB(100, 15, 100, 0),
                         child: LinearPercentIndicator(
                           animation: true,
                           progressColor: Theme.of(context).colorScheme.primary,
