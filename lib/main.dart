@@ -504,6 +504,15 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 
+  void handleOptionsVertClick(int item) {
+    switch (item) {
+      case 0:
+        break;
+      case 1:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -548,10 +557,15 @@ class _MyHomePageState extends State<MyHomePage>
                           ),
                           onPressed: () => {},
                         ),
-                  IconButton(
-                    icon: const Icon(Icons.more_vert),
-                    tooltip: 'Setting',
-                    onPressed: () {},
+
+                  PopupMenuButton<int>(
+                    onSelected: (item) => handleOptionsVertClick(item),
+                    itemBuilder: (context) => [
+                      const PopupMenuItem<int>(
+                          value: 1, child: Text('Filter site')),
+                      const PopupMenuItem<int>(
+                          value: 1, child: Text('Filter category')),
+                    ],
                   ),
                 ],
               )
@@ -920,6 +934,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   const EdgeInsets.fromLTRB(100, 10, 100, 0),
                               child: LinearPercentIndicator(
                                 animation: true,
+                                progressColor:
+                                    Theme.of(context).colorScheme.primary,
                                 lineHeight: 5.0,
                                 animateFromLastPercent: true,
                                 animationDuration: 1000,
