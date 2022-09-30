@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
@@ -29,15 +31,22 @@ class _SitesPageState extends State<SitesPage>
 
   @override
   void initState() {
-    loadData();
-    setOpacityAnimation();
-    ThemeColor.isDarkMode()
-        .then((value) => {darkMode = value, super.initState()});
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await loadData();
+      await setOpacityAnimation();
+      await ThemeColor.isDarkMode().then((value) => {
+            darkMode = value,
+          });
+      await loadData();
+    });
+    super.initState();
   }
 
   @override
   dispose() {
-    _refreshIconController.dispose(); // you need this
+    _timerOpacityAnimation?.cancel();
+    _refreshIconController.stop(canceled: true);
+    _refreshIconController.dispose();
     super.dispose();
   }
 
@@ -45,15 +54,16 @@ class _SitesPageState extends State<SitesPage>
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
 
+  Timer? _timerOpacityAnimation;
   setOpacityAnimation() {
-    Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) {
+    if (mounted) {
+      _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
         setState(() {
           opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
           setOpacityAnimation();
         });
-      }
-    });
+      });
+    }
   }
 
   void _updateItemLoading(String itemLoading) {
@@ -232,6 +242,9 @@ class _SitesPageState extends State<SitesPage>
               true);
         }
         setState(() {
+          progressLoading = 0.99;
+        });
+        setState(() {
           isLoading = false;
         });
         const snackBar = SnackBar(
@@ -381,7 +394,7 @@ class _SitesPageState extends State<SitesPage>
                           animation: true,
                           lineHeight: 5.0,
                           animateFromLastPercent: true,
-                          animationDuration: 9000,
+                          animationDuration: 10000,
                           percent: progressLoading,
                           barRadius: const Radius.circular(16),
                         ),

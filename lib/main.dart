@@ -50,49 +50,47 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp(this.service, {Key? key}) : super(key: key);
-
   final BasePrefService service;
-
   @override
   MyAppState createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
-  Color? _uiColor = ThemeColor.primaryColorLight;
-  ThemeMode? _brightness;
-  StreamSubscription<String>? _stream;
-  StreamSubscription<int?>? _streamColor;
+  Color? _themePrimaryColor = ThemeColor.primaryColorLight;
+  ThemeMode? _themeBrightness;
+  StreamSubscription<String>? _streamThemeBrightness;
+  StreamSubscription<int?>? _streamThemePrimaryColor;
 
   @override
   void dispose() {
-    _stream?.cancel();
-    _streamColor?.cancel();
+    _streamThemeBrightness?.cancel();
+    _streamThemePrimaryColor?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _stream ??=
+    _streamThemeBrightness ??=
         widget.service.stream<String>('settings_ui_theme').listen((event) {
       setState(() {
         switch (event) {
           case 'system':
-            _brightness = ThemeMode.system;
+            _themeBrightness = ThemeMode.system;
             break;
           case 'light':
-            _brightness = ThemeMode.light;
+            _themeBrightness = ThemeMode.light;
             break;
           case 'dark':
-            _brightness = ThemeMode.dark;
+            _themeBrightness = ThemeMode.dark;
             break;
         }
       });
     });
 
-    _streamColor ??=
+    _streamThemePrimaryColor ??=
         widget.service.stream<int?>('settings_ui_color').listen((event) {
       setState(() {
-        _uiColor = event == null ? null : Color(event);
+        _themePrimaryColor = event == null ? null : Color(event);
       });
     });
 
@@ -100,16 +98,16 @@ class MyAppState extends State<MyApp> {
       service: widget.service,
       child: MaterialApp(
         title: 'Aggregator',
-        themeMode: _brightness,
+        themeMode: _themeBrightness,
         theme: ThemeData.light().copyWith(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: _uiColor!,
+            seedColor: _themePrimaryColor!,
             brightness: Brightness.light,
           ),
         ),
         darkTheme: ThemeData.dark().copyWith(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: _uiColor!, brightness: Brightness.dark),
+              seedColor: _themePrimaryColor!, brightness: Brightness.dark),
           brightness: Brightness.dark,
         ),
         home: const MyHomePage(),
@@ -126,31 +124,45 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+  //Loading indicator
   bool isLoading = false;
-
-  String itemLoading = '';
   double progressLoading = 0;
-  late List<FeedItem> listFeed = [];
-  String appName = "";
-  String packageName = "";
-  String version = "";
-  String buildNumber = "";
+  String itemLoading = '';
 
+  //Search indicator
+  bool isOnSearch = false;
+  bool isOnSearchReadOnly = false;
+
+  //Theme
   static bool darkMode = false;
-
   double opacityAnimation = 1.0;
 
+  //Settings
   int settingsFeedsLimit = 20;
   int settingsDaysLimit = 90;
   bool settingsLoadImages = true;
   int settingsTimeout = 4;
 
+  late List<FeedItem> listFeed = [];
+
+  String appName = "";
+  String packageName = "";
+  String version = "";
+  String buildNumber = "";
+
+  //Controller
   TextEditingController searchController = TextEditingController();
+  late final AnimationController _refreshIconController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..repeat();
+
+  int _selectedPageIndex = 0;
 
   @override
   void dispose() {
     searchController.dispose();
     _refreshIconController.dispose();
+    _timerOpacityAnimation?.cancel();
     super.dispose();
   }
 
@@ -164,8 +176,8 @@ class _MyHomePageState extends State<MyHomePage>
             darkMode = value,
           });
       await loadData();
-      super.initState();
     });
+    super.initState();
   }
 
   Future<bool> loadSettings() async {
@@ -177,15 +189,16 @@ class _MyHomePageState extends State<MyHomePage>
     return true;
   }
 
+  Timer? _timerOpacityAnimation;
   setOpacityAnimation() {
-    Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) {
+    if (mounted && _timerOpacityAnimation?.isActive == true) {
+      _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
         setState(() {
           opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
           setOpacityAnimation();
         });
-      }
-    });
+      });
+    }
   }
 
   loadPackageInfo() {
@@ -195,6 +208,58 @@ class _MyHomePageState extends State<MyHomePage>
       version = packageInfo.version;
       buildNumber = packageInfo.buildNumber;
     });
+  }
+
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
+
+  void pageChanged(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
+  void bottomTapped(int index) {
+    bottomTappedAnimation(index, 500);
+  }
+
+  void bottomTappedAnimation(int index, int timeAnimation) {
+    setState(() {
+      _selectedPageIndex = index;
+      pageController.animateToPage(index,
+          duration: Duration(milliseconds: timeAnimation), curve: Curves.ease);
+    });
+  }
+
+  void _awaitReturnValueFromSecondScreen(
+      BuildContext context, String urlInput) async {
+    try {
+      // start the SecondScreen and wait for it to finish with a result
+      final resultTextInput = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SitesPage(),
+          ));
+
+      // after the SecondScreen result comes back update the Text widget with it
+      if (resultTextInput != null) {
+        if (mounted) {
+          setState(() {
+            bottomTappedAnimation(0, 0);
+            searchController.text = resultTextInput.toString();
+            isOnSearch = true;
+            isOnSearchReadOnly = true;
+            FocusScope.of(context).unfocus();
+          });
+          FocusManager.instance.primaryFocus?.unfocus();
+          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        }
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
   }
 
   loadDataUrl(Site site) async {
@@ -304,8 +369,6 @@ class _MyHomePageState extends State<MyHomePage>
       // print('Caught error: $err');
     }
   }
-
-  int _selectedIndex = 0;
 
   void showOptionDialog(BuildContext context, FeedItem item) {
     var dialog = SimpleDialog(
@@ -440,65 +503,6 @@ class _MyHomePageState extends State<MyHomePage>
       },
     );
   }
-
-  late final AnimationController _refreshIconController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 2))
-        ..repeat();
-
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-
-  void pageChanged(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void bottomTapped(int index) {
-    bottomTappedAnimation(index, 500);
-  }
-
-  void bottomTappedAnimation(int index, int timeAnimation) {
-    setState(() {
-      _selectedIndex = index;
-      pageController.animateToPage(index,
-          duration: Duration(milliseconds: timeAnimation), curve: Curves.ease);
-    });
-  }
-
-  void _awaitReturnValueFromSecondScreen(
-      BuildContext context, String urlInput) async {
-    try {
-      // start the SecondScreen and wait for it to finish with a result
-      final resultTextInput = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SitesPage(),
-          ));
-
-      // after the SecondScreen result comes back update the Text widget with it
-      if (resultTextInput != null) {
-        if (mounted) {
-          setState(() {
-            bottomTappedAnimation(0, 0);
-            searchController.text = resultTextInput.toString();
-            isOnSearch = true;
-            isOnSearchReadOnly = true;
-            FocusScope.of(context).unfocus();
-          });
-          FocusManager.instance.primaryFocus?.unfocus();
-          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-        }
-      }
-    } catch (err) {
-      // print('Caught error: $err');
-    }
-  }
-
-  bool isOnSearch = false;
-  bool isOnSearchReadOnly = false;
 
   @override
   Widget build(BuildContext context) {
@@ -677,7 +681,7 @@ class _MyHomePageState extends State<MyHomePage>
                 label: 'Discover',
               ),
             ],
-            currentIndex: _selectedIndex,
+            currentIndex: _selectedPageIndex,
             selectedItemColor: darkMode
                 ? const Color.fromARGB(255, 220, 220, 220)
                 : Theme.of(context).colorScheme.primary,
