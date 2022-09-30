@@ -19,6 +19,7 @@ import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'dart:async';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/services.dart';
 //import 'package:rss_aggregator_flutter/theme/theme_color.dart';
@@ -126,6 +127,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
+
+  String itemLoading = '';
+  double progressLoading = 0;
   late List<FeedItem> listFeed = [];
   String appName = "";
   String packageName = "";
@@ -183,8 +187,6 @@ class _MyHomePageState extends State<MyHomePage>
       }
     });
   }
-
-  String itemLoading = '';
 
   loadPackageInfo() {
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
@@ -276,6 +278,10 @@ class _MyHomePageState extends State<MyHomePage>
       List<Site> listaSiti = await leggiListaFeed();
       for (var i = 0; i < listaSiti.length; i++) {
         try {
+          setState(() {
+            progressLoading = (i + 1) / listaSiti.length;
+          });
+
           await loadDataUrl(listaSiti[i]);
         } catch (err) {
           // print('Caught error: $err');
@@ -452,10 +458,14 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void bottomTapped(int index) {
+    bottomTappedAnimation(index, 500);
+  }
+
+  void bottomTappedAnimation(int index, int timeAnimation) {
     setState(() {
       _selectedIndex = index;
       pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 500), curve: Curves.ease);
+          duration: Duration(milliseconds: timeAnimation), curve: Curves.ease);
     });
   }
 
@@ -470,28 +480,31 @@ class _MyHomePageState extends State<MyHomePage>
           ));
 
       // after the SecondScreen result comes back update the Text widget with it
-
       if (resultTextInput != null) {
-        setState(() {
-          searchController.text = resultTextInput.toString();
-          onSearch = true;
-          FocusScope.of(context).unfocus();
-        });
-        FocusManager.instance.primaryFocus?.unfocus();
-
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        if (mounted) {
+          setState(() {
+            bottomTappedAnimation(0, 0);
+            searchController.text = resultTextInput.toString();
+            isOnSearch = true;
+            isOnSearchReadOnly = true;
+            FocusScope.of(context).unfocus();
+          });
+          FocusManager.instance.primaryFocus?.unfocus();
+          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        }
       }
     } catch (err) {
       // print('Caught error: $err');
     }
   }
 
-  bool onSearch = false;
+  bool isOnSearch = false;
+  bool isOnSearchReadOnly = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: !onSearch || isLoading || listFeed.isEmpty
+        appBar: !isOnSearch || isLoading || listFeed.isEmpty
             ? AppBar(
                 title: const Text("Aggregator"),
                 actions: <Widget>[
@@ -502,7 +515,9 @@ class _MyHomePageState extends State<MyHomePage>
                       onPressed: () {
                         sleep(const Duration(milliseconds: 200));
                         setState(() {
-                          onSearch = onSearch ? false : true;
+                          bottomTappedAnimation(0, 0);
+                          isOnSearch = isOnSearch ? false : true;
+                          isOnSearchReadOnly = false;
                           searchController.text = '';
                         });
                       },
@@ -544,7 +559,8 @@ class _MyHomePageState extends State<MyHomePage>
                   onPressed: () {
                     setState(() {
                       sleep(const Duration(milliseconds: 200));
-                      onSearch = false;
+                      isOnSearch = false;
+                      isOnSearchReadOnly = false;
                       searchController.text = '';
                     });
                   },
@@ -554,6 +570,7 @@ class _MyHomePageState extends State<MyHomePage>
                   style: const TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   controller: searchController,
+                  readOnly: isOnSearchReadOnly,
                 ),
                 actions: <Widget>[
                   IconButton(
@@ -571,7 +588,7 @@ class _MyHomePageState extends State<MyHomePage>
                   ), //
                 ],
               ),
-        drawer: onSearch
+        drawer: isOnSearch
             ? null
             : Drawer(
                 child: ListView(
@@ -696,11 +713,12 @@ class _MyHomePageState extends State<MyHomePage>
                         : Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Scrollbar(
+                                thickness: isOnSearch ? 0 : 3,
                                 child: ListView.separated(
                                     itemCount: listFeed.length,
                                     separatorBuilder: (context, index) {
                                       return Visibility(
-                                          visible: !onSearch ||
+                                          visible: !isOnSearch ||
                                               listFeed[index]
                                                   .title
                                                   .toLowerCase()
@@ -728,7 +746,7 @@ class _MyHomePageState extends State<MyHomePage>
                                       final item = listFeed[index];
 
                                       return Visibility(
-                                          visible: !onSearch ||
+                                          visible: !isOnSearch ||
                                               listFeed[index]
                                                   .title
                                                   .toLowerCase()
@@ -892,6 +910,18 @@ class _MyHomePageState extends State<MyHomePage>
                                 description: itemLoading,
                                 icon: Icons.query_stats,
                                 darkMode: darkMode,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(100, 7, 100, 0),
+                              child: LinearPercentIndicator(
+                                animation: true,
+                                lineHeight: 5.0,
+                                animateFromLastPercent: true,
+                                animationDuration: 1000,
+                                percent: progressLoading,
+                                barRadius: const Radius.circular(16),
                               ),
                             ),
                           ],
