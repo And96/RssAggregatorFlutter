@@ -395,7 +395,7 @@ class _SitesPageState extends State<SitesPage>
                           progressColor: Theme.of(context).colorScheme.primary,
                           lineHeight: 5.0,
                           animateFromLastPercent: true,
-                          animationDuration: 10000,
+                          animationDuration: 15000,
                           percent: progressLoading,
                           barRadius: const Radius.circular(16),
                         ),
