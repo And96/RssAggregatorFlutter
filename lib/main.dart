@@ -281,7 +281,6 @@ class _MyHomePageState extends State<MyHomePage>
           setState(() {
             progressLoading = (i + 1) / listaSiti.length;
           });
-
           await loadDataUrl(listaSiti[i]);
         } catch (err) {
           // print('Caught error: $err');
@@ -914,7 +913,7 @@ class _MyHomePageState extends State<MyHomePage>
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(100, 7, 100, 0),
+                                  const EdgeInsets.fromLTRB(100, 10, 100, 0),
                               child: LinearPercentIndicator(
                                 animation: true,
                                 lineHeight: 5.0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
@@ -21,6 +22,7 @@ class SitesPage extends StatefulWidget {
 class _SitesPageState extends State<SitesPage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
+  double progressLoading = 0;
   late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
   bool darkMode = false;
   double opacityAnimation = 1.0;
@@ -213,11 +215,18 @@ class _SitesPageState extends State<SitesPage>
           List<String> listUrl = Utility().getUrlsFromText(inputText);
           if (listUrl.isNotEmpty) {
             bool advancedSearch = !inputText.toString().contains("opml");
-            for (String item in listUrl) {
+            for (var i = 0; i < listUrl.length; i++) {
+              String item = listUrl[i];
+              setState(() {
+                progressLoading = (i + 1) / listUrl.length;
+              });
               await sitesList.addSite(item, advancedSearch);
             }
           }
         } else {
+          setState(() {
+            progressLoading = 0.90;
+          });
           await sitesList.addSite(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true);
@@ -364,6 +373,17 @@ class _SitesPageState extends State<SitesPage>
                           description: sitesList.itemLoading,
                           icon: Icons.manage_search,
                           darkMode: darkMode,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
+                        child: LinearPercentIndicator(
+                          animation: true,
+                          lineHeight: 5.0,
+                          animateFromLastPercent: true,
+                          animationDuration: 9000,
+                          percent: progressLoading,
+                          barRadius: const Radius.circular(16),
                         ),
                       ),
                     ],
