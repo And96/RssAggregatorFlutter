@@ -59,6 +59,26 @@ class Utility {
     return inputText.toString();
   }
 
+  String cleanUrlCompare(String? inputText) {
+    try {
+      return inputText
+          .toString()
+          .trim()
+          .toLowerCase()
+          .replaceAll("https", "")
+          .replaceAll("http", "")
+          .replaceAll(":", "")
+          .replaceAll("/", "")
+          .replaceAll("www", "")
+          .replaceAll(".", "")
+          .replaceAll("rss", "")
+          .replaceAll("feed", "");
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return inputText.toString();
+  }
+
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);

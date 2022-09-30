@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
+import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/core/site_icon.dart';
 
@@ -57,28 +58,8 @@ class SitesList {
         hostsiteName = Uri.parse(url.toString()).host.toString();
       }
       if (url.length > 1) {
-        items.removeWhere((e) => (e.siteLink
-                .trim()
-                .toLowerCase()
-                .replaceAll("https", "")
-                .replaceAll("http", "")
-                .replaceAll(":", "")
-                .replaceAll("/", "")
-                .replaceAll("www", "")
-                .replaceAll(".", "")
-                .replaceAll("rss", "")
-                .replaceAll("feed", "") ==
-            url
-                .trim()
-                .toLowerCase()
-                .replaceAll("https", "")
-                .replaceAll("http", "")
-                .replaceAll(":", "")
-                .replaceAll("/", "")
-                .replaceAll("www", "")
-                .replaceAll(".", "")
-                .replaceAll("rss", "")
-                .replaceAll("feed", "")));
+        items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
+            Utility().cleanUrlCompare(url)));
         var s1 = Site(
           siteName: hostsiteName,
           siteLink: url,
@@ -106,20 +87,5 @@ class SitesList {
       // print('Caught error: $err');
     }
     return [];
-  }
-
-  Future<bool> addDefaultSites() async {
-    try {
-      //TEST
-      await addSite(
-          "https://news.google.com/rss/search?q=KEYWORD&hl=it&gl=IT&ceid=IT%3Ait",
-          false);
-      await addSite("https://hano.it/feed", false);
-      await addSite("https://myvalley.it/feed", false);
-      await addSite("https://medium.com/feed/tag/programming", false);
-    } catch (err) {
-      // print('Caught error: $err');
-    }
-    return true;
   }
 }
