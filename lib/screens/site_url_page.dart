@@ -13,13 +13,11 @@ class SiteUrlPage extends StatefulWidget {
 
 class _SiteUrlPageState extends State<SiteUrlPage> {
   TextEditingController mycontroller = TextEditingController();
-  bool darkMode = false;
 
   @override
   void initState() {
     mycontroller.text = widget.textInput;
-    ThemeColor.isDarkMode()
-        .then((value) => {darkMode = value, super.initState()});
+    super.initState();
   }
 
   @override
