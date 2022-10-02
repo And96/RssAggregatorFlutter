@@ -588,6 +588,10 @@ class _MyHomePageState extends State<MyHomePage>
                   cursorColor: Colors.white,
                   controller: searchController,
                   readOnly: isOnSearchReadOnly,
+                  decoration: const InputDecoration(
+                    labelText: '',
+                    border: InputBorder.none,
+                  ),
                 ),
                 actions: <Widget>[
                   IconButton(
@@ -730,7 +734,9 @@ class _MyHomePageState extends State<MyHomePage>
                         : Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Scrollbar(
-                                thickness: isOnSearch ? 0 : 3,
+                                thickness: isOnSearch
+                                    ? 0
+                                    : 3, //hide scrollbar wrong if something is hidden is ok to hide them
                                 child: ListView.separated(
                                     itemCount: listFeed.length,
                                     separatorBuilder: (context, index) {
@@ -739,24 +745,40 @@ class _MyHomePageState extends State<MyHomePage>
                                               listFeed[index]
                                                   .title
                                                   .toLowerCase()
+                                                  .replaceAll(".", "")
+                                                  .replaceAll("/", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll("_", "")
                                                   .contains(searchController
                                                       .text
                                                       .toString()
-                                                      .toLowerCase()) ||
+                                                      .toLowerCase()
+                                                      .replaceAll(".", "")
+                                                      .replaceAll("/", "")
+                                                      .replaceAll("-", "")
+                                                      .replaceAll("_", "")) ||
                                               listFeed[index]
                                                   .link
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
-                                                      .toLowerCase()) ||
+                                                      .toLowerCase()
+                                                      .replaceAll(".", "")
+                                                      .replaceAll("/", "")
+                                                      .replaceAll("-", "")
+                                                      .replaceAll("_", "")) ||
                                               listFeed[index]
                                                   .host
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
-                                                      .toLowerCase()),
+                                                      .toLowerCase()
+                                                      .replaceAll(".", "")
+                                                      .replaceAll("/", "")
+                                                      .replaceAll("-", "")
+                                                      .replaceAll("_", "")),
                                           child: const Divider());
                                     },
                                     itemBuilder: (BuildContext context, index) {
@@ -770,21 +792,33 @@ class _MyHomePageState extends State<MyHomePage>
                                                   .contains(searchController
                                                       .text
                                                       .toString()
-                                                      .toLowerCase()) ||
+                                                      .toLowerCase()
+                                                      .replaceAll(".", "")
+                                                      .replaceAll("/", "")
+                                                      .replaceAll("-", "")
+                                                      .replaceAll("_", "")) ||
                                               listFeed[index]
                                                   .link
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
-                                                      .toLowerCase()) ||
+                                                      .toLowerCase()
+                                                      .replaceAll(".", "")
+                                                      .replaceAll("/", "")
+                                                      .replaceAll("-", "")
+                                                      .replaceAll("_", "")) ||
                                               listFeed[index]
                                                   .host
                                                   .toLowerCase()
                                                   .contains(searchController
                                                       .text
                                                       .toString()
-                                                      .toLowerCase()),
+                                                      .toLowerCase()
+                                                      .replaceAll(".", "")
+                                                      .replaceAll("/", "")
+                                                      .replaceAll("-", "")
+                                                      .replaceAll("_", "")),
                                           child: InkWell(
                                             onTap: () => showOptionDialog(
                                                 context, listFeed[index]),
