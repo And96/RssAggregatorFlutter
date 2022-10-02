@@ -1,4 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class Utility {
   List<String> getUrlsFromText(String text) {
@@ -85,9 +87,20 @@ class Utility {
     return (to.difference(from).inHours / 24).round();
   }
 
-  DateTime tryParse(String formattedString) {
+  DateTime tryParse(String formattedDate) {
     try {
-      return DateTime.parse(formattedString).toLocal();
+      var dateTime =
+          DateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedDate, true);
+
+//test on mobile because desktop is always english
+      /* var utc = DateTime.parse("2020-06-11 17:47:35 Z");
+      print(utc.toString()); // 2020-06-11 17:47:35.000Z
+      print(utc.isUtc.toString()); // true
+      print(utc.toLocal().toString());*/
+
+      return dateTime.toLocal();
+
+      //return DateTime.parse(datetime).toUtc().toLocal();
     } on FormatException {
       DateTime now = DateTime.now();
       return DateTime(now.year, now.month, now.day).toLocal();
