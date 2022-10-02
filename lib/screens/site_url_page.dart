@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-// ignore: depend_on_referenced_packages
 
 class SiteUrlPage extends StatefulWidget {
   const SiteUrlPage({Key? key, required this.textInput}) : super(key: key);
