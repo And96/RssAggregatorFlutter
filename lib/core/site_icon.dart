@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 import 'package:favicon/favicon.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 class SiteIcon {
   String? siteName = "";
@@ -32,11 +34,13 @@ class SiteIcon {
   Future<String> getIcon(String siteName, String siteUrl) async {
     String iconUrl = "";
     try {
-      /*   //get siteHostname from full url (Because some sites return rss file directly)
-      String siteHostname = siteUrl;
-      if (siteHostname.contains("/")) {
-        siteHostname = Uri.parse(siteUrl.toString()).host.toString();
-      }*/
+      siteName = "aaaa.sdfds";
+
+      //search icon via google api
+      iconUrl = await getIconGoogle(siteName);
+      if (iconUrl.length > 5) {
+        return iconUrl;
+      }
 
       //search icon locally
       iconUrl = await getIconLocal(siteName);
@@ -44,7 +48,7 @@ class SiteIcon {
         return iconUrl;
       }
 
-      //l'icona si potrebbe prendere anche dal feed rss per i siti che la mpilano da image > link, li ce l'url esempio HDBLOG
+      //l'icona si potrebbe prendere anche dal feed rss per i siti che la compilano da image > link, li ce l'url esempio HDBLOG
 
       //fetch icon from web
       iconUrl = await getIconWeb(siteName);
@@ -57,23 +61,45 @@ class SiteIcon {
     return iconUrl;
   }
 
+  Future<String> getIconGoogle(String url) async {
+    try {
+      String iconFinderUrl =
+          "https://www.google.com/s2/favicons?sz=64&domain_url=$url";
+
+      final response = await get(Uri.parse(iconFinderUrl))
+          .timeout(const Duration(milliseconds: 10000));
+
+      //if google return default icon
+      if (response.body.substring(0, 100).contains("pHYs")) {
+        if (response.body.substring(0, 100).contains("IDAT8")) {
+          return "";
+        }
+      }
+      //if google find the icon
+      if (response.body.substring(0, 100).toLowerCase().contains("png")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("ico")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("jfif")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("jpg")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("jpeg")) {
+        return iconFinderUrl;
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return "";
+  }
+
   Future<String> getIconWeb(String url) async {
     String iconUrl = "";
     try {
-      /* try { --medium dont work, it has icon but not available at that url
-        //fetch icon from network (.ico only for fast performance)
-        List<String>? suffixesFormat = ["ico"];
-        List<Favicon> favicons =
-            await FaviconFinder.getAll("https://$url", suffixes: suffixesFormat)
-                .timeout(const Duration(milliseconds: 1500));
-        iconUrl = favicons.isNotEmpty ? favicons.first.url.toString() : "";
-        if (iconUrl != "") {
-          return iconUrl;
-        }
-      } catch (err) {
-        // print('Caught error: $err');
-      }*/
-
       //fetch icon from network
       var favicon = await FaviconFinder.getBest("https://$url")
           .timeout(const Duration(milliseconds: 7000));
