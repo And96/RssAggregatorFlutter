@@ -13,6 +13,8 @@ import 'package:share_plus/share_plus.dart';
 //import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
+//import 'package:flutter/scheduler.dart'; //
+import 'package:percent_indicator/percent_indicator.dart';
 
 class SitesPage extends StatefulWidget {
   const SitesPage({Key? key}) : super(key: key);
@@ -395,7 +397,7 @@ class _SitesPageState extends State<SitesPage>
                           progressColor: Theme.of(context).colorScheme.primary,
                           lineHeight: 5.0,
                           animateFromLastPercent: true,
-                          animationDuration: 20000,
+                          animationDuration: 10000,
                           percent: progressLoading,
                           barRadius: const Radius.circular(16),
                         ),

@@ -589,7 +589,6 @@ class _MyHomePageState extends State<MyHomePage>
                   controller: searchController,
                   readOnly: isOnSearchReadOnly,
                   decoration: const InputDecoration(
-                    labelText: '',
                     border: InputBorder.none,
                   ),
                 ),
@@ -760,6 +759,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               listFeed[index]
                                                   .link
                                                   .toLowerCase()
+                                                  .replaceAll(".", "")
+                                                  .replaceAll("/", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll("_", "")
                                                   .contains(searchController
                                                       .text
                                                       .toString()
@@ -771,6 +774,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               listFeed[index]
                                                   .host
                                                   .toLowerCase()
+                                                  .replaceAll(".", "")
+                                                  .replaceAll("/", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll("_", "")
                                                   .contains(searchController
                                                       .text
                                                       .toString()
@@ -789,6 +796,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               listFeed[index]
                                                   .title
                                                   .toLowerCase()
+                                                  .replaceAll(".", "")
+                                                  .replaceAll("/", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll("_", "")
                                                   .contains(searchController
                                                       .text
                                                       .toString()
@@ -800,6 +811,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               listFeed[index]
                                                   .link
                                                   .toLowerCase()
+                                                  .replaceAll(".", "")
+                                                  .replaceAll("/", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll("_", "")
                                                   .contains(searchController
                                                       .text
                                                       .toString()
@@ -811,6 +826,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               listFeed[index]
                                                   .host
                                                   .toLowerCase()
+                                                  .replaceAll(".", "")
+                                                  .replaceAll("/", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll("_", "")
                                                   .contains(searchController
                                                       .text
                                                       .toString()

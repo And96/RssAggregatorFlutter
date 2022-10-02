@@ -34,8 +34,6 @@ class SiteIcon {
   Future<String> getIcon(String siteName, String siteUrl) async {
     String iconUrl = "";
     try {
-      siteName = "aaaa.sdfds";
-
       //search icon via google api
       iconUrl = await getIconGoogle(siteName);
       if (iconUrl.length > 5) {
