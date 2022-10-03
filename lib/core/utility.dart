@@ -87,10 +87,30 @@ class Utility {
     return (to.difference(from).inHours / 24).round();
   }
 
-  DateTime tryParse(String formattedDate) {
+  DateTime tryParse(String formattedString) {
     try {
+      return DateTime.parse(formattedString).toLocal();
+    } on FormatException {
+      DateTime now = DateTime.now();
+      return DateTime(now.year, now.month, now.day).toLocal();
+    }
+  }
+
+/*
+  DateTime tryParse(DateTime? dateInput) {
+    try {
+      final utcTime = DateTime.utc(dateInput!.year, dateInput.month,
+          dateInput.day, dateInput.hour, dateInput.minute, dateInput.second);
+      //this is the right way but webFeed return UTC even if it is not UTC.
+      //not all site has english timezone...
+      /*final localTime = utcTime.toLocal();
+      return localTime;*/
+      return utcTime;
+
+      /*
       var dateTime =
           DateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedDate, true);
+ return dateTime.toLocal();*/
 
 //test on mobile because desktop is always english
       /* var utc = DateTime.parse("2020-06-11 17:47:35 Z");
@@ -98,12 +118,10 @@ class Utility {
       print(utc.isUtc.toString()); // true
       print(utc.toLocal().toString());*/
 
-      return dateTime.toLocal();
-
       //return DateTime.parse(datetime).toUtc().toLocal();
     } on FormatException {
       DateTime now = DateTime.now();
       return DateTime(now.year, now.month, now.day).toLocal();
     }
-  }
+  }*/
 }
