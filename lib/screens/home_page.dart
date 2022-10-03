@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-//import 'package:flutter/scheduler.dart'; //
 import 'package:http/http.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
+import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
-//import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 import 'package:webfeed/webfeed.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
@@ -49,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage>
   bool settingsLoadImages = true;
   int settingsTimeout = 4;
 
-  late List<FeedItem> listFeed = [];
+  late List<Feed> listFeed = [];
 
   String appName = "";
   String packageName = "";
@@ -200,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage>
             if (element.title.toString().length > 5) {
               if (nItem < settingsFeedsLimit || settingsFeedsLimit == 0) {
                 nItem++;
-                var p1 = FeedItem(
+                var p1 = Feed(
                     title: element.title == null ||
                             element.title.toString().trim() == ""
                         ? Utility().cleanText(element.description)
@@ -210,10 +209,6 @@ class _MyHomePageState extends State<MyHomePage>
                         ? element.guid.toString().trim()
                         : element.link.toString().trim(),
                     iconUrl: iconUrl.toString(),
-                    description: element.content != null &&
-                            element.content!.value.toString().trim().length > 10
-                        ? Utility().cleanText(element.content!.value)
-                        : Utility().cleanText(element.description),
                     pubDate: Utility().tryParse(element.pubDate.toString()),
                     host: hostname);
                 listFeed.add(p1);
@@ -276,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-  void showOptionDialog(BuildContext context, FeedItem item) {
+  void showOptionDialog(BuildContext context, Feed item) {
     var dialog = SimpleDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -857,20 +852,4 @@ class _MyHomePageState extends State<MyHomePage>
           ],
         ));
   }
-}
-
-class FeedItem {
-  var title = "";
-  var description = "";
-  var link = "";
-  var host = "";
-  DateTime? pubDate;
-  var iconUrl = "";
-  FeedItem(
-      {required this.link,
-      required this.title,
-      required this.pubDate,
-      required this.iconUrl,
-      required this.host,
-      required this.description});
 }

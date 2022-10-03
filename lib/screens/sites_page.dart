@@ -10,10 +10,8 @@ import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:share_plus/share_plus.dart';
-//import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
-//import 'package:flutter/scheduler.dart'; //
 import 'package:percent_indicator/percent_indicator.dart';
 
 class SitesPage extends StatefulWidget {
@@ -215,7 +213,6 @@ class _SitesPageState extends State<SitesPage>
           ));
 
       // after the SecondScreen result comes back update the Text widget with it
-
       if (resultTextInput != null) {
         setState(() {
           isLoading = true;
