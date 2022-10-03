@@ -255,6 +255,8 @@ class _MyHomePageState extends State<MyHomePage>
           });
           FocusManager.instance.primaryFocus?.unfocus();
           WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        } else {
+          Phoenix.rebirth(context);
         }
       }
     } catch (err) {
