@@ -255,8 +255,6 @@ class _MyHomePageState extends State<MyHomePage>
           });
           FocusManager.instance.primaryFocus?.unfocus();
           WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-        } else {
-          Phoenix.rebirth(context);
         }
       }
     } catch (err) {
@@ -743,51 +741,11 @@ class _MyHomePageState extends State<MyHomePage>
                                     separatorBuilder: (context, index) {
                                       return Visibility(
                                           visible: !isOnSearch ||
-                                              listFeed[index]
-                                                  .title
-                                                  .toLowerCase()
-                                                  .replaceAll(".", "")
-                                                  .replaceAll("/", "")
-                                                  .replaceAll("-", "")
-                                                  .replaceAll("_", "")
-                                                  .contains(searchController
-                                                      .text
-                                                      .toString()
-                                                      .toLowerCase()
-                                                      .replaceAll(".", "")
-                                                      .replaceAll("/", "")
-                                                      .replaceAll("-", "")
-                                                      .replaceAll("_", "")) ||
-                                              listFeed[index]
-                                                  .link
-                                                  .toLowerCase()
-                                                  .replaceAll(".", "")
-                                                  .replaceAll("/", "")
-                                                  .replaceAll("-", "")
-                                                  .replaceAll("_", "")
-                                                  .contains(searchController
-                                                      .text
-                                                      .toString()
-                                                      .toLowerCase()
-                                                      .replaceAll(".", "")
-                                                      .replaceAll("/", "")
-                                                      .replaceAll("-", "")
-                                                      .replaceAll("_", "")) ||
-                                              listFeed[index]
-                                                  .host
-                                                  .toLowerCase()
-                                                  .replaceAll(".", "")
-                                                  .replaceAll("/", "")
-                                                  .replaceAll("-", "")
-                                                  .replaceAll("_", "")
-                                                  .contains(searchController
-                                                      .text
-                                                      .toString()
-                                                      .toLowerCase()
-                                                      .replaceAll(".", "")
-                                                      .replaceAll("/", "")
-                                                      .replaceAll("-", "")
-                                                      .replaceAll("_", "")),
+                                              Utility().compareSearch([
+                                                listFeed[index].title,
+                                                listFeed[index].link,
+                                                listFeed[index].host
+                                              ], searchController.text),
                                           child: const Divider());
                                     },
                                     itemBuilder: (BuildContext context, index) {
@@ -795,51 +753,11 @@ class _MyHomePageState extends State<MyHomePage>
 
                                       return Visibility(
                                           visible: !isOnSearch ||
-                                              listFeed[index]
-                                                  .title
-                                                  .toLowerCase()
-                                                  .replaceAll(".", "")
-                                                  .replaceAll("/", "")
-                                                  .replaceAll("-", "")
-                                                  .replaceAll("_", "")
-                                                  .contains(searchController
-                                                      .text
-                                                      .toString()
-                                                      .toLowerCase()
-                                                      .replaceAll(".", "")
-                                                      .replaceAll("/", "")
-                                                      .replaceAll("-", "")
-                                                      .replaceAll("_", "")) ||
-                                              listFeed[index]
-                                                  .link
-                                                  .toLowerCase()
-                                                  .replaceAll(".", "")
-                                                  .replaceAll("/", "")
-                                                  .replaceAll("-", "")
-                                                  .replaceAll("_", "")
-                                                  .contains(searchController
-                                                      .text
-                                                      .toString()
-                                                      .toLowerCase()
-                                                      .replaceAll(".", "")
-                                                      .replaceAll("/", "")
-                                                      .replaceAll("-", "")
-                                                      .replaceAll("_", "")) ||
-                                              listFeed[index]
-                                                  .host
-                                                  .toLowerCase()
-                                                  .replaceAll(".", "")
-                                                  .replaceAll("/", "")
-                                                  .replaceAll("-", "")
-                                                  .replaceAll("_", "")
-                                                  .contains(searchController
-                                                      .text
-                                                      .toString()
-                                                      .toLowerCase()
-                                                      .replaceAll(".", "")
-                                                      .replaceAll("/", "")
-                                                      .replaceAll("-", "")
-                                                      .replaceAll("_", "")),
+                                              Utility().compareSearch([
+                                                listFeed[index].title,
+                                                listFeed[index].link,
+                                                listFeed[index].host
+                                              ], searchController.text),
                                           child: InkWell(
                                             onTap: () => showOptionDialog(
                                                 context, listFeed[index]),

@@ -81,6 +81,41 @@ class Utility {
     return inputText.toString();
   }
 
+  String cleanSearchText(String? inputText) {
+    try {
+      return inputText
+          .toString()
+          .toLowerCase()
+          .replaceAll(".", "")
+          .replaceAll("'", "")
+          .replaceAll("è", "e")
+          .replaceAll("à", "a")
+          .replaceAll("ò", "o")
+          .replaceAll("é", "e")
+          .replaceAll("ù", "u")
+          .replaceAll("ì", "i")
+          .replaceAll("/", "")
+          .replaceAll("-", "")
+          .replaceAll("_", "");
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return inputText.toString();
+  }
+
+  bool compareSearch(List<String?> textList, String? value) {
+    try {
+      for (var text in textList) {
+        if (cleanSearchText(text).contains(cleanSearchText(value))) {
+          return true;
+        }
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
