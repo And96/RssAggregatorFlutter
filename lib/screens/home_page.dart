@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:rss_aggregator_flutter/core/feeds_list.dart';
+import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
-import 'package:webfeed/webfeed.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,10 +29,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+  late FeedsList feedsList = FeedsList(updateItemLoading: _updateItemLoading);
+  Settings settings = Settings();
   //Loading indicator
   bool isLoading = false;
-  double progressLoading = 0;
-  String itemLoading = '';
 
   //Search indicator
   bool isOnSearch = false;
@@ -42,26 +42,19 @@ class _MyHomePageState extends State<MyHomePage>
   static bool darkMode = false;
   double opacityAnimation = 1.0;
 
-  //Settings
-  int settingsFeedsLimit = 20;
-  int settingsDaysLimit = 90;
-  bool settingsLoadImages = true;
-  int settingsTimeout = 4;
-
-  late List<Feed> listFeed = [];
-
+  //late List<Feed> listFeed = [];
   String appName = "";
   String packageName = "";
   String version = "";
   String buildNumber = "";
+
+  int _selectedPageIndex = 0;
 
   //Controller
   TextEditingController searchController = TextEditingController();
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
-
-  int _selectedPageIndex = 0;
 
   @override
   void dispose() {
@@ -75,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage>
   initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await loadPackageInfo();
-      await loadSettings();
+      await settings.init();
       await setOpacityAnimation();
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
@@ -85,13 +78,8 @@ class _MyHomePageState extends State<MyHomePage>
     super.initState();
   }
 
-  Future<bool> loadSettings() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    settingsFeedsLimit = (prefs.getInt('settings_feeds_limit'))!;
-    settingsDaysLimit = (prefs.getInt('settings_days_limit'))!;
-    settingsLoadImages = (prefs.getBool('settings_load_images'))!;
-    settingsTimeout = (prefs.getInt('settings_timeout'))!;
-    return true;
+  void _updateItemLoading(String itemLoading) {
+    setState(() {});
   }
 
   Timer? _timerOpacityAnimation;
@@ -167,61 +155,6 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-  loadDataUrl(Site site) async {
-    try {
-      if (site.siteLink.trim().toLowerCase().contains("http")) {
-        String hostname = site.siteName;
-        setState(() {
-          itemLoading = hostname;
-        });
-        final response = await get(Uri.parse(site.siteLink))
-            .timeout(Duration(seconds: settingsTimeout));
-        RssFeed channel = RssFeed();
-        try {
-          channel = RssFeed.parse(utf8.decode(
-              response.bodyBytes)); //risolve accenti sbagliati esempio agi
-        } catch (err) {
-          //crash in utf8 with some site e.g. ilmattino, so try again without it and it works
-          try {
-            channel = RssFeed.parse(response.body);
-          } catch (err) {
-            // print('Caught error: $err');
-          }
-        }
-
-        String? iconUrl = site.iconUrl.trim() != ""
-            ? site.iconUrl
-            : channel.image?.url?.toString();
-
-        int nItem = 0;
-        channel.items?.forEach((element) {
-          if (element.title?.isEmpty == false) {
-            if (element.title.toString().length > 5) {
-              if (nItem < settingsFeedsLimit || settingsFeedsLimit == 0) {
-                nItem++;
-                var p1 = Feed(
-                    title: element.title == null ||
-                            element.title.toString().trim() == ""
-                        ? Utility().cleanText(element.description)
-                        : Utility().cleanText(element.title),
-                    link: element.link == null ||
-                            element.link.toString().trim() == ""
-                        ? element.guid.toString().trim()
-                        : element.link.toString().trim(),
-                    iconUrl: iconUrl.toString(),
-                    pubDate: Utility().tryParse(element.pubDate.toString()),
-                    host: hostname);
-                listFeed.add(p1);
-              }
-            }
-          }
-        });
-      }
-    } catch (err) {
-      //print('Caught error: $err');
-    }
-  }
-
   Future<List<Site>> leggiListaFeed() async {
     final prefs = await SharedPreferences.getInstance();
     final List<dynamic> jsonData =
@@ -238,37 +171,13 @@ class _MyHomePageState extends State<MyHomePage>
       setState(() {
         isLoading = true;
       });
-
-      listFeed = [];
-
-      List<Site> listaSiti = await leggiListaFeed();
-      for (var i = 0; i < listaSiti.length; i++) {
-        try {
-          setState(() {
-            progressLoading = (i + 1) / listaSiti.length;
-          });
-          await loadDataUrl(listaSiti[i]);
-        } catch (err) {
-          // print('Caught error: $err');
-        }
-        continue;
-      }
-
-      //remove feed older than N days
-      listFeed.removeWhere((e) =>
-          (Utility().daysBetween(e.pubDate!, DateTime.now()) >
-              settingsDaysLimit));
-
-      //sort
-      listFeed.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
-
-      setState(() {
-        listFeed = listFeed;
-        isLoading = false;
-      });
+      await feedsList.load();
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void showOptionDialog(BuildContext context, Feed item) {
@@ -385,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage>
         children: <Widget>[
           Text(packageName),
           const SizedBox(height: 15),
-          Text("Version: $buildNumber"),
+          Text("Version: $version"),
           const SizedBox(height: 15),
           Text("Build Number: $buildNumber"),
           const SizedBox(height: 15),
@@ -417,7 +326,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: !isOnSearch || isLoading || listFeed.isEmpty
+        appBar: !isOnSearch || isLoading || feedsList.items.isEmpty
             ? AppBar(
                 title: const Text("Aggregator"),
                 actions: <Widget>[
@@ -499,7 +408,7 @@ class _MyHomePageState extends State<MyHomePage>
                     tooltip: 'Search',
                     onPressed: () {
                       setState(() {
-                        listFeed = listFeed;
+                        feedsList = feedsList;
                         FocusManager.instance.primaryFocus?.unfocus();
 
                         WidgetsBinding.instance.focusManager.primaryFocus
@@ -616,7 +525,7 @@ class _MyHomePageState extends State<MyHomePage>
             Stack(
               children: [
                 isLoading == false
-                    ? listFeed.isEmpty
+                    ? feedsList.items.isEmpty
                         ? Center(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -638,30 +547,30 @@ class _MyHomePageState extends State<MyHomePage>
                                     ? 0
                                     : 3, //hide scrollbar wrong if something is hidden is ok to hide them
                                 child: ListView.separated(
-                                    itemCount: listFeed.length,
+                                    itemCount: feedsList.items.length,
                                     separatorBuilder: (context, index) {
                                       return Visibility(
                                           visible: !isOnSearch ||
                                               Utility().compareSearch([
-                                                listFeed[index].title,
-                                                listFeed[index].link,
-                                                listFeed[index].host
+                                                feedsList.items[index].title,
+                                                feedsList.items[index].link,
+                                                feedsList.items[index].host
                                               ], searchController.text),
                                           child: const Divider());
                                     },
                                     itemBuilder: (BuildContext context, index) {
-                                      final item = listFeed[index];
+                                      final item = feedsList.items[index];
 
                                       return Visibility(
                                           visible: !isOnSearch ||
                                               Utility().compareSearch([
-                                                listFeed[index].title,
-                                                listFeed[index].link,
-                                                listFeed[index].host
+                                                item.title,
+                                                item.link,
+                                                item.host
                                               ], searchController.text),
                                           child: InkWell(
-                                            onTap: () => showOptionDialog(
-                                                context, listFeed[index]),
+                                            onTap: () =>
+                                                showOptionDialog(context, item),
                                             child: ListTile(
                                                 minLeadingWidth: 30,
                                                 leading: SizedBox(
@@ -798,22 +707,22 @@ class _MyHomePageState extends State<MyHomePage>
                               duration: const Duration(milliseconds: 500),
                               child: EmptySection(
                                 title: 'Ricerca notizie in corso',
-                                description: itemLoading,
+                                description: feedsList.itemLoading,
                                 icon: Icons.query_stats,
                                 darkMode: darkMode,
                               ),
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(100, 15, 100, 0),
+                                  const EdgeInsets.fromLTRB(100, 18, 100, 0),
                               child: LinearPercentIndicator(
                                 animation: true,
                                 progressColor:
                                     Theme.of(context).colorScheme.primary,
-                                lineHeight: 5.0,
+                                lineHeight: 4.0,
                                 animateFromLastPercent: true,
                                 animationDuration: 1000,
-                                percent: progressLoading,
+                                percent: feedsList.progressLoading,
                                 barRadius: const Radius.circular(16),
                               ),
                             ),

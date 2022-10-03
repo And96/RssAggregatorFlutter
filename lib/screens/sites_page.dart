@@ -32,7 +32,6 @@ class _SitesPageState extends State<SitesPage>
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await loadData();
       await setOpacityAnimation();
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
@@ -388,11 +387,11 @@ class _SitesPageState extends State<SitesPage>
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(100, 15, 100, 0),
+                        padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
                         child: LinearPercentIndicator(
                           animation: true,
                           progressColor: Theme.of(context).colorScheme.primary,
-                          lineHeight: 5.0,
+                          lineHeight: 4.0,
                           animateFromLastPercent: true,
                           animationDuration: 10000,
                           percent: progressLoading,
