@@ -6,6 +6,7 @@ import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
+import 'package:rss_aggregator_flutter/screens/categories_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -489,7 +490,10 @@ class _MyHomePageState extends State<MyHomePage>
                       leading: const Icon(Icons.sell),
                       title: const Text("Categories"),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) => const CategoriesPage()))
+                            .then((value) => Phoenix.rebirth(context));
                       },
                     ),
                     const Divider(),
