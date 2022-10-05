@@ -52,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   //Controller
   TextEditingController searchController = TextEditingController();
+  final ScrollController listviewController = ScrollController();
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
@@ -342,6 +343,10 @@ class _MyHomePageState extends State<MyHomePage>
                           isOnSearchReadOnly = false;
                           searchController.text = '';
                         });
+                        listviewController.animateTo(
+                            listviewController.position.minScrollExtent,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.fastOutSlowIn);
                       },
                     ), //
                   !isLoading
@@ -367,16 +372,16 @@ class _MyHomePageState extends State<MyHomePage>
                           ),
                           onPressed: () => {},
                         ),
-
-                  PopupMenuButton<int>(
-                    onSelected: (item) => handleOptionsVertClick(item),
-                    itemBuilder: (context) => [
-                      const PopupMenuItem<int>(
-                          value: 1, child: Text('Filter site')),
-                      const PopupMenuItem<int>(
-                          value: 1, child: Text('Filter category')),
-                    ],
-                  ),
+                  if (!isLoading)
+                    PopupMenuButton<int>(
+                      onSelected: (item) => handleOptionsVertClick(item),
+                      itemBuilder: (context) => [
+                        const PopupMenuItem<int>(
+                            value: 1, child: Text('Filter site')),
+                        const PopupMenuItem<int>(
+                            value: 1, child: Text('Filter category')),
+                      ],
+                    ),
                 ],
               )
             : AppBar(
@@ -547,6 +552,7 @@ class _MyHomePageState extends State<MyHomePage>
                                     ? 0
                                     : 3, //hide scrollbar wrong if something is hidden is ok to hide them
                                 child: ListView.separated(
+                                    controller: listviewController,
                                     itemCount: feedsList.items.length,
                                     separatorBuilder: (context, index) {
                                       return Visibility(
@@ -719,7 +725,7 @@ class _MyHomePageState extends State<MyHomePage>
                                 animation: true,
                                 progressColor:
                                     Theme.of(context).colorScheme.primary,
-                                lineHeight: 4.0,
+                                lineHeight: 3.0,
                                 animateFromLastPercent: true,
                                 animationDuration: 1000,
                                 percent: feedsList.progressLoading,

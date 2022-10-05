@@ -391,7 +391,7 @@ class _SitesPageState extends State<SitesPage>
                         child: LinearPercentIndicator(
                           animation: true,
                           progressColor: Theme.of(context).colorScheme.primary,
-                          lineHeight: 4.0,
+                          lineHeight: 3.0,
                           animateFromLastPercent: true,
                           animationDuration: 10000,
                           percent: progressLoading,
