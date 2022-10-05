@@ -92,13 +92,12 @@ class _SitesPageState extends State<SitesPage>
       children: <Widget>[
         const Divider(),
         ListTile(
-          leading: const Icon(Icons.edit),
+          leading: const Icon(Icons.newspaper),
           title: const Text('Open news'),
           onTap: () {
             Navigator.pop(context, site.siteName);
           },
         ),
-        const Divider(),
         ListTile(
           leading: const Icon(Icons.edit),
           title: const Text('Edit site'),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
@@ -10,9 +9,7 @@ import 'package:rss_aggregator_flutter/screens/settings_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'dart:async';
@@ -156,19 +153,11 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-  Future<List<Site>> leggiListaFeed() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<dynamic> jsonData =
-        await jsonDecode(prefs.getString('db_site') ?? '[]');
-    return List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
-  }
-
   loadData() async {
     try {
       if (isLoading) {
         return;
       }
-
       setState(() {
         isLoading = true;
       });
@@ -279,40 +268,76 @@ class _MyHomePageState extends State<MyHomePage>
         });
   }
 
-  _showAlertDialog(BuildContext context) async {
-    Widget okButton = TextButton(
-      child: const Text("OK"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    AlertDialog alert = AlertDialog(
-      title: Text(appName),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+  _showInfoDialog(BuildContext context) async {
+    var dialog = SimpleDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(packageName),
-          const SizedBox(height: 15),
-          Text("Version: $version"),
-          const SizedBox(height: 15),
-          Text("Build Number: $buildNumber"),
-          const SizedBox(height: 15),
-          const Text("Developer: Andrea"),
-          const SizedBox(height: 15),
+          Text(
+            'Release information',
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(Icons.close),
+            tooltip: 'Close',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
-      actions: [
-        okButton,
+      contentPadding: const EdgeInsets.all(8),
+      children: <Widget>[
+        const Divider(),
+        ListTile(
+          minLeadingWidth: 30,
+          leading: const Icon(Icons.tag),
+          title: const Text('Version'),
+          subtitle: Text(
+            'v.$version build.$buildNumber',
+          ),
+        ),
+        ListTile(
+          minLeadingWidth: 30,
+          leading: const Icon(Icons.developer_board),
+          title: const Text('Package Name'),
+          subtitle: Text(
+            packageName,
+          ),
+        ),
+        const ListTile(
+          minLeadingWidth: 30,
+          leading: Icon(Icons.android),
+          title: Text('Developer'),
+          subtitle: Text(
+            'Andrea',
+          ),
+        ),
+        const Divider(),
+        ListTile(
+          minLeadingWidth: 30,
+          leading: const Icon(Icons.shop),
+          trailing: const Icon(Icons.arrow_forward),
+          title: const Text('Google Play'),
+          subtitle: const Text(
+            'Tap to open store',
+          ),
+          onTap: () {
+            Utility().launchInBrowser(Uri.parse(
+                "https://play.google.com/store/apps/details?id=$packageName"));
+            Navigator.pop(context);
+          },
+        ),
       ],
     );
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
   }
 
   void handleOptionsVertClick(int item) {
@@ -459,7 +484,7 @@ class _MyHomePageState extends State<MyHomePage>
                     ),
                     const Divider(),
                     ListTile(
-                      leading: const Icon(Icons.label),
+                      leading: const Icon(Icons.sell),
                       title: const Text("Categories"),
                       onTap: () {
                         Navigator.pop(context);
@@ -482,7 +507,7 @@ class _MyHomePageState extends State<MyHomePage>
                       title: const Text("Info"),
                       onTap: () {
                         Navigator.pop(context);
-                        _showAlertDialog(context);
+                        _showInfoDialog(context);
                       },
                     ),
                   ],
