@@ -69,7 +69,7 @@ class _SitesPageState extends State<SitesPage>
     setState(() {});
   }
 
-  void showOptionDialog(BuildContext context, String url) {
+  void showOptionDialog(BuildContext context, Site site) {
     var dialog = SimpleDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,11 +93,19 @@ class _SitesPageState extends State<SitesPage>
         const Divider(),
         ListTile(
           leading: const Icon(Icons.edit),
+          title: const Text('Open news'),
+          onTap: () {
+            Navigator.pop(context, site.siteName);
+          },
+        ),
+        const Divider(),
+        ListTile(
+          leading: const Icon(Icons.edit),
           title: const Text('Edit site'),
           onTap: () {
             Navigator.pop(context);
             setState(() {
-              _awaitReturnValueFromSecondScreen(context, url);
+              _awaitReturnValueFromSecondScreen(context, site.siteLink);
             });
           },
         ),
@@ -105,7 +113,8 @@ class _SitesPageState extends State<SitesPage>
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
           onTap: () async {
-            Utility().launchInBrowser(Uri.parse((Site.getHostName(url, true))));
+            Utility().launchInBrowser(
+                Uri.parse((Site.getHostName(site.siteLink, true))));
             Navigator.pop(context);
           },
         ),
@@ -113,7 +122,7 @@ class _SitesPageState extends State<SitesPage>
           leading: const Icon(Icons.copy),
           title: const Text('Copy link'),
           onTap: () {
-            Clipboard.setData(ClipboardData(text: url));
+            Clipboard.setData(ClipboardData(text: site.siteLink));
             Navigator.pop(context);
             const snackBar = SnackBar(
               duration: Duration(milliseconds: 500),
@@ -126,7 +135,7 @@ class _SitesPageState extends State<SitesPage>
           leading: const Icon(Icons.share),
           title: const Text('Share link'),
           onTap: () {
-            Share.share(url);
+            Share.share(site.siteLink);
             Navigator.pop(context);
           },
         ),
@@ -135,7 +144,7 @@ class _SitesPageState extends State<SitesPage>
           title: const Text('Delete site'),
           onTap: () {
             setState(() {
-              sitesList.deleteSite(url);
+              sitesList.deleteSite(site.siteLink);
             });
             Navigator.pop(context);
             const snackBar = SnackBar(
@@ -331,16 +340,9 @@ class _SitesPageState extends State<SitesPage>
                                       ),
                                     ),
                                   ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.more_vert),
-                                    tooltip: 'Options',
-                                    onPressed: () {
-                                      showOptionDialog(context, item.siteLink);
-                                    },
-                                  ), //,
                                   isThreeLine: false,
                                   onTap: () {
-                                    Navigator.pop(context, item.siteName);
+                                    showOptionDialog(context, item);
                                   },
                                   subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 5),
