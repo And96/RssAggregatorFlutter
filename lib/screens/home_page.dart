@@ -368,7 +368,6 @@ class _MyHomePageState extends State<MyHomePage>
                           isOnSearchReadOnly = false;
                           searchController.text = '';
                         });
-                        sleep(const Duration(milliseconds: 1000));
                         if (feedsList.items.isNotEmpty) {
                           listviewController.animateTo(
                               listviewController.position.minScrollExtent,
