@@ -39,11 +39,11 @@ class _MyHomePageState extends State<MyHomePage>
   static bool darkMode = false;
   double opacityAnimation = 1.0;
 
-  //late List<Feed> listFeed = [];
+  //package info
   String appName = "";
-  String packageName = "";
-  String version = "";
-  String buildNumber = "";
+  String appPackageName = "";
+  String appVersion = "";
+  String appBuildNumber = "";
 
   int _selectedPageIndex = 0;
 
@@ -95,9 +95,9 @@ class _MyHomePageState extends State<MyHomePage>
   loadPackageInfo() {
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       appName = packageInfo.appName;
-      packageName = packageInfo.packageName;
-      version = packageInfo.version;
-      buildNumber = packageInfo.buildNumber;
+      appPackageName = packageInfo.packageName;
+      appVersion = packageInfo.version;
+      appBuildNumber = packageInfo.buildNumber;
     });
   }
 
@@ -297,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage>
           leading: const Icon(Icons.tag),
           title: const Text('Version'),
           subtitle: Text(
-            'v.$version build.$buildNumber',
+            'v.$appVersion build.$appBuildNumber',
           ),
         ),
         ListTile(
@@ -305,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage>
           leading: const Icon(Icons.developer_board),
           title: const Text('Package Name'),
           subtitle: Text(
-            packageName,
+            appPackageName,
           ),
         ),
         const ListTile(
@@ -327,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage>
           ),
           onTap: () {
             Utility().launchInBrowser(Uri.parse(
-                "https://play.google.com/store/apps/details?id=$packageName"));
+                "https://play.google.com/store/apps/details?id=$appPackageName"));
             Navigator.pop(context);
           },
         ),
@@ -352,11 +352,11 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: !isOnSearch || isLoading || feedsList.items.isEmpty
+        appBar: !isOnSearch || isLoading
             ? AppBar(
                 title: const Text("Aggregator"),
                 actions: <Widget>[
-                  if (!isLoading)
+                  if (!isLoading && feedsList.sites.isNotEmpty)
                     IconButton(
                       icon: const Icon(Icons.search),
                       tooltip: 'Search',
@@ -368,10 +368,13 @@ class _MyHomePageState extends State<MyHomePage>
                           isOnSearchReadOnly = false;
                           searchController.text = '';
                         });
-                        listviewController.animateTo(
-                            listviewController.position.minScrollExtent,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.fastOutSlowIn);
+                        sleep(const Duration(milliseconds: 1000));
+                        if (feedsList.items.isNotEmpty) {
+                          listviewController.animateTo(
+                              listviewController.position.minScrollExtent,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.fastOutSlowIn);
+                        }
                       },
                     ), //
                   !isLoading
@@ -752,7 +755,7 @@ class _MyHomePageState extends State<MyHomePage>
                                     Theme.of(context).colorScheme.primary,
                                 lineHeight: 3.0,
                                 animateFromLastPercent: true,
-                                animationDuration: 1000,
+                                animationDuration: 2000,
                                 percent: feedsList.progressLoading,
                                 barRadius: const Radius.circular(16),
                               ),
