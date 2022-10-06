@@ -1,22 +1,22 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
-import 'package:rss_aggregator_flutter/screens/sites_page.dart';
+//import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
 import 'package:rss_aggregator_flutter/screens/categories_page.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
-import 'dart:async';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/services.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -27,18 +27,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  late FeedsList feedsList = FeedsList(updateItemLoading: _updateItemLoading);
   Settings settings = Settings();
+
+  late FeedsList feedsList = FeedsList(updateItemLoading: _updateItemLoading);
+  void _updateItemLoading(String itemLoading) {
+    setState(() {});
+  }
+
   //Loading indicator
   bool isLoading = false;
 
   //Search indicator
   bool isOnSearch = false;
-  bool isOnSearchReadOnly = false;
 
   //Theme
   static bool darkMode = false;
-  double opacityAnimation = 1.0;
 
   //package info
   String appName = "";
@@ -50,47 +53,29 @@ class _MyHomePageState extends State<MyHomePage>
 
   //Controller
   TextEditingController searchController = TextEditingController();
-  final ScrollController listviewController = ScrollController();
+
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
 
   @override
   void dispose() {
-    searchController.dispose();
     _refreshIconController.dispose();
-    _timerOpacityAnimation?.cancel();
+    searchController.dispose();
     super.dispose();
   }
 
   @override
   initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
       await loadPackageInfo();
       await settings.init();
-      await setOpacityAnimation();
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
       await loadData();
     });
-    super.initState();
-  }
-
-  void _updateItemLoading(String itemLoading) {
-    setState(() {});
-  }
-
-  Timer? _timerOpacityAnimation;
-  setOpacityAnimation() {
-    if (mounted) {
-      _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
-        setState(() {
-          opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
-          setOpacityAnimation();
-        });
-      });
-    }
   }
 
   loadPackageInfo() {
@@ -125,43 +110,16 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  void _awaitReturnValueFromSecondScreen(
-      BuildContext context, String urlInput) async {
-    try {
-      // start the SecondScreen and wait for it to finish with a result
-      final resultTextInput = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SitesPage(),
-          ));
-
-      // after the SecondScreen result comes back update the Text widget with it
-      if (resultTextInput != null) {
-        if (mounted) {
-          setState(() {
-            bottomTappedAnimation(0, 0);
-            searchController.text = resultTextInput.toString();
-            isOnSearch = true;
-            isOnSearchReadOnly = true;
-            FocusScope.of(context).unfocus();
-          });
-          FocusManager.instance.primaryFocus?.unfocus();
-          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-        }
-      }
-    } catch (err) {
-      // print('Caught error: $err');
-    }
-  }
-
   loadData() async {
     try {
       if (isLoading) {
         return;
       }
+
       setState(() {
         isLoading = true;
       });
+
       await feedsList.load();
     } catch (err) {
       //print('Caught error: $err');
@@ -350,10 +308,39 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
+  /*void _awaitReturnValueFromSecondScreen(
+      BuildContext context, String urlInput) async {
+    try {
+      // start the SecondScreen and wait for it to finish with a result
+      final resultTextInput = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SitesPage(),
+          ));
+
+      // after the SecondScreen result comes back update the Text widget with it
+      if (resultTextInput != null) {
+        if (mounted) {
+          setState(() {
+            bottomTappedAnimation(0, 0);
+            searchController.text = resultTextInput.toString();
+            isOnSearch = true;
+            isOnSearchReadOnly = true;
+            FocusScope.of(context).unfocus();
+          });
+          FocusManager.instance.primaryFocus?.unfocus();
+          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        }
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: !isOnSearch || isLoading
+        appBar: !isOnSearch
             ? AppBar(
                 title: const Text("Aggregator"),
                 actions: <Widget>[
@@ -366,50 +353,50 @@ class _MyHomePageState extends State<MyHomePage>
                         setState(() {
                           bottomTappedAnimation(0, 0);
                           isOnSearch = isOnSearch ? false : true;
-                          isOnSearchReadOnly = false;
                           searchController.text = '';
                         });
-                        if (feedsList.items.isNotEmpty) {
+                        /*if (feedsList.items.isNotEmpty) {
                           listviewController.animateTo(
                               listviewController.position.minScrollExtent,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.fastOutSlowIn);
-                        }
+                        }*/
                       },
                     ), //
-                  !isLoading
-                      ? IconButton(
-                          icon: const Icon(Icons.refresh),
-                          tooltip: 'Refresh',
-                          onPressed: () => {
-                            sleep(const Duration(milliseconds: 200)),
-                            loadData()
-                          },
-                        )
-                      : IconButton(
-                          icon: AnimatedBuilder(
-                            animation: _refreshIconController,
-                            builder: (_, child) {
-                              return Transform.rotate(
-                                angle:
-                                    _refreshIconController.value * 4 * 3.1415,
-                                child: child,
-                              );
-                            },
-                            child: const Icon(Icons.refresh),
-                          ),
-                          onPressed: () => {},
-                        ),
                   if (!isLoading)
-                    PopupMenuButton<int>(
-                      onSelected: (item) => handleOptionsVertClick(item),
-                      itemBuilder: (context) => [
-                        const PopupMenuItem<int>(
-                            value: 1, child: Text('Filter site')),
-                        const PopupMenuItem<int>(
-                            value: 1, child: Text('Filter category')),
-                      ],
+                    IconButton(
+                      icon: const Icon(Icons.refresh),
+                      tooltip: 'Refresh',
+                      onPressed: () => {
+                        sleep(const Duration(milliseconds: 200)),
+                        loadData()
+                      },
                     ),
+
+                  if (isLoading)
+                    IconButton(
+                      icon: AnimatedBuilder(
+                        animation: _refreshIconController,
+                        builder: (_, child) {
+                          return Transform.rotate(
+                            angle: _refreshIconController.value * 4 * 3.1415,
+                            child: child,
+                          );
+                        },
+                        child: const Icon(Icons.refresh),
+                      ),
+                      onPressed: () => {},
+                    ),
+
+                  PopupMenuButton<int>(
+                    onSelected: (item) => handleOptionsVertClick(item),
+                    itemBuilder: (context) => [
+                      const PopupMenuItem<int>(
+                          value: 1, child: Text('Filter site')),
+                      const PopupMenuItem<int>(
+                          value: 1, child: Text('Filter category')),
+                    ],
+                  ),
                 ],
               )
             : AppBar(
@@ -420,7 +407,6 @@ class _MyHomePageState extends State<MyHomePage>
                     setState(() {
                       sleep(const Duration(milliseconds: 200));
                       isOnSearch = false;
-                      isOnSearchReadOnly = false;
                       searchController.text = '';
                     });
                   },
@@ -430,7 +416,12 @@ class _MyHomePageState extends State<MyHomePage>
                   style: const TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   controller: searchController,
-                  readOnly: isOnSearchReadOnly,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  onSubmitted: (value) {
+                    setState(() {});
+                  },
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
@@ -443,7 +434,6 @@ class _MyHomePageState extends State<MyHomePage>
                       setState(() {
                         feedsList = feedsList;
                         FocusManager.instance.primaryFocus?.unfocus();
-
                         WidgetsBinding.instance.focusManager.primaryFocus
                             ?.unfocus();
                       });
@@ -477,15 +467,16 @@ class _MyHomePageState extends State<MyHomePage>
                         Navigator.pop(context);
                       },
                     ),
-                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.toc_outlined),
                       title: const Text("Manage Sites"),
                       onTap: () {
-                        _awaitReturnValueFromSecondScreen(context, "");
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) => const SitesPage()))
+                            .then((value) => Phoenix.rebirth(context));
                       },
                     ),
-                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.sell),
                       title: const Text("Categories"),
@@ -495,6 +486,16 @@ class _MyHomePageState extends State<MyHomePage>
                                 builder: (context) => const CategoriesPage()))
                             .then((value) => Phoenix.rebirth(context));
                       },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.watch_later_outlined),
+                      title: const Text("Read Later"),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.star),
+                      title: const Text("Starred"),
+                      onTap: () {},
                     ),
                     const Divider(),
                     ListTile(
@@ -507,7 +508,6 @@ class _MyHomePageState extends State<MyHomePage>
                             .then((value) => Phoenix.rebirth(context));
                       },
                     ),
-                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.info),
                       title: const Text("Info"),
@@ -526,21 +526,23 @@ class _MyHomePageState extends State<MyHomePage>
             ],
           ),
           child: BottomNavigationBar(
+            selectedFontSize: 15,
+            unselectedFontSize: 15,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.list_alt),
+                icon: Icon(Icons.list_alt, size: 0),
                 label: 'News Feed',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.watch_later_outlined),
+                icon: Icon(Icons.watch_later_outlined, size: 0),
                 label: 'Read Later',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.star),
+                icon: Icon(Icons.star, size: 0),
                 label: 'Starred',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.travel_explore_rounded),
+                icon: Icon(Icons.travel_explore_rounded, size: 0),
                 label: 'Discover',
               ),
             ],
@@ -558,215 +560,10 @@ class _MyHomePageState extends State<MyHomePage>
             pageChanged(index);
           },
           children: <Widget>[
-            Stack(
-              children: [
-                isLoading == false
-                    ? feedsList.items.isEmpty
-                        ? Center(
-                            child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              EmptySection(
-                                title: 'Nessuna notizia presente',
-                                description: 'Aggiungi i tuoi siti da seguire',
-                                icon: Icons.new_label,
-                                darkMode: darkMode,
-                              ),
-                            ],
-                          ))
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: Scrollbar(
-                                thickness: isOnSearch
-                                    ? 0
-                                    : 3, //hide scrollbar wrong if something is hidden is ok to hide them
-                                child: ListView.separated(
-                                    controller: listviewController,
-                                    itemCount: feedsList.items.length,
-                                    separatorBuilder: (context, index) {
-                                      return Visibility(
-                                          visible: !isOnSearch ||
-                                              Utility().compareSearch([
-                                                feedsList.items[index].title,
-                                                feedsList.items[index].link,
-                                                feedsList.items[index].host
-                                              ], searchController.text),
-                                          child: const Divider());
-                                    },
-                                    itemBuilder: (BuildContext context, index) {
-                                      final item = feedsList.items[index];
-
-                                      return Visibility(
-                                          visible: !isOnSearch ||
-                                              Utility().compareSearch([
-                                                item.title,
-                                                item.link,
-                                                item.host
-                                              ], searchController.text),
-                                          child: InkWell(
-                                            onTap: () =>
-                                                showOptionDialog(context, item),
-                                            child: ListTile(
-                                                minLeadingWidth: 30,
-                                                leading: SizedBox(
-                                                  height: double.infinity,
-                                                  width: 17,
-                                                  child: item.iconUrl
-                                                              .toString()
-                                                              .trim() ==
-                                                          ""
-                                                      ? const Icon(Icons.link)
-                                                      : CachedNetworkImage(
-                                                          imageUrl:
-                                                              item.iconUrl,
-                                                          placeholder: (context,
-                                                                  url) =>
-                                                              const Icon(
-                                                                  Icons.link),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              const Icon(
-                                                                  Icons.link),
-                                                        ),
-                                                ),
-                                                title: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 0),
-                                                  child: Text(
-                                                    (item.host.toString()),
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: darkMode
-                                                          ? const Color
-                                                                  .fromARGB(255,
-                                                              150, 150, 150)
-                                                          : const Color
-                                                                  .fromARGB(255,
-                                                              120, 120, 120),
-                                                    ),
-                                                  ),
-                                                ),
-                                                isThreeLine: true,
-                                                subtitle: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 5),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          child: Text(
-                                                            item.title
-                                                                .toString(),
-                                                            maxLines: 3,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              color: darkMode
-                                                                  ? const Color
-                                                                          .fromARGB(
-                                                                      255,
-                                                                      210,
-                                                                      210,
-                                                                      210)
-                                                                  : const Color
-                                                                          .fromARGB(
-                                                                      255,
-                                                                      5,
-                                                                      5,
-                                                                      5),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(top: 5),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(
-                                                                (DateFormat('dd/MM/yyyy HH:mm').format(Utility()
-                                                                    .tryParse(item
-                                                                        .pubDate
-                                                                        .toString())
-                                                                    .toLocal())),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: darkMode
-                                                                      ? const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          150,
-                                                                          150,
-                                                                          150)
-                                                                      : const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          120,
-                                                                          120,
-                                                                          120),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ))),
-                                          ));
-                                    })),
-                          )
-                    : Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            AnimatedOpacity(
-                              opacity: isLoading ? opacityAnimation : 1.0,
-                              duration: const Duration(milliseconds: 500),
-                              child: EmptySection(
-                                title: 'Ricerca notizie in corso',
-                                description: feedsList.itemLoading,
-                                icon: Icons.query_stats,
-                                darkMode: darkMode,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(100, 18, 100, 0),
-                              child: LinearPercentIndicator(
-                                animation: true,
-                                progressColor:
-                                    Theme.of(context).colorScheme.primary,
-                                lineHeight: 3.0,
-                                animateFromLastPercent: true,
-                                animationDuration: 2000,
-                                percent: feedsList.progressLoading,
-                                barRadius: const Radius.circular(16),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-              ],
+            NewsSection(
+              searchText: searchController.text,
+              feedsList: feedsList,
+              isLoading: isLoading,
             ),
             Center(
               child: EmptySection(
