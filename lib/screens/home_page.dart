@@ -69,11 +69,11 @@ class _MyHomePageState extends State<MyHomePage>
   initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await loadPackageInfo();
-      await settings.init();
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
+      await loadPackageInfo();
+      await settings.init();
       await loadData();
     });
   }

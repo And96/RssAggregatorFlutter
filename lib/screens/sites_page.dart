@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,6 +14,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 
 class SitesPage extends StatefulWidget {
   const SitesPage({Key? key}) : super(key: key);
@@ -26,6 +28,7 @@ class _SitesPageState extends State<SitesPage>
   bool isLoading = false;
   double progressLoading = 0;
   late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
+  late CategoriesList categoryList = CategoriesList();
   bool darkMode = false;
   double opacityAnimation = 1.0;
 
@@ -100,14 +103,46 @@ class _SitesPageState extends State<SitesPage>
         ),
         ListTile(
           leading: const Icon(Icons.edit),
-          title: const Text('Edit site'),
+          title: const Text('Edit link'),
           onTap: () {
             Navigator.pop(context);
             setState(() {
-              _awaitReturnValueFromSecondScreen(context, site.siteLink);
+              _awaitEditSite(context, site.siteLink);
             });
           },
         ),
+        SmartSelect<String>.single(
+            title: 'Days',
+            selectedValue: site.category,
+            modalType: S2ModalType.fullPage,
+            choiceItems: S2Choice.listFrom<String, String>(
+              source: categoryList.toList(),
+              value: (index, item) => item,
+              title: (index, item) => item,
+            ),
+            onChange: (selected) async {
+              Navigator.pop(context);
+              setState(() {
+                sitesList.setCategory(site.siteName, selected.value);
+              });
+              SnackBar snackBar = SnackBar(
+                duration: const Duration(milliseconds: 700),
+                content: Text('Changed category to ${selected.value}'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            tileBuilder: (context, state) {
+              return S2Tile.fromState(
+                state,
+                isTwoLine: false,
+                leading: const Icon(Icons.sell),
+                trailing: const Icon(
+                  Icons.sell,
+                  size: 0,
+                ),
+                title: const Text("Categories"),
+              );
+            }),
         ListTile(
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
@@ -143,7 +178,7 @@ class _SitesPageState extends State<SitesPage>
           title: const Text('Delete site'),
           onTap: () {
             setState(() {
-              sitesList.deleteSite(site.siteLink);
+              sitesList.delete(site.siteLink);
             });
             Navigator.pop(context);
             const snackBar = SnackBar(
@@ -169,7 +204,7 @@ class _SitesPageState extends State<SitesPage>
       child: const Text("Yes"),
       onPressed: () {
         setState(() {
-          sitesList.deleteSite(url);
+          sitesList.delete(url);
         });
         Navigator.pop(context);
       },
@@ -201,6 +236,7 @@ class _SitesPageState extends State<SitesPage>
         isLoading = true;
       });
       await sitesList.load();
+      await categoryList.load();
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -209,8 +245,7 @@ class _SitesPageState extends State<SitesPage>
     });
   }
 
-  void _awaitReturnValueFromSecondScreen(
-      BuildContext context, String urlInput) async {
+  void _awaitEditSite(BuildContext context, String urlInput) async {
     try {
       // start the SecondScreen and wait for it to finish with a result
       final resultTextInput = await Navigator.push(
@@ -225,7 +260,7 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        sitesList.deleteSite(urlInput);
+        sitesList.delete(urlInput);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
@@ -236,14 +271,14 @@ class _SitesPageState extends State<SitesPage>
               setState(() {
                 progressLoading = (i + 1) / listUrl.length;
               });
-              await sitesList.addSite(item, advancedSearch);
+              await sitesList.add(item, advancedSearch);
             }
           }
         } else {
           setState(() {
             progressLoading = 0.90;
           });
-          await sitesList.addSite(
+          await sitesList.add(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true);
         }
@@ -410,7 +445,7 @@ class _SitesPageState extends State<SitesPage>
               icon: const Icon(Icons.add),
               label: const Text('Add Site'),
               onPressed: () {
-                _awaitReturnValueFromSecondScreen(context, "");
+                _awaitEditSite(context, "");
               },
             ),
     );

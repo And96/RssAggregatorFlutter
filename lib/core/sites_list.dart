@@ -14,7 +14,7 @@ class SitesList {
 
   Future<bool> load() async {
     try {
-      items = await readSites();
+      items = await get();
       return true;
     } catch (err) {
       // print('Caught error: $err');
@@ -22,23 +22,41 @@ class SitesList {
     return false;
   }
 
-  Future<void> saveSites(List<Site> tList) async {
+  Future<void> save(List<Site> list) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('db_site', jsonEncode(tList));
+    prefs.setString('db_site', jsonEncode(list));
   }
 
-  void deleteSite(String url) async {
+  void delete(String url) async {
     if (url == "*") {
       items = [];
     } else {
       items.removeWhere(
           (e) => (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
     }
-    saveSites(items);
-    items = await readSites();
+    save(items);
+    items = await get();
   }
 
-  Future<bool> addSite(String url, bool advancedSearch) async {
+  Future<bool> setCategory(String siteName, String category) async {
+    try {
+      items = await get();
+      for (var item in items) {
+        if (item.siteName == siteName) {
+          item.category = category;
+          break;
+        }
+      }
+      save(items);
+      items = await get();
+      return true;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
+  Future<bool> add(String url, bool advancedSearch) async {
     try {
       String hostsiteName = url;
       if (hostsiteName.replaceAll("//", "/").contains("/")) {
@@ -64,9 +82,10 @@ class SitesList {
           siteName: hostsiteName,
           siteLink: url,
           iconUrl: await SiteIcon().getIcon(hostsiteName, url),
+          category: '',
         );
         items.add(s1);
-        saveSites(items);
+        save(items);
       }
     } catch (err) {
       // print('Caught error: $err');
@@ -74,15 +93,17 @@ class SitesList {
     return true;
   }
 
-  Future<List<Site>> readSites() async {
+  Future<List<Site>> get() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_site') ?? '[]');
-      late List<Site> listLocal =
+      late List<Site> list =
           List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
-
-      return listLocal;
+      //sort
+      list.sort((a, b) =>
+          a.siteName.toLowerCase().compareTo(b.siteName.toLowerCase()));
+      return list;
     } catch (err) {
       // print('Caught error: $err');
     }

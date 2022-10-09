@@ -7,10 +7,12 @@ class Site {
   var siteName = "";
   var siteLink = "";
   var iconUrl = "";
+  var category = "";
   Site({
     required this.siteName,
     required this.siteLink,
     required this.iconUrl,
+    required this.category,
   });
 
   factory Site.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,7 @@ class Site {
       siteName: json["siteName"],
       siteLink: json["siteLink"],
       iconUrl: json["iconUrl"],
+      category: json["category"],
     );
   }
 
@@ -26,6 +29,7 @@ class Site {
       "siteName": siteName,
       "siteLink": siteLink,
       "iconUrl": iconUrl,
+      "category": category,
     };
   }
 
