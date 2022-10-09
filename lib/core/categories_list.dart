@@ -7,7 +7,7 @@ class CategoriesList {
 
   Future<bool> load() async {
     try {
-      items = await readCategories();
+      items = await get();
       return true;
     } catch (err) {
       // print('Caught error: $err');
@@ -15,23 +15,23 @@ class CategoriesList {
     return false;
   }
 
-  Future<void> saveCategories(List<Category> tList) async {
+  Future<void> save(List<Category> list) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('db_categories', jsonEncode(tList));
+    prefs.setString('db_categories', jsonEncode(list));
   }
 
-  void deleteCategory(String name) async {
+  void delete(String name) async {
     if (name == "*") {
       items = [];
     } else {
       items.removeWhere(
           (e) => (e.name.trim().toLowerCase() == name.trim().toLowerCase()));
     }
-    saveCategories(items);
-    items = await readCategories();
+    save(items);
+    items = await get();
   }
 
-  Future<bool> addCategory(String name, int color) async {
+  Future<bool> add(String name, int color) async {
     try {
       name = name.trim();
       if (name.length > 1) {
@@ -42,7 +42,8 @@ class CategoriesList {
           color: color,
         );
         items.add(c);
-        saveCategories(items);
+        save(items);
+        items = await get();
       }
     } catch (err) {
       // print('Caught error: $err');
@@ -50,15 +51,16 @@ class CategoriesList {
     return true;
   }
 
-  Future<List<Category>> readCategories() async {
+  Future<List<Category>> get() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_categories') ?? '[]');
-      late List<Category> listLocal = List<Category>.from(
+      late List<Category> list = List<Category>.from(
           jsonData.map((model) => Category.fromJson(model)));
-
-      return listLocal;
+      //sort
+      list.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      return list;
     } catch (err) {
       // print('Caught error: $err');
     }

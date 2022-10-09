@@ -32,7 +32,7 @@ class _CategoriesPageState extends State<CategoriesPage>
       onPressed: () {
         setState(() {
           int darkGrey = 4284513675;
-          categoriesList.addCategory(_textFieldController.text, darkGrey);
+          categoriesList.add(_textFieldController.text, darkGrey);
         });
         Navigator.pop(context);
       },
@@ -66,14 +66,14 @@ class _CategoriesPageState extends State<CategoriesPage>
         });
   }
 
-  ColorSwatch? _mainColor = Colors.blue;
+  ColorSwatch? _selectedColor = Colors.blueGrey;
 
   void _openColorPickerDialog(String name, Widget content) {
     Widget saveButton = TextButton(
       child: const Text("Save"),
       onPressed: () {
         setState(() {
-          categoriesList.addCategory(name, _mainColor!.value);
+          categoriesList.add(name, _selectedColor!.value);
         });
 
         Navigator.pop(context);
@@ -98,13 +98,13 @@ class _CategoriesPageState extends State<CategoriesPage>
     );
   }
 
-  void _openColorPicker(String name) async {
+  void _openColorPicker(String name, int color) async {
     _openColorPickerDialog(
       name,
       MaterialColorPicker(
-        selectedColor: _mainColor,
+        selectedColor: Color(color),
         allowShades: false,
-        onMainColorChange: (color) => setState(() => _mainColor = color),
+        onMainColorChange: (color) => setState(() => _selectedColor = color),
       ),
     );
   }
@@ -172,7 +172,7 @@ class _CategoriesPageState extends State<CategoriesPage>
           title: const Text('Choose color'),
           onTap: () {
             Navigator.pop(context);
-            _openColorPicker(category.name);
+            _openColorPicker(category.name, category.color);
           },
         ),
         const ListTile(
@@ -184,7 +184,7 @@ class _CategoriesPageState extends State<CategoriesPage>
           title: const Text('Delete'),
           onTap: () {
             setState(() {
-              categoriesList.deleteCategory(category.name);
+              categoriesList.delete(category.name);
             });
             Navigator.pop(context);
             const snackBar = SnackBar(
@@ -209,7 +209,7 @@ class _CategoriesPageState extends State<CategoriesPage>
       child: const Text("Yes"),
       onPressed: () {
         setState(() {
-          categoriesList.deleteCategory(url);
+          categoriesList.delete(url);
         });
         Navigator.pop(context);
       },
