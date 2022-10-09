@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/core/category.dart';
+import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with SingleTickerProviderStateMixin {
   late CategoriesList categoriesList = CategoriesList();
+  late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
   bool darkMode = false;
 
   bool isLoading = true;
@@ -67,6 +70,10 @@ class _CategoriesPageState extends State<CategoriesPage>
   }
 
   ColorSwatch? _selectedColor = Colors.blueGrey;
+
+  void _updateItemLoading(String itemLoading) {
+    setState(() {});
+  }
 
   void _openColorPickerDialog(String name, Widget content) {
     Widget saveButton = TextButton(
@@ -175,10 +182,38 @@ class _CategoriesPageState extends State<CategoriesPage>
             _openColorPicker(category.name, category.color);
           },
         ),
-        const ListTile(
-          leading: Icon(Icons.list),
-          title: Text('Choose sites'),
-        ),
+        SmartSelect<String>.multiple(
+            title: 'Category',
+            selectedValue: [], //category.sites,
+            modalType: S2ModalType.fullPage,
+            choiceItems: S2Choice.listFrom<String, String>(
+              source: sitesList.toList(),
+              value: (index, item) => item,
+              title: (index, item) => item,
+            ),
+            onChange: (selected) async {
+              Navigator.pop(context);
+              /*setState(() {
+                sitesList.setCategory(site.siteName, selected.value);
+              });*/
+              SnackBar snackBar = SnackBar(
+                duration: const Duration(milliseconds: 700),
+                content: Text('Changed category to ${selected.value}'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            tileBuilder: (context, state) {
+              return S2Tile.fromState(
+                state,
+                isTwoLine: false,
+                leading: const Icon(Icons.list),
+                trailing: const Icon(
+                  Icons.sell,
+                  size: 0,
+                ),
+                title: const Text("Choose sites"),
+              );
+            }),
         ListTile(
           leading: const Icon(Icons.delete),
           title: const Text('Delete'),
@@ -241,6 +276,7 @@ class _CategoriesPageState extends State<CategoriesPage>
         isLoading = true;
       });
       await categoriesList.load();
+      await sitesList.load();
     } catch (err) {
       //print('Caught error: $err');
     }

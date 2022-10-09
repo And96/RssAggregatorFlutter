@@ -12,6 +12,18 @@ class SitesList {
   late final ValueChanged<String> updateItemLoading;
   SitesList({required this.updateItemLoading});
 
+  List<String> toList() {
+    List<String> list = [];
+    try {
+      for (Site item in items) {
+        list.add(item.siteName);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return list;
+  }
+
   Future<bool> load() async {
     try {
       items = await get();

@@ -17,6 +17,18 @@ class CategoriesList {
     return list;
   }
 
+  List<String> getSiteList() {
+    List<String> list = [];
+    try {
+      for (Category item in items) {
+        list.add(item.name);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return list;
+  }
+
   Future<bool> load() async {
     try {
       items = await get();

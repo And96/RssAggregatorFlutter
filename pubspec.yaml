@@ -45,7 +45,6 @@ dependencies:
   package_info_plus: ^1.4.3+1
   flutter_launcher_icons: ^0.10.0
   feed_finder: ^1.0.9
-  share_plus: ^4.1.0
   settings_ui: ^2.0.2
   adaptive_theme: ^3.1.1
   pref: ^2.6.0
@@ -54,6 +53,7 @@ dependencies:
   flutter_material_color_picker: ^1.1.0+2
   grouped_buttons_ns: ^1.0.0
   flutter_awesome_select: ^6.5.0
+  share_plus: ^4.5.3
 
 flutter_launcher_icons:
     path: ../..

@@ -28,7 +28,7 @@ class _SitesPageState extends State<SitesPage>
   bool isLoading = false;
   double progressLoading = 0;
   late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
-  late CategoriesList categoryList = CategoriesList();
+  late CategoriesList categoriesList = CategoriesList();
   bool darkMode = false;
   double opacityAnimation = 1.0;
 
@@ -112,24 +112,24 @@ class _SitesPageState extends State<SitesPage>
           },
         ),
         SmartSelect<String>.single(
-            title: 'Days',
+            title: 'Category',
             selectedValue: site.category,
             modalType: S2ModalType.fullPage,
             choiceItems: S2Choice.listFrom<String, String>(
-              source: categoryList.toList(),
+              source: categoriesList.toList(),
               value: (index, item) => item,
               title: (index, item) => item,
             ),
             onChange: (selected) async {
+              SnackBar snackBar = SnackBar(
+                duration: const Duration(milliseconds: 1500),
+                content: Text('Changed category to ${selected.value}'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
               Navigator.pop(context);
               setState(() {
                 sitesList.setCategory(site.siteName, selected.value);
               });
-              SnackBar snackBar = SnackBar(
-                duration: const Duration(milliseconds: 700),
-                content: Text('Changed category to ${selected.value}'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             tileBuilder: (context, state) {
               return S2Tile.fromState(
@@ -140,7 +140,7 @@ class _SitesPageState extends State<SitesPage>
                   Icons.sell,
                   size: 0,
                 ),
-                title: const Text("Categories"),
+                title: const Text("Category"),
               );
             }),
         ListTile(
@@ -236,7 +236,7 @@ class _SitesPageState extends State<SitesPage>
         isLoading = true;
       });
       await sitesList.load();
-      await categoryList.load();
+      await categoriesList.load();
     } catch (err) {
       //print('Caught error: $err');
     }
