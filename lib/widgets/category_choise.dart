@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grouped_buttons_ns/grouped_buttons_ns.dart';
+//import 'package:grouped_buttons_ns/grouped_buttons_ns.dart';
 import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 
 class CategoryChoice extends StatelessWidget {
@@ -13,7 +13,7 @@ class CategoryChoice extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePagex(),
+      home: const HomePagex(),
     );
   }
 }
@@ -22,7 +22,7 @@ class HomePagex extends StatefulWidget {
   const HomePagex({super.key});
 
   @override
-  _HomePagexState createState() => _HomePagexState();
+  HomePagexState createState() => HomePagexState();
 }
 
 List<S2Choice<String>> fruitsx = [
@@ -31,15 +31,12 @@ List<S2Choice<String>> fruitsx = [
   S2Choice<String>(value: 'mel', title: 'Melon'),
 ];
 
-class _HomePagexState extends State<HomePagex> {
-  List<String> _checked = ['A', 'B'];
-  String _picked = 'Two';
-
+class HomePagexState extends State<HomePagex> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Grouped Buttons Example'),
+          title: const Text('Grouped Buttons Example'),
         ),
         body: Column(
           children: <Widget>[

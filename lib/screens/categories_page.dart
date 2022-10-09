@@ -184,7 +184,7 @@ class _CategoriesPageState extends State<CategoriesPage>
         ),
         SmartSelect<String>.multiple(
             title: 'Category',
-            selectedValue: [], //category.sites,
+            selectedValue: const [], //category.sites,
             modalType: S2ModalType.fullPage,
             choiceItems: S2Choice.listFrom<String, String>(
               source: sitesList.toList(),
