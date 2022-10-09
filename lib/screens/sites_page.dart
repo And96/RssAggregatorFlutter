@@ -126,10 +126,11 @@ class _SitesPageState extends State<SitesPage>
                 content: Text('Changed category to ${selected.value}'),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              Navigator.pop(context);
+
               setState(() {
-                sitesList.setCategory(site.siteName, selected.value);
+                sitesList.setCategory(site.siteLink, selected.value);
               });
+              Navigator.pop(context);
             },
             tileBuilder: (context, state) {
               return S2Tile.fromState(
@@ -359,21 +360,72 @@ class _SitesPageState extends State<SitesPage>
                                                     const Icon(Icons.link),
                                           ),
                                   ),
-                                  title: Padding(
-                                    padding: const EdgeInsets.only(top: 0),
-                                    child: Text(
-                                      (item.siteName.toString()),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        color: darkMode
-                                            ? const Color.fromARGB(
-                                                255, 210, 210, 210)
-                                            : const Color.fromARGB(
-                                                255, 5, 5, 5),
-                                      ),
-                                    ),
-                                  ),
+                                  title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 0),
+                                          child: Text(
+                                            (item.siteName.toString()),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              color: darkMode
+                                                  ? const Color.fromARGB(
+                                                      255, 210, 210, 210)
+                                                  : const Color.fromARGB(
+                                                      255, 5, 5, 5),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 0),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                                color: Color(categoriesList
+                                                    .getColor(item.category)),
+                                                border: Border.all(
+                                                  color: Color(categoriesList
+                                                      .getColor(item.category)),
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(4))),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 17,
+                                                  width: 17,
+                                                  child: Icon(
+                                                    Icons.sell,
+                                                    size: 15,
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  (item.category.toString()),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
                                   isThreeLine: false,
                                   onTap: () {
                                     showOptionDialog(context, item);

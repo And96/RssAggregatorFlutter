@@ -334,8 +334,8 @@ class _CategoriesPageState extends State<CategoriesPage>
                                   height: double.infinity,
                                   width: 17,
                                   child: item.color.toString().trim() == ""
-                                      ? const Icon(Icons.circle)
-                                      : Icon(Icons.circle,
+                                      ? const Icon(Icons.sell)
+                                      : Icon(Icons.sell,
                                           color: Color(item.color)),
                                 ),
                                 title: Padding(

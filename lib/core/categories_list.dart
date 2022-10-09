@@ -5,6 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CategoriesList {
   late List<Category> items = [];
 
+  int getColor(String categoryName) {
+    try {
+      return items.firstWhere((e) => e.name == categoryName).color;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return -1;
+  }
+
   List<String> toList() {
     List<String> list = [];
     try {

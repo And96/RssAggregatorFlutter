@@ -50,11 +50,11 @@ class SitesList {
     items = await get();
   }
 
-  Future<bool> setCategory(String siteName, String category) async {
+  Future<bool> setCategory(String siteLink, String category) async {
     try {
       items = await get();
       for (var item in items) {
-        if (item.siteName == siteName) {
+        if (item.siteLink == siteLink) {
           item.category = category;
           break;
         }
