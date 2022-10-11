@@ -98,11 +98,13 @@ class SitesList {
         );
         items.add(s1);
         save(items);
+        items = await get();
+        return true;
       }
     } catch (err) {
       // print('Caught error: $err');
     }
-    return true;
+    return false;
   }
 
   Future<List<Site>> get() async {
