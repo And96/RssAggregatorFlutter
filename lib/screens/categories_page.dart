@@ -34,8 +34,7 @@ class _CategoriesPageState extends State<CategoriesPage>
       child: const Text("Save"),
       onPressed: () {
         setState(() {
-          int darkGrey = 4284513675;
-          categoriesList.add(_textFieldController.text, darkGrey);
+          categoriesList.add(_textFieldController.text, -1);
         });
         Navigator.pop(context);
       },

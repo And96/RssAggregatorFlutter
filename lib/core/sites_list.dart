@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +9,7 @@ import 'package:rss_aggregator_flutter/core/site_icon.dart';
 class SitesList {
   late List<Site> items = [];
   String itemLoading = "";
+  late CategoriesList categoriesList = CategoriesList();
 
   late final ValueChanged<String> updateItemLoading;
   SitesList({required this.updateItemLoading});
@@ -26,6 +28,7 @@ class SitesList {
 
   Future<bool> load() async {
     try {
+      categoriesList.load();
       items = await get();
       return true;
     } catch (err) {
@@ -94,7 +97,7 @@ class SitesList {
           siteName: hostsiteName,
           siteLink: url,
           iconUrl: await SiteIcon().getIcon(hostsiteName, url),
-          category: '',
+          category: categoriesList.defaultCategory,
         );
         items.add(s1);
         save(items);

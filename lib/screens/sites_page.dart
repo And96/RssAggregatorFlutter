@@ -126,7 +126,6 @@ class _SitesPageState extends State<SitesPage>
                 content: Text('Changed category to ${selected.value}'),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
               setState(() {
                 sitesList.setCategory(site.siteLink, selected.value);
               });
@@ -481,7 +480,7 @@ class _SitesPageState extends State<SitesPage>
                           progressColor: Theme.of(context).colorScheme.primary,
                           lineHeight: 3.0,
                           animateFromLastPercent: true,
-                          animationDuration: 12000,
+                          animationDuration: 15000,
                           percent: progressLoading,
                           barRadius: const Radius.circular(16),
                         ),
