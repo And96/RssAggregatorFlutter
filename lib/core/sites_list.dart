@@ -39,7 +39,7 @@ class SitesList {
 
   Future<void> save(List<Site> list) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('db_site', jsonEncode(list));
+    await prefs.setString('db_sites', jsonEncode(list));
   }
 
   void delete(String url) async {
@@ -50,20 +50,20 @@ class SitesList {
           (e) => (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
     }
     save(items);
-    items = await get();
+    await load();
   }
 
   Future<bool> setCategory(String siteLink, String category) async {
     try {
-      items = await get();
+      await load();
       for (var item in items) {
         if (item.siteLink == siteLink) {
           item.category = category;
           break;
         }
       }
-      save(items);
-      items = await get();
+      await save(items);
+      await load();
       return true;
     } catch (err) {
       // print('Caught error: $err');
@@ -100,7 +100,7 @@ class SitesList {
           category: categoriesList.defaultCategory,
         );
         items.add(s1);
-        save(items);
+        await save(items);
         items = await get();
         return true;
       }
@@ -114,7 +114,7 @@ class SitesList {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
-          await jsonDecode(prefs.getString('db_site') ?? '[]');
+          await jsonDecode(prefs.getString('db_sites') ?? '[]');
       late List<Site> list =
           List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
       //sort

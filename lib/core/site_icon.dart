@@ -53,7 +53,7 @@ class SiteIcon {
       if (iconUrl.length < 5) {
         iconUrl = "";
       } else {
-        saveIconLocal(siteName, iconUrl);
+        await saveIconLocal(siteName, iconUrl);
       }
     } catch (e) {}
     return iconUrl;
@@ -158,7 +158,7 @@ class SiteIcon {
 
         //save to memory
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString('db_site_icon', jsonEncode(listIconUrl));
+        await prefs.setString('db_site_icon', jsonEncode(listIconUrl));
       }
     } catch (e) {}
     return iconUrl;

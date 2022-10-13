@@ -4,20 +4,18 @@ import 'package:flutter/scheduler.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
-import 'package:rss_aggregator_flutter/core/feed.dart';
+import 'package:rss_aggregator_flutter/screens/favourites_page.dart';
+import 'package:rss_aggregator_flutter/screens/readlater_page.dart';
 //import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/settings_page.dart';
 import 'package:rss_aggregator_flutter/screens/categories_page.dart';
 // ignore: depend_on_referenced_packages
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/news_section.dart';
-import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:flutter/services.dart';
+import 'package:rss_aggregator_flutter/core/categories_list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -30,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage>
   Settings settings = Settings();
 
   late FeedsList feedsList = FeedsList(updateItemLoading: _updateItemLoading);
+  late CategoriesList categoriesList = CategoriesList();
   void _updateItemLoading(String itemLoading) {
     setState(() {});
   }
@@ -48,8 +47,6 @@ class _MyHomePageState extends State<MyHomePage>
   String appPackageName = "";
   String appVersion = "";
   String appBuildNumber = "";
-
-  int _selectedPageIndex = 0;
 
   //Controller
   TextEditingController searchController = TextEditingController();
@@ -92,24 +89,6 @@ class _MyHomePageState extends State<MyHomePage>
     keepPage: true,
   );
 
-  void pageChanged(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
-  }
-
-  void bottomTapped(int index) {
-    bottomTappedAnimation(index, 500);
-  }
-
-  void bottomTappedAnimation(int index, int timeAnimation) {
-    setState(() {
-      _selectedPageIndex = index;
-      pageController.animateToPage(index,
-          duration: Duration(milliseconds: timeAnimation), curve: Curves.ease);
-    });
-  }
-
   loadData() async {
     try {
       if (isLoading) {
@@ -119,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage>
       setState(() {
         isLoading = true;
       });
-
+      await categoriesList.load();
       await feedsList.load();
     } catch (err) {
       //print('Caught error: $err');
@@ -127,104 +106,6 @@ class _MyHomePageState extends State<MyHomePage>
     setState(() {
       isLoading = false;
     });
-  }
-
-  void showOptionDialog(BuildContext context, Feed item) {
-    var dialog = SimpleDialog(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SizedBox(
-            height: 17,
-            width: 17,
-            child: item.iconUrl.toString().trim() == ""
-                ? const Icon(Icons.link)
-                : CachedNetworkImage(
-                    imageUrl: item.iconUrl,
-                    placeholder: (context, url) => const Icon(Icons.link),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.link),
-                  ),
-          ),
-          Text(
-            item.host,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: const Icon(Icons.close),
-            tooltip: 'Close',
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-      contentPadding: const EdgeInsets.all(8),
-      children: <Widget>[
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Text(
-            item.link,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.left,
-            maxLines: 2,
-          ),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.open_in_new),
-          title: const Text('Open site'),
-          onTap: () async {
-            Utility().launchInBrowser(Uri.parse(item.link));
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.watch_later_outlined),
-          title: const Text('Read later'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.star_border),
-          title: const Text('Add to starred'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.copy),
-          title: const Text('Copy link'),
-          onTap: () {
-            Clipboard.setData(ClipboardData(text: item.link));
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Link copied to clipboard'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.share),
-          title: const Text('Share link'),
-          onTap: () {
-            Share.share(item.link);
-            Navigator.pop(context);
-          },
-        ),
-      ],
-    );
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return dialog;
-        });
   }
 
   _showInfoDialog(BuildContext context) async {
@@ -339,260 +220,230 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: !isOnSearch
-            ? AppBar(
-                title: const Text("Aggregator"),
-                actions: <Widget>[
-                  if (!isLoading && feedsList.sites.isNotEmpty)
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      tooltip: 'Search',
-                      onPressed: () {
-                        sleep(const Duration(milliseconds: 200));
-                        setState(() {
-                          bottomTappedAnimation(0, 0);
-                          isOnSearch = isOnSearch ? false : true;
-                          searchController.text = '';
-                        });
-                        /*if (feedsList.items.isNotEmpty) {
+    return DefaultTabController(
+        length: categoriesList.items.length,
+        child: Scaffold(
+            appBar: !isOnSearch
+                ? AppBar(
+                    title: const Text("Aggregator"),
+                    // bottom:
+                    actions: <Widget>[
+                      if (!isLoading && feedsList.sites.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(Icons.search),
+                          tooltip: 'Search',
+                          onPressed: () {
+                            sleep(const Duration(milliseconds: 200));
+                            setState(() {
+                              isOnSearch = isOnSearch ? false : true;
+                              searchController.text = '';
+                            });
+                            /*if (feedsList.items.isNotEmpty) {
                           listviewController.animateTo(
                               listviewController.position.minScrollExtent,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.fastOutSlowIn);
                         }*/
+                          },
+                        ), //
+                      if (!isLoading)
+                        IconButton(
+                          icon: const Icon(Icons.refresh),
+                          tooltip: 'Refresh',
+                          onPressed: () => {
+                            sleep(const Duration(milliseconds: 200)),
+                            loadData()
+                          },
+                        ),
+
+                      if (isLoading)
+                        IconButton(
+                          icon: AnimatedBuilder(
+                            animation: _refreshIconController,
+                            builder: (_, child) {
+                              return Transform.rotate(
+                                angle:
+                                    _refreshIconController.value * 4 * 3.1415,
+                                child: child,
+                              );
+                            },
+                            child: const Icon(Icons.refresh),
+                          ),
+                          onPressed: () => {},
+                        ),
+
+                      PopupMenuButton<int>(
+                        onSelected: (item) => handleOptionsVertClick(item),
+                        itemBuilder: (context) => [
+                          const PopupMenuItem<int>(
+                              value: 1, child: Text('Filter site')),
+                          const PopupMenuItem<int>(
+                              value: 1, child: Text('Filter category')),
+                        ],
+                      ),
+                    ],
+                  )
+                : AppBar(
+                    leading: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      tooltip: 'Back',
+                      onPressed: () {
+                        setState(() {
+                          sleep(const Duration(milliseconds: 200));
+                          isOnSearch = false;
+                          searchController.text = '';
+                        });
                       },
                     ), //
-                  if (!isLoading)
-                    IconButton(
-                      icon: const Icon(Icons.refresh),
-                      tooltip: 'Refresh',
-                      onPressed: () => {
-                        sleep(const Duration(milliseconds: 200)),
-                        loadData()
+                    title: TextField(
+                      autofocus: true,
+                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                      controller: searchController,
+                      onChanged: (value) {
+                        setState(() {});
                       },
-                    ),
-
-                  if (isLoading)
-                    IconButton(
-                      icon: AnimatedBuilder(
-                        animation: _refreshIconController,
-                        builder: (_, child) {
-                          return Transform.rotate(
-                            angle: _refreshIconController.value * 4 * 3.1415,
-                            child: child,
-                          );
-                        },
-                        child: const Icon(Icons.refresh),
+                      onSubmitted: (value) {
+                        setState(() {});
+                      },
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
                       ),
-                      onPressed: () => {},
                     ),
-
-                  PopupMenuButton<int>(
-                    onSelected: (item) => handleOptionsVertClick(item),
-                    itemBuilder: (context) => [
-                      const PopupMenuItem<int>(
-                          value: 1, child: Text('Filter site')),
-                      const PopupMenuItem<int>(
-                          value: 1, child: Text('Filter category')),
+                    actions: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        tooltip: 'Search',
+                        onPressed: () {
+                          setState(() {
+                            feedsList = feedsList;
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            WidgetsBinding.instance.focusManager.primaryFocus
+                                ?.unfocus();
+                          });
+                        },
+                      ), //
                     ],
                   ),
-                ],
-              )
-            : AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  tooltip: 'Back',
-                  onPressed: () {
-                    setState(() {
-                      sleep(const Duration(milliseconds: 200));
-                      isOnSearch = false;
-                      searchController.text = '';
-                    });
-                  },
-                ), //
-                title: TextField(
-                  autofocus: true,
-                  style: const TextStyle(color: Colors.white),
-                  cursorColor: Colors.white,
-                  controller: searchController,
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  onSubmitted: (value) {
-                    setState(() {});
-                  },
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+            drawer: isOnSearch
+                ? null
+                : Drawer(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        UserAccountsDrawerHeader(
+                          decoration: BoxDecoration(
+                              color: darkMode
+                                  ? Colors.black12
+                                  : Theme.of(context).colorScheme.primary),
+                          accountName: const Text("Aggregator RSS"),
+                          accountEmail: const Text("News Feed Reader"),
+                          currentAccountPicture: const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black87,
+                            child: Icon(Icons.rss_feed),
+                          ),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.newspaper),
+                          title: const Text("Read News"),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.my_library_books_rounded),
+                          title: const Text("Manage Sites"),
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                    builder: (context) => const SitesPage()))
+                                .then((value) => Phoenix.rebirth(context));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.sell),
+                          title: const Text("Categories"),
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CategoriesPage()))
+                                .then((value) => Phoenix.rebirth(context));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.watch_later),
+                          title: const Text("Read Later"),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const ReadlaterPage()));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.star),
+                          title: const Text("Favourites"),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const FavouritesPage()));
+                          },
+                        ),
+                        const Divider(),
+                        ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: const Text("Settings"),
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                    builder: (context) => const SettingsPage()))
+                                .then((value) => Phoenix.rebirth(context));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.info),
+                          title: const Text("Info"),
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showInfoDialog(context);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    tooltip: 'Search',
-                    onPressed: () {
-                      setState(() {
-                        feedsList = feedsList;
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        WidgetsBinding.instance.focusManager.primaryFocus
-                            ?.unfocus();
-                      });
-                    },
-                  ), //
+            bottomNavigationBar: Container(
+              height: categoriesList.items.length > 1 ? 50 : 0,
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(color: Colors.black12, blurRadius: 10.0),
                 ],
               ),
-        drawer: isOnSearch
-            ? null
-            : Drawer(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(
-                          color: darkMode
-                              ? Colors.black12
-                              : Theme.of(context).colorScheme.primary),
-                      accountName: const Text("Aggregator RSS"),
-                      accountEmail: const Text("News Feed Reader"),
-                      currentAccountPicture: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black87,
-                        child: Icon(Icons.rss_feed),
+              child: Material(
+                elevation: 8,
+                child: TabBar(
+                    indicatorColor: Theme.of(context).colorScheme.primary,
+                    labelColor: Colors.black87,
+                    isScrollable:
+                        categoriesList.items.length > 3 ? true : false,
+                    tabs: List.generate(
+                      categoriesList.items.length,
+                      (index) => Tab(
+                        text: categoriesList.items[index].name,
                       ),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.newspaper),
-                      title: const Text("Read News"),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.toc_outlined),
-                      title: const Text("Manage Sites"),
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => const SitesPage()))
-                            .then((value) => Phoenix.rebirth(context));
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.sell),
-                      title: const Text("Categories"),
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => const CategoriesPage()))
-                            .then((value) => Phoenix.rebirth(context));
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.watch_later_outlined),
-                      title: const Text("Read Later"),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.star),
-                      title: const Text("Starred"),
-                      onTap: () {},
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.settings),
-                      title: const Text("Settings"),
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => const SettingsPage()))
-                            .then((value) => Phoenix.rebirth(context));
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.info),
-                      title: const Text("Info"),
-                      onTap: () {
-                        Navigator.pop(context);
-                        _showInfoDialog(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: Colors.black12, blurRadius: 10.0),
-            ],
-          ),
-          child: BottomNavigationBar(
-            selectedFontSize: 15,
-            unselectedFontSize: 15,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list_alt, size: 0),
-                label: 'News Feed',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.watch_later_outlined, size: 0),
-                label: 'Read Later',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.star, size: 0),
-                label: 'Starred',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.travel_explore_rounded, size: 0),
-                label: 'Discover',
-              ),
-            ],
-            currentIndex: _selectedPageIndex,
-            selectedItemColor: darkMode
-                ? const Color.fromARGB(255, 220, 220, 220)
-                : Theme.of(context).colorScheme.primary,
-            onTap: bottomTapped,
-            type: BottomNavigationBarType.fixed,
-          ),
-        ),
-        body: PageView(
-          controller: pageController,
-          onPageChanged: (index) {
-            pageChanged(index);
-          },
-          children: <Widget>[
-            NewsSection(
-              searchText: searchController.text,
-              feedsList: feedsList,
-              isLoading: isLoading,
-            ),
-            Center(
-              child: EmptySection(
-                title: 'Non hai niente in sospeso',
-                description:
-                    'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-                icon: Icons.watch_later,
-                darkMode: darkMode,
+                    )),
               ),
             ),
-            Center(
-              child: EmptySection(
-                title: 'Starred item',
-                description:
-                    'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-                icon: Icons.star_rate,
-                darkMode: darkMode,
+            body: TabBarView(
+                /*controller: pageController,
+              onPageChanged: (index) {
+                pageChanged(index);
+              },*/
+                children: List.generate(
+              categoriesList.items.length,
+              (index) => NewsSection(
+                searchText: searchController.text,
+                feedsList: feedsList,
+                isLoading: isLoading,
               ),
-            ),
-            Center(
-              child: EmptySection(
-                title: 'Discover new websites',
-                description:
-                    'Ricontrolla periodicamente per verificare se ci sono prodotti e offerte speciali oppure per utilizzare un codice promozionale,',
-                icon: Icons.safety_check_sharp,
-                darkMode: darkMode,
-              ),
-            ),
-          ],
-        ));
+            ))));
   }
 }

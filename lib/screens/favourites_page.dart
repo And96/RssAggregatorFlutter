@@ -1,60 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/favourites_list.dart';
-import 'package:rss_aggregator_flutter/core/feeds_list.dart';
-import 'package:rss_aggregator_flutter/core/readlater_list.dart';
-import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
-/*import 'dart:async';*/
-import 'package:share_plus/share_plus.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:flutter/services.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
+/*import 'dart:async';*/
 
-class NewsSection extends StatefulWidget {
-  final bool isLoading;
-  final FeedsList feedsList;
-  final String searchText;
-  const NewsSection(
-      {Key? key,
-      required this.isLoading,
-      required this.feedsList,
-      required this.searchText})
-      : super(key: key);
+class FavouritesPage extends StatefulWidget {
+  const FavouritesPage({Key? key}) : super(key: key);
 
   @override
-  State<NewsSection> createState() => _NewsSectionState();
+  State<FavouritesPage> createState() => _FavouritesPageState();
 }
 
-class _NewsSectionState extends State<NewsSection>
+class _FavouritesPageState extends State<FavouritesPage>
     with SingleTickerProviderStateMixin {
-  //Loading indicator
-
   bool isLoading = false;
-
-  //Theme
-  static bool darkMode = false;
-  double opacityAnimation = 1.0;
-
+  double progressLoading = 0;
   late FavouritesList favouritesList = FavouritesList();
-  late ReadlaterList readlaterList = ReadlaterList();
-
-  //Controller
-  final ScrollController listviewController = ScrollController();
+  bool darkMode = false;
 
   @override
-  void dispose() {
-    /*_timerOpacityAnimation?.cancel();*/
-    super.dispose();
-  }
-
-  @override
-  initState() {
+  void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      /*await setOpacityAnimation();*/
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
@@ -63,53 +37,24 @@ class _NewsSectionState extends State<NewsSection>
     super.initState();
   }
 
-  loadData() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      await favouritesList.load();
-    } catch (err) {
-      //print('Caught error: $err');
-    }
-    setState(() {
-      isLoading = false;
-    });
+  @override
+  dispose() {
+    _refreshIconController.stop(canceled: true);
+    _refreshIconController.dispose();
+    super.dispose();
   }
 
-  /*Timer? _timerOpacityAnimation;
-  setOpacityAnimation() {
-    if (mounted) {
-      _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
-        setState(() {
-          opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
-          setOpacityAnimation();
-        });
-      });
-    }
-  }*/
+  late final AnimationController _refreshIconController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..repeat();
 
   void showOptionDialog(BuildContext context, Feed item) {
     var dialog = SimpleDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(
-            height: 17,
-            width: 17,
-            child: item.iconUrl.toString().trim() == ""
-                ? const Icon(Icons.link)
-                : CachedNetworkImage(
-                    imageUrl: item.iconUrl,
-                    placeholder: (context, url) => const Icon(Icons.link),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.link),
-                  ),
-          ),
-          Text(
-            item.host,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
+          const Text(
+            "Options",
           ),
           IconButton(
             padding: EdgeInsets.zero,
@@ -125,48 +70,12 @@ class _NewsSectionState extends State<NewsSection>
       contentPadding: const EdgeInsets.all(8),
       children: <Widget>[
         const Divider(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Text(
-            item.link,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.left,
-            maxLines: 2,
-          ),
-        ),
-        const Divider(),
         ListTile(
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
           onTap: () async {
             Utility().launchInBrowser(Uri.parse(item.link));
             Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.watch_later_outlined),
-          title: const Text('Read later'),
-          onTap: () {
-            readlaterList.add(item);
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Added to read later'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.star_border),
-          title: const Text('Add to favourites'),
-          onTap: () {
-            favouritesList.add(item);
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Added to favourites'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
         ),
         ListTile(
@@ -190,6 +99,22 @@ class _NewsSectionState extends State<NewsSection>
             Navigator.pop(context);
           },
         ),
+        ListTile(
+          leading: const Icon(Icons.delete),
+          title: const Text('Delete link'),
+          onTap: () {
+            setState(() {
+              favouritesList.delete(item.link);
+            });
+            Navigator.pop(context);
+            const snackBar = SnackBar(
+              duration: Duration(seconds: 1),
+              content: Text('Deleted'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+          //onTap: showDeleteAlertDialog(context, url),
+        ),
       ],
     );
     showDialog(
@@ -199,57 +124,114 @@ class _NewsSectionState extends State<NewsSection>
         });
   }
 
+  showDeleteDialog(BuildContext context, String url) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Yes"),
+      onPressed: () {
+        setState(() {
+          favouritesList.delete(url);
+        });
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      content: const Text("Delete all items?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  loadData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await favouritesList.load();
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        widget.isLoading == false
-            ? widget.feedsList.items.isEmpty
-                ? Center(
-                    child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      EmptySection(
-                        title: 'Nessuna notizia presente',
-                        description: 'Aggiungi i tuoi siti da seguire',
-                        icon: Icons.new_label,
-                        darkMode: darkMode,
-                      ),
-                    ],
-                  ))
-                : Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Scrollbar(
-                        thickness: widget.searchText.isNotEmpty
-                            ? 0
-                            : 3, //hide scrollbar wrong if something is hidden is ok to hide them
-                        child: ListView.separated(
-                            controller: listviewController,
-                            itemCount: widget.feedsList.items.length,
-                            separatorBuilder: (context, index) {
-                              return Visibility(
-                                  visible: widget.searchText.isEmpty ||
-                                      Utility().compareSearch([
-                                        widget.feedsList.items[index].title,
-                                        widget.feedsList.items[index].link,
-                                        widget.feedsList.items[index].host
-                                      ], widget.searchText),
-                                  child: const Divider());
-                            },
-                            itemBuilder: (BuildContext context, index) {
-                              final item = widget.feedsList.items[index];
+    return Scaffold(
+        appBar: AppBar(
+          title: favouritesList.items.isEmpty
+              ? const Text('Favourites')
+              : Text('Favourites (${favouritesList.items.length})'),
+          actions: <Widget>[
+            if (isLoading)
+              IconButton(
+                icon: AnimatedBuilder(
+                  animation: _refreshIconController,
+                  builder: (_, child) {
+                    return Transform.rotate(
+                      angle: _refreshIconController.value * 4 * 3.1415,
+                      child: child,
+                    );
+                  },
+                  child: const Icon(Icons.refresh),
+                ),
+                onPressed: () => {},
+              ),
+            if (favouritesList.items.isNotEmpty && !isLoading)
+              IconButton(
+                  icon: const Icon(Icons.delete),
+                  tooltip: 'Delete',
+                  onPressed: () => showDeleteDialog(context, "*")),
+          ],
+        ),
+        body: Stack(
+          children: [
+            isLoading == false
+                ? favouritesList.items.isEmpty
+                    ? Center(
+                        child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          EmptySection(
+                            title: 'Nessuna notizia presente',
+                            description: 'Aggiungi i tuoi siti da seguire',
+                            icon: Icons.star,
+                            darkMode: darkMode,
+                          ),
+                        ],
+                      ))
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Scrollbar(
+                            child: ListView.separated(
+                                itemCount: favouritesList.items.length,
+                                separatorBuilder: (context, index) {
+                                  return const Divider();
+                                },
+                                itemBuilder: (BuildContext context, index) {
+                                  final item = favouritesList.items[index];
 
-                              return Visibility(
-                                  visible: widget.searchText.isEmpty ||
-                                      Utility().compareSearch(
-                                          [item.title, item.link, item.host],
-                                          widget.searchText),
-                                  child: InkWell(
-                                    onTap: () =>
-                                        showOptionDialog(context, item),
-                                    child: ListTile(
+                                  return InkWell(
+                                      onTap: () =>
+                                          showOptionDialog(context, item),
+                                      child: ListTile(
                                         minLeadingWidth: 30,
                                         leading: SizedBox(
                                           height: double.infinity,
@@ -350,42 +332,30 @@ class _NewsSectionState extends State<NewsSection>
                                                   ),
                                                 ),
                                               ],
-                                            ))),
-                                  ));
-                            })),
-                  )
-            : Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    AnimatedOpacity(
-                      opacity: widget.isLoading ? opacityAnimation : 1.0,
-                      duration: const Duration(milliseconds: 500),
-                      child: EmptySection(
-                        title: 'Ricerca notizie in corso',
-                        description: widget.feedsList.itemLoading,
-                        icon: Icons.query_stats,
-                        darkMode: darkMode,
-                      ),
+                                            )),
+                                      ));
+                                })),
+                      )
+                : Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        AnimatedOpacity(
+                          opacity: 1.0,
+                          duration: const Duration(milliseconds: 500),
+                          child: EmptySection(
+                            title: 'Loading',
+                            description: '...',
+                            icon: Icons.query_stats,
+                            darkMode: darkMode,
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
-                      child: LinearPercentIndicator(
-                        animation: true,
-                        progressColor: Theme.of(context).colorScheme.primary,
-                        lineHeight: 3.0,
-                        animateFromLastPercent: true,
-                        animationDuration: 1500,
-                        percent: widget.feedsList.progressLoading,
-                        barRadius: const Radius.circular(16),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ],
-    );
+                  ),
+          ],
+        ));
   }
 }

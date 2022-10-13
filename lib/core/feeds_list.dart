@@ -36,7 +36,7 @@ class FeedsList {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
-          await jsonDecode(prefs.getString('db_site') ?? '[]');
+          await jsonDecode(prefs.getString('db_sites') ?? '[]');
       late List<Site> listLocal =
           List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
       return listLocal;

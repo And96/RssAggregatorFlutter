@@ -66,7 +66,7 @@ class CategoriesList {
 
   Future<void> save(List<Category> list) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('db_categories', jsonEncode(list));
+    await prefs.setString('db_categories', jsonEncode(list));
   }
 
   void delete(String name) async {
@@ -76,8 +76,8 @@ class CategoriesList {
       items.removeWhere(
           (e) => (e.name.trim().toLowerCase() == name.trim().toLowerCase()));
     }
-    save(items);
-    load();
+    await save(items);
+    await load();
   }
 
   Future<bool> add(String name, int color) async {
@@ -94,8 +94,8 @@ class CategoriesList {
           color: color,
         );
         items.add(c);
-        save(items);
-        load();
+        await save(items);
+        await load();
       }
     } catch (err) {
       // print('Caught error: $err');
