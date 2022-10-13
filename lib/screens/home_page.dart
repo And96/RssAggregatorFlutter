@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
@@ -16,6 +17,7 @@ import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
+import 'dart:math' as math;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -83,11 +85,6 @@ class _MyHomePageState extends State<MyHomePage>
       appBuildNumber = packageInfo.buildNumber;
     });
   }
-
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
 
   loadData() async {
     try {
@@ -218,6 +215,8 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }*/
 
+  Color colorAppBar = Colors.black87;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -225,7 +224,34 @@ class _MyHomePageState extends State<MyHomePage>
         child: Scaffold(
             appBar: !isOnSearch
                 ? AppBar(
+                    backgroundColor: colorAppBar,
                     title: const Text("Aggregator"),
+                    bottom: TabBar(
+                        onTap: (index) {
+                          setState(() {
+                            colorAppBar = Colors.primaries[
+                                Random().nextInt(Colors.primaries.length)];
+                          });
+                        },
+                        /*indicatorWeight: 2,
+                    indicatorPadding: const EdgeInsets.symmetric(vertical: 8),*/
+                        unselectedLabelColor: Colors.white,
+                        indicatorColor: Colors.white,
+                        indicator: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10)),
+                            color: Color.fromARGB(255, 239, 239, 239)),
+                        labelColor: Colors.black87,
+                        isScrollable:
+                            categoriesList.items.length > 3 ? true : false,
+                        tabs: List.generate(
+                          categoriesList.items.length,
+                          (index) => Tab(
+                            text: categoriesList.items[index].name,
+                          ),
+                        )),
+
                     // bottom:
                     actions: <Widget>[
                       if (!isLoading && feedsList.sites.isNotEmpty)
@@ -411,7 +437,7 @@ class _MyHomePageState extends State<MyHomePage>
                     ),
                   ),
             bottomNavigationBar: Container(
-              height: categoriesList.items.length > 1 ? 50 : 0,
+              height: categoriesList.items.length > 1 ? 58 : 0,
               decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(color: Colors.black12, blurRadius: 10.0),
@@ -420,6 +446,8 @@ class _MyHomePageState extends State<MyHomePage>
               child: Material(
                 elevation: 8,
                 child: TabBar(
+                    /*indicatorWeight: 2,
+                    indicatorPadding: const EdgeInsets.symmetric(vertical: 8),*/
                     indicatorColor: Theme.of(context).colorScheme.primary,
                     labelColor: Colors.black87,
                     isScrollable:
@@ -433,10 +461,6 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             ),
             body: TabBarView(
-                /*controller: pageController,
-              onPageChanged: (index) {
-                pageChanged(index);
-              },*/
                 children: List.generate(
               categoriesList.items.length,
               (index) => NewsSection(
