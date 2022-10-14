@@ -83,11 +83,15 @@ class MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'Aggregator',
         themeMode: _themeBrightness,
-        theme: ThemeData.light().copyWith(
+        /*theme: ThemeData.light().copyWith(
           colorScheme: ColorScheme.fromSeed(
             seedColor: _themePrimaryColor!,
             brightness: Brightness.light,
           ),
+        ),*/
+        theme: ThemeData(
+          primarySwatch:
+              ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
         ),
         darkTheme: ThemeData.dark().copyWith(
           colorScheme: ColorScheme.fromSeed(

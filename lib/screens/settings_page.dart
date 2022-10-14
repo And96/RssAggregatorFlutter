@@ -24,7 +24,7 @@ class SettingsPageState extends State<SettingsPage> {
             subtitle: Text('Customize colors'),
             padding: EdgeInsets.only(top: 22.0),
           ),
-          const PrefDropdown<int>(
+          /*const PrefDropdown<int>(
             title: Text('Color'),
             pref: 'settings_ui_color',
             subtitle: Text('Customize parameters'),
@@ -36,7 +36,7 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: (0XFFAB00), child: Text('Brown')),
               DropdownMenuItem(value: (0x252270), child: Text('Violet')),
             ],
-          ),
+          ),*/
           const PrefDropdown<String>(
             title: Text('Theme'),
             pref: 'settings_ui_theme',

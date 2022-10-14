@@ -33,9 +33,10 @@ class _CategoriesPageState extends State<CategoriesPage>
     Widget saveButton = TextButton(
       child: const Text("Save"),
       onPressed: () {
-        setState(() {
-          categoriesList.add(_textFieldController.text, -1);
-        });
+        categoriesList
+            .add(_textFieldController.text, -1)
+            .then((value) => setState(() {}));
+
         Navigator.pop(context);
       },
     );
@@ -78,9 +79,9 @@ class _CategoriesPageState extends State<CategoriesPage>
     Widget saveButton = TextButton(
       child: const Text("Save"),
       onPressed: () {
-        setState(() {
-          categoriesList.add(name, _selectedColor!.value);
-        });
+        categoriesList
+            .add(name, _selectedColor!.value)
+            .then((value) => setState(() {}));
 
         Navigator.pop(context);
       },
@@ -355,31 +356,6 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 onTap: () {
                                   showOptionDialog(context, item);
                                 },
-                                /*subtitle: Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            child: Text(
-                                              item.name.toString(),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal,
-                                                color: darkMode
-                                                    ? const Color.fromARGB(
-                                                        255, 150, 150, 150)
-                                                    : const Color.fromARGB(
-                                                        255, 80, 80, 80),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ))*/
                               ),
                             );
                           })),
