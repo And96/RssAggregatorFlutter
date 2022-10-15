@@ -78,10 +78,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
       await categoriesList.load();
       setCategoryColor();
-      setState(() {});
+      setState(() {
+        _tabController =
+            TabController(length: categoriesList.items.length, vsync: this);
+      });
 
-      _tabController =
-          TabController(length: categoriesList.items.length, vsync: this);
       _tabController.addListener(() {
         setCategoryColor();
         setState(() {});
@@ -226,12 +227,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           "News ${DefaultTabController.of(context)!.index} - ${_tabController.index}"),
                       bottom: TabBar(
                           controller: _tabController,
-
+                          indicatorWeight: 5,
                           /* indicatorPadding:
                             const EdgeInsets.only(right: 10, left: 10),*/
                           //indicatorWeight: 4,
                           indicatorPadding:
-                              const EdgeInsets.symmetric(vertical: 7),
+                              const EdgeInsets.only(bottom: 7, top: 4),
                           labelPadding:
                               const EdgeInsets.only(right: 20, left: 20),
                           padding: const EdgeInsets.only(right: 15, left: 15),
@@ -322,6 +323,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       ],
                     )
                   : AppBar(
+                      backgroundColor: colorCategory,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         tooltip: 'Back',
