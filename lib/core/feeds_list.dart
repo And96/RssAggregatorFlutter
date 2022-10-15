@@ -62,9 +62,11 @@ class FeedsList {
         }
 
         //remove feed older than N days
-        items.removeWhere((e) =>
-            (Utility().daysBetween(e.pubDate!, DateTime.now()) >
-                settings.settingsDaysLimit));
+        if (settings.settingsDaysLimit > 0) {
+          items.removeWhere((e) =>
+              (Utility().daysBetween(e.pubDate!, DateTime.now()) >
+                  settings.settingsDaysLimit));
+        }
 
         //sort
         items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));

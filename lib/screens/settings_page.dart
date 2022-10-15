@@ -24,6 +24,7 @@ class SettingsPageState extends State<SettingsPage> {
             subtitle: Text('Customize colors'),
             padding: EdgeInsets.only(top: 22.0),
           ),
+          //REMOVED BECAUSE COLOR IS NOW LINKED TO SELECTED CATEGORY
           /*const PrefDropdown<int>(
             title: Text('Color'),
             pref: 'settings_ui_color',
@@ -58,7 +59,6 @@ class SettingsPageState extends State<SettingsPage> {
             subtitle: Text('Customize parameters'),
             fullWidth: false,
             items: [
-              DropdownMenuItem(value: 1, child: Text('1 second')),
               DropdownMenuItem(value: 2, child: Text('2 seconds')),
               DropdownMenuItem(value: 4, child: Text('4 seconds')),
               DropdownMenuItem(value: 8, child: Text('8 seconds')),
@@ -78,6 +78,7 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 30, child: Text('30 days')),
               DropdownMenuItem(value: 90, child: Text('90 days')),
               DropdownMenuItem(value: 365, child: Text('365 days')),
+              DropdownMenuItem(value: 0, child: Text('All')),
             ],
           ),
           const PrefDropdown<int>(
