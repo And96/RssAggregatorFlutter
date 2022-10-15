@@ -28,13 +28,21 @@ class _CategoriesPageState extends State<CategoriesPage>
   late String codeDialog;
   late String valueText;
 
-  Future<void> _displayTextInputDialog(BuildContext context) async {
-    _textFieldController.text = '';
+  Future<void> _displayTextInputDialog(
+      BuildContext context, Category? categoryUpdated) async {
+    _textFieldController.text =
+        categoryUpdated == null ? '' : categoryUpdated.name;
     Widget saveButton = TextButton(
       child: const Text("Save"),
       onPressed: () {
+        if (categoryUpdated != null) {
+          categoriesList.delete(categoryUpdated.name);
+          sitesList.renameCategory(
+              categoryUpdated.name, _textFieldController.text);
+        }
         categoriesList
-            .add(_textFieldController.text)
+            .add(_textFieldController.text,
+                categoryUpdated == null ? -1 : categoryUpdated.color)
             .then((value) => setState(() {}));
 
         Navigator.pop(context);
@@ -194,7 +202,8 @@ class _CategoriesPageState extends State<CategoriesPage>
           leading: const Icon(Icons.edit),
           title: const Text('Rename'),
           onTap: () {
-            _displayTextInputDialog(context);
+            Navigator.pop(context);
+            _displayTextInputDialog(context, category);
           },
         ),
         ListTile(
@@ -410,7 +419,7 @@ class _CategoriesPageState extends State<CategoriesPage>
               icon: const Icon(Icons.add),
               label: const Text('New Category'),
               onPressed: () {
-                _displayTextInputDialog(context);
+                _displayTextInputDialog(context, null);
               },
             ),
     );

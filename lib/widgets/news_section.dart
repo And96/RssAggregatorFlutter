@@ -377,7 +377,7 @@ class _NewsSectionState extends State<NewsSection>
                         progressColor: Theme.of(context).colorScheme.primary,
                         lineHeight: 3.0,
                         animateFromLastPercent: true,
-                        animationDuration: 1500,
+                        animationDuration: 2000,
                         percent: widget.feedsList.progressLoading,
                         barRadius: const Radius.circular(16),
                       ),

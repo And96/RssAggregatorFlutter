@@ -53,6 +53,24 @@ class SitesList {
     await load();
   }
 
+  Future<bool> renameCategory(String categoryOld, String categoryNew) async {
+    try {
+      await load();
+      for (var item in items) {
+        if (item.category == categoryOld) {
+          item.category = categoryNew;
+          break;
+        }
+      }
+      await save(items);
+      await load();
+      return true;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
   Future<bool> setCategory(String siteLink, String category) async {
     try {
       await load();
