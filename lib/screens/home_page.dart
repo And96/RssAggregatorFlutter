@@ -222,48 +222,61 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               appBar: !isOnSearch
                   ? AppBar(
                       //elevation: 0,
-                      backgroundColor: colorCategory,
+                      backgroundColor:
+                          darkMode ? Colors.black12 : colorCategory,
                       title: Text(
                           "News ${DefaultTabController.of(context)!.index} - ${_tabController.index}"),
-                      bottom: TabBar(
-                          controller: _tabController,
-                          indicatorWeight: 5,
-                          /* indicatorPadding:
+
+                      bottom: categoriesList.items.length <= 1
+                          ? null
+                          : TabBar(
+                              controller: _tabController,
+                              indicatorWeight: 5,
+                              /* indicatorPadding:
                             const EdgeInsets.only(right: 10, left: 10),*/
-                          //indicatorWeight: 4,
-                          indicatorPadding:
-                              const EdgeInsets.only(bottom: 7, top: 4),
-                          labelPadding:
-                              const EdgeInsets.only(right: 20, left: 20),
-                          padding: const EdgeInsets.only(right: 15, left: 15),
-                          unselectedLabelColor: Colors.white,
-                          indicatorColor: Colors.white,
-                          indicator: const BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 242, 242, 242),
-                                  spreadRadius: 0,
-                                  blurRadius: 0,
-                                  offset: Offset(
-                                      0, 0), // changes position of shadow
+                              //indicatorWeight: 4,
+
+                              padding: categoriesList.items.length <= 2
+                                  ? const EdgeInsets.only(right: 40, left: 40)
+                                  : const EdgeInsets.only(right: 15, left: 15),
+                              labelPadding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              indicatorPadding:
+                                  const EdgeInsets.only(bottom: 7, top: 4),
+                              unselectedLabelColor: Colors.white,
+                              indicatorColor: colorCategory,
+                              indicator: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: colorCategory,
+
+                                      spreadRadius: 0,
+                                      blurRadius: 0,
+                                      offset: const Offset(
+                                          0, 0), // changes position of shadow
+                                    ),
+                                  ],
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(100),
+                                    topRight: Radius.circular(100),
+                                    bottomLeft: Radius.circular(100),
+                                    bottomRight: Radius.circular(100),
+                                  ),
+                                  color: darkMode
+                                      ? colorCategory
+                                      : const Color.fromARGB(
+                                          255, 242, 242, 242)),
+                              labelColor:
+                                  darkMode ? Colors.white : Colors.black87,
+                              isScrollable: categoriesList.items.length > 3
+                                  ? true
+                                  : false,
+                              tabs: List.generate(
+                                categoriesList.items.length,
+                                (index) => Tab(
+                                  text: categoriesList.items[index].name,
                                 ),
-                              ],
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(100),
-                                topRight: Radius.circular(100),
-                                bottomLeft: Radius.circular(100),
-                                bottomRight: Radius.circular(100),
-                              ),
-                              color: Color.fromARGB(255, 242, 242, 242)),
-                          labelColor: Colors.black87,
-                          isScrollable:
-                              categoriesList.items.length > 3 ? true : false,
-                          tabs: List.generate(
-                            categoriesList.items.length,
-                            (index) => Tab(
-                              text: categoriesList.items[index].name,
-                            ),
-                          )),
+                              )),
 
                       // bottom:
                       actions: <Widget>[
@@ -368,13 +381,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               drawer: isOnSearch
                   ? null
                   : Drawer(
+                      backgroundColor: Colors.grey[900],
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: <Widget>[
                           UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
                                 color: darkMode
-                                    ? Colors.black12
+                                    ? Colors.black26
                                     : colorCategory), //Theme.of(context).colorScheme.primary),
                             accountName: const Text("Aggregator RSS"),
                             accountEmail: const Text("News Feed Reader"),
@@ -461,13 +475,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 ),
                 child: Material(
                   elevation: 8,
+                  color: darkMode ? Colors.grey[900] : Colors.white,
                   child: TabBar(
                       controller: _tabController,
                       /*indicatorWeight: 2,
                     indicatorPadding: const EdgeInsets.symmetric(vertical: 8),*/
                       indicatorPadding: const EdgeInsets.symmetric(vertical: 7),
+                      padding: categoriesList.items.length <= 2
+                          ? const EdgeInsets.only(right: 40, left: 40)
+                          : const EdgeInsets.only(right: 15, left: 15),
                       labelPadding: const EdgeInsets.only(right: 20, left: 20),
-                      padding: const EdgeInsets.only(right: 15, left: 15),
                       unselectedLabelColor:
                           darkMode ? Colors.white : Colors.black87,
 

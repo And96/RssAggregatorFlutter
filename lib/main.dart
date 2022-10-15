@@ -94,9 +94,19 @@ class MyAppState extends State<MyApp> {
               ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
         ),
         darkTheme: ThemeData.dark().copyWith(
+          cardColor: Colors.grey[900],
+          dialogBackgroundColor: Colors.grey[900],
+          backgroundColor: Colors.grey[900],
+          scaffoldBackgroundColor: Colors.grey[900],
           colorScheme: ColorScheme.fromSeed(
               seedColor: _themePrimaryColor!, brightness: Brightness.dark),
           brightness: Brightness.dark,
+          listTileTheme: ListTileThemeData(
+              tileColor: Colors.grey[900], minVerticalPadding: 10),
+          dividerTheme: DividerThemeData(
+            space: 0,
+            color: Colors.grey[800],
+          ),
         ),
         home: const MyHomePage(),
       ),
