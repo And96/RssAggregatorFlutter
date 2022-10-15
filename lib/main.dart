@@ -94,6 +94,9 @@ class MyAppState extends State<MyApp> {
               ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
         ),
         darkTheme: ThemeData.dark().copyWith(
+          drawerTheme: DrawerThemeData(
+            backgroundColor: Colors.grey[900],
+          ),
           cardColor: Colors.grey[900],
           dialogBackgroundColor: Colors.grey[900],
           backgroundColor: Colors.grey[900],

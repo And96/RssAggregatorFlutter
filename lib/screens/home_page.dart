@@ -381,7 +381,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               drawer: isOnSearch
                   ? null
                   : Drawer(
-                      backgroundColor: Colors.grey[900],
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: <Widget>[
