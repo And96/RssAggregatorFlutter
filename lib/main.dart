@@ -53,6 +53,11 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
+  initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _streamThemeBrightness ??=
         widget.service.stream<String>('settings_ui_theme').listen((event) {

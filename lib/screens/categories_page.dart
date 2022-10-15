@@ -34,7 +34,7 @@ class _CategoriesPageState extends State<CategoriesPage>
       child: const Text("Save"),
       onPressed: () {
         categoriesList
-            .add(_textFieldController.text, -1)
+            .add(_textFieldController.text)
             .then((value) => setState(() {}));
 
         Navigator.pop(context);
@@ -69,7 +69,8 @@ class _CategoriesPageState extends State<CategoriesPage>
         });
   }
 
-  ColorSwatch? _selectedColor = Colors.blueGrey;
+  ColorSwatch? _selectedColor = ThemeColor()
+      .createMaterialColor(Color(ThemeColor().defaultCategoryColor));
 
   void _updateItemLoading(String itemLoading) {
     setState(() {});

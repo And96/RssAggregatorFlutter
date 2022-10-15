@@ -17,6 +17,7 @@ import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -75,14 +76,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           });
       await loadPackageInfo();
       await settings.init();
-
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getBool('first_run_app') == null) {
+        categoriesList.add("News");
+        prefs.setBool('first_run_app', true);
+      }
       await categoriesList.load();
       setCategoryColor();
       setState(() {
         _tabController =
             TabController(length: categoriesList.items.length, vsync: this);
       });
-
       _tabController.addListener(() {
         setCategoryColor();
         setState(() {});
@@ -224,8 +228,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       //elevation: 0,
                       backgroundColor:
                           darkMode ? Colors.black12 : colorCategory,
-                      title: Text(
-                          "News ${DefaultTabController.of(context)!.index} - ${_tabController.index}"),
+                      title: const Text("Aggregator"),
 
                       bottom: categoriesList.items.length <= 1
                           ? null

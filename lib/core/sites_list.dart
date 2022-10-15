@@ -71,7 +71,8 @@ class SitesList {
     return false;
   }
 
-  Future<bool> add(String url, bool advancedSearch) async {
+  Future<bool> add(String url, bool advancedSearch,
+      [String category = '', String siteName = '']) async {
     try {
       String hostsiteName = url;
       if (hostsiteName.replaceAll("//", "/").contains("/")) {
@@ -94,10 +95,12 @@ class SitesList {
         items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
             Utility().cleanUrlCompare(url)));
         var s1 = Site(
-          siteName: hostsiteName,
+          siteName: siteName.trim() != '' ? siteName : hostsiteName,
           siteLink: url,
-          iconUrl: await SiteIcon().getIcon(hostsiteName, url),
-          category: categoriesList.defaultCategory,
+          iconUrl: await SiteIcon()
+              .getIcon(siteName.trim() != '' ? siteName : hostsiteName, url),
+          category:
+              category.trim() != '' ? category : categoriesList.defaultCategory,
         );
         items.add(s1);
         await save(items);

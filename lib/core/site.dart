@@ -52,10 +52,7 @@ class Site {
       if (url.contains(".") && !url.startsWith("http")) {
         url = "https://$url";
       }
-      bool valid = await isUrlRSS(url);
-      if (valid) {
-        return url;
-      }
+
       url = await getRssFromUrl(url, advancedSearch);
 
       return url;
@@ -68,7 +65,7 @@ class Site {
   static Future<bool> isUrlRSS(String url) async {
     try {
       final response =
-          await get(Uri.parse(url)).timeout(const Duration(milliseconds: 3000));
+          await get(Uri.parse(url)).timeout(const Duration(milliseconds: 4000));
       if (response.body.substring(0, 500).contains("<channel")) {
         var channel = RssFeed.parse(response.body);
         if (channel.items!.isNotEmpty) {
@@ -100,11 +97,20 @@ class Site {
 
   static Future<String> getRssFromUrl(String url, bool advancedSearch) async {
     try {
-      //70% of websites use this template for rss
+      //if url is already an rss
+      if (url.contains("http") &&
+          url.contains(".") &&
+          url.replaceAll("//", "").contains("/")) {
+        bool valid = await isUrlRSS(url);
+        if (valid) {
+          return url;
+        }
+      }
       if (url.endsWith("/")) {
         url = url.substring(0, url.length - 1);
       }
-      if (url.contains(".")) {
+      //70% of websites use this template for rss
+      if (url.contains(".") && !url.toLowerCase().contains("feed")) {
         String urlRss = "$url/feed/";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {

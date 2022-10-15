@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:flutter/scheduler.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:flutter/scheduler.dart';
 
 class ThemeColor {
   //alterntive color: 0xFF 283593
@@ -74,6 +71,8 @@ class ThemeColor {
     }
     return false;
   }*/
+
+  int defaultCategoryColor = Colors.blueGrey[600]!.value;
 
   MaterialColor createMaterialColor(Color color) {
     List strengths = <double>[.05];

@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 class CategoriesList {
   late List<Category> items = [];
   String defaultCategory = 'News';
-  int defaultColor = 4284513675;
 
   int getColor(String categoryName) {
     try {
@@ -43,20 +43,7 @@ class CategoriesList {
   Future<bool> load() async {
     try {
       items = await get();
-      if (items.isEmpty) {
-        add('News', -1);
-      }
-      if (items.length == 1) {
-        defaultCategory = items[0].name;
-      } else {
-        defaultCategory = 'News';
-      }
-      if (defaultCategory == 'News') {
-        if (items.where((e) => e.name == 'News').isEmpty) {
-          add('News', -1);
-        }
-      }
-
+      defaultCategory = 'News';
       return true;
     } catch (err) {
       // print('Caught error: $err');
@@ -80,14 +67,14 @@ class CategoriesList {
     await load();
   }
 
-  Future<bool> add(String name, int color) async {
+  Future<bool> add(String name, [int color = -1]) async {
     try {
       name = name.trim();
       if (name.length > 1) {
         items.removeWhere((e) =>
             (e.name.trim().toLowerCase()) == (name.trim().toLowerCase()));
         if (color < 0) {
-          color = defaultColor;
+          color = ThemeColor().defaultCategoryColor;
         }
         var c = Category(
           name: name,

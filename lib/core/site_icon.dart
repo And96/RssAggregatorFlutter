@@ -35,6 +35,12 @@ class SiteIcon {
     String iconUrl = "";
     try {
       //search icon via google api
+      iconUrl = await getIconDuckDuckGo(siteName);
+      if (iconUrl.length > 5) {
+        return iconUrl;
+      }
+
+      //search icon via google api
       iconUrl = await getIconGoogle(siteName);
       if (iconUrl.length > 5) {
         return iconUrl;
@@ -68,8 +74,8 @@ class SiteIcon {
           .timeout(const Duration(milliseconds: 10000));
 
       //if google return default icon
-      if (response.body.substring(0, 100).contains("pHYs")) {
-        if (response.body.substring(0, 100).contains("IDAT8")) {
+      if (response.body.padRight(100).substring(0, 100).contains("pHYs")) {
+        if (response.body.padRight(100).substring(0, 100).contains("IDAT8")) {
           return "";
         }
       }
@@ -87,6 +93,48 @@ class SiteIcon {
         return iconFinderUrl;
       }
       if (response.body.substring(0, 100).toLowerCase().contains("jpeg")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("webp")) {
+        return iconFinderUrl;
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return "";
+  }
+
+  Future<String> getIconDuckDuckGo(String url) async {
+    try {
+      url = url.replaceAll("https://", "").replaceAll("http://", "");
+      String iconFinderUrl = "https://icons.duckduckgo.com/ip3/$url.ico";
+
+      final response = await get(Uri.parse(iconFinderUrl))
+          .timeout(const Duration(milliseconds: 10000));
+
+      //if google return default icon
+      if (response.body.padRight(1500).substring(0, 1500).contains("?3v")) {
+        if (response.body.padRight(1500).substring(0, 1500).contains(":nCa")) {
+          return "";
+        }
+      }
+      //if duckduckgo find the icon
+      if (response.body.substring(0, 100).toLowerCase().contains("png")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("ico")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("jfif")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("jpg")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("jpeg")) {
+        return iconFinderUrl;
+      }
+      if (response.body.substring(0, 100).toLowerCase().contains("webp")) {
         return iconFinderUrl;
       }
     } catch (err) {

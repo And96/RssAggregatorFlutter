@@ -107,7 +107,7 @@ class _SitesPageState extends State<SitesPage>
           onTap: () {
             Navigator.pop(context);
             setState(() {
-              _awaitEditSite(context, site.siteLink);
+              _awaitEditSite(context, site);
             });
           },
         ),
@@ -245,13 +245,22 @@ class _SitesPageState extends State<SitesPage>
     });
   }
 
-  void _awaitEditSite(BuildContext context, String urlInput) async {
+  void _awaitEditSite(BuildContext context, Site? siteUpdated) async {
     try {
+      String siteLink = '';
+      String category = '';
+      String siteName = '';
+      if (siteUpdated != null) {
+        siteLink = siteUpdated.siteLink;
+        category = siteUpdated.category;
+        siteName = siteUpdated.siteName;
+      }
+
       // start the SecondScreen and wait for it to finish with a result
       final resultTextInput = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SiteUrlPage(textInput: urlInput),
+            builder: (context) => SiteUrlPage(textInput: siteLink),
           ));
 
       // after the SecondScreen result comes back update the Text widget with it
@@ -260,7 +269,7 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        sitesList.delete(urlInput);
+        sitesList.delete(siteLink);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
@@ -278,9 +287,12 @@ class _SitesPageState extends State<SitesPage>
           setState(() {
             progressLoading = 0.90;
           });
+
           await sitesList.add(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
-              true);
+              true,
+              category,
+              siteName);
         }
         setState(() {
           progressLoading = 0.99;
@@ -496,7 +508,7 @@ class _SitesPageState extends State<SitesPage>
               icon: const Icon(Icons.add),
               label: const Text('Add Site'),
               onPressed: () {
-                _awaitEditSite(context, "");
+                _awaitEditSite(context, null);
               },
             ),
     );
