@@ -100,20 +100,19 @@ class MyAppState extends State<MyApp> {
         ),
         darkTheme: ThemeData.dark().copyWith(
           drawerTheme: DrawerThemeData(
-            backgroundColor: Colors.grey[900],
+            backgroundColor: Color.fromARGB(255, 16, 16, 16),
           ),
-          cardColor: Colors.grey[900],
-          dialogBackgroundColor: Colors.grey[900],
-          backgroundColor: Colors.grey[900],
-          scaffoldBackgroundColor: Colors.grey[900],
+          cardColor: Color.fromARGB(255, 16, 16, 16),
+          dialogBackgroundColor: Color.fromARGB(255, 16, 16, 16),
+          backgroundColor: Color.fromARGB(255, 16, 16, 16),
+          scaffoldBackgroundColor: Color.fromARGB(255, 16, 16, 16),
           colorScheme: ColorScheme.fromSeed(
               seedColor: _themePrimaryColor!, brightness: Brightness.dark),
           brightness: Brightness.dark,
-          listTileTheme: ListTileThemeData(
-              tileColor: Colors.grey[900], minVerticalPadding: 10),
+          listTileTheme:
+              ListTileThemeData(tileColor: Color.fromARGB(255, 16, 16, 16)),
           dividerTheme: DividerThemeData(
-            space: 0,
-            color: Colors.grey[800],
+            color: Color.fromARGB(255, 30, 30, 30),
           ),
         ),
         home: const MyHomePage(),

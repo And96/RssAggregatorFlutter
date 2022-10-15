@@ -339,7 +339,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       ],
                     )
                   : AppBar(
-                      backgroundColor: colorCategory,
+                      backgroundColor:
+                          darkMode ? Colors.black12 : colorCategory,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         tooltip: 'Back',
@@ -390,7 +391,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
                                 color: darkMode
-                                    ? Colors.black26
+                                    ? Colors.black54
                                     : colorCategory), //Theme.of(context).colorScheme.primary),
                             accountName: const Text("Aggregator RSS"),
                             accountEmail: const Text("News Feed Reader"),
@@ -477,7 +478,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 ),
                 child: Material(
                   elevation: 8,
-                  color: darkMode ? Colors.grey[900] : Colors.white,
+                  color: darkMode ? Colors.black87 : Colors.white,
                   child: TabBar(
                       controller: _tabController,
                       /*indicatorWeight: 2,
