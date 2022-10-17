@@ -227,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ? AppBar(
                       //elevation: 0,
                       backgroundColor:
-                          darkMode ? Colors.black12 : colorCategory,
+                          darkMode ? Colors.black26 : colorCategory,
                       title: const Text("Aggregator"),
 
                       bottom: categoriesList.items.length <= 1
@@ -340,7 +340,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     )
                   : AppBar(
                       backgroundColor:
-                          darkMode ? Colors.black12 : colorCategory,
+                          darkMode ? Colors.black26 : colorCategory,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         tooltip: 'Back',
@@ -391,7 +391,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
                                 color: darkMode
-                                    ? Colors.black54
+                                    ? Colors.black26
                                     : colorCategory), //Theme.of(context).colorScheme.primary),
                             accountName: const Text("Aggregator RSS"),
                             accountEmail: const Text("News Feed Reader"),
@@ -473,12 +473,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 height: categoriesList.items.length > 1 ? 58 : 0,
                 decoration: const BoxDecoration(
                   boxShadow: [
-                    BoxShadow(color: Colors.black12, blurRadius: 10.0),
+                    BoxShadow(color: Colors.black26, blurRadius: 10.0),
                   ],
                 ),
                 child: Material(
                   elevation: 8,
-                  color: darkMode ? Colors.black87 : Colors.white,
+                  color: darkMode ? Colors.black26 : Colors.white,
                   child: TabBar(
                       controller: _tabController,
                       /*indicatorWeight: 2,
