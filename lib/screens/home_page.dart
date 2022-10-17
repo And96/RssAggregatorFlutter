@@ -267,8 +267,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   ),
                                   color: darkMode
                                       ? colorCategory
-                                      : const Color.fromARGB(
-                                          255, 242, 242, 242)),
+                                      : ThemeColor.light1),
                               labelColor:
                                   darkMode ? Colors.white : Colors.black87,
                               isScrollable: categoriesList.items.length > 3

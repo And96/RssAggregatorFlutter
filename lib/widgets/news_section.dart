@@ -277,10 +277,8 @@ class _NewsSectionState extends State<NewsSection>
                                               fontSize: 14,
                                               fontWeight: FontWeight.normal,
                                               color: darkMode
-                                                  ? const Color.fromARGB(
-                                                      255, 150, 150, 150)
-                                                  : const Color.fromARGB(
-                                                      255, 120, 120, 120),
+                                                  ? ThemeColor.light3
+                                                  : ThemeColor.dark4,
                                             ),
                                           ),
                                         ),
@@ -304,12 +302,8 @@ class _NewsSectionState extends State<NewsSection>
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       color: darkMode
-                                                          ? const Color
-                                                                  .fromARGB(255,
-                                                              210, 210, 210)
-                                                          : const Color
-                                                                  .fromARGB(
-                                                              255, 5, 5, 5),
+                                                          ? ThemeColor.light2
+                                                          : ThemeColor.dark1,
                                                     ),
                                                   ),
                                                 ),
@@ -332,18 +326,10 @@ class _NewsSectionState extends State<NewsSection>
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           color: darkMode
-                                                              ? const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  150,
-                                                                  150,
-                                                                  150)
-                                                              : const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  120,
-                                                                  120,
-                                                                  120),
+                                                              ? ThemeColor
+                                                                  .light3
+                                                              : ThemeColor
+                                                                  .dark4,
                                                         ),
                                                       ),
                                                     ],

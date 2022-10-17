@@ -384,10 +384,8 @@ class _SitesPageState extends State<SitesPage>
                                               fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                               color: darkMode
-                                                  ? const Color.fromARGB(
-                                                      255, 210, 210, 210)
-                                                  : const Color.fromARGB(
-                                                      255, 5, 5, 5),
+                                                  ? ThemeColor.light1
+                                                  : ThemeColor.dark1,
                                             ),
                                           ),
                                         ),
@@ -457,10 +455,8 @@ class _SitesPageState extends State<SitesPage>
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.normal,
                                                 color: darkMode
-                                                    ? const Color.fromARGB(
-                                                        255, 150, 150, 150)
-                                                    : const Color.fromARGB(
-                                                        255, 80, 80, 80),
+                                                    ? ThemeColor.light3
+                                                    : ThemeColor.dark3,
                                               ),
                                             ),
                                           ),

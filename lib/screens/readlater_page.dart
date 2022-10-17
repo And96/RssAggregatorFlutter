@@ -259,10 +259,8 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                               fontSize: 14,
                                               fontWeight: FontWeight.normal,
                                               color: darkMode
-                                                  ? const Color.fromARGB(
-                                                      255, 150, 150, 150)
-                                                  : const Color.fromARGB(
-                                                      255, 120, 120, 120),
+                                                  ? ThemeColor.light3
+                                                  : ThemeColor.dark4,
                                             ),
                                           ),
                                         ),
@@ -282,17 +280,12 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: darkMode
-                                                          ? const Color
-                                                                  .fromARGB(255,
-                                                              210, 210, 210)
-                                                          : const Color
-                                                                  .fromARGB(
-                                                              255, 5, 5, 5),
-                                                    ),
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: darkMode
+                                                            ? ThemeColor.light2
+                                                            : ThemeColor.dark1),
                                                   ),
                                                 ),
                                                 Padding(
@@ -310,23 +303,15 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                                                     .toString())
                                                                 .toLocal())),
                                                         style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          color: darkMode
-                                                              ? const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  150,
-                                                                  150,
-                                                                  150)
-                                                              : const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  120,
-                                                                  120,
-                                                                  120),
-                                                        ),
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: darkMode
+                                                                ? ThemeColor
+                                                                    .light3
+                                                                : ThemeColor
+                                                                    .dark4),
                                                       ),
                                                     ],
                                                   ),

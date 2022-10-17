@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 //import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 bool darkMode = false;
@@ -27,9 +28,7 @@ class EmptySection extends StatelessWidget {
           Icon(
             icon,
             size: 100,
-            color: darkMode
-                ? const Color.fromARGB(30, 235, 235, 235)
-                : const Color.fromARGB(255, 235, 235, 235),
+            color: darkMode ? ThemeColor.dark2 : ThemeColor.light1,
           ),
           const SizedBox(
             height: 10,
@@ -41,9 +40,7 @@ class EmptySection extends StatelessWidget {
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.normal,
-                color: darkMode
-                    ? const Color.fromARGB(255, 190, 190, 190)
-                    : const Color.fromARGB(255, 75, 75, 75),
+                color: darkMode ? ThemeColor.light3 : ThemeColor.dark3,
               ),
             ),
           ),
@@ -57,9 +54,7 @@ class EmptySection extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
-                    color: darkMode
-                        ? const Color.fromARGB(255, 130, 130, 130)
-                        : const Color.fromARGB(255, 130, 130, 130),
+                    color: darkMode ? ThemeColor.light4 : ThemeColor.dark4,
                   ))),
         ],
       ),

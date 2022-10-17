@@ -119,28 +119,7 @@ class _CategoriesPageState extends State<CategoriesPage>
       name,
       MaterialColorPicker(
         selectedColor: Color(color),
-        colors: [
-          ThemeColor().createMaterialColor(Colors.green),
-          ThemeColor().createMaterialColor(Colors.green[700]!),
-          ThemeColor().createMaterialColor(Colors.teal[800]!),
-          ThemeColor().createMaterialColor(Colors.cyan[800]!),
-          ThemeColor().createMaterialColor(Colors.lightBlue[800]!),
-          ThemeColor().createMaterialColor(Colors.blue[800]!),
-          ThemeColor().createMaterialColor(Colors.indigo[800]!),
-          ThemeColor().createMaterialColor(Colors.deepPurple[800]!),
-          ThemeColor().createMaterialColor(Colors.purple[800]!),
-          ThemeColor().createMaterialColor(Colors.pink[800]!),
-          ThemeColor().createMaterialColor(Colors.red[800]!),
-          ThemeColor().createMaterialColor(Colors.deepOrange[800]!),
-          ThemeColor().createMaterialColor(Colors.orange[800]!),
-          ThemeColor().createMaterialColor(Colors.amber[800]!),
-          ThemeColor().createMaterialColor(Colors.yellow[800]!),
-          ThemeColor().createMaterialColor(Colors.brown[800]!),
-          ThemeColor().createMaterialColor(Colors.black54),
-          ThemeColor().createMaterialColor(Colors.grey[800]!),
-          ThemeColor().createMaterialColor(Colors.blueGrey[800]!),
-          ThemeColor().createMaterialColor(Colors.blueGrey[600]!),
-        ],
+        colors: ThemeColor().getColorPicker(),
         allowShades: false,
         onMainColorChange: (color) => setState(() => _selectedColor = color),
       ),
@@ -378,13 +357,11 @@ class _CategoriesPageState extends State<CategoriesPage>
                                   child: Text(
                                     (item.name.toString()),
                                     style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: darkMode
-                                          ? const Color.fromARGB(
-                                              255, 210, 210, 210)
-                                          : const Color.fromARGB(255, 5, 5, 5),
-                                    ),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: darkMode
+                                            ? ThemeColor.light1
+                                            : ThemeColor.dark1),
                                   ),
                                 ),
                                 isThreeLine: false,

@@ -18,17 +18,17 @@ class ThemeColor {
     900: Color(0xFF233238)
   });
 
-  static MaterialColor primaryColorDark = const MaterialColor(0xFFaaaaaa, {
-    50: Color(0xFFaaaaaa),
-    100: Color(0xFFaaaaaa),
-    200: Color(0xFFaaaaaa),
-    300: Color(0xFFaaaaaa),
-    400: Color(0xFFaaaaaa),
-    500: Color(0xFFaaaaaa),
-    600: Color(0xFFaaaaaa),
-    700: Color(0xFFaaaaaa),
-    800: Color(0xFFaaaaaa),
-    900: Color(0xFFaaaaaa)
+  static MaterialColor primaryColorDark = const MaterialColor(0xFFAAAAAA, {
+    50: Color(0xFFAAAAAA),
+    100: Color(0xFFAAAAAA),
+    200: Color(0xFFAAAAAA),
+    300: Color(0xFFAAAAAA),
+    400: Color(0xFFAAAAAA),
+    500: Color(0xFFAAAAAA),
+    600: Color(0xFFAAAAAA),
+    700: Color(0xFFAAAAAA),
+    800: Color(0xFFAAAAAA),
+    900: Color(0xFFAAAAAA)
   });
 
   static Future<bool> isDarkMode() async {
@@ -43,36 +43,54 @@ class ThemeColor {
         bool dark = brightness == Brightness.dark;
         return dark;
       }
-      /*
-      var brightness = MediaQuery.of(context).platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;*/
-/*
-//QUESTO RESTITUISCE LA MODALITA DI SISTEMA NON LA MODALITA ATTUALE
-      var brightness = SchedulerBinding.instance.window.platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;*/
-      // return isDarkMode;
-
     } catch (err) {
       // print('Caught error: $err');
     }
     return false;
   }
 
-//NOONE REFRESH WHEN SYSTEM THEME IS CHANGED
-  /*static bool isDarkMode(BuildContext context) {
-    try {
-       var brightness = MediaQuery.of(context).platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;
-     /* var brightness = SchedulerBinding.instance.window.platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;*/
-      return isDarkMode;
-    } catch (err) {
-      // print('Caught error: $err');
-    }
-    return false;
-  }*/
-
   int defaultCategoryColor = Colors.blueGrey[600]!.value;
+
+  List<ColorSwatch<dynamic>> getColorPicker() {
+    List<ColorSwatch<dynamic>> pickerColorSwatch = [];
+    for (Color color in pickerColors) {
+      pickerColorSwatch.add(ThemeColor().createMaterialColor(color));
+    }
+    return pickerColorSwatch;
+  }
+
+  static Color light1 = const Color.fromARGB(255, 238, 238, 238);
+  static Color light2 = const Color.fromARGB(255, 200, 200, 200);
+  static Color light3 = const Color.fromARGB(255, 160, 160, 160);
+  static Color light4 = const Color.fromARGB(255, 130, 130, 130);
+
+  static Color dark1 = const Color.fromARGB(255, 5, 5, 5);
+  static Color dark2 = const Color.fromARGB(255, 60, 60, 60);
+  static Color dark3 = const Color.fromARGB(255, 75, 75, 75);
+  static Color dark4 = const Color.fromARGB(255, 130, 130, 130);
+
+  List<Color> pickerColors = [
+    Colors.green,
+    Colors.green[700]!,
+    Colors.teal[800]!,
+    Colors.cyan[800]!,
+    Colors.lightBlue[800]!,
+    Colors.blue[800]!,
+    Colors.indigo[800]!,
+    Colors.deepPurple[800]!,
+    Colors.purple[800]!,
+    Colors.pink[800]!,
+    Colors.red[800]!,
+    Colors.deepOrange[800]!,
+    Colors.orange[800]!,
+    Colors.amber[800]!,
+    Colors.yellow[800]!,
+    Colors.brown[800]!,
+    Colors.black54,
+    Colors.grey[800]!,
+    Colors.blueGrey[800]!,
+    Colors.blueGrey[600]!,
+  ];
 
   MaterialColor createMaterialColor(Color color) {
     List strengths = <double>[.05];
