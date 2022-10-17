@@ -62,10 +62,10 @@ class Site {
     return "";
   }
 
-  static Future<bool> isUrlRSS(String url) async {
+  static Future<bool> isUrlRSS(String url, [int timeout = 3000]) async {
     try {
       final response =
-          await get(Uri.parse(url)).timeout(const Duration(milliseconds: 4000));
+          await get(Uri.parse(url)).timeout(Duration(milliseconds: timeout));
       if (response.body.substring(0, 500).contains("<channel")) {
         var channel = RssFeed.parse(response.body);
         if (channel.items!.isNotEmpty) {
@@ -101,7 +101,7 @@ class Site {
       if (url.contains("http") &&
           url.contains(".") &&
           url.replaceAll("//", "").contains("/")) {
-        bool valid = await isUrlRSS(url);
+        bool valid = await isUrlRSS(url, 5000);
         if (valid) {
           return url;
         }
@@ -112,7 +112,7 @@ class Site {
       //70% of websites use this template for rss
       if (url.contains(".") && !url.toLowerCase().contains("feed")) {
         String urlRss = "$url/feed/";
-        bool valid = await isUrlRSS(urlRss);
+        bool valid = await isUrlRSS(urlRss, 5000);
         if (valid) {
           return urlRss;
         }
