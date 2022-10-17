@@ -70,6 +70,7 @@ class FeedsList {
 
         //sort
         items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+
         return items;
       } catch (err) {
         // print('Caught error: $err');
@@ -104,31 +105,38 @@ class FeedsList {
         String? iconUrl = site.iconUrl.trim() != ""
             ? site.iconUrl
             : channel.image?.url?.toString();
-
-        int nItem = 0;
+        List<Feed> itemsSite = [];
         channel.items?.forEach((element) {
           if (element.title?.isEmpty == false) {
             if (element.title.toString().length > 5) {
-              if (nItem < settings.settingsFeedsLimit ||
-                  settings.settingsFeedsLimit == 0) {
-                nItem++;
-                var feed = Feed(
-                    title: element.title == null ||
-                            element.title.toString().trim() == ""
-                        ? Utility().cleanText(element.description)
-                        : Utility().cleanText(element.title),
-                    link: element.link == null ||
-                            element.link.toString().trim() == ""
-                        ? element.guid.toString().trim()
-                        : element.link.toString().trim(),
-                    iconUrl: iconUrl.toString(),
-                    pubDate: Utility().tryParse(element.pubDate.toString()),
-                    host: hostname);
-                items.add(feed);
-              }
+              var feed = Feed(
+                  title: element.title == null ||
+                          element.title.toString().trim() == ""
+                      ? Utility().cleanText(element.description)
+                      : Utility().cleanText(element.title),
+                  link: element.link == null ||
+                          element.link.toString().trim() == ""
+                      ? element.guid.toString().trim()
+                      : element.link.toString().trim(),
+                  iconUrl: iconUrl.toString(),
+                  pubDate: Utility().tryParse(element.pubDate.toString()),
+                  host: hostname);
+              itemsSite.add(feed);
             }
           }
         });
+
+        //sort
+        itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+
+        //filter first items
+        if (itemsSite.length >= settings.settingsFeedsLimit) {
+          for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
+              ? 9999
+              : settings.settingsFeedsLimit)) {
+            items.add(f);
+          }
+        }
       }
     } catch (err) {
       //print('Caught error: $err');
