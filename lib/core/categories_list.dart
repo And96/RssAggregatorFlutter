@@ -13,7 +13,7 @@ class CategoriesList {
     } catch (err) {
       // print('Caught error: $err');
     }
-    return -1;
+    return ThemeColor().defaultCategoryColor;
   }
 
   List<String> toList() {

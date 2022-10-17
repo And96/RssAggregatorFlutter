@@ -57,9 +57,9 @@ class SitesList {
     try {
       await load();
       for (var item in items) {
-        if (item.category == categoryOld) {
+        if (item.category.trim().toLowerCase() ==
+            categoryOld.trim().toLowerCase()) {
           item.category = categoryNew;
-          break;
         }
       }
       await save(items);
@@ -75,7 +75,8 @@ class SitesList {
     try {
       await load();
       for (var item in items) {
-        if (item.siteLink == siteLink) {
+        if (item.siteLink.trim().toLowerCase() ==
+            siteLink.trim().toLowerCase()) {
           item.category = category;
           break;
         }

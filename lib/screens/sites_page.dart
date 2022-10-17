@@ -126,10 +126,10 @@ class _SitesPageState extends State<SitesPage>
                 content: Text('Changed category to ${selected.value}'),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              setState(() {
-                sitesList.setCategory(site.siteLink, selected.value);
-              });
               Navigator.pop(context);
+              sitesList
+                  .setCategory(site.siteLink, selected.value)
+                  .then((value) => setState(() {}));
             },
             tileBuilder: (context, state) {
               return S2Tile.fromState(
@@ -287,7 +287,6 @@ class _SitesPageState extends State<SitesPage>
           setState(() {
             progressLoading = 0.90;
           });
-
           await sitesList.add(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true,
@@ -392,50 +391,51 @@ class _SitesPageState extends State<SitesPage>
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 0),
-                                          child: Container(
-                                            padding: const EdgeInsets.all(2),
-                                            decoration: BoxDecoration(
-                                                color: Color(categoriesList
-                                                    .getColor(item.category)),
-                                                border: Border.all(
+                                        if (item.category.trim() != "")
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 0),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(2),
+                                              decoration: BoxDecoration(
                                                   color: Color(categoriesList
                                                       .getColor(item.category)),
-                                                ),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(4))),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const SizedBox(
-                                                  height: 17,
-                                                  width: 17,
-                                                  child: Icon(
-                                                    Icons.sell,
-                                                    size: 15,
-                                                    color: Color.fromARGB(
-                                                        255, 255, 255, 255),
+                                                  border: Border.all(
+                                                    color: Color(
+                                                        categoriesList.getColor(
+                                                            item.category)),
                                                   ),
-                                                ),
-                                                Text(
-                                                  (item.category.toString()),
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Color.fromARGB(
-                                                        255, 255, 255, 255),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(4))),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 17,
+                                                    width: 17,
+                                                    child: Icon(
+                                                      Icons.sell,
+                                                      size: 15,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                  Text(
+                                                    (item.category.toString()),
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
                                       ]),
                                   isThreeLine: false,
                                   onTap: () {

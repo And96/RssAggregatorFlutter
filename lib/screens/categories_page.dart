@@ -37,14 +37,14 @@ class _CategoriesPageState extends State<CategoriesPage>
       onPressed: () {
         if (categoryUpdated != null) {
           categoriesList.delete(categoryUpdated.name);
-          sitesList.renameCategory(
-              categoryUpdated.name, _textFieldController.text);
+          sitesList
+              .renameCategory(categoryUpdated.name, _textFieldController.text)
+              .then((value) => setState(() {}));
         }
         categoriesList
             .add(_textFieldController.text,
                 categoryUpdated == null ? -1 : categoryUpdated.color)
             .then((value) => setState(() {}));
-
         Navigator.pop(context);
       },
     );
@@ -252,6 +252,9 @@ class _CategoriesPageState extends State<CategoriesPage>
           onTap: () {
             setState(() {
               categoriesList.delete(category.name);
+              sitesList
+                  .renameCategory(category.name, '')
+                  .then((value) => setState(() {}));
             });
             Navigator.pop(context);
             const snackBar = SnackBar(
