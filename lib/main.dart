@@ -3,6 +3,7 @@ import 'package:rss_aggregator_flutter/screens/home_page.dart';
 //import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/theme/brightness_notifier.dart';
 import 'dart:async';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 // ignore: depend_on_referenced_packages
@@ -85,37 +86,37 @@ class MyAppState extends State<MyApp> {
 
     return PrefService(
       service: widget.service,
-      child: MaterialApp(
-        title: 'Aggregator',
-        themeMode: _themeBrightness,
-        /*theme: ThemeData.light().copyWith(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: _themePrimaryColor!,
-            brightness: Brightness.light,
+      child: BrightnessNotifier(
+        onBrightnessChanged: () {
+          setState(() {}); // Call this to re-build the widget
+          Phoenix.rebirth(context);
+        },
+        child: MaterialApp(
+          title: 'Aggregator',
+          themeMode: _themeBrightness,
+          theme: ThemeData(
+            primarySwatch:
+                ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
           ),
-        ),*/
-        theme: ThemeData(
-          primarySwatch:
-              ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
+          darkTheme: ThemeData.dark().copyWith(
+            drawerTheme: const DrawerThemeData(
+              backgroundColor: Color.fromARGB(255, 20, 20, 20),
+            ),
+            cardColor: const Color.fromARGB(255, 20, 20, 20),
+            dialogBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
+            backgroundColor: const Color.fromARGB(255, 20, 20, 20),
+            scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: _themePrimaryColor!, brightness: Brightness.dark),
+            brightness: Brightness.dark,
+            listTileTheme: const ListTileThemeData(
+                tileColor: Color.fromARGB(255, 20, 20, 20)),
+            dividerTheme: const DividerThemeData(
+              color: Color.fromARGB(255, 30, 30, 30),
+            ),
+          ),
+          home: const MyHomePage(),
         ),
-        darkTheme: ThemeData.dark().copyWith(
-          drawerTheme: const DrawerThemeData(
-            backgroundColor: Color.fromARGB(255, 20, 20, 20),
-          ),
-          cardColor: const Color.fromARGB(255, 20, 20, 20),
-          dialogBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
-          backgroundColor: const Color.fromARGB(255, 20, 20, 20),
-          scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: _themePrimaryColor!, brightness: Brightness.dark),
-          brightness: Brightness.dark,
-          listTileTheme: const ListTileThemeData(
-              tileColor: Color.fromARGB(255, 20, 20, 20)),
-          dividerTheme: const DividerThemeData(
-            color: Color.fromARGB(255, 30, 30, 30),
-          ),
-        ),
-        home: const MyHomePage(),
       ),
     );
   }
