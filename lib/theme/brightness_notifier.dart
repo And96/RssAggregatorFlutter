@@ -27,9 +27,9 @@ class BrightnessNotifierState extends State<BrightnessNotifier>
         .addObserver(this); // Bind to app system state events
 
     //https://stackoverflow.com/questions/58260648/how-to-listen-for-changes-to-platformbrightness-in-flutter
-    var window = WidgetsBinding.instance!.window;
+    var window = WidgetsBinding.instance.window;
     window.onPlatformBrightnessChanged = () {
-      WidgetsBinding.instance?.handlePlatformBrightnessChanged();
+      WidgetsBinding.instance.handlePlatformBrightnessChanged();
       widget.onBrightnessChanged?.call();
     };
 
