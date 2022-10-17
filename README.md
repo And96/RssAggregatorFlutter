@@ -7,6 +7,12 @@ An Android application written with Flutter/Dart to read news from RSS Feeds
 
 ... Work in progress ...
 
+## Roadmap
+
+- November 2022: Complete main features
+- December 2022: Test + Add secondary features
+- January 2023: Publish on Google Play
+
 
 ## Features
 
