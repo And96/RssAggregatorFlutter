@@ -49,7 +49,7 @@ class ThemeColor {
     return false;
   }
 
-  int defaultCategoryColor = Colors.blueGrey[600]!.value;
+  int defaultCategoryColor = Colors.blueGrey[900]!.value;
 
   List<ColorSwatch<dynamic>> getColorPicker() {
     List<ColorSwatch<dynamic>> pickerColorSwatch = [];
@@ -77,8 +77,9 @@ class ThemeColor {
     Colors.lightBlue[800]!,
     Colors.blue[800]!,
     Colors.indigo[800]!,
-    Colors.deepPurple[800]!,
-    Colors.purple[800]!,
+    Colors.deepPurple[900]!,
+    Colors.purple[900]!,
+    Colors.purple[700]!,
     Colors.pink[800]!,
     Colors.red[800]!,
     Colors.deepOrange[800]!,
@@ -86,10 +87,9 @@ class ThemeColor {
     Colors.amber[800]!,
     Colors.yellow[800]!,
     Colors.brown[800]!,
-    Colors.black54,
-    Colors.grey[800]!,
-    Colors.blueGrey[800]!,
-    Colors.blueGrey[600]!,
+    Colors.blueGrey[900]!,
+    Colors.blueGrey[700]!,
+    Colors.blueGrey[500]!,
   ];
 
   MaterialColor createMaterialColor(Color color) {
