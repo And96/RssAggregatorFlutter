@@ -130,12 +130,10 @@ class FeedsList {
         itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
         //filter first items
-        if (itemsSite.length >= settings.settingsFeedsLimit) {
-          for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
-              ? 9999
-              : settings.settingsFeedsLimit)) {
-            items.add(f);
-          }
+        for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
+            ? 9999
+            : settings.settingsFeedsLimit)) {
+          items.add(f);
         }
       }
     } catch (err) {
