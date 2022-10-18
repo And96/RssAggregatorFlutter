@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/screens/home_page.dart';
-//import 'package:rss_aggregator_flutter/utilities/sites_icon.dart';
-// ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/theme/brightness_notifier.dart';
 import 'dart:async';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-// ignore: depend_on_referenced_packages
-//import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-
-// ignore: depend_on_referenced_packages
 import 'package:pref/pref.dart';
 
 Future<void> main() async {
@@ -88,7 +82,7 @@ class MyAppState extends State<MyApp> {
       service: widget.service,
       child: BrightnessNotifier(
         onBrightnessChanged: () {
-          setState(() {}); // Call this to re-build the widget
+          setState(() {});
           Phoenix.rebirth(context);
         },
         child: MaterialApp(
