@@ -66,14 +66,28 @@ class Site {
     try {
       final response =
           await get(Uri.parse(url)).timeout(Duration(milliseconds: timeout));
-      if (response.body.substring(0, 500).contains("<channel")) {
-        var channel = RssFeed.parse(response.body);
-        if (channel.items!.isNotEmpty) {
-          return true;
+      String beginResponse = response.body.substring(0, 500).toLowerCase();
+      if (beginResponse.contains("<channel") ||
+          beginResponse.contains("<feed")) {
+        try {
+          var channelRSS = RssFeed.parse(response.body);
+          if (channelRSS.items!.isNotEmpty) {
+            return true;
+          }
+        } catch (err) {
+          //print('Caught error: $err');
+        }
+        try {
+          var channelATOM = AtomFeed.parse(response.body);
+          if (channelATOM.items!.isNotEmpty) {
+            return true;
+          }
+        } catch (err) {
+          //print('Caught error: $err');
         }
       }
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
     return false;
   }

@@ -81,6 +81,96 @@ class FeedsList {
     return [];
   }
 
+  Future<List<Feed>> parseRssFeed(
+      Site site, String hostname, Response response) async {
+    List<Feed> itemsSite = [];
+    try {
+      RssFeed channel = RssFeed();
+      try {
+        channel = RssFeed.parse(utf8.decode(
+            response.bodyBytes)); //risolve accenti sbagliati esempio agi
+      } catch (err) {
+        //crash in utf8 with some site e.g. ilmattino, so try again without it and it works
+        try {
+          channel = RssFeed.parse(response.body);
+        } catch (err) {
+          // print('Caught error: $err');
+        }
+      }
+
+      String? iconUrl = site.iconUrl.trim() != ""
+          ? site.iconUrl
+          : channel.image?.url?.toString();
+      List<Feed> itemsSite = [];
+      channel.items?.forEach((element) {
+        if (element.title?.isEmpty == false) {
+          if (element.title.toString().length > 5) {
+            var feed = Feed(
+                title: element.title == null ||
+                        element.title.toString().trim() == ""
+                    ? Utility().cleanText(element.description)
+                    : Utility().cleanText(element.title),
+                link:
+                    element.link == null || element.link.toString().trim() == ""
+                        ? element.guid.toString().trim()
+                        : element.link.toString().trim(),
+                iconUrl: iconUrl.toString(),
+                pubDate: Utility().tryParse(element.pubDate.toString()),
+                host: hostname);
+            itemsSite.add(feed);
+          }
+        }
+      });
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return itemsSite;
+  }
+
+  Future<List<Feed>> parseAtomFeed(
+      Site site, String hostname, Response response) async {
+    List<Feed> itemsSite = [];
+    try {
+      AtomFeed channel = AtomFeed();
+      try {
+        channel = AtomFeed.parse(utf8.decode(
+            response.bodyBytes)); //risolve accenti sbagliati esempio agi
+      } catch (err) {
+        //crash in utf8 with some site e.g. ilmattino, so try again without it and it works
+        try {
+          channel = AtomFeed.parse(response.body);
+        } catch (err) {
+          // print('Caught error: $err');
+        }
+      }
+
+      String? iconUrl =
+          site.iconUrl.trim() != "" ? site.iconUrl : channel.icon?.toString();
+      channel.items?.forEach((element) {
+        if (element.title?.isEmpty == false) {
+          if (element.title.toString().length > 5) {
+            var feed = Feed(
+                title: element.title == null ||
+                        element.title.toString().trim() == ""
+                    ? Utility().cleanText(element.content)
+                    : Utility().cleanText(element.title),
+                link: element.links == null ||
+                        element.links!.first.href.toString().trim() == ""
+                    ? element.id.toString().trim()
+                    : element.links!.first.href.toString().trim(),
+                iconUrl: iconUrl.toString(),
+                pubDate: Utility().tryParse(element.published.toString()),
+                host: hostname);
+            itemsSite.add(feed);
+          }
+        }
+      });
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return itemsSite;
+  }
+
   loadDataUrl(Site site) async {
     try {
       if (site.siteLink.trim().toLowerCase().contains("http")) {
@@ -89,42 +179,12 @@ class FeedsList {
         updateItemLoading(itemLoading);
         final response = await get(Uri.parse(site.siteLink))
             .timeout(Duration(seconds: settings.settingsTimeout));
-        RssFeed channel = RssFeed();
-        try {
-          channel = RssFeed.parse(utf8.decode(
-              response.bodyBytes)); //risolve accenti sbagliati esempio agi
-        } catch (err) {
-          //crash in utf8 with some site e.g. ilmattino, so try again without it and it works
-          try {
-            channel = RssFeed.parse(response.body);
-          } catch (err) {
-            // print('Caught error: $err');
-          }
-        }
 
-        String? iconUrl = site.iconUrl.trim() != ""
-            ? site.iconUrl
-            : channel.image?.url?.toString();
-        List<Feed> itemsSite = [];
-        channel.items?.forEach((element) {
-          if (element.title?.isEmpty == false) {
-            if (element.title.toString().length > 5) {
-              var feed = Feed(
-                  title: element.title == null ||
-                          element.title.toString().trim() == ""
-                      ? Utility().cleanText(element.description)
-                      : Utility().cleanText(element.title),
-                  link: element.link == null ||
-                          element.link.toString().trim() == ""
-                      ? element.guid.toString().trim()
-                      : element.link.toString().trim(),
-                  iconUrl: iconUrl.toString(),
-                  pubDate: Utility().tryParse(element.pubDate.toString()),
-                  host: hostname);
-              itemsSite.add(feed);
-            }
-          }
-        });
+        List<Feed> itemsSite;
+        itemsSite = await parseRssFeed(site, hostname, response);
+        if (itemsSite.isEmpty) {
+          itemsSite = await parseAtomFeed(site, hostname, response);
+        }
 
         //sort
         itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
