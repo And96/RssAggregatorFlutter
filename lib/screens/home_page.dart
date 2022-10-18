@@ -235,10 +235,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           : TabBar(
                               controller: _tabController,
                               indicatorWeight: 5,
-                              /* indicatorPadding:
-                            const EdgeInsets.only(right: 10, left: 10),*/
-                              //indicatorWeight: 4,
-
                               padding: categoriesList.items.length <= 2
                                   ? const EdgeInsets.only(right: 40, left: 40)
                                   : const EdgeInsets.only(right: 15, left: 15),
@@ -468,58 +464,60 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-              bottomNavigationBar: Container(
-                height: categoriesList.items.length > 1 ? 58 : 0,
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(color: Colors.black26, blurRadius: 10.0),
-                  ],
-                ),
-                child: Material(
-                  elevation: 8,
-                  color: darkMode ? Colors.black26 : Colors.white,
-                  child: TabBar(
-                      controller: _tabController,
-                      /*indicatorWeight: 2,
-                    indicatorPadding: const EdgeInsets.symmetric(vertical: 8),*/
-                      indicatorPadding: const EdgeInsets.symmetric(vertical: 7),
-                      padding: categoriesList.items.length <= 2
-                          ? const EdgeInsets.only(right: 40, left: 40)
-                          : const EdgeInsets.only(right: 15, left: 15),
-                      labelPadding: const EdgeInsets.only(right: 20, left: 20),
-                      unselectedLabelColor:
-                          darkMode ? Colors.white : Colors.black87,
+              bottomNavigationBar: categoriesList.items.length <= 1
+                  ? null
+                  : Container(
+                      height: 58,
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Colors.black26, blurRadius: 10.0),
+                        ],
+                      ),
+                      child: Material(
+                        elevation: 8,
+                        color: darkMode ? Colors.black26 : Colors.white,
+                        child: TabBar(
+                            controller: _tabController,
+                            indicatorPadding:
+                                const EdgeInsets.symmetric(vertical: 7),
+                            padding: categoriesList.items.length <= 2
+                                ? const EdgeInsets.only(right: 40, left: 40)
+                                : const EdgeInsets.only(right: 15, left: 15),
+                            labelPadding:
+                                const EdgeInsets.only(right: 20, left: 20),
+                            unselectedLabelColor:
+                                darkMode ? Colors.white : Colors.black87,
 
-                      //indicatorSize: TabBarIndicatorSize.label,
-                      indicatorColor: colorCategory,
-                      indicator: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: colorCategory,
-                              spreadRadius: 0,
-                              blurRadius: 0,
-                              offset: const Offset(
-                                  0, 0), // changes position of shadow
-                            ),
-                          ],
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(100),
-                            topRight: Radius.circular(100),
-                            bottomLeft: Radius.circular(100),
-                            bottomRight: Radius.circular(100),
-                          ),
-                          color: colorCategory),
-                      labelColor: Colors.white,
-                      isScrollable:
-                          categoriesList.items.length > 3 ? true : false,
-                      tabs: List.generate(
-                        categoriesList.items.length,
-                        (index) => Tab(
-                          text: categoriesList.items[index].name,
-                        ),
-                      )),
-                ),
-              ),
+                            //indicatorSize: TabBarIndicatorSize.label,
+                            indicatorColor: colorCategory,
+                            indicator: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: colorCategory,
+                                    spreadRadius: 0,
+                                    blurRadius: 0,
+                                    offset: const Offset(
+                                        0, 0), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(100),
+                                  topRight: Radius.circular(100),
+                                  bottomLeft: Radius.circular(100),
+                                  bottomRight: Radius.circular(100),
+                                ),
+                                color: colorCategory),
+                            labelColor: Colors.white,
+                            isScrollable:
+                                categoriesList.items.length > 3 ? true : false,
+                            tabs: List.generate(
+                              categoriesList.items.length,
+                              (index) => Tab(
+                                text: categoriesList.items[index].name,
+                              ),
+                            )),
+                      ),
+                    ),
               body: TabBarView(
                   physics: const CustomPageViewScrollPhysics(),
                   controller: _tabController,
