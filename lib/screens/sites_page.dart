@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
-// ignore: depend_on_referenced_packages
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
@@ -356,20 +355,7 @@ class _SitesPageState extends State<SitesPage>
                             return InkWell(
                               child: ListTile(
                                   minLeadingWidth: 30,
-                                  leading: SizedBox(
-                                    height: double.infinity,
-                                    width: 17,
-                                    child: item.iconUrl.toString().trim() == ""
-                                        ? const Icon(Icons.link)
-                                        : CachedNetworkImage(
-                                            imageUrl: item.iconUrl,
-                                            placeholder: (context, url) =>
-                                                const Icon(Icons.link),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.link),
-                                          ),
-                                  ),
+                                  leading: SiteLogo(iconUrl: item.iconUrl),
                                   title: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

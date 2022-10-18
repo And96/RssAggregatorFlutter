@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/readlater_list.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
-// ignore: depend_on_referenced_packages
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 // ignore: depend_on_referenced_packages
@@ -233,23 +232,8 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                           showOptionDialog(context, item),
                                       child: ListTile(
                                         minLeadingWidth: 30,
-                                        leading: SizedBox(
-                                          height: double.infinity,
-                                          width: 17,
-                                          child: item.iconUrl
-                                                      .toString()
-                                                      .trim() ==
-                                                  ""
-                                              ? const Icon(Icons.link)
-                                              : CachedNetworkImage(
-                                                  imageUrl: item.iconUrl,
-                                                  placeholder: (context, url) =>
-                                                      const Icon(Icons.link),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(Icons.link),
-                                                ),
-                                        ),
+                                        leading:
+                                            SiteLogo(iconUrl: item.iconUrl),
                                         title: Padding(
                                           padding:
                                               const EdgeInsets.only(top: 0),

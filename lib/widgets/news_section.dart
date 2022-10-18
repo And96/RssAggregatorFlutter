@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 /*import 'dart:async';*/
 import 'package:share_plus/share_plus.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -94,18 +95,7 @@ class _NewsSectionState extends State<NewsSection>
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(
-            height: 17,
-            width: 17,
-            child: item.iconUrl.toString().trim() == ""
-                ? const Icon(Icons.link)
-                : CachedNetworkImage(
-                    imageUrl: item.iconUrl,
-                    placeholder: (context, url) => const Icon(Icons.link),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.link),
-                  ),
-          ),
+          SiteLogo(iconUrl: item.iconUrl),
           Text(
             item.host,
             style: Theme.of(context).textTheme.titleMedium,

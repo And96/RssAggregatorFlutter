@@ -18,7 +18,23 @@ class SitesList {
     List<String> list = [];
     try {
       for (Site item in items) {
-        list.add(item.siteName);
+        list.add(item.siteLink);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return list;
+  }
+
+  Future<List<String>> getSitesFromCategory(String category) async {
+    List<String> list = [];
+    try {
+      for (Site item in items) {
+        if (category.trim() == "" ||
+            item.category.toLowerCase().trim() ==
+                category.toLowerCase().trim()) {
+          list.add(item.siteLink);
+        }
       }
     } catch (err) {
       // print('Caught error: $err');

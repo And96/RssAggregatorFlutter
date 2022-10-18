@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/core/category.dart';
+import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_awesome_select/flutter_awesome_select.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -27,6 +29,8 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   late String codeDialog;
   late String valueText;
+
+  List<String> sitesSelectedCategory = [];
 
   Future<void> _displayTextInputDialog(
       BuildContext context, Category? categoryUpdated) async {
@@ -194,29 +198,44 @@ class _CategoriesPageState extends State<CategoriesPage>
           },
         ),
         SmartSelect<String>.multiple(
-            title: 'Category',
-            selectedValue: const [], //category.sites,
+            title: 'Select sites',
+            selectedValue: sitesSelectedCategory,
+            //sitesList.toList(category.name), //const [], //category.sites,*/
             modalType: S2ModalType.fullPage,
-            choiceItems: S2Choice.listFrom<String, String>(
-              source: sitesList.toList(),
-              value: (index, item) => item,
-              title: (index, item) => item,
+            //choiceGrouped: true,
+            modalFilter: true,
+            choiceItems: S2Choice.listFrom<String, Site>(
+              source: sitesList.items,
+              value: (index, item) => item.siteLink,
+              title: (index, item) => item.siteName,
+              subtitle: (index, item) => item.siteLink,
+              meta: (index, item) => item.iconUrl,
+              //group: (index, item) => item.category,
             ),
+            choiceSecondaryBuilder: (context, state, choice) =>
+                SiteLogo(iconUrl: choice.meta),
             onChange: (selected) async {
               Navigator.pop(context);
-              /*setState(() {
-                sitesList.setCategory(site.siteName, selected.value);
-              });*/
+              //Remove old category
+              for (String siteLink in sitesSelectedCategory) {
+                await sitesList.setCategory(siteLink, '');
+              }
+              //Add new category
+              for (String siteLink in selected.value) {
+                await sitesList.setCategory(siteLink, category.name);
+              }
               SnackBar snackBar = SnackBar(
                 duration: const Duration(milliseconds: 700),
                 content: Text('Changed category to ${selected.value}'),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              sitesSelectedCategory = [];
+              setState(() {});
             },
             tileBuilder: (context, state) {
               return S2Tile.fromState(
                 state,
-                isTwoLine: false,
+                isTwoLine: true,
                 leading: const Icon(Icons.list),
                 trailing: const Icon(
                   Icons.sell,
@@ -366,7 +385,12 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 ),
                                 isThreeLine: false,
                                 onTap: () {
-                                  showOptionDialog(context, item);
+                                  sitesList
+                                      .getSitesFromCategory(item.name)
+                                      .then((value) => {
+                                            sitesSelectedCategory = value,
+                                            showOptionDialog(context, item)
+                                          });
                                 },
                               ),
                             );
