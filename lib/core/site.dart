@@ -246,12 +246,20 @@ class Site {
           return urlRss;
         }
       }
-
       if (url.contains("sport.sky.it") &&
           !url.contains("/feed") &&
           !url.contains("rss")) {
         String urlRss =
             "https://news.google.com/rss/search?q=site:sport.sky.it+when:2d&hl=it&gl=IT&ceid=IT:it";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("reddit.com") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss = "$url/.rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
@@ -379,6 +387,13 @@ class Site {
       }
       if (url.contains(".")) {
         String urlRss = "$url/latest.rss";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains(".")) {
+        String urlRss = "$url/.rss";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
