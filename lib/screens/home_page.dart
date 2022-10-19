@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Color colorCategory = ThemeColor.primaryColorLight;
   late TabController _tabController =
-      TabController(length: categoriesList.items.length, vsync: this);
+      TabController(length: categoriesList.tabs.length, vsync: this);
 
   @override
   initState() {
@@ -81,11 +81,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         categoriesList.add("News");
         prefs.setBool('first_run_app', true);
       }
-      await categoriesList.load();
+      await categoriesList.load(true);
       setCategoryColor();
       setState(() {
         _tabController =
-            TabController(length: categoriesList.items.length, vsync: this);
+            TabController(length: categoriesList.tabs.length, vsync: this);
       });
       _tabController.addListener(() {
         setCategoryColor();
@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   setCategoryColor() {
     try {
-      colorCategory = Color(categoriesList.items[_tabController.index].color);
+      colorCategory = Color(categoriesList.tabs[_tabController.index].color);
       // Colors.primaries[Random().nextInt(Colors.primaries.length)];//random color
     } catch (err) {
       colorCategory = ThemeColor.primaryColorLight;
@@ -220,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: categoriesList.items.length,
+        length: categoriesList.tabs.length,
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
               appBar: !isOnSearch
@@ -230,18 +230,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           darkMode ? Colors.black26 : colorCategory,
                       title: const Text("Aggregator"),
 
-                      bottom: categoriesList.items.length <= 1
+                      bottom: categoriesList.tabs.length <= 2
                           ? null
                           : TabBar(
                               controller: _tabController,
                               indicatorWeight: 5,
-                              padding: categoriesList.items.length <= 2
+                              padding: categoriesList.tabs.length <= 2
                                   ? const EdgeInsets.only(right: 40, left: 40)
                                   : const EdgeInsets.only(right: 15, left: 15),
-                              labelPadding:
-                                  const EdgeInsets.only(right: 20, left: 20),
+                              labelPadding: categoriesList.tabs.length <= 2
+                                  ? const EdgeInsets.only(right: 30, left: 30)
+                                  : const EdgeInsets.only(right: 20, left: 20),
                               indicatorPadding:
-                                  const EdgeInsets.only(bottom: 7, top: 4),
+                                  const EdgeInsets.only(bottom: 10, top: 5),
                               unselectedLabelColor: Colors.white,
                               indicatorColor: colorCategory,
                               indicator: BoxDecoration(
@@ -266,17 +267,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       : ThemeColor.light1),
                               labelColor:
                                   darkMode ? Colors.white : Colors.black87,
-                              isScrollable: categoriesList.items.length > 3
-                                  ? true
-                                  : false,
+                              isScrollable:
+                                  true, //categoriesList.tabs.length > 3? true: false,
                               tabs: List.generate(
-                                categoriesList.items.length,
+                                categoriesList.tabs.length,
                                 (index) => Tab(
-                                  text: categoriesList.items[index].name,
+                                  text: categoriesList.tabs[index].name == '*'
+                                      ? 'Tutti'
+                                      : categoriesList.tabs[index].name,
                                 ),
                               )),
 
-                      // bottom:
                       actions: <Widget>[
                         if (!isLoading && feedsList.sites.isNotEmpty)
                           IconButton(
@@ -464,10 +465,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-              bottomNavigationBar: categoriesList.items.length <= 1
+              bottomNavigationBar: categoriesList.tabs.length <= 2
                   ? null
                   : Container(
                       height: 58,
+                      width: double.infinity,
                       decoration: const BoxDecoration(
                         boxShadow: [
                           BoxShadow(color: Colors.black26, blurRadius: 10.0),
@@ -480,11 +482,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             controller: _tabController,
                             indicatorPadding:
                                 const EdgeInsets.symmetric(vertical: 7),
-                            padding: categoriesList.items.length <= 2
+                            padding: categoriesList.tabs.length <= 2
                                 ? const EdgeInsets.only(right: 40, left: 40)
                                 : const EdgeInsets.only(right: 15, left: 15),
-                            labelPadding:
-                                const EdgeInsets.only(right: 20, left: 20),
+                            labelPadding: categoriesList.tabs.length <= 2
+                                ? const EdgeInsets.only(right: 30, left: 30)
+                                : const EdgeInsets.only(right: 20, left: 20),
                             unselectedLabelColor:
                                 darkMode ? Colors.white : Colors.black87,
 
@@ -509,11 +512,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 color: colorCategory),
                             labelColor: Colors.white,
                             isScrollable:
-                                categoriesList.items.length > 3 ? true : false,
+                                categoriesList.tabs.length > 3 ? true : false,
                             tabs: List.generate(
-                              categoriesList.items.length,
+                              categoriesList.tabs.length,
                               (index) => Tab(
-                                text: categoriesList.items[index].name,
+                                text: categoriesList.tabs[index].name == '*'
+                                    ? 'Tutti'
+                                    : categoriesList.tabs[index].name,
                               ),
                             )),
                       ),
@@ -522,7 +527,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   physics: const CustomPageViewScrollPhysics(),
                   controller: _tabController,
                   children: List.generate(
-                    categoriesList.items.length,
+                    categoriesList.tabs.length,
                     (index) => NewsSection(
                       searchText: searchController.text,
                       feedsList: feedsList,

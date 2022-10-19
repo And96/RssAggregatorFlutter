@@ -58,9 +58,9 @@ class _SitesPageState extends State<SitesPage>
   Timer? _timerOpacityAnimation;
   setOpacityAnimation() {
     if (mounted) {
-      _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
+      _timerOpacityAnimation = Timer(const Duration(milliseconds: 1000), () {
         setState(() {
-          opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
+          opacityAnimation = opacityAnimation <= 0.01 ? 1.0 : 0.01;
           setOpacityAnimation();
         });
       });
@@ -457,16 +457,17 @@ class _SitesPageState extends State<SitesPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      AnimatedOpacity(
+                      /*AnimatedOpacity(
                         opacity: isLoading ? opacityAnimation : 1.0,
                         duration: const Duration(milliseconds: 500),
-                        child: EmptySection(
-                          title: 'Searching...',
-                          description: sitesList.itemLoading,
-                          icon: Icons.manage_search,
-                          darkMode: darkMode,
-                        ),
+                        child: */
+                      EmptySection(
+                        title: 'Searching...',
+                        description: sitesList.itemLoading,
+                        icon: Icons.manage_search,
+                        darkMode: darkMode,
                       ),
+                      /*  ),*/
                       Padding(
                         padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
                         child: LinearPercentIndicator(
@@ -474,8 +475,9 @@ class _SitesPageState extends State<SitesPage>
                           progressColor: Theme.of(context).colorScheme.primary,
                           lineHeight: 3.0,
                           animateFromLastPercent: true,
-                          animationDuration: 20000,
-                          percent: progressLoading,
+                          animationDuration: 1000,
+                          percent: opacityAnimation, //progressLoading,
+
                           barRadius: const Radius.circular(16),
                         ),
                       ),

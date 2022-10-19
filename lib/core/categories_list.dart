@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:rss_aggregator_flutter/core/category.dart';
+import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 class CategoriesList {
   late List<Category> items = [];
+  late List<Category> tabs = [];
   String defaultCategory = 'News';
 
   int getColor(String categoryName) {
@@ -40,9 +42,13 @@ class CategoriesList {
     return list;
   }
 
-  Future<bool> load() async {
+  Future<bool> load([bool loadCategoryTabs = false]) async {
     try {
       items = await get();
+      if (loadCategoryTabs) {
+        tabs = await getTabs();
+      }
+      //items.add(Category(name: '*', color: ThemeColor().defaultCategoryColor));
       defaultCategory = 'News';
       return true;
     } catch (err) {
@@ -51,20 +57,49 @@ class CategoriesList {
     return false;
   }
 
+  Future<List<Category>> getTabs() async {
+    try {
+      List<Category> categories = await get();
+      List<Category> tabs = [];
+      tabs.add(Category(name: '*', color: ThemeColor().defaultCategoryColor));
+      SitesList sitesList = SitesList(updateItemLoading: (String value) {});
+      await sitesList.load();
+      for (Category c in categories) {
+        List<String> sites = await sitesList.getSitesFromCategory(c.name);
+        if (sites.isNotEmpty) {
+          tabs.add(c);
+        }
+      }
+
+      return tabs;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return [];
+  }
+
   Future<void> save(List<Category> list) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('db_categories', jsonEncode(list));
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('db_categories', jsonEncode(list));
+    } catch (err) {
+      // print('Caught error: $err');
+    }
   }
 
   void delete(String name) async {
-    if (name == "*") {
-      items = [];
-    } else {
-      items.removeWhere(
-          (e) => (e.name.trim().toLowerCase() == name.trim().toLowerCase()));
+    try {
+      if (name == "*") {
+        items = [];
+      } else {
+        items.removeWhere(
+            (e) => (e.name.trim().toLowerCase() == name.trim().toLowerCase()));
+      }
+      await save(items);
+      await load();
+    } catch (err) {
+      // print('Caught error: $err');
     }
-    await save(items);
-    await load();
   }
 
   Future<bool> add(String name, [int color = -1]) async {
