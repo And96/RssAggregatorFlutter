@@ -88,6 +88,23 @@ class _CategoriesPageState extends State<CategoriesPage>
     setState(() {});
   }
 
+  Future<bool> _changeCategory(
+      S2MultiSelected<String> selectedValues, String categoryName) async {
+    try {
+      //Remove old category
+      for (String siteLink in sitesSelectedCategory) {
+        await sitesList.setCategory(siteLink, '');
+      }
+      //Add new category
+      for (String siteLink in selectedValues.value) {
+        await sitesList.setCategory(siteLink, categoryName);
+      }
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    return true;
+  }
+
   void _openColorPickerDialog(String name, Widget content) {
     Widget saveButton = TextButton(
       child: const Text("Save"),
@@ -216,21 +233,16 @@ class _CategoriesPageState extends State<CategoriesPage>
                 SiteLogo(iconUrl: choice.meta),
             onChange: (selected) async {
               Navigator.pop(context);
-              //Remove old category
-              for (String siteLink in sitesSelectedCategory) {
-                await sitesList.setCategory(siteLink, '');
-              }
-              //Add new category
-              for (String siteLink in selected.value) {
-                await sitesList.setCategory(siteLink, category.name);
-              }
-              SnackBar snackBar = SnackBar(
-                duration: const Duration(milliseconds: 700),
-                content: Text('Changed category to ${selected.value}'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              sitesSelectedCategory = [];
-              setState(() {});
+              SnackBar snackBar;
+              _changeCategory(selected, category.name).then((value) => {
+                    snackBar = SnackBar(
+                      duration: const Duration(milliseconds: 1000),
+                      content: Text('Changed category to ${category.name}'),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                    sitesSelectedCategory = [],
+                    setState(() {}),
+                  });
             },
             tileBuilder: (context, state) {
               return S2Tile.fromState(
