@@ -13,6 +13,7 @@ import 'package:rss_aggregator_flutter/screens/categories_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
+import 'package:rss_aggregator_flutter/screens/welcome_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -80,6 +81,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       if (prefs.getBool('first_run_app') == null) {
         categoriesList.add("News");
         prefs.setBool('first_run_app', true);
+
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const WelcomePage()))
+            .then((value) => Phoenix.rebirth(context));
       }
       await categoriesList.load(true);
       setCategoryColor();
@@ -460,6 +465,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             onTap: () {
                               Navigator.pop(context);
                               _showInfoDialog(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.help),
+                            title: const Text("Help"),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const WelcomePage()))
+                                  .then((value) => Phoenix.rebirth(context));
                             },
                           ),
                         ],

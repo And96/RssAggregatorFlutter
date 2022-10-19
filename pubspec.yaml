@@ -54,6 +54,7 @@ dependencies:
   grouped_buttons_ns: ^1.0.0
   flutter_awesome_select: ^6.5.0
   share_plus: ^4.5.3
+  flutter_overboard: ^3.1.1
 
 flutter_launcher_icons:
     path: ../..
