@@ -55,6 +55,7 @@ dependencies:
   flutter_awesome_select: ^6.5.0
   share_plus: ^4.5.3
   flutter_overboard: ^3.1.1
+  flutter_carousel_slider: ^1.0.9
 
 flutter_launcher_icons:
     path: ../..

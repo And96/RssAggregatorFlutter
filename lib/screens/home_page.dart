@@ -2,6 +2,7 @@ import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -19,6 +20,8 @@ import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_carousel_slider/carousel_slider.dart';
+import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -545,15 +548,39 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   controller: _tabController,
                   children: List.generate(
                     categoriesList.tabs.length,
-                    (index) => NewsSection(
-                      searchText: searchController.text,
-                      feedsList: feedsList,
-                      isLoading: isLoading,
-                    ),
+                    (index) => CarouselSlider.builder(
+                        //  key: _sliderKey,
+                        unlimitedMode: true,
+                        slideBuilder: (index) {
+                          return Container(
+                            alignment: Alignment.center,
+                            //color: colorCategory, //colors[index],
+                            /*color: Color(categoriesList
+                                .tabs[_tabController.index].color),*/
+                            child: NewsSection(
+                              searchText: searchController.text,
+                              feedsList: feedsList,
+                              isLoading: isLoading,
+                            ), /*Text(
+                              categoriesList.tabs[index].name,
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),*/
+                          );
+                        },
+                        onSlideChanged: (value) =>
+                            _tabController.animateTo(value),
+                        slideTransform: const CubeTransform(),
+                        /*slideIndicator: CircularSlideIndicator(
+                          padding: const EdgeInsets.only(bottom: 32),
+                        ),*/
+                        itemCount: categoriesList.tabs.length),
                   )));
         }));
   }
 }
+
+//GlobalKey<CarouselSlider> _sliderKey = GlobalKey();
 
 //custom page changing speed because by default on swiping _tabController.addListener(() { is fired later than on tap
 class CustomPageViewScrollPhysics extends ScrollPhysics {
