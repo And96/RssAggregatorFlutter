@@ -1,0 +1,17 @@
+Exported from
+https://icon.kitchen/i/H4sIAAAAAAAAA2VRy07DMBD8lchcg5RUoq8bIJULAtT0hhDaxBvXkmMH22mJqv47u06BQ2MptmdHM97ZkziAGTCI9Um06tHoHnzkS0DahHeDlSIXunGWryF8tohSnHNmO%2BM8oTdt%2BojWqjeQUlvFCtH1Yr3IhddqT1plmYvaxeg6Oq9yYbBldElStdqNPZKS8iA12khStXr6vZBWw1Yle5VzXkRI0IyhebGQy5ogsMqQzKpgTZAKr19Yq2oPySt8Ddo3xGfwj1gU8xbuCOvDA3VBfjNeCdjpyPLiXimPCqLz2baqsqkGymjL1Rc8ZhvKKNsiSPSpunFTGy102oxEeu3RZhXYwEn24RlGN3DehxTiJY3mMo0E4TfX2e%2Ffnp%2FObVLB4jFpdU4Ohsf5TmlI73Sangv0P%2BKUUUIjO%2FUGxttAQhxCPCRWB83Ehtjs6fRx%2FgES%2FOiPIwIAAA%3D%3D
+
+ic_launcher.png
+"IconKitchen-Output\android\res\mipmap-xxxhdpi\ic_launcher.png"
+
+ic_launcher_background.png
+"IconKitchen-Output\android\res\mipmap-xxxhdpi\ic_launcher_background.png"
+
+ic_launcher_foreground.png
+"IconKitchen-Output\android\res\mipmap-xxxhdpi\ic_launcher_foreground.png"
+
+icon-144x144.png
+"IconKitchen-Output\android\res\mipmap-xxhdpi\ic_launcher.png"
+
+icon-1024x1024.png
+"IconKitchen-Output\watchos\AppIcon~watch-marketing.png"
