@@ -115,7 +115,7 @@ class Site {
       if (url.contains("http") &&
           url.contains(".") &&
           url.replaceAll("//", "").contains("/")) {
-        bool valid = await isUrlRSS(url, 5000);
+        bool valid = await isUrlRSS(url, 8000);
         if (valid) {
           return url;
         }
@@ -126,7 +126,7 @@ class Site {
       //70% of websites use this template for rss
       if (url.contains(".") && !url.toLowerCase().contains("feed")) {
         String urlRss = "$url/feed/";
-        bool valid = await isUrlRSS(urlRss, 5000);
+        bool valid = await isUrlRSS(urlRss, 8000);
         if (valid) {
           return urlRss;
         }
@@ -140,7 +140,7 @@ class Site {
           List<String> rssUrls = await FeedFinder.scrape(url);
           for (String rssUrl in rssUrls) {
             if (!rssUrl.contains("comment")) {
-              bool valid = await isUrlRSS(rssUrl);
+              bool valid = await isUrlRSS(rssUrl, 5000);
               if (valid) {
                 return rssUrl;
               }
