@@ -28,7 +28,7 @@ class EmptySection extends StatelessWidget {
           Icon(
             icon,
             size: 100,
-            color: darkMode ? ThemeColor.dark2 : ThemeColor.light1,
+            color: darkMode ? ThemeColor.dark3 : ThemeColor.light2,
           ),
           const SizedBox(
             height: 10,

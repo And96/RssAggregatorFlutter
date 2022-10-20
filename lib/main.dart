@@ -93,20 +93,19 @@ class MyAppState extends State<MyApp> {
                 ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
           ),
           darkTheme: ThemeData.dark().copyWith(
-            drawerTheme: const DrawerThemeData(
-              backgroundColor: Color.fromARGB(255, 20, 20, 20),
+            drawerTheme: DrawerThemeData(
+              backgroundColor: ThemeColor.dark2,
             ),
-            cardColor: const Color.fromARGB(255, 20, 20, 20),
-            dialogBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
-            backgroundColor: const Color.fromARGB(255, 20, 20, 20),
-            scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
+            cardColor: ThemeColor.dark2,
+            dialogBackgroundColor: ThemeColor.dark2,
+            backgroundColor: ThemeColor.dark2,
+            scaffoldBackgroundColor: ThemeColor.dark2,
             colorScheme: ColorScheme.fromSeed(
                 seedColor: _themePrimaryColor!, brightness: Brightness.dark),
             brightness: Brightness.dark,
-            listTileTheme: const ListTileThemeData(
-                tileColor: Color.fromARGB(255, 20, 20, 20)),
-            dividerTheme: const DividerThemeData(
-              color: Color.fromARGB(255, 30, 30, 30),
+            listTileTheme: ListTileThemeData(tileColor: ThemeColor.dark2),
+            dividerTheme: DividerThemeData(
+              color: ThemeColor.dark3,
             ),
           ),
           home: const MyHomePage(),

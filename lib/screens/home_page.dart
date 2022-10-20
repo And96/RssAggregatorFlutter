@@ -21,7 +21,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -90,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             .then((value) => Phoenix.rebirth(context));
       }
       await categoriesList.load(true);
-      setCategoryColor();
+      await setCategoryColor();
       setState(() {
         _tabController =
             TabController(length: categoriesList.tabs.length, vsync: this);
