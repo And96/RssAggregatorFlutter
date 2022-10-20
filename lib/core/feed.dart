@@ -1,11 +1,11 @@
 import 'package:rss_aggregator_flutter/core/utility.dart';
 
 class Feed {
-  var title = "";
   var link = "";
-  var host = "";
+  var title = "";
   DateTime? pubDate;
   var iconUrl = "";
+  var host = "";
   Feed(
       {required this.link,
       required this.title,
@@ -13,23 +13,23 @@ class Feed {
       required this.iconUrl,
       required this.host});
 
-  factory Feed.fromJson(Map<String, dynamic> json) {
+  factory Feed.fromMap(Map<String, dynamic> json) {
     return Feed(
-      title: json["title"],
       link: json["link"],
-      host: json["host"],
+      title: json["title"],
       pubDate: Utility().tryParse(json["pubDate"]),
       iconUrl: json["iconUrl"],
+      host: json["host"],
     );
   }
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toMap() {
     return {
-      "title": title,
-      "link": link,
-      "host": host,
-      "pubDate": Utility().tryParse(pubDate.toString()).toIso8601String(),
+      'link': link,
+      'title': title,
+      'pubDate': Utility().tryParse(pubDate.toString()).toIso8601String(),
       "iconUrl": iconUrl,
+      'host': host,
     };
   }
 

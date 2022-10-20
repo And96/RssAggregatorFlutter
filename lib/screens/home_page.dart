@@ -73,34 +73,45 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await ThemeColor.isDarkMode().then((value) => {
-            darkMode = value,
-          });
-      await loadPackageInfo();
-      await settings.init();
-      final prefs = await SharedPreferences.getInstance();
-      if (prefs.getBool('first_run_app') == null) {
-        categoriesList.add("News");
-        prefs.setBool('first_run_app', true);
-
-        Navigator.of(context)
+    load().then((value) => value == true
+        ? Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const WelcomePage()))
-            .then((value) => Phoenix.rebirth(context));
-      }
-      await categoriesList.load(true);
-      await setCategoryColor();
-      setState(() {
-        _tabController =
-            TabController(length: categoriesList.tabs.length, vsync: this);
-      });
-      _tabController.addListener(() {
-        setCategoryColor();
-        setState(() {});
-      });
+            .then((value) => Phoenix.rebirth(context))
+        : null);
+  }
 
-      await loadData();
-    });
+  Future<bool> load() async {
+    bool firstRun = false;
+    try {
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        await ThemeColor.isDarkMode().then((value) => {
+              darkMode = value,
+            });
+        await loadPackageInfo();
+        await settings.init();
+        final prefs = await SharedPreferences.getInstance();
+        if (prefs.getBool('first_run_app') == null) {
+          categoriesList.add("News");
+          prefs.setBool('first_run_app', true);
+          firstRun = true;
+        }
+        await categoriesList.load(true);
+        await setCategoryColor();
+        setState(() {
+          _tabController =
+              TabController(length: categoriesList.tabs.length, vsync: this);
+        });
+        _tabController.addListener(() {
+          setCategoryColor();
+          setState(() {});
+        });
+
+        await loadData(false);
+      });
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    return firstRun;
   }
 
   setCategoryColor() {
@@ -125,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
   }
 
-  loadData() async {
+  loadData(bool loadFromWeb) async {
     try {
       if (isLoading) {
         return;
@@ -134,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       setState(() {
         isLoading = true;
       });
-      await feedsList.load();
+      await feedsList.load(loadFromWeb, "*", "*"); //* *DA IMPLEMENTARE* */
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -310,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             tooltip: 'Refresh',
                             onPressed: () => {
                               sleep(const Duration(milliseconds: 200)),
-                              loadData()
+                              loadData(true)
                             },
                           ),
 

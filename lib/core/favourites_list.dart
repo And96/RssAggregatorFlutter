@@ -60,7 +60,7 @@ class FavouritesList {
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_favourites') ?? '[]');
       late List<Feed> list =
-          List<Feed>.from(jsonData.map((model) => Feed.fromJson(model)));
+          List<Feed>.from(jsonData.map((model) => Feed.fromMap(model)));
       //sort
       items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
       return list;

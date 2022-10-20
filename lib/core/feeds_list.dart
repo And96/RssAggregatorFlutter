@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
@@ -7,6 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:http/http.dart';
 import 'package:webfeed/webfeed.dart';
+import 'dart:async';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class FeedsList {
   late List<Site> sites = [];
@@ -20,11 +25,12 @@ class FeedsList {
   late final ValueChanged<String> updateItemLoading;
   FeedsList({required this.updateItemLoading});
 
-  Future<bool> load() async {
+  Future<bool> load(
+      bool loadFromWeb, String siteName, String categoryName) async {
     try {
       await settings.init();
-      sites = await readSites();
-      items = await readFeeds();
+      sites = await readSites(siteName, categoryName);
+      items = await readFeeds(loadFromWeb);
       return true;
     } catch (err) {
       // print('Caught error: $err');
@@ -32,13 +38,22 @@ class FeedsList {
     return false;
   }
 
-  Future<List<Site>> readSites() async {
+  Future<List<Site>> readSites(String siteName, String categoryName) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_sites') ?? '[]');
       late List<Site> listLocal =
           List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
+      if (siteName != "*") {
+        listLocal =
+            listLocal.where((element) => element.siteName == siteName).toList();
+      }
+      if (categoryName != "*") {
+        listLocal = listLocal
+            .where((element) => element.category == categoryName)
+            .toList();
+      }
       return listLocal;
     } catch (err) {
       // print('Caught error: $err');
@@ -46,19 +61,23 @@ class FeedsList {
     return [];
   }
 
-  Future<List<Feed>> readFeeds() async {
+  Future<List<Feed>> readFeeds(bool loadFromWeb) async {
     try {
       try {
         items = [];
 
-        for (var i = 0; i < sites.length; i++) {
-          try {
-            progressLoading = (i + 1) / sites.length;
-            await loadDataUrl(sites[i]);
-          } catch (err) {
-            // print('Caught error: $err');
+        if (loadFromWeb) {
+          for (var i = 0; i < sites.length; i++) {
+            try {
+              progressLoading = (i + 1) / sites.length;
+              await readFeedsUrl(sites[i]);
+            } catch (err) {
+              // print('Caught error: $err');
+            }
+            continue;
           }
-          continue;
+        } else {
+          items = await getDB();
         }
 
         //remove feed older than N days
@@ -170,7 +189,7 @@ class FeedsList {
     return itemsSite;
   }
 
-  loadDataUrl(Site site) async {
+  readFeedsUrl(Site site) async {
     try {
       if (site.siteLink.trim().toLowerCase().contains("http")) {
         String hostname = site.siteName;
@@ -188,13 +207,129 @@ class FeedsList {
         //sort
         itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
+        deleteDB(site.siteName);
+
         //filter first items
         for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
             ? 9999
             : settings.settingsFeedsLimit)) {
           items.add(f);
+          await insertDB(f);
         }
       }
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  static Database? _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDB();
+    return _database!;
+  }
+
+  Future<Database?> _initDB() async {
+    try {
+      if (Platform.isWindows || Platform.isLinux) {
+        // Initialize FFI
+        sqfliteFfiInit();
+        databaseFactory = databaseFactoryFfi;
+      }
+      return openDatabase(
+        // Set the path to the database. Note: Using the `join` function from the
+        // `path` package is best practice to ensure the path is correctly
+        // constructed for each platform.
+        join(await getDatabasesPath(), 'db_feeds.db'),
+        // When the database is first created, create a table to store dogs.
+        onUpgrade: (db, versionOld, versionNew) {
+          // Run the CREATE TABLE statement on the database.
+          return db.execute(
+            'DROP TABLE feeds; CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT)',
+          );
+        },
+        onCreate: (db, version) {
+          // Run the CREATE TABLE statement on the database.
+          return db.execute(
+            'CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT)',
+          );
+        },
+        // Set the version. This executes the onCreate function and provides a
+        // path to perform database upgrades and downgrades.
+        version: 2,
+      );
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    return null;
+  }
+
+// Define a function that inserts dogs into the database
+  Future<void> insertDB(Feed feed) async {
+    try {
+      // Get a reference to the database.
+      final db = await database;
+
+      // Insert the Dog into the correct table. You might also specify the
+      // `conflictAlgorithm` to use in case the same dog is inserted twice.
+      //
+      // In this case, replace any previous data.
+      await db.insert(
+        'feeds',
+        feed.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  // A method that retrieves all the dogs from the dogs table.
+  Future<List<Feed>> getDB() async {
+    List<Feed> list = [];
+    try {
+      final db = await database;
+      final List<Map<String, dynamic>> maps = await db.query('feeds');
+      return List<Feed>.from(maps.map((model) => Feed.fromMap(model)));
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    return list;
+  }
+
+  Future<void> updateDB(Feed feed) async {
+    try {
+      // Get a reference to the database.
+      final db = await database;
+
+      // Update the given Dog.
+      await db.update(
+        'feeds',
+        feed.toMap(),
+        // Ensure that the Dog has a matching id.
+        where: 'link = ?',
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [feed.link],
+      );
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  Future<void> deleteDB(String host) async {
+    try {
+// Get a reference to the database.
+      final db = await database;
+
+      // Remove the Dog from the database.
+      await db.delete(
+        'feeds',
+        // Use a `where` clause to delete a specific dog.
+        where: 'host = ?',
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [host],
+      );
     } catch (err) {
       //print('Caught error: $err');
     }

@@ -58,6 +58,7 @@ dependencies:
   flutter_carousel_slider: ^1.0.9
   sqflite: ^2.1.0+1
   path: ^1.8.2
+  sqflite_common_ffi: ^2.1.1+1
 
 flutter_launcher_icons:
     path: ../..
