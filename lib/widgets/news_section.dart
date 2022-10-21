@@ -121,7 +121,7 @@ class _NewsSectionState extends State<NewsSection>
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: SizedBox(
-            width: 300,
+            width: 250,
             child: Text(
               item.link,
               style: Theme.of(context).textTheme.bodyMedium,
