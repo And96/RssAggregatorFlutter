@@ -512,49 +512,60 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       child: Material(
                         elevation: 8,
                         color: darkMode ? Colors.black26 : Colors.white,
-                        child: TabBar(
-                            controller: _tabController,
-                            indicatorPadding:
-                                const EdgeInsets.symmetric(vertical: 7),
-                            padding: categoriesList.tabs.length <= 2
-                                ? const EdgeInsets.only(right: 40, left: 40)
-                                : const EdgeInsets.only(right: 15, left: 15),
-                            labelPadding: categoriesList.tabs.length <= 2
-                                ? const EdgeInsets.only(right: 30, left: 30)
-                                : const EdgeInsets.only(right: 20, left: 20),
-                            unselectedLabelColor:
-                                darkMode ? Colors.white : Colors.black87,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              TabBar(
+                                  controller: _tabController,
+                                  indicatorPadding:
+                                      const EdgeInsets.symmetric(vertical: 7),
+                                  padding: categoriesList.tabs.length <= 2
+                                      ? const EdgeInsets.only(
+                                          right: 40, left: 40)
+                                      : const EdgeInsets.only(
+                                          right: 15, left: 15),
+                                  labelPadding: categoriesList.tabs.length <= 2
+                                      ? const EdgeInsets.only(
+                                          right: 30, left: 30)
+                                      : const EdgeInsets.only(
+                                          right: 20, left: 20),
+                                  unselectedLabelColor:
+                                      darkMode ? Colors.white : Colors.black87,
 
-                            //indicatorSize: TabBarIndicatorSize.label,
-                            indicatorColor: colorCategory,
-                            indicator: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: colorCategory,
-                                    spreadRadius: 0,
-                                    blurRadius: 0,
-                                    offset: const Offset(
-                                        0, 0), // changes position of shadow
-                                  ),
-                                ],
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(100),
-                                  topRight: Radius.circular(100),
-                                  bottomLeft: Radius.circular(100),
-                                  bottomRight: Radius.circular(100),
-                                ),
-                                color: colorCategory),
-                            labelColor: Colors.white,
-                            isScrollable:
-                                categoriesList.tabs.length > 3 ? true : false,
-                            tabs: List.generate(
-                              categoriesList.tabs.length,
-                              (index) => Tab(
-                                text: categoriesList.tabs[index].name == '*'
-                                    ? 'Tutti'
-                                    : categoriesList.tabs[index].name,
-                              ),
-                            )),
+                                  //indicatorSize: TabBarIndicatorSize.label,
+                                  indicatorColor: colorCategory,
+                                  indicator: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: colorCategory,
+                                          spreadRadius: 0,
+                                          blurRadius: 0,
+                                          offset: const Offset(0,
+                                              0), // changes position of shadow
+                                        ),
+                                      ],
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(100),
+                                        topRight: Radius.circular(100),
+                                        bottomLeft: Radius.circular(100),
+                                        bottomRight: Radius.circular(100),
+                                      ),
+                                      color: colorCategory),
+                                  labelColor: Colors.white,
+                                  isScrollable:
+                                      true, //categoriesList.tabs.length > 3
+                                  //? true
+                                  //: false,
+                                  tabs: List.generate(
+                                    categoriesList.tabs.length,
+                                    (index) => Tab(
+                                      text:
+                                          categoriesList.tabs[index].name == '*'
+                                              ? 'Tutti'
+                                              : categoriesList.tabs[index].name,
+                                    ),
+                                  )),
+                            ]),
                       ),
                     ),
               body: TabBarView(
