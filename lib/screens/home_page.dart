@@ -2,7 +2,6 @@ import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -20,7 +19,6 @@ import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -557,12 +555,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   physics: const CustomPageViewScrollPhysics(),
                   controller: _tabController,
                   children: List.generate(
-                    categoriesList.tabs.length,
-                    (index) => CarouselSlider.builder(
-                        //  key: _sliderKey,
-                        unlimitedMode: true,
-                        slideBuilder: (index) {
-                          return Container(
+                      categoriesList.tabs.length,
+                      (index) => Container(
                             alignment: Alignment.center,
                             //color: colorCategory, //colors[index],
                             /*color: Color(categoriesList
@@ -576,16 +570,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),*/
-                          );
-                        },
-                        onSlideChanged: (value) =>
-                            _tabController.animateTo(value),
-                        slideTransform: const CubeTransform(),
-                        /*slideIndicator: CircularSlideIndicator(
-                          padding: const EdgeInsets.only(bottom: 32),
-                        ),*/
-                        itemCount: categoriesList.tabs.length),
-                  )));
+                          ))));
         }));
   }
 }
