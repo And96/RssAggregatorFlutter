@@ -120,11 +120,14 @@ class _NewsSectionState extends State<NewsSection>
         const Divider(),
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Text(
-            item.link,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.left,
-            maxLines: 2,
+          child: SizedBox(
+            width: 300,
+            child: Text(
+              item.link,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.left,
+              maxLines: 3,
+            ),
           ),
         ),
         const Divider(),
