@@ -14,8 +14,8 @@ class SiteLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 17,
-      width: 17,
+      height: 20,
+      width: 20,
       child: iconUrl.toString().trim() == ""
           ? const Icon(Icons.link)
           : CachedNetworkImage(

@@ -114,7 +114,7 @@ class SitesList {
         String tmp = Uri.parse(url.toString()).host.toString().toLowerCase();
         if (tmp.trim() != "") {
           hostsiteName = tmp;
-          url = url.replaceAll(hostsiteName, hostsiteName.toLowerCase());
+          url = url.replaceAll(hostsiteName, hostsiteName.toLowerCase()).replaceAll('www.','');
         }
       }
       itemLoading = hostsiteName;
