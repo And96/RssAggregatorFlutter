@@ -183,11 +183,11 @@ class _FavouritesPageState extends State<FavouritesPage>
                   animation: _refreshIconController,
                   builder: (_, child) {
                     return Transform.rotate(
-                      angle: _refreshIconController.value * 4 * 3.1415,
+                      angle: _refreshIconController.value * 3 * 3.1415,
                       child: child,
                     );
                   },
-                  child: const Icon(Icons.refresh),
+                  child: const Icon(Icons.autorenew),
                 ),
                 onPressed: () => {},
               ),
