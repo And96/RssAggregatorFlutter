@@ -22,8 +22,8 @@ class FeedsList {
 
   Settings settings = Settings();
 
-  late final ValueChanged<String> updateItemLoading;
-  FeedsList({required this.updateItemLoading});
+  late ValueChanged<String>? updateItemLoading;
+  FeedsList({this.updateItemLoading});
 
   Future<bool> load(
       bool loadFromWeb, String siteName, String categoryName) async {
@@ -63,37 +63,32 @@ class FeedsList {
 
   Future<List<Feed>> readFeeds(bool loadFromWeb) async {
     try {
-      try {
-        items = [];
+      items = [];
 
-        if (loadFromWeb) {
-          for (var i = 0; i < sites.length; i++) {
-            try {
-              progressLoading = (i + 1) / sites.length;
-              await readFeedsUrl(sites[i]);
-            } catch (err) {
-              // print('Caught error: $err');
-            }
-            continue;
+      for (var i = 0; i < sites.length; i++) {
+        try {
+          progressLoading = (i + 1) / sites.length;
+          if (loadFromWeb) {
+            await readFeedsFromWeb(sites[i]);
+          } else {
+            await readFeedFromDB(sites[i]).then((value) => items.addAll(value));
           }
-        } else {
-          items = await getDB();
+        } catch (err) {
+          // print('Caught error: $err');
         }
-
-        //remove feed older than N days
-        if (settings.settingsDaysLimit > 0) {
-          items.removeWhere((e) =>
-              (Utility().daysBetween(e.pubDate!, DateTime.now()) >
-                  settings.settingsDaysLimit));
-        }
-
-        //sort
-        items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
-
-        return items;
-      } catch (err) {
-        // print('Caught error: $err');
       }
+
+      //remove feed older than N days
+      if (settings.settingsDaysLimit > 0) {
+        items.removeWhere((e) =>
+            (Utility().daysBetween(e.pubDate!, DateTime.now()) >
+                settings.settingsDaysLimit));
+      }
+
+      //sort
+      items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+
+      return items;
     } catch (err) {
       // print('Caught error: $err');
     }
@@ -189,12 +184,15 @@ class FeedsList {
     return itemsSite;
   }
 
-  readFeedsUrl(Site site) async {
+  readFeedsFromWeb(Site site) async {
     try {
       if (site.siteLink.trim().toLowerCase().contains("http")) {
         String hostname = site.siteName;
         itemLoading = hostname;
-        updateItemLoading(itemLoading);
+        if (updateItemLoading != null) {
+          updateItemLoading!(itemLoading);
+        }
+
         final response = await get(Uri.parse(site.siteLink))
             .timeout(Duration(seconds: settings.settingsTimeout));
 
@@ -233,7 +231,6 @@ class FeedsList {
   Future<Database?> _initDB() async {
     try {
       if (Platform.isWindows || Platform.isLinux) {
-        // Initialize FFI
         sqfliteFfiInit();
         databaseFactory = databaseFactoryFfi;
       }
@@ -286,12 +283,13 @@ class FeedsList {
   }
 
   // A method that retrieves all the dogs from the dogs table.
-  Future<List<Feed>> getDB() async {
+  Future<List<Feed>> readFeedFromDB(Site site) async {
     List<Feed> list = [];
     try {
       final db = await database;
-      final List<Map<String, dynamic>> maps = await db.query('feeds');
-      return List<Feed>.from(maps.map((model) => Feed.fromMap(model)));
+      final List<Map<String, dynamic>> maps = await db
+          .rawQuery('SELECT * FROM feeds WHERE host=?', [site.siteName]);
+      list = List<Feed>.from(maps.map((model) => Feed.fromMap(model)));
     } catch (err) {
       //print('Caught error: $err');
     }

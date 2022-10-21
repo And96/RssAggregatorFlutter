@@ -6,7 +6,6 @@ import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
@@ -95,7 +94,11 @@ class _NewsSectionState extends State<NewsSection>
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SiteLogo(iconUrl: item.iconUrl),
+          SizedBox(
+            height: 20,
+            width: 20,
+            child: SiteLogo(iconUrl: item.iconUrl),
+          ),
           Text(
             item.host,
             style: Theme.of(context).textTheme.titleMedium,
@@ -241,22 +244,8 @@ class _NewsSectionState extends State<NewsSection>
                                         showOptionDialog(context, item),
                                     child: ListTile(
                                         minLeadingWidth: 30,
-                                        leading: SizedBox(
-                                          height: double.infinity,
-                                          width: 17,
-                                          child: item.iconUrl
-                                                      .toString()
-                                                      .trim() ==
-                                                  ""
-                                              ? const Icon(Icons.link)
-                                              : CachedNetworkImage(
-                                                  imageUrl: item.iconUrl,
-                                                  placeholder: (context, url) =>
-                                                      const Icon(Icons.link),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(Icons.link),
-                                                ),
+                                        leading: SiteLogo(
+                                          iconUrl: item.iconUrl,
                                         ),
                                         title: Padding(
                                           padding:

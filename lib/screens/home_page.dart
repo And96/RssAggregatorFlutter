@@ -2,6 +2,7 @@ import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -29,7 +30,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Settings settings = Settings();
 
-  late FeedsList feedsList = FeedsList(updateItemLoading: _updateItemLoading);
+  late FeedsList feedsListUpdate =
+      FeedsList(updateItemLoading: _updateItemLoading);
+  late List<FeedsList> feedsList = [];
   late CategoriesList categoriesList = CategoriesList();
   void _updateItemLoading(String itemLoading) {
     setState(() {});
@@ -139,17 +142,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       if (isLoading) {
         return;
       }
-
-      setState(() {
-        isLoading = true;
-      });
-      await feedsList.load(loadFromWeb, "*", "*"); //* *DA IMPLEMENTARE* */
+      isLoading = true;
+      setState(() {});
+      await feedsListUpdate.load(loadFromWeb, "*", "*");
+      feedsList = [];
+      for (Category c in categoriesList.tabs) {
+        FeedsList f = FeedsList(updateItemLoading: null);
+        await f.load(false, '*', c.name);
+        feedsList.add(f);
+      }
     } catch (err) {
       //print('Caught error: $err');
     }
-    setState(() {
-      isLoading = false;
-    });
+    isLoading = false;
+    setState(() {});
   }
 
   _showInfoDialog(BuildContext context) async {
@@ -295,7 +301,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               )),
 
                       actions: <Widget>[
-                        if (!isLoading && feedsList.sites.isNotEmpty)
+                        if (!isLoading && feedsListUpdate.sites.isNotEmpty)
                           IconButton(
                             icon: const Icon(Icons.search),
                             tooltip: 'Search',
@@ -563,7 +569,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 .tabs[_tabController.index].color),*/
                             child: NewsSection(
                               searchText: searchController.text,
-                              feedsList: feedsList,
+                              feedsList: isLoading
+                                  ? feedsListUpdate
+                                  : feedsList[index],
                               isLoading: isLoading,
                             ), /*Text(
                               categoriesList.tabs[index].name,
@@ -574,8 +582,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         }));
   }
 }
-
-//GlobalKey<CarouselSlider> _sliderKey = GlobalKey();
 
 //custom page changing speed because by default on swiping _tabController.addListener(() { is fired later than on tap
 class CustomPageViewScrollPhysics extends ScrollPhysics {

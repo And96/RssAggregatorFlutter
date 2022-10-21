@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
+import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +67,7 @@ class SitesList {
           (e) => (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
     }
     save(items);
+    await FeedsList(updateItemLoading: null).deleteDB(url);
     await load();
   }
 
@@ -114,7 +116,7 @@ class SitesList {
         String tmp = Uri.parse(url.toString()).host.toString().toLowerCase();
         if (tmp.trim() != "") {
           hostsiteName = tmp;
-          url = url.replaceAll(hostsiteName, hostsiteName.toLowerCase()).replaceAll('www.','');
+          url = url.replaceAll(hostsiteName, hostsiteName.toLowerCase());
         }
       }
       itemLoading = hostsiteName;
@@ -126,6 +128,7 @@ class SitesList {
       if (!hostsiteName.contains(".")) {
         hostsiteName = Uri.parse(url.toString()).host.toString();
       }
+      hostsiteName = hostsiteName.replaceAll('www.', '');
       if (url.length > 1) {
         items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
             Utility().cleanUrlCompare(url)));
