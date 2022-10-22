@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:feed_finder/feed_finder.dart';
 import 'dart:io';
 import 'package:webfeed/webfeed.dart';
@@ -66,11 +68,26 @@ class Site {
     try {
       final response =
           await get(Uri.parse(url)).timeout(Duration(milliseconds: timeout));
-      String beginResponse = response.body.substring(0, 500).toLowerCase();
-      if (beginResponse.contains("<channel") ||
-          beginResponse.contains("<feed")) {
+      String stringResponse = "";
+      try {
+        stringResponse = utf8.decode(response.bodyBytes).toString();
+      } catch (err) {
+        //print('Caught error: $err');
+      }
+      if (stringResponse.trim() == '') {
         try {
-          var channelRSS = RssFeed.parse(response.body);
+          stringResponse = response.body.toString();
+        } catch (err) {
+          //print('Caught error: $err');
+        }
+      }
+      String beginResponse =
+          stringResponse.padLeft(1001).substring(0, 1000).toLowerCase();
+      if (beginResponse.contains("<channel") ||
+          beginResponse.contains("<feed") ||
+          beginResponse.contains("<atom")) {
+        try {
+          var channelRSS = RssFeed.parse(stringResponse);
           if (channelRSS.items!.isNotEmpty) {
             return true;
           }
@@ -78,7 +95,7 @@ class Site {
           //print('Caught error: $err');
         }
         try {
-          var channelATOM = AtomFeed.parse(response.body);
+          var channelATOM = AtomFeed.parse(stringResponse);
           if (channelATOM.items!.isNotEmpty) {
             return true;
           }
@@ -115,7 +132,7 @@ class Site {
       if (url.contains("http") &&
           url.contains(".") &&
           url.replaceAll("//", "").contains("/")) {
-        bool valid = await isUrlRSS(url, 8000);
+        bool valid = await isUrlRSS(url, 10000);
         if (valid) {
           return url;
         }
@@ -126,7 +143,7 @@ class Site {
       //70% of websites use this template for rss
       if (url.contains(".") && !url.toLowerCase().contains("feed")) {
         String urlRss = "$url/feed/";
-        bool valid = await isUrlRSS(urlRss, 8000);
+        bool valid = await isUrlRSS(urlRss, 10000);
         if (valid) {
           return urlRss;
         }
@@ -137,7 +154,9 @@ class Site {
       //search rss in html
       if (url.contains(".")) {
         try {
-          List<String> rssUrls = await FeedFinder.scrape(url);
+          List<String> rssUrls = await FeedFinder.scrape(url,
+              verifyCandidates:
+                  true); //with verifyCandidates=false it's faster but lost sites, with true slower but 99% accurated
           for (String rssUrl in rssUrls) {
             if (!rssUrl.contains("comment")) {
               bool valid = await isUrlRSS(rssUrl, 5000);
@@ -251,6 +270,16 @@ class Site {
           !url.contains("rss")) {
         String urlRss =
             "https://news.google.com/rss/search?q=site:sport.sky.it+when:2d&hl=it&gl=IT&ceid=IT:it";
+        bool valid = await isUrlRSS(urlRss);
+        if (valid) {
+          return urlRss;
+        }
+      }
+      if (url.contains("inter.it") &&
+          !url.contains("/feed") &&
+          !url.contains("rss")) {
+        String urlRss =
+            "https://news.google.com/rss/search?q=site:inter.it+when:14d&hl=it&gl=IT&ceid=IT:it";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;

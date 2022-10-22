@@ -218,6 +218,7 @@ class _NewsSectionState extends State<NewsSection>
                 : Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Scrollbar(
+                        controller: listviewController,
                         thickness: widget.searchText.isNotEmpty
                             ? 0
                             : 3, //hide scrollbar wrong if something is hidden is ok to hide them

@@ -218,93 +218,82 @@ class _FavouritesPageState extends State<FavouritesPage>
                       ))
                     : Padding(
                         padding: const EdgeInsets.only(top: 5),
-                        child: Scrollbar(
-                            child: ListView.separated(
-                                itemCount: favouritesList.items.length,
-                                separatorBuilder: (context, index) {
-                                  return const Divider();
-                                },
-                                itemBuilder: (BuildContext context, index) {
-                                  final item = favouritesList.items[index];
+                        child: ListView.separated(
+                            itemCount: favouritesList.items.length,
+                            separatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            itemBuilder: (BuildContext context, index) {
+                              final item = favouritesList.items[index];
 
-                                  return InkWell(
-                                      onTap: () =>
-                                          showOptionDialog(context, item),
-                                      child: ListTile(
-                                        minLeadingWidth: 30,
-                                        leading:
-                                            SiteLogo(iconUrl: item.iconUrl),
-                                        title: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 0),
-                                          child: Text(
-                                            (item.host.toString()),
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                              color: darkMode
-                                                  ? ThemeColor.light3
-                                                  : ThemeColor.dark4,
-                                            ),
-                                          ),
+                              return InkWell(
+                                  onTap: () => showOptionDialog(context, item),
+                                  child: ListTile(
+                                    minLeadingWidth: 30,
+                                    leading: SiteLogo(iconUrl: item.iconUrl),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 0),
+                                      child: Text(
+                                        (item.host.toString()),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          color: darkMode
+                                              ? ThemeColor.light3
+                                              : ThemeColor.dark4,
                                         ),
-                                        isThreeLine: true,
-                                        subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  child: Text(
-                                                    item.title.toString(),
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    isThreeLine: true,
+                                    subtitle: Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              child: Text(
+                                                item.title.toString(),
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: darkMode
+                                                        ? ThemeColor.light2
+                                                        : ThemeColor.dark1),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 5),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    (DateFormat(
+                                                            'dd/MM/yyyy HH:mm')
+                                                        .format(Utility()
+                                                            .tryParse(item
+                                                                .pubDate
+                                                                .toString())
+                                                            .toLocal())),
                                                     style: TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         color: darkMode
-                                                            ? ThemeColor.light2
-                                                            : ThemeColor.dark1),
+                                                            ? ThemeColor.light3
+                                                            : ThemeColor.dark4),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        (DateFormat(
-                                                                'dd/MM/yyyy HH:mm')
-                                                            .format(Utility()
-                                                                .tryParse(item
-                                                                    .pubDate
-                                                                    .toString())
-                                                                .toLocal())),
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            color: darkMode
-                                                                ? ThemeColor
-                                                                    .light3
-                                                                : ThemeColor
-                                                                    .dark4),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            )),
-                                      ));
-                                })),
-                      )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ));
+                            }))
                 : Center(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

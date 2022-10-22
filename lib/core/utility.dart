@@ -72,6 +72,7 @@ class Utility {
           .replaceAll(":", "")
           .replaceAll("/", "")
           .replaceAll("www", "")
+          .replaceAll("m.", "")
           .replaceAll(".", "")
           .replaceAll("rss", "")
           .replaceAll("feed", "");

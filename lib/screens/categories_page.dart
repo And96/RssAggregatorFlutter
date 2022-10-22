@@ -364,50 +364,46 @@ class _CategoriesPageState extends State<CategoriesPage>
           isLoading == false
               ? Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: Scrollbar(
-                      child: ListView.separated(
-                          itemCount: categoriesList.items.length,
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          itemBuilder: (BuildContext context, index) {
-                            final item = categoriesList.items[index];
-                            return InkWell(
-                              child: ListTile(
-                                minLeadingWidth: 30,
-                                leading: SizedBox(
-                                  height: double.infinity,
-                                  width: 17,
-                                  child: item.color.toString().trim() == ""
-                                      ? const Icon(Icons.sell)
-                                      : Icon(Icons.sell,
-                                          color: Color(item.color)),
-                                ),
-                                title: Padding(
-                                  padding: const EdgeInsets.only(top: 0),
-                                  child: Text(
-                                    (item.name.toString()),
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        color: darkMode
-                                            ? ThemeColor.light1
-                                            : ThemeColor.dark1),
-                                  ),
-                                ),
-                                isThreeLine: false,
-                                onTap: () {
-                                  sitesList
-                                      .getSitesFromCategory(item.name)
-                                      .then((value) => {
-                                            sitesSelectedCategory = value,
-                                            showOptionDialog(context, item)
-                                          });
-                                },
+                  child: ListView.separated(
+                      itemCount: categoriesList.items.length,
+                      separatorBuilder: (context, index) {
+                        return const Divider();
+                      },
+                      itemBuilder: (BuildContext context, index) {
+                        final item = categoriesList.items[index];
+                        return InkWell(
+                          child: ListTile(
+                            minLeadingWidth: 30,
+                            leading: SizedBox(
+                              height: double.infinity,
+                              width: 17,
+                              child: item.color.toString().trim() == ""
+                                  ? const Icon(Icons.sell)
+                                  : Icon(Icons.sell, color: Color(item.color)),
+                            ),
+                            title: Padding(
+                              padding: const EdgeInsets.only(top: 0),
+                              child: Text(
+                                (item.name.toString()),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: darkMode
+                                        ? ThemeColor.light1
+                                        : ThemeColor.dark1),
                               ),
-                            );
-                          })),
-                )
+                            ),
+                            isThreeLine: false,
+                            onTap: () {
+                              sitesList.getSitesFromCategory(item.name).then(
+                                  (value) => {
+                                        sitesSelectedCategory = value,
+                                        showOptionDialog(context, item)
+                                      });
+                            },
+                          ),
+                        );
+                      }))
               : Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

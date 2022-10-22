@@ -112,6 +112,15 @@ class SitesList {
       [String category = '', String siteName = '']) async {
     try {
       String hostsiteName = url;
+      if (url.toLowerCase().replaceFirst("http", "").contains("http") &&
+          url.toLowerCase().contains("google")) {
+        for (String link
+            in Utility().getUrlsFromText(url.replaceAll("http", " http"))) {
+          if (!link.contains("google")) {
+            url = link;
+          }
+        }
+      }
       if (hostsiteName.replaceAll("//", "/").contains("/")) {
         String tmp = Uri.parse(url.toString()).host.toString().toLowerCase();
         if (tmp.trim() != "") {
@@ -125,10 +134,21 @@ class SitesList {
       /*if (url.endsWith("/")) { 'tuttosport dont work if missing / at the end
         url = url.substring(0, url.length - 1);
       }*/
+      /* if (url.contains(
+        ".",
+      )) {
+        hostsiteName = Uri.parse(url.toString()).host.toString();
+      */
       if (!hostsiteName.contains(".")) {
         hostsiteName = Uri.parse(url.toString()).host.toString();
       }
-      hostsiteName = hostsiteName.replaceAll('www.', '');
+      hostsiteName = hostsiteName
+          .toLowerCase()
+          .replaceAll('www.', '')
+          .replaceAll('https://.', '')
+          .replaceAll('http://', '')
+          .replaceAll("/", "");
+
       if (url.length > 1) {
         items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
             Utility().cleanUrlCompare(url)));

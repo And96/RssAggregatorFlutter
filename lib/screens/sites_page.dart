@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -12,7 +11,6 @@ import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 
 class SitesPage extends StatefulWidget {
@@ -404,113 +402,106 @@ class _SitesPageState extends State<SitesPage>
           isLoading == false
               ? Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: Scrollbar(
-                      child: ListView.separated(
-                          itemCount: sitesList.items.length,
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          itemBuilder: (BuildContext context, index) {
-                            final item = sitesList.items[index];
-                            return InkWell(
-                              child: ListTile(
-                                  minLeadingWidth: 30,
-                                  leading: SiteLogo(iconUrl: item.iconUrl),
-                                  title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 0),
-                                          child: Text(
-                                            (item.siteName.toString()),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.normal,
-                                              color: darkMode
-                                                  ? ThemeColor.light1
-                                                  : ThemeColor.dark1,
-                                            ),
+                  child: ListView.separated(
+                      itemCount: sitesList.items.length,
+                      separatorBuilder: (context, index) {
+                        return const Divider();
+                      },
+                      itemBuilder: (BuildContext context, index) {
+                        final item = sitesList.items[index];
+                        return InkWell(
+                          child: ListTile(
+                              minLeadingWidth: 30,
+                              leading: SiteLogo(iconUrl: item.iconUrl),
+                              title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 0),
+                                      child: Text(
+                                        (item.siteName.toString()),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: darkMode
+                                              ? ThemeColor.light1
+                                              : ThemeColor.dark1,
+                                        ),
+                                      ),
+                                    ),
+                                    if (item.category.trim() != "")
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2),
+                                          decoration: BoxDecoration(
+                                              color: Color(categoriesList
+                                                  .getColor(item.category)),
+                                              border: Border.all(
+                                                color: Color(categoriesList
+                                                    .getColor(item.category)),
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(4))),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const SizedBox(
+                                                height: 17,
+                                                width: 17,
+                                                child: Icon(
+                                                  Icons.sell,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                (item.category.toString()),
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        if (item.category.trim() != "")
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 0),
-                                            child: Container(
-                                              padding: const EdgeInsets.all(2),
-                                              decoration: BoxDecoration(
-                                                  color: Color(categoriesList
-                                                      .getColor(item.category)),
-                                                  border: Border.all(
-                                                    color: Color(
-                                                        categoriesList.getColor(
-                                                            item.category)),
-                                                  ),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(4))),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 17,
-                                                    width: 17,
-                                                    child: Icon(
-                                                      Icons.sell,
-                                                      size: 15,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    (item.category.toString()),
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                      ),
+                                  ]),
+                              isThreeLine: false,
+                              onTap: () {
+                                showOptionDialog(context, item);
+                              },
+                              subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        child: Text(
+                                          item.siteLink.toString(),
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                            color: darkMode
+                                                ? ThemeColor.light3
+                                                : ThemeColor.dark3,
                                           ),
-                                      ]),
-                                  isThreeLine: false,
-                                  onTap: () {
-                                    showOptionDialog(context, item);
-                                  },
-                                  subtitle: Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            child: Text(
-                                              item.siteLink.toString(),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal,
-                                                color: darkMode
-                                                    ? ThemeColor.light3
-                                                    : ThemeColor.dark3,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ))),
-                            );
-                          })),
-                )
+                                        ),
+                                      ),
+                                    ],
+                                  ))),
+                        );
+                      }))
               : Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -528,19 +519,16 @@ class _SitesPageState extends State<SitesPage>
                         darkMode: darkMode,
                       ),
                       /*  ),*/
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
-                        child: LinearPercentIndicator(
-                          animation: true,
-                          progressColor: Theme.of(context).colorScheme.primary,
-                          lineHeight: 3.0,
-                          animateFromLastPercent: true,
-                          animationDuration: 1000,
-                          percent: opacityAnimation, //progressLoading,
-
-                          barRadius: const Radius.circular(16),
+                      Container(
+                        width: 175,
+                        height: 3,
+                        margin: const EdgeInsets.only(top: 22),
+                        child: const LinearProgressIndicator(
+                          backgroundColor: Colors.blueGrey,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.black54),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
