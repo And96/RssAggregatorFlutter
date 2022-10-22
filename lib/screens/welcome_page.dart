@@ -33,47 +33,51 @@ class WelcomePageState extends State<WelcomePage> {
     PageModel.withChild(
         child: const WelcomeSection(
           title: 'FastFeed',
-          description: 'App per leggere le notizie',
+          description:
+              'Leggi le notizie dei tuoi siti preferiti in una unica applicazione',
           icon: Icons.newspaper,
           color: Colors.white,
         ),
-        color: const Color.fromARGB(255, 49, 67, 96),
-        doAnimateChild: true),
-    PageModel.withChild(
-        child: const WelcomeSection(
-          title: 'Siti',
-          description: 'See the increase in productivity & output',
-          icon: Icons.add_link,
-          color: Colors.white,
-        ),
-        color: const Color.fromARGB(255, 43, 75, 255),
+        color: Colors.blueGrey[900],
         doAnimateChild: false),
     PageModel.withChild(
         child: const WelcomeSection(
-          title: 'Categorie',
-          description: 'Connect with the people from different places',
-          icon: Icons.sell,
+          title: 'Scegli siti',
+          description:
+              'Impostati i siti da seguire, troverai in automatico le notizie ordinate',
+          icon: Icons.add_link,
           color: Colors.white,
         ),
-        color: const Color.fromARGB(255, 0, 85, 95),
+        color: Colors.lightBlue[900],
+        doAnimateChild: false),
+    PageModel.withChild(
+        child: const WelcomeSection(
+          title: 'Funzionalita',
+          description:
+              'Apri nel browser, salva preferiti, leggi piu tardi, condividi, lettura offline.',
+          icon: Icons.local_activity,
+          color: Colors.white,
+        ),
+        color: Colors.teal[900],
         doAnimateChild: false),
     PageModel.withChild(
         child: const WelcomeSection(
           title: 'Personalizzabile',
-          description: 'Imposta colori, preferiti e leggi piu tardi',
+          description:
+              'Crea categorie, raggruppa notizie, personalizza colori, modalita scura e altre impostazioni avanzate',
           icon: Icons.color_lens,
           color: Colors.white,
         ),
-        color: const Color.fromARGB(255, 228, 95, 0),
+        color: Colors.pink[800],
         doAnimateChild: false),
     PageModel.withChild(
         child: const WelcomeSection(
-          title: 'Pronti!',
-          description: 'Premi fine per iniziare ad usare la applicazione',
-          icon: Icons.factory_sharp,
+          title: 'Pronti. Ci siamo!',
+          description: '\nGratis!\n\n Senza pubblicita!\n\n Senza abbonamento!',
+          icon: Icons.public,
           color: Colors.white,
         ),
-        color: const Color.fromARGB(255, 49, 67, 96),
+        color: Colors.blueGrey[900],
         doAnimateChild: true),
   ];
 }

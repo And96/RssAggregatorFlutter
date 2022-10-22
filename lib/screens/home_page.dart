@@ -477,14 +477,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.info),
-                            title: const Text("Info"),
-                            onTap: () {
-                              Navigator.pop(context);
-                              _showInfoDialog(context);
-                            },
-                          ),
-                          ListTile(
                             leading: const Icon(Icons.help),
                             title: const Text("Help"),
                             onTap: () {
@@ -494,6 +486,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       builder: (context) =>
                                           const WelcomePage()))
                                   .then((value) => Phoenix.rebirth(context));
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.info),
+                            title: const Text("Info"),
+                            onTap: () {
+                              Navigator.pop(context);
+                              _showInfoDialog(context);
                             },
                           ),
                         ],
