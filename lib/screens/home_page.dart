@@ -336,11 +336,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               builder: (_, child) {
                                 return Transform.rotate(
                                   angle:
-                                      _refreshIconController.value * 4 * 3.1415,
+                                      _refreshIconController.value * 3 * 3.1415,
                                   child: child,
                                 );
                               },
-                              child: const Icon(Icons.refresh),
+                              child: const Icon(Icons.autorenew),
                             ),
                             onPressed: () => {},
                           ),

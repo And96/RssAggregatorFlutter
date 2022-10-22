@@ -310,6 +310,66 @@ class _SitesPageState extends State<SitesPage>
     }
   }
 
+  _showNewDialog(BuildContext context) async {
+    var dialog = SimpleDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            'Options',
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(Icons.close),
+            tooltip: 'Close',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      contentPadding: const EdgeInsets.all(8),
+      children: <Widget>[
+        const Divider(),
+        ListTile(
+            minLeadingWidth: 30,
+            leading: const Icon(Icons.add_link_outlined),
+            title: const Text('Add new site'),
+            subtitle: const Text(
+              'Enter url manually',
+            ),
+            onTap: (() =>
+                {Navigator.pop(context), _awaitEditSite(context, null)})),
+        ListTile(
+            minLeadingWidth: 30,
+            leading: const Icon(Icons.article_outlined),
+            title: const Text('Add site list'),
+            subtitle: const Text(
+              'Add multiple sites or import from OPML',
+            ),
+            onTap: (() =>
+                {Navigator.pop(context), _awaitEditSite(context, null)})),
+        ListTile(
+            minLeadingWidth: 30,
+            leading: const Icon(Icons.auto_graph),
+            title: const Text('Recommended sites'),
+            subtitle: const Text(
+              'Choose from most popular website',
+            ),
+            onTap: (() =>
+                {Navigator.pop(context), _awaitEditSite(context, null)})),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -324,11 +384,11 @@ class _SitesPageState extends State<SitesPage>
                 animation: _refreshIconController,
                 builder: (_, child) {
                   return Transform.rotate(
-                    angle: _refreshIconController.value * 4 * 3.1415,
+                    angle: _refreshIconController.value * 3 * 3.1415,
                     child: child,
                   );
                 },
-                child: const Icon(Icons.refresh),
+                child: const Icon(Icons.autorenew),
               ),
               onPressed: () => {},
             ),
@@ -492,7 +552,7 @@ class _SitesPageState extends State<SitesPage>
               icon: const Icon(Icons.add),
               label: const Text('Add Site'),
               onPressed: () {
-                _awaitEditSite(context, null);
+                _showNewDialog(context);
               },
             ),
     );
