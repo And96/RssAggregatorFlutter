@@ -72,8 +72,9 @@ class WelcomePageState extends State<WelcomePage> {
         doAnimateChild: false),
     PageModel.withChild(
         child: const WelcomeSection(
-          title: 'Pronti. Ci siamo!',
-          description: '\nGratis!\n\n Senza pubblicita!\n\n Senza abbonamento!',
+          title: 'Pronti. Ci siamo.',
+          description:
+              '\nGratis!\n\nSenza pubblicita!\n\nSenza notifiche!\n\nSenza abbonamento!',
           icon: Icons.public,
           color: Colors.white,
         ),
