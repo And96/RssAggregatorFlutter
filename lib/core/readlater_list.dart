@@ -60,9 +60,9 @@ class ReadlaterList {
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_readlater') ?? '[]');
       late List<Feed> list =
-          List<Feed>.from(jsonData.map((model) => Feed.fromMap(model)));
+          List<Feed>.from(jsonData.map((model) => Feed.fromJson(model)));
       //sort
-      items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+      list.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
       return list;
     } catch (err) {
       // print('Caught error: $err');
