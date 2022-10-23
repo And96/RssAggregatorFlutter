@@ -336,8 +336,9 @@ class _SitesPageState extends State<SitesPage>
             minLeadingWidth: 30,
             leading: const Icon(Icons.add_link_outlined),
             title: const Text('Add new site'),
+            isThreeLine: true,
             subtitle: const Text(
-              'Enter url manually',
+              'Inserisci indirizzo manualmente',
             ),
             onTap: (() =>
                 {Navigator.pop(context), _awaitEditSite(context, null)})),
@@ -345,6 +346,7 @@ class _SitesPageState extends State<SitesPage>
             minLeadingWidth: 30,
             leading: const Icon(Icons.article_outlined),
             title: const Text('Add site list'),
+            isThreeLine: true,
             subtitle: const Text(
               'Add multiple sites or import from OPML',
             ),
@@ -354,6 +356,7 @@ class _SitesPageState extends State<SitesPage>
             minLeadingWidth: 30,
             leading: const Icon(Icons.auto_graph),
             title: const Text('Recommended sites'),
+            isThreeLine: true,
             subtitle: const Text(
               'Choose from most popular website',
             ),
