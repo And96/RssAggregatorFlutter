@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
+import 'package:rss_aggregator_flutter/screens/recommended_category_page.dart';
 import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
@@ -242,6 +243,38 @@ class _SitesPageState extends State<SitesPage>
     });
   }
 
+  void _awaitRecommendedSite(BuildContext context) async {
+    try {
+      // start the SecondScreen and wait for it to finish with a result
+      final resultTextInput = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RecommendedCategoryPage(),
+          ));
+
+      // after the SecondScreen result comes back update the Text widget with it
+      if (resultTextInput != null) {
+        setState(() {
+          isLoading = true;
+        });
+
+        sitesList.load();
+
+        setState(() {
+          isLoading = false;
+        });
+        const snackBar = SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('Search completed'),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }
+
   void _awaitEditSite(BuildContext context, Site? siteUpdated) async {
     try {
       String siteLink = '';
@@ -361,7 +394,7 @@ class _SitesPageState extends State<SitesPage>
               'Choose from most popular website',
             ),
             onTap: (() =>
-                {Navigator.pop(context), _awaitEditSite(context, null)})),
+                {Navigator.pop(context), _awaitRecommendedSite(context)})),
       ],
     );
     showDialog(
