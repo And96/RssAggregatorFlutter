@@ -35,13 +35,13 @@ class SiteIcon {
     String iconUrl = "";
     try {
       //search icon via google api
-      iconUrl = await getIconDuckDuckGo(siteName);
+      iconUrl = await getIconGoogle(siteName);
       if (iconUrl.length > 5) {
         return iconUrl;
       }
 
       //search icon via google api
-      iconUrl = await getIconGoogle(siteName);
+      iconUrl = await getIconDuckDuckGo(siteName);
       if (iconUrl.length > 5) {
         return iconUrl;
       }
