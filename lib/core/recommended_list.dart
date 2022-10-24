@@ -45,8 +45,8 @@ class RecommendedSite {
 class RecommendedList {
   late List<RecommendedCategory> items = [];
 
-//0xe50c
-
+//0xe50c icon must be converted to integer using online hex to convert
+//validate json with https://jsonlint.com/
   String json = """[{
 		"name": "Tecnologia",
 		"color": 4283215696,
