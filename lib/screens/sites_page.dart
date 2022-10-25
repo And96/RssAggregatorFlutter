@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
-import 'package:rss_aggregator_flutter/screens/recommended_category_page.dart';
+import 'package:rss_aggregator_flutter/screens/recommended_categories_page.dart';
 import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
@@ -246,30 +246,14 @@ class _SitesPageState extends State<SitesPage>
   void _awaitRecommendedSite(BuildContext context) async {
     try {
       // start the SecondScreen and wait for it to finish with a result
-      final resultTextInput = await Navigator.push(
+      // final resultTextInput =
+      await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const RecommendedCategoryPage(),
+            builder: (context) => const RecommendedCategoriesPage(),
           ));
 
-      // after the SecondScreen result comes back update the Text widget with it
-      if (resultTextInput != null) {
-        setState(() {
-          isLoading = true;
-        });
-
-        sitesList.load();
-
-        setState(() {
-          isLoading = false;
-        });
-        const snackBar = SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Search completed'),
-        );
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
+      loadData();
     } catch (err) {
       // print('Caught error: $err');
     }

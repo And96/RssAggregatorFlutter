@@ -104,6 +104,7 @@ class CategoriesList {
 
   Future<bool> add(String name, [int color = -1]) async {
     try {
+      await load();
       name = name.trim();
       if (name.length > 1) {
         items.removeWhere((e) =>

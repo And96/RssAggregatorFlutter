@@ -27,7 +27,7 @@ class RecommendedCategory {
 }
 
 class RecommendedSite {
-  RecommendedSite(this.siteLink, this.iconUrl, this.category, this.siteName);
+  RecommendedSite(this.siteName, this.siteLink, this.iconUrl, this.category);
   final String siteName;
   final String siteLink;
   final String iconUrl;
@@ -51,7 +51,7 @@ class RecommendedList {
 		"name": "Tecnologia",
 		"color": 4283215696,
 		"iconData": 58865,
-		"language": "it",
+		"language": "italiano",
 		"sites": [{
 				"siteName": "tuttoandroid.net",
 				"siteLink": "https://tuttoandroid.net/feed/",
@@ -76,7 +76,7 @@ class RecommendedList {
 		"name": "Sport",
 		"color": 4278351805,
 		"iconData": 58302,
-		"language": "it",
+		"language": "italiano",
 		"sites": [{
 				"siteName": "gazzetta.it",
 				"siteLink": "https://tuttoandroid.net/feed/",
@@ -96,17 +96,16 @@ class RecommendedList {
 				"category": "News"
 			}
 		]
-	}
-  ,
+	},
 	{
 		"name": "Bergamo",
 		"color": 4289533015,
 		"iconData": 58866,
-		"language": "it",
+		"language": "italiano",
 		"sites": [{
-				"siteName": "gazzetta.it",
-				"siteLink": "https://tuttoandroid.net/feed/",
-				"iconUrl": "https://icons.duckduckgo.com/ip3/tuttoandroid.net.ico",
+				"siteName": "bergamonews.it",
+				"siteLink": "https://bergamonews.it/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/bergamonews.it.ico",
 				"category": "News"
 			},
 			{
@@ -116,19 +115,61 @@ class RecommendedList {
 				"category": "News"
 			},
 			{
+				"siteName": "xda-developers.com",
+				"siteLink": "https://xda-developers.com/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/xda-developers.com.ico",
+				"category": "News"
+			},
+      {
+				"siteName": "xiaomitoday.it",
+				"siteLink": "https://xiaomitoday.it/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/xiaomitoday.it.ico",
+				"category": "News"
+			},
+      {
+				"siteName": "andreagaleazzi.com",
+				"siteLink": "https://andreagaleazzi.com/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/andreagaleazzi.com.ico",
+				"category": "News"
+			},
+      {
+				"siteName": "open.online",
+				"siteLink": "https://open.online/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/open.online.ico",
+				"category": "News"
+			},
+      {
+				"siteName": "telefonino.net",
+				"siteLink": "https://telefonino.net/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/telefonino.net.ico",
+				"category": "News"
+			},
+			{
 				"siteName": "androidworld.it",
 				"siteLink": "https://androidworld.it/feed/",
 				"iconUrl": "https://icons.duckduckgo.com/ip3/androidworld.it.ico",
 				"category": "News"
 			}
 		]
-	}
-  ,
+	},
+	{
+		"name": "Lavoro",
+		"color": 4289533015,
+		"iconData": 58866,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "partitaiva24.it",
+				"siteLink": "https://test.net/feed/",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/partitaiva24.it.ico",
+				"category": "News"
+			}
+		]
+	},
 	{
 		"name": "Gossip",
 		"color": 4279060385,
 		"iconData": 61871,
-		"language": "it",
+		"language": "english",
 		"sites": [{
 				"siteName": "gazzetta.it",
 				"siteLink": "https://tuttoandroid.net/feed/",
@@ -151,10 +192,10 @@ class RecommendedList {
 	}
 ]""";
 
-  Future<bool> load() async {
+  Future<bool> load(String language, String category) async {
     try {
       await save(json);
-      items = await get();
+      items = await get(language, category);
       return true;
     } catch (err) {
       // print('Caught error: $err');
@@ -172,15 +213,28 @@ class RecommendedList {
     }
   }
 
-  Future<List<RecommendedCategory>> get() async {
+  Future<List<RecommendedCategory>> get(
+      String language, String category) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_recommended') ?? '[]');
       late List<RecommendedCategory> list = List<RecommendedCategory>.from(
           jsonData.map((model) => RecommendedCategory.fromJson(model)));
-      //sort
-      //items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+      if (language.trim() != "") {
+        list = list
+            .where((e) =>
+                e.language.toLowerCase() == language.toString().toLowerCase())
+            .toList();
+      }
+      if (category.trim() != '') {
+        list = list
+            .where((e) =>
+                e.name.toLowerCase().trim() ==
+                category.toString().toLowerCase().trim())
+            .toList();
+      }
+
       return list;
     } catch (err) {
       // print('Caught error: $err');

@@ -499,7 +499,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-              bottomNavigationBar: categoriesList.tabs.length <= 2
+              /*bottomNavigationBar: categoriesList.tabs.length <= 2
                   ? null
                   : Container(
                       height: 58,
@@ -567,7 +567,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   )),
                             ]),
                       ),
-                    ),
+                    ),*/
               body: TabBarView(
                   physics: const CustomPageViewScrollPhysics(),
                   controller: _tabController,

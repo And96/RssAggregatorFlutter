@@ -23,7 +23,7 @@ class SiteLogo extends StatelessWidget {
               width: 18,
               imageUrl: iconUrl,
               placeholder: (context, url) => const Icon(Icons.link),
-              errorWidget: (context, url, error) => const Icon(Icons.link),
+              errorWidget: (context, url, error) => const Icon(Icons.link_off),
             ),
     );
   }

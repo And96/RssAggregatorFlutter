@@ -160,6 +160,7 @@ class SitesList {
           category:
               category.trim() != '' ? category : categoriesList.defaultCategory,
         );
+        items = await get();
         items.add(s1);
         await save(items);
         items = await get();

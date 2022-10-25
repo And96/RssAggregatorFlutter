@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/recommended_list.dart';
+import 'package:rss_aggregator_flutter/screens/recommended_sites_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 
-class RecommendedCategoryPage extends StatefulWidget {
-  const RecommendedCategoryPage({Key? key}) : super(key: key);
+class RecommendedCategoriesPage extends StatefulWidget {
+  const RecommendedCategoriesPage({Key? key}) : super(key: key);
 
   @override
-  State<RecommendedCategoryPage> createState() =>
-      _RecommendedCategoryPageState();
+  State<RecommendedCategoriesPage> createState() =>
+      _RecommendedCategoriesPageState();
 }
 
-List<String> list = <String>['Italiano', 'English', 'Spanish', 'India'];
+List<String> list = <String>['Italiano', 'English'];
 
-class _RecommendedCategoryPageState extends State<RecommendedCategoryPage>
+class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
   double progressLoading = 0;
@@ -47,7 +48,7 @@ class _RecommendedCategoryPageState extends State<RecommendedCategoryPage>
       setState(() {
         isLoading = true;
       });
-      await recommendedList.load();
+      await recommendedList.load(dropdownValue, '');
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -89,6 +90,7 @@ class _RecommendedCategoryPageState extends State<RecommendedCategoryPage>
                     // This is called when the user selects an item.
                     setState(() {
                       dropdownValue = value!;
+                      loadData();
                     });
                   },
                   items: list.map<DropdownMenuItem<String>>((String value) {
@@ -120,32 +122,34 @@ class _RecommendedCategoryPageState extends State<RecommendedCategoryPage>
                       context,
                       index,
                     ) {
-                      return GestureDetector(
-                          onTap: () {
-                            //Navigator.of(context).pushNamed(RouteName.GridViewCustom);
-                          },
-                          child: Card(
-                            elevation: 2.0,
-                            color: Color(recommendedList.items[index].color),
-                            child: InkWell(
-                              child: GridTile(
-                                footer: GridTileBar(
-                                  backgroundColor: Colors.white.withAlpha(40),
-                                  title: Text(
-                                    recommendedList.items[index].name,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                child: Icon(
-                                  IconData(
-                                      recommendedList.items[index].iconData,
-                                      fontFamily: 'MaterialIcons'),
-                                  color: Colors.white,
-                                  size: 75,
-                                ),
+                      return Card(
+                        elevation: 2.0,
+                        color: Color(recommendedList.items[index].color),
+                        child: InkWell(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => RecommendedSitesPage(
+                                      language:
+                                          recommendedList.items[index].language,
+                                      category:
+                                          recommendedList.items[index].name))),
+                          child: GridTile(
+                            footer: GridTileBar(
+                              backgroundColor: Colors.white.withAlpha(40),
+                              title: Text(
+                                recommendedList.items[index].name,
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ));
+                            child: Icon(
+                              IconData(recommendedList.items[index].iconData,
+                                  fontFamily: 'MaterialIcons'),
+                              color: Colors.white,
+                              size: 75,
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   )
                 : Center(

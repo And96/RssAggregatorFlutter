@@ -59,6 +59,7 @@ dependencies:
   sqflite: ^2.1.0+1
   path: ^1.8.2
   sqflite_common_ffi: ^2.1.1+1
+  animate_icons: ^2.0.0
 
 flutter_launcher_icons:
     path: ../..
