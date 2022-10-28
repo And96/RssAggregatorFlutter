@@ -233,8 +233,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void handleOptionsVertClick(int item) {
     switch (item) {
       case 0:
-        break;
-      case 1:
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const SettingsPage()))
+            .then((value) => Phoenix.rebirth(context));
         break;
     }
   }
@@ -349,9 +350,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           onSelected: (item) => handleOptionsVertClick(item),
                           itemBuilder: (context) => [
                             const PopupMenuItem<int>(
-                                value: 1, child: Text('Filter site')),
-                            const PopupMenuItem<int>(
-                                value: 1, child: Text('Filter category')),
+                                value: 1, child: Text('Settings')),
                           ],
                         ),
                       ],
