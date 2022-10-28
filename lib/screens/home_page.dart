@@ -230,14 +230,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         });
   }
 
-  void handleOptionsVertClick(int item) {
-    switch (item) {
-      case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const SettingsPage()))
-            .then((value) => Phoenix.rebirth(context));
-        break;
-    }
+  void handleOptionsVertClick() {
+    Future(
+      () => Navigator.of(context)
+          .push(
+            MaterialPageRoute(builder: (_) => const SettingsPage()),
+          )
+          .then((value) => Phoenix.rebirth(context)),
+    );
   }
 
   @override
@@ -347,10 +347,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
 
                         PopupMenuButton<int>(
-                          onSelected: (item) => handleOptionsVertClick(item),
                           itemBuilder: (context) => [
-                            const PopupMenuItem<int>(
-                                value: 1, child: Text('Settings')),
+                            PopupMenuItem<int>(
+                                value: 1,
+                                onTap: () {
+                                  handleOptionsVertClick();
+                                },
+                                child: const Text('Settings')),
                           ],
                         ),
                       ],
