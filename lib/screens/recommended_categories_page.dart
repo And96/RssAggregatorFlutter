@@ -45,16 +45,14 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
 
   loadData() async {
     try {
-      setState(() {
-        isLoading = true;
-      });
+      isLoading = true;
+      setState(() {});
       await recommendedList.load(dropdownValue, '');
     } catch (err) {
       //print('Caught error: $err');
     }
-    setState(() {
-      isLoading = false;
-    });
+    isLoading = false;
+    setState(() {});
   }
 
   String dropdownValue = list.first;
@@ -62,6 +60,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // backgroundColor: Color.fromARGB(255, 236, 236, 236),
         appBar: AppBar(title: const Text('Recommendations'), actions: <Widget>[
           isLoading
               ? IconButton(
@@ -88,9 +87,9 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                   //iconDisabledColor: Colors.white,
                   onChanged: (String? value) {
                     // This is called when the user selects an item.
-                    setState(() {
+                    setState(() async {
                       dropdownValue = value!;
-                      loadData();
+                      await loadData();
                     });
                   },
                   items: list.map<DropdownMenuItem<String>>((String value) {
@@ -116,7 +115,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                       childAspectRatio: MediaQuery.of(context).orientation ==
                               Orientation.landscape
                           ? 1.6
-                          : 0.80,
+                          : 0.9,
                     ),
                     itemBuilder: (
                       context,
@@ -124,6 +123,8 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                     ) {
                       return Card(
                         elevation: 2.0,
+                        //color: Color(recommendedList.items[index].color),
+                        //color: Color.fromARGB(255, 236, 236, 236),
                         color: Color(recommendedList.items[index].color),
                         child: InkWell(
                           onTap: () => Navigator.of(context).push(
@@ -135,16 +136,17 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                                           recommendedList.items[index].name))),
                           child: GridTile(
                             footer: GridTileBar(
-                              backgroundColor: Colors.white.withAlpha(40),
+                              backgroundColor: Colors.black.withAlpha(50),
                               title: Text(
                                 recommendedList.items[index].name,
                                 textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                             child: Icon(
                               IconData(recommendedList.items[index].iconData,
                                   fontFamily: 'MaterialIcons'),
-                              color: Colors.white,
+                              color: Colors.white70,
                               size: 75,
                             ),
                           ),

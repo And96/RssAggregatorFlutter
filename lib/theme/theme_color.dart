@@ -66,7 +66,7 @@ class ThemeColor {
 
   static Color dark1 = const Color.fromARGB(255, 10, 10, 10);
   static Color dark2 = const Color.fromARGB(255, 25, 25, 25);
-  static Color dark3 = const Color.fromARGB(255, 75, 75, 75);
+  static Color dark3 = const Color.fromARGB(255, 65, 65, 65);
   static Color dark4 = const Color.fromARGB(255, 130, 130, 130);
 
   List<Color> pickerColors = [

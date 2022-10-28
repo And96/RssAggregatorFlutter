@@ -10,6 +10,7 @@ import 'package:rss_aggregator_flutter/core/site_icon.dart';
 class SitesList {
   late List<Site> items = [];
   String itemLoading = "";
+  String sort = "name";
   late CategoriesList categoriesList = CategoriesList();
 
   late final ValueChanged<String> updateItemLoading;
@@ -43,11 +44,30 @@ class SitesList {
     return list;
   }
 
-  Future<bool> load() async {
+  Future<bool> load([String sort = ""]) async {
     try {
+      if (sort.trim() != "") {
+        this.sort = sort;
+      }
       categoriesList.load();
       items = await get();
       return true;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
+  Future<bool> exists(String url) async {
+    try {
+      List l = await get();
+      l = l
+          .where((e) =>
+              (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()))
+          .toList();
+      if (l.isNotEmpty) {
+        return true;
+      }
     } catch (err) {
       // print('Caught error: $err');
     }
@@ -59,16 +79,23 @@ class SitesList {
     await prefs.setString('db_sites', jsonEncode(list));
   }
 
-  void delete(String url) async {
-    if (url == "*") {
-      items = [];
-    } else {
-      items.removeWhere(
-          (e) => (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
+  Future<bool> delete(String url) async {
+    try {
+      await load();
+      if (url == "*") {
+        items = [];
+      } else {
+        items.removeWhere((e) =>
+            (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
+      }
+      await save(items);
+      await FeedsList(updateItemLoading: null).deleteDB(url);
+      await load();
+      return true;
+    } catch (err) {
+      // print('Caught error: $err');
     }
-    save(items);
-    await FeedsList(updateItemLoading: null).deleteDB(url);
-    await load();
+    return false;
   }
 
   Future<bool> renameCategory(String categoryOld, String categoryNew) async {
@@ -99,6 +126,21 @@ class SitesList {
           break;
         }
       }
+      await save(items);
+      await load();
+      return true;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
+  Future<bool> addSite(Site site) async {
+    try {
+      await load();
+      items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
+          Utility().cleanUrlCompare(site.siteLink)));
+      items.add(site);
       await save(items);
       await load();
       return true;
@@ -150,8 +192,6 @@ class SitesList {
           .replaceAll("/", "");
 
       if (url.length > 1) {
-        items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
-            Utility().cleanUrlCompare(url)));
         var s1 = Site(
           siteName: siteName.trim() != '' ? siteName : hostsiteName,
           siteLink: url,
@@ -160,11 +200,7 @@ class SitesList {
           category:
               category.trim() != '' ? category : categoriesList.defaultCategory,
         );
-        items = await get();
-        items.add(s1);
-        await save(items);
-        items = await get();
-        return true;
+        return await addSite(s1);
       }
     } catch (err) {
       // print('Caught error: $err');
@@ -179,9 +215,14 @@ class SitesList {
           await jsonDecode(prefs.getString('db_sites') ?? '[]');
       late List<Site> list =
           List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
-      //sort
-      list.sort((a, b) =>
-          a.siteName.toLowerCase().compareTo(b.siteName.toLowerCase()));
+      if (sort == "name") {
+        list.sort((a, b) =>
+            a.siteName.toLowerCase().compareTo(b.siteName.toLowerCase()));
+      }
+      if (sort == "category") {
+        list.sort((a, b) =>
+            a.category.toLowerCase().compareTo(b.category.toLowerCase()));
+      }
       return list;
     } catch (err) {
       // print('Caught error: $err');

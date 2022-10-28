@@ -174,16 +174,15 @@ class _SitesPageState extends State<SitesPage>
         ListTile(
           leading: const Icon(Icons.delete),
           title: const Text('Delete site'),
-          onTap: () {
-            setState(() {
-              sitesList.delete(site.siteLink);
-            });
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(seconds: 1),
-              content: Text('Deleted'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          onTap: () async {
+            await sitesList.delete(site.siteLink).then((value) => setState(() {
+                  Navigator.pop(context);
+                  const snackBar = SnackBar(
+                    duration: Duration(seconds: 1),
+                    content: Text('Deleted'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }));
           },
           //onTap: showDeleteAlertDialog(context, url),
         ),
@@ -228,12 +227,14 @@ class _SitesPageState extends State<SitesPage>
     );
   }
 
-  loadData() async {
+  String sort = "name";
+
+  Future<void> loadData() async {
     try {
       setState(() {
         isLoading = true;
       });
-      await sitesList.load();
+      await sitesList.load(sort);
       await categoriesList.load();
     } catch (err) {
       //print('Caught error: $err');
@@ -283,7 +284,7 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        sitesList.delete(siteLink);
+        await sitesList.delete(siteLink);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
@@ -412,9 +413,16 @@ class _SitesPageState extends State<SitesPage>
             ),
           if (sitesList.items.isNotEmpty && !isLoading)
             IconButton(
-                icon: const Icon(Icons.delete),
-                tooltip: 'Delete',
-                onPressed: () => showDeleteDialog(context, "*")),
+                icon: Icon(sort == "name" ? Icons.sort : Icons.sort_by_alpha),
+                tooltip: 'Sort by ${sort == "name" ? "category" : "name"}',
+                onPressed: () async => {
+                      sort = sort == "name" ? "category" : "name",
+                      loadData().then((value) => setState(() {}))
+                    }),
+          IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Delete',
+              onPressed: () => showDeleteDialog(context, "*")),
         ],
       ),
       body: Stack(
@@ -442,20 +450,24 @@ class _SitesPageState extends State<SitesPage>
                                       padding: const EdgeInsets.only(top: 0),
                                       child: Text(
                                         (item.siteName.toString()),
-                                        style: TextStyle(
+                                        /*style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.normal,
                                           color: darkMode
                                               ? ThemeColor.light1
                                               : ThemeColor.dark1,
-                                        ),
+                                        ),*/
                                       ),
                                     ),
                                     if (item.category.trim() != "")
                                       Padding(
                                         padding: const EdgeInsets.only(top: 0),
                                         child: Container(
-                                          padding: const EdgeInsets.all(2),
+                                          padding: const EdgeInsets.only(
+                                              top: 0,
+                                              left: 7,
+                                              right: 7,
+                                              bottom: 0),
                                           decoration: BoxDecoration(
                                               color: Color(categoriesList
                                                   .getColor(item.category)),
@@ -465,21 +477,12 @@ class _SitesPageState extends State<SitesPage>
                                               ),
                                               borderRadius:
                                                   const BorderRadius.all(
-                                                      Radius.circular(4))),
+                                                      Radius.circular(50))),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              const SizedBox(
-                                                height: 17,
-                                                width: 17,
-                                                child: Icon(
-                                                  Icons.sell,
-                                                  size: 15,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
                                               Text(
                                                 (item.category.toString()),
                                                 style: const TextStyle(
@@ -493,6 +496,10 @@ class _SitesPageState extends State<SitesPage>
                                         ),
                                       ),
                                   ]),
+                              /* trailing: const Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Icon(Icons.more_vert),
+                              ),*/
                               isThreeLine: false,
                               onTap: () {
                                 showOptionDialog(context, item);
@@ -509,13 +516,13 @@ class _SitesPageState extends State<SitesPage>
                                           item.siteLink.toString(),
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
+                                          /*style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal,
                                             color: darkMode
                                                 ? ThemeColor.light3
                                                 : ThemeColor.dark3,
-                                          ),
+                                          ),*/
                                         ),
                                       ),
                                     ],

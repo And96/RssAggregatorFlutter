@@ -2,6 +2,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/recommended_list.dart';
+import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
@@ -19,8 +20,7 @@ class RecommendedSitesPage extends StatefulWidget {
   State<RecommendedSitesPage> createState() => _RecommendedSitesPageState();
 }
 
-class _RecommendedSitesPageState extends State<RecommendedSitesPage>
-    with SingleTickerProviderStateMixin {
+class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
   bool isLoading = false;
   double progressLoading = 0;
   late RecommendedList recommendedList = RecommendedList();
@@ -40,14 +40,8 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage>
 
   @override
   dispose() {
-    _refreshIconController.stop(canceled: true);
-    _refreshIconController.dispose();
     super.dispose();
   }
-
-  late final AnimationController _refreshIconController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 2))
-        ..repeat();
 
   loadData() async {
     try {
@@ -72,34 +66,38 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage>
     setState(() {});
   }
 
-  Future<bool> onStartIconPress(
+  Future<bool> onTapIconList(
       BuildContext context, RecommendedSite selected) async {
     try {
-      await categoriesList.add(
-          recommendedList.items[0].name, recommendedList.items[0].color);
-      await sitesList.add(
-          selected.siteLink, false, selected.category, selected.siteName);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("onStartIconPress called"),
-          duration: Duration(seconds: 1),
-        ),
-      );
-    } catch (err) {
-      //print('Caught error: $err');
-    }
-    return true;
-  }
-
-  bool onEndIconPress(BuildContext context, RecommendedSite selected) {
-    try {
-      sitesList.delete(selected.iconUrl);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Removed site"),
-          duration: Duration(seconds: 1),
-        ),
-      );
+      await Future.delayed(const Duration(milliseconds: 1000));
+      bool exists = await sitesList.exists(selected.siteLink);
+      if (exists) {
+        await sitesList
+            .delete(selected.siteLink)
+            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Removed site"),
+                    duration: Duration(seconds: 1),
+                  ),
+                ));
+      } else {
+        //IDEM QUA, CREARE LA CATEGORIA SOLO SE NON ESISTE
+        await categoriesList.add(
+            recommendedList.items[0].name, recommendedList.items[0].color);
+        Site site = Site(
+            siteName: selected.siteName,
+            siteLink: selected.siteLink,
+            iconUrl: selected.iconUrl,
+            category: recommendedList.items[0].name);
+        await sitesList
+            .addSite(site)
+            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Added site"),
+                    duration: Duration(seconds: 1),
+                  ),
+                ));
+      }
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -110,24 +108,10 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(recommendedList.items[0].name),
-          backgroundColor: Color(recommendedList.items[0].color),
-          actions: <Widget>[
-            if (isLoading)
-              IconButton(
-                icon: AnimatedBuilder(
-                  animation: _refreshIconController,
-                  builder: (_, child) {
-                    return Transform.rotate(
-                      angle: _refreshIconController.value * 3 * 3.1415,
-                      child: child,
-                    );
-                  },
-                  child: const Icon(Icons.autorenew),
-                ),
-                onPressed: () => {},
-              )
-          ]),
+        title: Text(recommendedList.items[0].name),
+        backgroundColor:
+            darkMode ? null : Color(recommendedList.items[0].color),
+      ),
       body: Stack(
         children: [
           isLoading == false
@@ -156,13 +140,13 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage>
                                               const EdgeInsets.only(top: 0),
                                           child: Text(
                                             (item.siteName.toString()),
-                                            style: TextStyle(
+                                            /*style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                               color: darkMode
                                                   ? ThemeColor.light1
                                                   : ThemeColor.dark1,
-                                            ),
+                                            ),*/
                                           ),
                                         ),
                                       ]),
@@ -176,18 +160,23 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage>
                                       endIconColor: darkMode
                                           ? Colors.white
                                           : Colors.black45,
-                                      startIcon: Icons.add,
-                                      endIcon: Icons.check,
+                                      startIcon:
+                                          item.added ? Icons.check : Icons.add,
+                                      endIcon:
+                                          item.added ? Icons.add : Icons.check,
                                       startTooltip: "Add",
                                       endTooltip: "Remove",
                                       controller: c1,
                                       duration:
                                           const Duration(milliseconds: 300),
                                       clockwise: false,
-                                      onEndIconPress: () =>
-                                          onEndIconPress(context, item),
+                                      onEndIconPress: () {
+                                        onTapIconList(context, item)
+                                            .then((value) => null);
+                                        return true;
+                                      },
                                       onStartIconPress: () {
-                                        onStartIconPress(context, item)
+                                        onTapIconList(context, item)
                                             .then((value) => null);
                                         return true;
                                       },
@@ -205,13 +194,13 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage>
                                               item.siteLink.toString(),
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
+                                              /*style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.normal,
                                                 color: darkMode
                                                     ? ThemeColor.light3
                                                     : ThemeColor.dark3,
-                                              ),
+                                              ),*/
                                             ),
                                           ),
                                         ],
