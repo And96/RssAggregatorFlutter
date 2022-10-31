@@ -227,7 +227,7 @@ class _SitesPageState extends State<SitesPage>
     );
   }
 
-  String sort = "name";
+  String sort = "category";
 
   Future<void> loadData() async {
     try {

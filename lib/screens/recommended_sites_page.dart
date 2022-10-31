@@ -152,7 +152,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                                       ]),
                                   isThreeLine: false,
                                   trailing: Padding(
-                                    padding: const EdgeInsets.only(left: 30),
+                                    padding: const EdgeInsets.only(left: 1),
                                     child: AnimateIcons(
                                       startIconColor: darkMode
                                           ? Colors.white
