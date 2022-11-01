@@ -70,8 +70,10 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
       BuildContext context, RecommendedSite selected) async {
     try {
       await Future.delayed(const Duration(milliseconds: 1000));
+
       bool exists = await sitesList.exists(selected.siteLink);
       if (exists) {
+        selected.added = false;
         await sitesList
             .delete(selected.siteLink)
             .then((value) => ScaffoldMessenger.of(context).showSnackBar(
@@ -81,6 +83,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                   ),
                 ));
       } else {
+        selected.added = true;
         bool exists =
             await categoriesList.exists(recommendedList.items[0].name);
         if (!exists) {
@@ -101,6 +104,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                   ),
                 ));
       }
+      setState(() {});
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -143,13 +147,6 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                                               const EdgeInsets.only(top: 0),
                                           child: Text(
                                             (item.siteName.toString()),
-                                            /*style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.normal,
-                                              color: darkMode
-                                                  ? ThemeColor.light1
-                                                  : ThemeColor.dark1,
-                                            ),*/
                                           ),
                                         ),
                                       ]),
