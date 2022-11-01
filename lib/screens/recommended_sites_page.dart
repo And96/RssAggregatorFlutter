@@ -73,17 +73,9 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
 
       bool exists = await sitesList.exists(selected.siteLink);
       if (exists) {
+        await sitesList.delete(selected.siteLink);
         selected.added = false;
-        await sitesList
-            .delete(selected.siteLink)
-            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Removed site"),
-                    duration: Duration(seconds: 1),
-                  ),
-                ));
       } else {
-        selected.added = true;
         bool exists =
             await categoriesList.exists(recommendedList.items[0].name);
         if (!exists) {
@@ -95,16 +87,9 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
             siteLink: selected.siteLink,
             iconUrl: selected.iconUrl,
             category: recommendedList.items[0].name);
-        await sitesList
-            .addSite(site)
-            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Added site"),
-                    duration: Duration(seconds: 1),
-                  ),
-                ));
+        await sitesList.addSite(site);
+        selected.added = true;
       }
-      setState(() {});
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -168,7 +153,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                                       endTooltip: "Remove",
                                       controller: c1,
                                       duration:
-                                          const Duration(milliseconds: 300),
+                                          const Duration(milliseconds: 400),
                                       clockwise: false,
                                       onEndIconPress: () {
                                         onTapIconList(context, item)
@@ -194,13 +179,6 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                                               item.siteLink.toString(),
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
-                                              /*style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal,
-                                                color: darkMode
-                                                    ? ThemeColor.light3
-                                                    : ThemeColor.dark3,
-                                              ),*/
                                             ),
                                           ),
                                         ],
@@ -213,13 +191,9 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      /*AnimatedOpacity(
-                        opacity: isLoading ? opacityAnimation : 1.0,
-                        duration: const Duration(milliseconds: 500),
-                        child: */
                       EmptySection(
                         title: 'Searching...',
-                        description: '', //sitesList.itemLoading,
+                        description: '',
                         icon: Icons.manage_search,
                         darkMode: darkMode,
                       ),
