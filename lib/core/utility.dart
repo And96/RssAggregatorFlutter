@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class Utility {
@@ -139,12 +144,31 @@ class Utility {
   Future<void> clearCache() async {
     try {
       DefaultCacheManager().emptyCache();
-      final cacheDir = await getTemporaryDirectory();
+      //ON WINDOWS IT DELETE ALL C:/Users/ADMIN/AppData/Local/Temp/
+      /* final cacheDir = await getTemporaryDirectory();
       if (cacheDir.existsSync()) {
         cacheDir.deleteSync(recursive: true);
-      }
+      }*/
     } catch (err) {
       // print('Caught error: $err');
     }
   }
+
+  /*Future<void> clearData() async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.clear();
+      final appDir = await getApplicationSupportDirectory();
+      if (appDir.existsSync()) {
+        appDir.deleteSync(recursive: true);
+      }
+      final dbDir = await getDatabasesPath();
+      final dir = Directory(dbDir);
+      if (dir.existsSync()) {
+        dir.deleteSync(recursive: true);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }*/
 }

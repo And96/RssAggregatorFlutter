@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:pref/pref.dart';
 // ignore: depend_on_referenced_packages
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -125,7 +125,6 @@ class SettingsPageState extends State<SettingsPage> {
                       content: Text('Cache cleaned'),
                     ),
                     ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                    Navigator.pop(context),
                   });
             },
           ),
