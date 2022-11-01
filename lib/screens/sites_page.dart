@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
@@ -30,6 +31,12 @@ class _SitesPageState extends State<SitesPage>
   bool darkMode = false;
   double opacityAnimation = 1.0;
 
+  //Search indicator
+  bool isOnSearch = false;
+
+  //Controller
+  TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -47,6 +54,7 @@ class _SitesPageState extends State<SitesPage>
     _timerOpacityAnimation?.cancel();
     _refreshIconController.stop(canceled: true);
     _refreshIconController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -392,39 +400,96 @@ class _SitesPageState extends State<SitesPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: sitesList.items.isEmpty
-            ? const Text('Sites')
-            : Text('Sites (${sitesList.items.length})'),
-        actions: <Widget>[
-          if (isLoading)
-            IconButton(
-              icon: AnimatedBuilder(
-                animation: _refreshIconController,
-                builder: (_, child) {
-                  return Transform.rotate(
-                    angle: _refreshIconController.value * 3 * 3.1415,
-                    child: child,
-                  );
+      appBar: !isOnSearch
+          ? AppBar(
+              title: sitesList.items.isEmpty
+                  ? const Text('Sites')
+                  : Text('Sites (${sitesList.items.length})'),
+              actions: <Widget>[
+                if (isLoading)
+                  IconButton(
+                    icon: AnimatedBuilder(
+                      animation: _refreshIconController,
+                      builder: (_, child) {
+                        return Transform.rotate(
+                          angle: _refreshIconController.value * 3 * 3.1415,
+                          child: child,
+                        );
+                      },
+                      child: const Icon(Icons.autorenew),
+                    ),
+                    onPressed: () => {},
+                  ),
+                if (sitesList.items.isNotEmpty && !isLoading)
+                  IconButton(
+                      icon: const Icon(Icons.search),
+                      tooltip: 'Search',
+                      onPressed: () {
+                        sleep(const Duration(milliseconds: 200));
+                        setState(() {
+                          isOnSearch = isOnSearch ? false : true;
+                          searchController.text = '';
+                        });
+                      }),
+                if (sitesList.items.isNotEmpty && !isLoading)
+                  IconButton(
+                      icon: Icon(
+                          sort == "name" ? Icons.sort : Icons.sort_by_alpha),
+                      tooltip:
+                          'Sort by ${sort == "name" ? "category" : "name"}',
+                      onPressed: () async => {
+                            sort = sort == "name" ? "category" : "name",
+                            loadData().then((value) => setState(() {}))
+                          }),
+                if (sitesList.items.isNotEmpty && !isLoading)
+                  IconButton(
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Delete',
+                      onPressed: () => showDeleteDialog(context, "*")),
+              ],
+            )
+          : AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                tooltip: 'Back',
+                onPressed: () {
+                  setState(() {
+                    sleep(const Duration(milliseconds: 200));
+                    isOnSearch = false;
+                    searchController.text = '';
+                  });
                 },
-                child: const Icon(Icons.autorenew),
+              ), //
+              title: TextField(
+                autofocus: true,
+                style: const TextStyle(color: Colors.white),
+                cursorColor: Colors.white,
+                controller: searchController,
+                onChanged: (value) {
+                  setState(() {});
+                },
+                onSubmitted: (value) {
+                  setState(() {});
+                },
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
               ),
-              onPressed: () => {},
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  tooltip: 'Search',
+                  onPressed: () {
+                    setState(() {
+                      sitesList = sitesList;
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      WidgetsBinding.instance.focusManager.primaryFocus
+                          ?.unfocus();
+                    });
+                  },
+                ), //
+              ],
             ),
-          if (sitesList.items.isNotEmpty && !isLoading)
-            IconButton(
-                icon: Icon(sort == "name" ? Icons.sort : Icons.sort_by_alpha),
-                tooltip: 'Sort by ${sort == "name" ? "category" : "name"}',
-                onPressed: () async => {
-                      sort = sort == "name" ? "category" : "name",
-                      loadData().then((value) => setState(() {}))
-                    }),
-          IconButton(
-              icon: const Icon(Icons.delete),
-              tooltip: 'Delete',
-              onPressed: () => showDeleteDialog(context, "*")),
-        ],
-      ),
       body: Stack(
         children: [
           isLoading == false
@@ -433,100 +498,114 @@ class _SitesPageState extends State<SitesPage>
                   child: ListView.separated(
                       itemCount: sitesList.items.length,
                       separatorBuilder: (context, index) {
-                        return const Divider();
+                        return Visibility(
+                            visible: searchController.text.isEmpty ||
+                                Utility().compareSearch([
+                                  sitesList.items[index].siteName,
+                                  sitesList.items[index].siteLink,
+                                ], searchController.text),
+                            child: const Divider());
                       },
                       itemBuilder: (BuildContext context, index) {
                         final item = sitesList.items[index];
-                        return InkWell(
-                          child: ListTile(
-                              minLeadingWidth: 30,
-                              leading: SiteLogo(iconUrl: item.iconUrl),
-                              title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 0),
-                                      child: Text(
-                                        (item.siteName.toString()),
-                                        /*style: TextStyle(
+                        return Visibility(
+                          visible: searchController.text.isEmpty ||
+                              Utility().compareSearch(
+                                  [item.siteLink, item.siteName],
+                                  searchController.text),
+                          child: InkWell(
+                            child: ListTile(
+                                minLeadingWidth: 30,
+                                leading: SiteLogo(iconUrl: item.iconUrl),
+                                title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Text(
+                                          (item.siteName.toString()),
+                                          /*style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.normal,
                                           color: darkMode
                                               ? ThemeColor.light1
                                               : ThemeColor.dark1,
                                         ),*/
-                                      ),
-                                    ),
-                                    if (item.category.trim() != "")
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 0),
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 0,
-                                              left: 7,
-                                              right: 7,
-                                              bottom: 0),
-                                          decoration: BoxDecoration(
-                                              color: Color(categoriesList
-                                                  .getColor(item.category)),
-                                              border: Border.all(
-                                                color: Color(categoriesList
-                                                    .getColor(item.category)),
-                                              ),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(50))),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                (item.category.toString()),
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                         ),
                                       ),
-                                  ]),
-                              /* trailing: const Padding(
+                                      if (item.category.trim() != "")
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 0),
+                                          child: Container(
+                                            padding: const EdgeInsets.only(
+                                                top: 0,
+                                                left: 7,
+                                                right: 7,
+                                                bottom: 0),
+                                            decoration: BoxDecoration(
+                                                color: Color(categoriesList
+                                                    .getColor(item.category)),
+                                                border: Border.all(
+                                                  color: Color(categoriesList
+                                                      .getColor(item.category)),
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(50))),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  (item.category.toString()),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                    ]),
+                                /* trailing: const Padding(
                                 padding: EdgeInsets.only(right: 10),
                                 child: Icon(Icons.more_vert),
                               ),*/
-                              isThreeLine: false,
-                              onTap: () {
-                                showOptionDialog(context, item);
-                              },
-                              subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        child: Text(
-                                          item.siteLink.toString(),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          /*style: TextStyle(
+                                isThreeLine: false,
+                                onTap: () {
+                                  showOptionDialog(context, item);
+                                },
+                                subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          child: Text(
+                                            item.siteLink.toString(),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            /*style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal,
                                             color: darkMode
                                                 ? ThemeColor.light3
                                                 : ThemeColor.dark3,
                                           ),*/
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ))),
+                                      ],
+                                    ))),
+                          ),
                         );
                       }))
               : Center(

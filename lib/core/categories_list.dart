@@ -70,6 +70,9 @@ class CategoriesList {
           tabs.add(c);
         }
       }
+      if (tabs.length == 2) {
+        tabs.removeWhere((element) => element.name == "*");
+      }
 
       return tabs;
     } catch (err) {
