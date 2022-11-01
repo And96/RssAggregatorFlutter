@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -159,14 +162,38 @@ class Utility {
       if (appDir.existsSync()) {
         appDir.deleteSync(recursive: true);
       }
-      //find a way to delete database too
-      /*final dbDir = await getDatabasesPath();
-      final dir = Directory(dbDir);
-      if (dir.existsSync()) {
-        dir.deleteSync(recursive: true);
-      }*/
+      if (Platform.isWindows || Platform.isLinux) {
+        sqfliteFfiInit();
+        databaseFactory = databaseFactoryFfi;
+      }
+      await getDatabasesPath().then((value) => {deleteDir(value)});
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
+    }
+  }
+
+  Future<void> deleteDir(String dirString) async {
+    try {
+      Directory dir = Directory(dirString);
+      if (dir.existsSync()) {
+        dir.listSync().forEach((e) {
+          if (e.path.contains(".db")) {
+            deleteFile(File(e.path));
+          }
+        });
+      }
+    } catch (e) {
+      //print('Caught error: $e');
+    }
+  }
+
+  Future<void> deleteFile(File file) async {
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      // Error in getting access to the file.
     }
   }
 }

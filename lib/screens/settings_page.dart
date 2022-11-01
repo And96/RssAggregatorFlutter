@@ -139,12 +139,15 @@ class SettingsPageState extends State<SettingsPage> {
               SnackBar snackBar;
               Utility().clearData().then((value) => {
                     snackBar = const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Data cleaned'),
+                      duration: Duration(milliseconds: 2500),
+                      content: Text('Data cleaned. Chiusura in corso.'),
                     ),
                     ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                    SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
-                    exit(0)
+                    Future.delayed(const Duration(seconds: 3)).then((value) => {
+                          SystemChannels.platform
+                              .invokeMethod('SystemNavigator.pop'),
+                          exit(0)
+                        })
                   });
             },
           ),
