@@ -541,10 +541,10 @@ class _SitesPageState extends State<SitesPage>
                                               const EdgeInsets.only(top: 0),
                                           child: Container(
                                             padding: const EdgeInsets.only(
-                                                top: 0,
-                                                left: 7,
-                                                right: 7,
-                                                bottom: 0),
+                                                top: 1,
+                                                left: 8,
+                                                right: 8,
+                                                bottom: 1),
                                             decoration: BoxDecoration(
                                                 color: Color(categoriesList
                                                     .getColor(item.category)),
