@@ -189,7 +189,8 @@ class SitesList {
           .replaceAll('www.', '')
           .replaceAll('https://.', '')
           .replaceAll('http://', '')
-          .replaceAll("/", "");
+          .replaceAll("/", "")
+          .replaceAll(RegExp(r'(^m\.)'), '');
 
       if (url.length > 1) {
         var s1 = Site(
