@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:rss_aggregator_flutter/core/utility.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -117,12 +118,15 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             subtitle: const Text('Delete temp files'),
             onTap: () {
-              DefaultCacheManager().emptyCache();
-              const snackBar = SnackBar(
-                duration: Duration(milliseconds: 500),
-                content: Text('Cache cleaned'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              SnackBar snackBar;
+              Utility().clearCache().then((value) => {
+                    snackBar = const SnackBar(
+                      duration: Duration(milliseconds: 1000),
+                      content: Text('Cache cleaned'),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                    Navigator.pop(context),
+                  });
             },
           ),
         ],

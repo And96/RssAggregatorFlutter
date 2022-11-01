@@ -1,6 +1,6 @@
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-// ignore: depend_on_referenced_packages
-//import 'package:intl/intl.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class Utility {
   List<String> getUrlsFromText(String text) {
@@ -133,6 +133,18 @@ class Utility {
     } on FormatException {
       DateTime now = DateTime.now();
       return DateTime(now.year, now.month, now.day).toLocal();
+    }
+  }
+
+  Future<void> clearCache() async {
+    try {
+      DefaultCacheManager().emptyCache();
+      final cacheDir = await getTemporaryDirectory();
+      if (cacheDir.existsSync()) {
+        cacheDir.deleteSync(recursive: true);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
     }
   }
 }
