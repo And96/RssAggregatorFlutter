@@ -408,7 +408,7 @@ class RecommendedList {
 			{
 				"siteName": "recenserie.com",
 				"siteLink": "https://recenserie.com/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=recenserie.com"
+				"iconUrl": "https://icons.duckduckgo.com/ip3/recenserie.com.ico"
 			},
 			{
 				"siteName": "serialminds.com",
@@ -708,10 +708,6 @@ class RecommendedList {
 			"siteName": "my-personaltrainer.it",
 			"siteLink": "https://feeds.feedburner.com/My-personaltrainer/",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=my-personaltrainer.it"
-		}, {
-			"siteName": "oggiscienza.it",
-			"siteLink": "https://oggiscienza.it/feed/",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=oggiscienza.it"
 		}, {
 			"siteName": "stateofmind.it",
 			"siteLink": "https://www.stateofmind.it/feed/",
