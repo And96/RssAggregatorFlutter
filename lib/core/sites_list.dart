@@ -84,12 +84,13 @@ class SitesList {
       await load();
       if (url == "*") {
         items = [];
+        await FeedsList(updateItemLoading: null).deleteAllDB();
       } else {
         items.removeWhere((e) =>
             (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
+        await FeedsList(updateItemLoading: null).deleteDB(url);
       }
       await save(items);
-      await FeedsList(updateItemLoading: null).deleteDB(url);
       await load();
       return true;
     } catch (err) {

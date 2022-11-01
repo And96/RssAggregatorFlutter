@@ -81,9 +81,12 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                   ),
                 ));
       } else {
-        //IDEM QUA, CREARE LA CATEGORIA SOLO SE NON ESISTE
-        await categoriesList.add(
-            recommendedList.items[0].name, recommendedList.items[0].color);
+        bool exists =
+            await categoriesList.exists(recommendedList.items[0].name);
+        if (!exists) {
+          await categoriesList.add(
+              recommendedList.items[0].name, recommendedList.items[0].color);
+        }
         Site site = Site(
             siteName: selected.siteName,
             siteLink: selected.siteLink,

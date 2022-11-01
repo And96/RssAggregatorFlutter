@@ -57,6 +57,22 @@ class CategoriesList {
     return false;
   }
 
+  Future<bool> exists(String name) async {
+    try {
+      List<Category> c = await get();
+      c = c
+          .where(
+              (e) => (e.name.trim().toLowerCase() == name.trim().toLowerCase()))
+          .toList();
+      if (c.isNotEmpty) {
+        return true;
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
   Future<List<Category>> getTabs() async {
     try {
       List<Category> categories = await get();
@@ -71,7 +87,7 @@ class CategoriesList {
         }
       }
       if (tabs.length == 2) {
-        tabs.removeWhere((element) => element.name == "*");
+        tabs.removeWhere((element) => element.name != "*");
       }
 
       return tabs;

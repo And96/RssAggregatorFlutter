@@ -298,16 +298,11 @@ class FeedsList {
 
   Future<void> updateDB(Feed feed) async {
     try {
-      // Get a reference to the database.
       final db = await database;
-
-      // Update the given Dog.
       await db.update(
         'feeds',
         feed.toMap(),
-        // Ensure that the Dog has a matching id.
         where: 'link = ?',
-        // Pass the Dog's id as a whereArg to prevent SQL injection.
         whereArgs: [feed.link],
       );
     } catch (err) {
@@ -317,16 +312,22 @@ class FeedsList {
 
   Future<void> deleteDB(String host) async {
     try {
-// Get a reference to the database.
       final db = await database;
-
-      // Remove the Dog from the database.
       await db.delete(
         'feeds',
-        // Use a `where` clause to delete a specific dog.
         where: 'host = ?',
-        // Pass the Dog's id as a whereArg to prevent SQL injection.
         whereArgs: [host],
+      );
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  Future<void> deleteAllDB() async {
+    try {
+      final db = await database;
+      await db.delete(
+        'feeds',
       );
     } catch (err) {
       //print('Caught error: $err');
