@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:pref/pref.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/core/utility.dart';
