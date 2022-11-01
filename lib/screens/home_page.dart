@@ -1,7 +1,6 @@
 import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
@@ -74,41 +73,42 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
-    load().then((value) => value == true
-        ? Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const WelcomePage()))
-            .then((value) => Phoenix.rebirth(context))
-        : null);
+    WidgetsBinding.instance.addPostFrameCallback((_) => load().then((value) =>
+        value == true
+            ? Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => const WelcomePage()))
+                .then((value) => Phoenix.rebirth(context))
+            : null));
   }
 
   Future<bool> load() async {
     bool firstRun = false;
     try {
-      SchedulerBinding.instance.addPostFrameCallback((_) async {
-        await ThemeColor.isDarkMode().then((value) => {
-              darkMode = value,
-            });
-        await loadPackageInfo();
-        await settings.init();
-        final prefs = await SharedPreferences.getInstance();
-        if (prefs.getBool('first_run_app') == null) {
-          categoriesList.add("News");
-          prefs.setBool('first_run_app', true);
-          firstRun = true;
-        }
-        await categoriesList.load(true);
-        await setCategoryColor();
-        setState(() {
-          _tabController =
-              TabController(length: categoriesList.tabs.length, vsync: this);
-        });
-        _tabController.addListener(() {
-          setCategoryColor();
-          setState(() {});
-        });
+      final prefs = await SharedPreferences.getInstance();
 
-        await loadData(false);
-      });
+      await ThemeColor.isDarkMode().then((value) async => {
+            darkMode = value,
+            await loadPackageInfo(),
+            await settings.init(),
+            if (prefs.getBool('first_run_app') == null)
+              {
+                categoriesList.add("News"),
+                await prefs.setBool('first_run_app', true),
+                firstRun = true,
+              },
+            await categoriesList.load(true),
+            await setCategoryColor(),
+            setState(() {
+              _tabController = TabController(
+                  length: categoriesList.tabs.length, vsync: this);
+            }),
+            _tabController.addListener(() {
+              setCategoryColor();
+              setState(() {});
+            }),
+            await loadData(false),
+          });
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -124,9 +124,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
   }
 
-  loadPackageInfo() {
+  loadPackageInfo() async {
     try {
-      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      await PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
         appName = packageInfo.appName;
         appPackageName = packageInfo.packageName;
         appVersion = packageInfo.version;

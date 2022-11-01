@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pref/pref.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -124,6 +127,24 @@ class SettingsPageState extends State<SettingsPage> {
                       content: Text('Cache cleaned'),
                     ),
                     ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                  });
+            },
+          ),
+          PrefLabel(
+            title: const Text(
+              'Reset default settings',
+            ),
+            subtitle: const Text('Delete all data. App will be closed.'),
+            onTap: () {
+              SnackBar snackBar;
+              Utility().clearData().then((value) => {
+                    snackBar = const SnackBar(
+                      duration: Duration(milliseconds: 1000),
+                      content: Text('Data cleaned'),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+                    exit(0)
                   });
             },
           ),

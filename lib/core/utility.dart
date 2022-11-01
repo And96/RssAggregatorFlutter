@@ -1,3 +1,5 @@
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -149,7 +151,7 @@ class Utility {
     }
   }
 
-  /*Future<void> clearData() async {
+  Future<void> clearData() async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.clear();
@@ -157,13 +159,14 @@ class Utility {
       if (appDir.existsSync()) {
         appDir.deleteSync(recursive: true);
       }
-      final dbDir = await getDatabasesPath();
+      //find a way to delete database too
+      /*final dbDir = await getDatabasesPath();
       final dir = Directory(dbDir);
       if (dir.existsSync()) {
         dir.deleteSync(recursive: true);
-      }
+      }*/
     } catch (err) {
       // print('Caught error: $err');
     }
-  }*/
+  }
 }
