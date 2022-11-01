@@ -89,6 +89,7 @@ class MyAppState extends State<MyApp> {
           title: 'Aggregator',
           themeMode: _themeBrightness,
           theme: ThemeData(
+            listTileTheme: const ListTileThemeData(iconColor: Colors.black54),
             primarySwatch:
                 ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
           ),

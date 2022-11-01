@@ -1,6 +1,7 @@
 import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
@@ -15,6 +16,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/welcome_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
@@ -137,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
   }
 
-  loadData(bool loadFromWeb) async {
+  Future<void> loadData(bool loadFromWeb) async {
     try {
       if (isLoading) {
         return;
@@ -230,6 +232,66 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         });
   }
 
+  _showRefreshDialog(BuildContext context) async {
+    var dialog = SimpleDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            'Aggiornamento in corso',
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(Icons.close),
+            tooltip: 'Close',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      contentPadding: const EdgeInsets.all(8),
+      children: <Widget>[
+        const Divider(),
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              EmptySection(
+                title: 'Ricerca notizie in corso',
+                description: feedsListUpdate.itemLoading,
+                icon: Icons.query_stats,
+                darkMode: darkMode,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 18, 10, 0),
+                child: LinearPercentIndicator(
+                  animation: true,
+                  progressColor: Theme.of(context).colorScheme.primary,
+                  lineHeight: 3.0,
+                  animateFromLastPercent: true,
+                  animationDuration: 2000,
+                  percent: feedsListUpdate.progressLoading,
+                  barRadius: const Radius.circular(16),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
   void handleOptionsVertClick() {
     Future(
       () => Navigator.of(context)
@@ -255,51 +317,103 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
                       bottom: categoriesList.tabs.length <= 2
                           ? null
-                          : TabBar(
-                              controller: _tabController,
-                              indicatorWeight: 5,
-                              padding: categoriesList.tabs.length <= 2
-                                  ? const EdgeInsets.only(right: 40, left: 40)
-                                  : const EdgeInsets.only(right: 15, left: 15),
-                              labelPadding: categoriesList.tabs.length <= 2
-                                  ? const EdgeInsets.only(right: 30, left: 30)
-                                  : const EdgeInsets.only(right: 20, left: 20),
-                              indicatorPadding:
-                                  const EdgeInsets.only(bottom: 10, top: 5),
-                              unselectedLabelColor: Colors.white,
-                              indicatorColor: colorCategory,
-                              indicator: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: colorCategory,
+                          : PreferredSize(
+                              preferredSize: const Size.fromHeight(
+                                  75.0), // here the desired height
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    //  color: Colors.blue,
+                                    alignment: Alignment.center,
 
-                                      spreadRadius: 0,
-                                      blurRadius: 0,
-                                      offset: const Offset(
-                                          0, 0), // changes position of shadow
-                                    ),
-                                  ],
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(100),
-                                    topRight: Radius.circular(100),
-                                    bottomLeft: Radius.circular(100),
-                                    bottomRight: Radius.circular(100),
+                                    height: 50,
+                                    //width: 10000,
+                                    child: TabBar(
+                                        controller: _tabController,
+                                        indicatorWeight: 5,
+                                        padding: categoriesList.tabs.length <= 2
+                                            ? const EdgeInsets.only(
+                                                right: 40, left: 40)
+                                            : const EdgeInsets.only(
+                                                right: 15, left: 15),
+                                        labelPadding:
+                                            categoriesList.tabs.length <= 2
+                                                ? const EdgeInsets.only(
+                                                    right: 30, left: 30)
+                                                : const EdgeInsets.only(
+                                                    right: 20, left: 20),
+                                        indicatorPadding: const EdgeInsets.only(
+                                            bottom: 10, top: 5),
+                                        unselectedLabelColor: Colors.white,
+                                        indicatorColor: colorCategory,
+                                        indicator: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: colorCategory,
+
+                                                spreadRadius: 0,
+                                                blurRadius: 0,
+                                                offset: const Offset(0,
+                                                    0), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(100),
+                                              topRight: Radius.circular(100),
+                                              bottomLeft: Radius.circular(100),
+                                              bottomRight: Radius.circular(100),
+                                            ),
+                                            color: darkMode
+                                                ? colorCategory
+                                                : ThemeColor.light1),
+                                        labelColor: darkMode
+                                            ? Colors.white
+                                            : Colors.black87,
+                                        isScrollable:
+                                            true, //categoriesList.tabs.length > 3? true: false,
+                                        tabs: List.generate(
+                                          categoriesList.tabs.length,
+                                          (index) => Tab(
+                                            text: categoriesList
+                                                        .tabs[index].name ==
+                                                    '*'
+                                                ? 'Tutti'
+                                                : categoriesList
+                                                    .tabs[index].name,
+                                          ),
+                                        )),
+                                    // width: 100,
                                   ),
-                                  color: darkMode
-                                      ? colorCategory
-                                      : ThemeColor.light1),
-                              labelColor:
-                                  darkMode ? Colors.white : Colors.black87,
-                              isScrollable:
-                                  true, //categoriesList.tabs.length > 3? true: false,
-                              tabs: List.generate(
-                                categoriesList.tabs.length,
-                                (index) => Tab(
-                                  text: categoriesList.tabs[index].name == '*'
-                                      ? 'Tutti'
-                                      : categoriesList.tabs[index].name,
-                                ),
-                              )),
+                                  Container(
+                                    color: darkMode
+                                        ? Colors.black26
+                                        : const Color.fromARGB(
+                                            255, 250, 250, 250),
+                                    height: 25,
+                                    //width: 10000,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '11 Novembre 2022 22:17',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: darkMode
+                                            ? ThemeColor.light1
+                                            : ThemeColor.dark2,
+                                      ),
+                                    ),
+                                  ),
+                                  /*Expanded(
+                                    child: Container(
+                                      color: Colors.amber,
+                                      height: 50,
+                                      width: 1000,
+                                    ),
+                                  ),*/
+                                ],
+                              ),
+                            ),
 
                       actions: <Widget>[
                         if (!isLoading && feedsListUpdate.sites.isNotEmpty)
@@ -326,7 +440,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             tooltip: 'Refresh',
                             onPressed: () => {
                               sleep(const Duration(milliseconds: 200)),
+                              _showRefreshDialog(context),
                               loadData(true)
+                                  .then((value) => Navigator.pop(context))
                             },
                           ),
 
@@ -418,18 +534,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             currentAccountPicture: const CircleAvatar(
                               backgroundColor: Colors.white,
                               foregroundColor: Colors.black87,
-                              child: Icon(Icons.rss_feed),
+                              child: Icon(
+                                Icons.rss_feed_rounded,
+                                size: 32,
+                              ),
                             ),
                           ),
                           ListTile(
-                            leading: const Icon(Icons.newspaper),
+                            leading: const Icon(
+                              Icons.newspaper,
+                            ),
                             title: const Text("Read News"),
                             onTap: () {
                               Navigator.pop(context);
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.my_library_books_rounded),
+                            leading: const Icon(Icons.library_books),
                             title: const Text("Manage Sites"),
                             onTap: () {
                               Navigator.of(context)
@@ -570,6 +691,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             ]),
                       ),
                     ),*/
+
+              floatingActionButton: isLoading
+                  ? null
+                  : FloatingActionButton.extended(
+                      icon: const Icon(Icons.list_alt),
+                      label: const Text('Visual'),
+                      backgroundColor: colorCategory,
+                      onPressed: () {
+                        // _displayTextInputDialog(context, null);
+                      },
+                    ),
               body: TabBarView(
                   physics: const CustomPageViewScrollPhysics(),
                   controller: _tabController,
