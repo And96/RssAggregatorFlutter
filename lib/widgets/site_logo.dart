@@ -15,12 +15,12 @@ class SiteLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: double.infinity,
-      width: 18,
+      width: 16,
       child: iconUrl.toString().trim() == ""
           ? const Icon(Icons.link)
           : CachedNetworkImage(
-              height: 18,
-              width: 18,
+              height: 16,
+              width: 16,
               imageUrl: iconUrl,
               placeholder: (context, url) => const Icon(Icons.link),
               errorWidget: (context, url, error) => const Icon(Icons.link_off),

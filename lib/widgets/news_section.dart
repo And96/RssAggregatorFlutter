@@ -247,28 +247,70 @@ class _NewsSectionState extends State<NewsSection>
                                     onTap: () =>
                                         showOptionDialog(context, item),
                                     child: ListTile(
-                                        minLeadingWidth: 30,
-                                        leading: SiteLogo(
-                                          iconUrl: item.iconUrl,
+                                        minLeadingWidth: 25,
+                                        leading: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: SiteLogo(
+                                            iconUrl: item.iconUrl,
+                                          ),
                                         ),
                                         title: Padding(
                                           padding:
-                                              const EdgeInsets.only(top: 0),
-                                          child: Text(
-                                            (item.host.toString()),
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                              color: darkMode
-                                                  ? ThemeColor.light3
-                                                  : ThemeColor.dark4,
-                                            ),
+                                              const EdgeInsets.only(top: 2),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 0),
+                                                      child: Text(
+                                                        (item.host.toString()),
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: darkMode
+                                                              ? ThemeColor
+                                                                  .light3
+                                                              : ThemeColor
+                                                                  .dark4,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                (DateFormat('dd/MM/yyyy HH:mm')
+                                                    .format(Utility()
+                                                        .tryParse(item.pubDate
+                                                            .toString())
+                                                        .toLocal())),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: darkMode
+                                                      ? ThemeColor.light3
+                                                      : ThemeColor.dark4,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         isThreeLine: true,
                                         subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(
+                                                top: 4, bottom: 4),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -288,34 +330,6 @@ class _NewsSectionState extends State<NewsSection>
                                                           ? ThemeColor.light2
                                                           : ThemeColor.dark1,
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        (DateFormat(
-                                                                'dd/MM/yyyy HH:mm')
-                                                            .format(Utility()
-                                                                .tryParse(item
-                                                                    .pubDate
-                                                                    .toString())
-                                                                .toLocal())),
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          color: darkMode
-                                                              ? ThemeColor
-                                                                  .light3
-                                                              : ThemeColor
-                                                                  .dark4,
-                                                        ),
-                                                      ),
-                                                    ],
                                                   ),
                                                 ),
                                               ],

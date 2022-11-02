@@ -1,7 +1,6 @@
 import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
@@ -16,7 +15,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rss_aggregator_flutter/screens/sites_page.dart';
 import 'package:rss_aggregator_flutter/screens/welcome_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/news_section.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
@@ -232,66 +230,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         });
   }
 
-  _showRefreshDialog(BuildContext context) async {
-    var dialog = SimpleDialog(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Aggiornamento in corso',
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: const Icon(Icons.close),
-            tooltip: 'Close',
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-      contentPadding: const EdgeInsets.all(8),
-      children: <Widget>[
-        const Divider(),
-        Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              EmptySection(
-                title: 'Ricerca notizie in corso',
-                description: feedsListUpdate.itemLoading,
-                icon: Icons.query_stats,
-                darkMode: darkMode,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 18, 10, 0),
-                child: LinearPercentIndicator(
-                  animation: true,
-                  progressColor: Theme.of(context).colorScheme.primary,
-                  lineHeight: 3.0,
-                  animateFromLastPercent: true,
-                  animationDuration: 2000,
-                  percent: feedsListUpdate.progressLoading,
-                  barRadius: const Radius.circular(16),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return dialog;
-        });
-  }
-
   void handleOptionsVertClick() {
     Future(
       () => Navigator.of(context)
@@ -310,16 +248,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           return Scaffold(
               appBar: !isOnSearch
                   ? AppBar(
-                      //elevation: 0,
+                      elevation: 0,
                       backgroundColor:
                           darkMode ? Colors.black26 : colorCategory,
                       title: const Text("Aggregator"),
-
                       bottom: categoriesList.tabs.length <= 2
                           ? null
                           : PreferredSize(
                               preferredSize: const Size.fromHeight(
-                                  75.0), // here the desired height
+                                  80.0), // here the desired height
                               child: Column(
                                 children: <Widget>[
                                   Container(
@@ -389,14 +326,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     color: darkMode
                                         ? Colors.black26
                                         : const Color.fromARGB(
-                                            255, 250, 250, 250),
-                                    height: 25,
+                                            255, 255, 255, 255),
+                                    height: 30,
+
                                     //width: 10000,
                                     alignment: Alignment.center,
                                     child: Text(
                                       '11 Novembre 2022 22:17',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.normal,
                                         color: darkMode
                                             ? ThemeColor.light1
@@ -404,6 +342,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
+
                                   /*Expanded(
                                     child: Container(
                                       color: Colors.amber,
@@ -414,7 +353,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
-
                       actions: <Widget>[
                         if (!isLoading && feedsListUpdate.sites.isNotEmpty)
                           IconButton(
@@ -440,9 +378,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             tooltip: 'Refresh',
                             onPressed: () => {
                               sleep(const Duration(milliseconds: 200)),
-                              _showRefreshDialog(context),
+                              // _showRefreshDialog(context),
                               loadData(true)
-                                  .then((value) => Navigator.pop(context))
                             },
                           ),
 
@@ -622,6 +559,35 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
+              bottomNavigationBar: Container(
+                color: colorCategory,
+                height: 50,
+
+                //width: 10000,
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    const Text(
+                      '11 Novembre 2022 22:17',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white
+                          //color: darkMode ? ThemeColor.light1 : ThemeColor.dark2,
+                          ),
+                    ),
+                    IconButton(
+                      color: Colors.white,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(Icons.list_alt),
+                      tooltip: 'Close',
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
               /*bottomNavigationBar: categoriesList.tabs.length <= 2
                   ? null
                   : Container(
@@ -692,7 +658,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       ),
                     ),*/
 
-              floatingActionButton: isLoading
+              /*floatingActionButton: isLoading
                   ? null
                   : FloatingActionButton.extended(
                       icon: const Icon(Icons.list_alt),
@@ -701,29 +667,75 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       onPressed: () {
                         // _displayTextInputDialog(context, null);
                       },
-                    ),
+                    ),*/
               body: TabBarView(
                   physics: const CustomPageViewScrollPhysics(),
                   controller: _tabController,
                   children: List.generate(
                       categoriesList.tabs.length,
-                      (index) => Container(
-                            alignment: Alignment.center,
-                            //color: colorCategory, //colors[index],
-                            /*color: Color(categoriesList
+                      (index) => isLoading
+                          ? Container(
+                              alignment: Alignment.center,
+                              //color: colorCategory, //colors[index],
+                              /*color: Color(categoriesList
                                 .tabs[_tabController.index].color),*/
-                            child: NewsSection(
-                              searchText: searchController.text,
-                              feedsList: isLoading
-                                  ? feedsListUpdate
-                                  : feedsList[index],
-                              isLoading: isLoading,
-                            ), /*Text(
+                              child: Stack(
+                                children: <Widget>[
+                                  AnimatedBuilder(
+                                    animation: _refreshIconController,
+                                    builder: (_, child) {
+                                      return Transform.rotate(
+                                        angle: _refreshIconController.value *
+                                            2 *
+                                            3.1415,
+                                        child: child,
+                                      );
+                                    },
+                                    child: Icon(
+                                      Icons.settings,
+                                      size: 100,
+                                      color: darkMode
+                                          ? ThemeColor.light3
+                                          : ThemeColor.dark4,
+                                    ),
+                                  ),
+                                  AnimatedBuilder(
+                                    animation: _refreshIconController,
+                                    builder: (_, child) {
+                                      return Transform.rotate(
+                                        angle: _refreshIconController.value *
+                                            2 *
+                                            3.1415,
+                                        child: child,
+                                      );
+                                    },
+                                    child: Icon(
+                                      Icons.settings,
+                                      size: 48,
+                                      color: darkMode
+                                          ? ThemeColor.light2
+                                          : ThemeColor.dark3,
+                                    ),
+                                  )
+                                ],
+                              ))
+                          : Container(
+                              alignment: Alignment.center,
+                              //color: colorCategory, //colors[index],
+                              /*color: Color(categoriesList
+                                .tabs[_tabController.index].color),*/
+                              child: NewsSection(
+                                searchText: searchController.text,
+                                feedsList: isLoading
+                                    ? feedsListUpdate
+                                    : feedsList[index],
+                                isLoading: isLoading,
+                              ), /*Text(
                               categoriesList.tabs[index].name,
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),*/
-                          ))));
+                            ))));
         }));
   }
 }
