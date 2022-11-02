@@ -174,11 +174,6 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=teamsystem.com"
 			},
 			{
-				"siteName": "cmswire.com",
-				"siteLink": "https://feeds2.feedburner.com/CMSWire",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cmswire.com"
-			},
-			{
 				"siteName": "corrierecomunicazioni.it",
 				"siteLink": "https://www.corrierecomunicazioni.it/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=corrierecomunicazioni.it"
@@ -1018,6 +1013,11 @@ class RecommendedList {
 				"siteName": "blog.malwarebytes.com",
 				"siteLink": "https://blog.malwarebytes.com/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=malwarebytes.com"
+			},
+			{
+				"siteName": "cmswire.com",
+				"siteLink": "https://feeds2.feedburner.com/CMSWire",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cmswire.com"
 			},
 			{
 				"siteName": "torrentfreak.com",
