@@ -307,10 +307,10 @@ class _NewsSectionState extends State<NewsSection>
                                             ],
                                           ),
                                         ),
-                                        isThreeLine: true,
+                                        //isThreeLine: true,
                                         subtitle: Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 4, bottom: 4),
+                                                top: 7, bottom: 4),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
