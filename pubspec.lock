@@ -795,8 +795,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "9f9b6035245dc5a72ada2b1293a2d8adc7cc2420"
+      ref: master
+      resolved-ref: "88375d9779c77401b1c97b5da0a2d87a82803c33"
       url: "https://github.com/And96/webfeed_simplified"
     source: git
     version: "0.7.0"

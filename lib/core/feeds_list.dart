@@ -112,9 +112,7 @@ class FeedsList {
         }
       }
 
-      String? iconUrl = site.iconUrl.trim() != ""
-          ? site.iconUrl
-          : channel.image?.url?.toString();
+      String? iconUrl = site.iconUrl.trim();
       channel.items?.forEach((element) {
         if (element.title?.isEmpty == false) {
           if (element.title.toString().length > 5) {
@@ -157,8 +155,7 @@ class FeedsList {
         }
       }
 
-      String? iconUrl =
-          site.iconUrl.trim() != "" ? site.iconUrl : channel.icon?.toString();
+      String? iconUrl = site.iconUrl.trim();
       channel.items?.forEach((element) {
         if (element.title?.isEmpty == false) {
           if (element.title.toString().length > 5) {
