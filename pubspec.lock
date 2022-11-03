@@ -794,9 +794,11 @@ packages:
   webfeed:
     dependency: "direct main"
     description:
-      name: webfeed
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "9f9b6035245dc5a72ada2b1293a2d8adc7cc2420"
+      url: "https://github.com/And96/webfeed_simplified"
+    source: git
     version: "0.7.0"
   win32:
     dependency: transitive

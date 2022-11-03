@@ -30,12 +30,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+  webfeed:
+    git:
+      url: https://github.com/And96/webfeed_simplified
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.5
-  webfeed: ^0.7.0
+  # webfeed: ^0.7.0 --> use https://github.com/And96/webfeed_simplified 
   animations: ^2.0.4
   cached_network_image: ^3.2.1
   ionicons: ^0.2.1
