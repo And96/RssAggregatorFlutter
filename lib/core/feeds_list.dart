@@ -65,16 +65,46 @@ class FeedsList {
     try {
       items = [];
 
-      for (var i = 0; i < sites.length; i++) {
-        try {
-          progressLoading = (i + 1) / sites.length;
-          if (loadFromWeb) {
-            await readFeedsFromWeb(sites[i]);
-          } else {
+      if (!loadFromWeb) {
+        for (var i = 0; i < sites.length; i++) {
+          try {
+            progressLoading = (i + 1) / sites.length;
+
             await readFeedFromDB(sites[i]).then((value) => items.addAll(value));
+          } catch (err) {
+            // print('Caught error: $err');
           }
-        } catch (err) {
-          // print('Caught error: $err');
+        }
+      }
+
+      if (loadFromWeb) {
+        int i = 0;
+        int x = 0;
+        while (i < sites.length && x < sites.length) {
+          x++;
+          try {
+            print(i);
+            progressLoading = (i + 1) / sites.length;
+            if (sites.length - i > 5) {
+              await Future.wait([
+                readFeedsFromWeb(sites[i + 0]).whenComplete(
+                    () => {i++, progressLoading = (i + 1) / sites.length}),
+                readFeedsFromWeb(sites[i + 1]).whenComplete(
+                    () => {i++, progressLoading = (i + 1) / sites.length}),
+                readFeedsFromWeb(sites[i + 2]).whenComplete(
+                    () => {i++, progressLoading = (i + 1) / sites.length}),
+                readFeedsFromWeb(sites[i + 3]).whenComplete(
+                    () => {i++, progressLoading = (i + 1) / sites.length}),
+                readFeedsFromWeb(sites[i + 4]).whenComplete(
+                    () => {i++, progressLoading = (i + 1) / sites.length})
+              ]);
+            } else {
+              await readFeedsFromWeb(sites[i]).whenComplete(
+                  () => {i++, progressLoading = (i + 1) / sites.length});
+            }
+          } catch (err) {
+            print('Caught error: $err');
+          }
         }
       }
 
@@ -181,12 +211,14 @@ class FeedsList {
     return itemsSite;
   }
 
-  readFeedsFromWeb(Site site) async {
-    DateTime t1;
+  Future<void> readFeedsFromWeb(Site site) async {
+    /* DateTime t1;*/
     try {
-      //DEBUG TIME ***
+      print(site.siteLink);
+
+      /*//DEBUG TIME ***
       t1 = DateTime.now();
-      print('Start: ${DateTime.now().difference(t1).inMicroseconds}');
+      print('Start: ${DateTime.now().difference(t1).inMicroseconds}');*/
 
       if (site.siteLink.trim().toLowerCase().contains("http")) {
         String hostname = site.siteName;
@@ -195,18 +227,18 @@ class FeedsList {
           updateItemLoading!(itemLoading);
         }
 
-//DEBUG TIME ***
+/*//DEBUG TIME ***
         print(
             'Before response: ${DateTime.now().difference(t1).inMicroseconds}');
-        t1 = DateTime.now();
+        t1 = DateTime.now();*/
 
         final response = await get(Uri.parse(site.siteLink))
             .timeout(Duration(seconds: settings.settingsTimeout));
 
-//DEBUG TIME ***
+/*//DEBUG TIME ***
         print(
             'After response: ${DateTime.now().difference(t1).inMicroseconds}');
-        t1 = DateTime.now();
+        t1 = DateTime.now();*/
 
         List<Feed> itemsSite;
         itemsSite = await parseRssFeed(site, hostname, response);
@@ -214,24 +246,24 @@ class FeedsList {
           itemsSite = await parseAtomFeed(site, hostname, response);
         }
 
-//DEBUG TIME ***
+/*//DEBUG TIME ***
         print('After parse: ${DateTime.now().difference(t1).inMicroseconds}');
-        t1 = DateTime.now();
+        t1 = DateTime.now();*/
 
         //sort
         itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
 //DEBUG TIME ***
 
-        print('After sort: ${DateTime.now().difference(t1).inMicroseconds}');
-        t1 = DateTime.now();
+        /*print('After sort: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();*/
 
         deleteDB(site.siteName);
 
 //DEBUG TIME ***
 
-        print('After delete: ${DateTime.now().difference(t1).inMicroseconds}');
-        t1 = DateTime.now();
+        /*print('After delete: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();*/
 
         //filter first items
         for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
@@ -244,8 +276,8 @@ class FeedsList {
 
 //DEBUG TIME ***
 
-      print('After insert db: ${DateTime.now().difference(t1).inMicroseconds}');
-      t1 = DateTime.now();
+      /* print('After insert db: ${DateTime.now().difference(t1).inMicroseconds}');
+      t1 = DateTime.now();*/
     } catch (err) {
       //print('Caught error: $err');
     }
