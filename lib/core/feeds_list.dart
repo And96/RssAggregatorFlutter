@@ -182,7 +182,12 @@ class FeedsList {
   }
 
   readFeedsFromWeb(Site site) async {
+    DateTime t1;
     try {
+      //DEBUG TIME ***
+      t1 = DateTime.now();
+      print('Start: ${DateTime.now().difference(t1).inMicroseconds}');
+
       if (site.siteLink.trim().toLowerCase().contains("http")) {
         String hostname = site.siteName;
         itemLoading = hostname;
@@ -190,8 +195,18 @@ class FeedsList {
           updateItemLoading!(itemLoading);
         }
 
+//DEBUG TIME ***
+        print(
+            'Before response: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();
+
         final response = await get(Uri.parse(site.siteLink))
             .timeout(Duration(seconds: settings.settingsTimeout));
+
+//DEBUG TIME ***
+        print(
+            'After response: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();
 
         List<Feed> itemsSite;
         itemsSite = await parseRssFeed(site, hostname, response);
@@ -199,10 +214,24 @@ class FeedsList {
           itemsSite = await parseAtomFeed(site, hostname, response);
         }
 
+//DEBUG TIME ***
+        print('After parse: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();
+
         //sort
         itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
+//DEBUG TIME ***
+
+        print('After sort: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();
+
         deleteDB(site.siteName);
+
+//DEBUG TIME ***
+
+        print('After delete: ${DateTime.now().difference(t1).inMicroseconds}');
+        t1 = DateTime.now();
 
         //filter first items
         for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
@@ -212,6 +241,10 @@ class FeedsList {
           await insertDB(f);
         }
       }
+
+//DEBUG TIME ***
+      t1 = DateTime.now();
+      print('After insert db: ${DateTime.now().difference(t1).inMicroseconds}');
     } catch (err) {
       //print('Caught error: $err');
     }
