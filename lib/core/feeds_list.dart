@@ -243,8 +243,9 @@ class FeedsList {
       }
 
 //DEBUG TIME ***
-      t1 = DateTime.now();
+
       print('After insert db: ${DateTime.now().difference(t1).inMicroseconds}');
+      t1 = DateTime.now();
     } catch (err) {
       //print('Caught error: $err');
     }
