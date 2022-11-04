@@ -63,49 +63,54 @@ class FeedsList {
 
   Future<List<Feed>> readFeeds(bool loadFromWeb) async {
     try {
+      progressLoading = 0;
       items = [];
+      setUpdateItemLoading('');
 
+      //offline
       if (!loadFromWeb) {
         for (var i = 0; i < sites.length; i++) {
           try {
             progressLoading = (i + 1) / sites.length;
-
             await readFeedFromDB(sites[i]).then((value) => items.addAll(value));
           } catch (err) {
-            // print('Caught error: $err');
+            //print('Caught error: $err');
           }
         }
       }
 
+      //online
       if (loadFromWeb) {
-        int i = 0;
-        int x = 0;
-        while (i < sites.length && x < sites.length) {
-          x++;
+        int u = 0; //number sites in updating
+        int c = 0; //number sites with update completed
+        for (var i = 0; i < sites.length; i++) {
           try {
-            print(i);
-            progressLoading = (i + 1) / sites.length;
-            if (sites.length - i > 5) {
-              await Future.wait([
-                readFeedsFromWeb(sites[i + 0]).whenComplete(
-                    () => {i++, progressLoading = (i + 1) / sites.length}),
-                readFeedsFromWeb(sites[i + 1]).whenComplete(
-                    () => {i++, progressLoading = (i + 1) / sites.length}),
-                readFeedsFromWeb(sites[i + 2]).whenComplete(
-                    () => {i++, progressLoading = (i + 1) / sites.length}),
-                readFeedsFromWeb(sites[i + 3]).whenComplete(
-                    () => {i++, progressLoading = (i + 1) / sites.length}),
-                readFeedsFromWeb(sites[i + 4]).whenComplete(
-                    () => {i++, progressLoading = (i + 1) / sites.length})
-              ]);
-            } else {
-              await readFeedsFromWeb(sites[i]).whenComplete(
-                  () => {i++, progressLoading = (i + 1) / sites.length});
+            while (true) {
+              if (u < 5) {
+                u++;
+                readFeedsFromWeb(sites[i]).whenComplete(() => {
+                      u--,
+                      c++,
+                      progressLoading = (c) / sites.length,
+                      // print(progressLoading),
+                      setUpdateItemLoading(null)
+                      /*print('progress  $progressLoading.toString()'),
+                      print('c  $c.toString()'),
+                      print('u  $u.toString()'),
+                      print('i  $i.toString()')*/
+                    });
+                break;
+              } else {
+                await Future.delayed(const Duration(milliseconds: 100));
+              }
             }
           } catch (err) {
-            print('Caught error: $err');
+            //print('Caught error: $err');
           }
         }
+        setUpdateItemLoading('');
+        await Future.delayed(const Duration(milliseconds: 100));
+        setUpdateItemLoading('');
       }
 
       //remove feed older than N days
@@ -120,7 +125,7 @@ class FeedsList {
 
       return items;
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
     return [];
   }
@@ -211,21 +216,30 @@ class FeedsList {
     return itemsSite;
   }
 
+  setUpdateItemLoading(String? text) {
+    try {
+      if (text != null) {
+        itemLoading = text.toString();
+      }
+      if (updateItemLoading != null) {
+        updateItemLoading!(itemLoading);
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }
+
   Future<void> readFeedsFromWeb(Site site) async {
     /* DateTime t1;*/
     try {
-      print(site.siteLink);
+      //print(site.siteName);
 
       /*//DEBUG TIME ***
       t1 = DateTime.now();
       print('Start: ${DateTime.now().difference(t1).inMicroseconds}');*/
 
       if (site.siteLink.trim().toLowerCase().contains("http")) {
-        String hostname = site.siteName;
-        itemLoading = hostname;
-        if (updateItemLoading != null) {
-          updateItemLoading!(itemLoading);
-        }
+        setUpdateItemLoading(site.siteName);
 
 /*//DEBUG TIME ***
         print(
@@ -241,9 +255,9 @@ class FeedsList {
         t1 = DateTime.now();*/
 
         List<Feed> itemsSite;
-        itemsSite = await parseRssFeed(site, hostname, response);
+        itemsSite = await parseRssFeed(site, site.siteName, response);
         if (itemsSite.isEmpty) {
-          itemsSite = await parseAtomFeed(site, hostname, response);
+          itemsSite = await parseAtomFeed(site, site.siteName, response);
         }
 
 /*//DEBUG TIME ***

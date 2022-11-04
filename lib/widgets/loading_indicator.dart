@@ -53,7 +53,7 @@ class LoadingIndicator extends StatelessWidget {
               progressColor: ThemeColor.dark3,
               lineHeight: 3.0,
               animateFromLastPercent: true,
-              animationDuration: 2000,
+              animationDuration: 500,
               percent: progressLoading,
               barRadius: const Radius.circular(16),
             ),

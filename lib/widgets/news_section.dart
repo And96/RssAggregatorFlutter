@@ -221,7 +221,7 @@ class _NewsSectionState extends State<NewsSection>
                         controller: listviewController,
                         thickness: widget.searchText.isNotEmpty
                             ? 0
-                            : 3, //hide scrollbar wrong if something is hidden is ok to hide them
+                            : 8, //hide scrollbar wrong if something is hidden is ok to hide them
                         child: ListView.separated(
                             controller: listviewController,
                             itemCount: widget.feedsList.items.length,
