@@ -87,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     bool firstRun = false;
     try {
       final prefs = await SharedPreferences.getInstance();
-
       await ThemeColor.isDarkMode().then((value) async => {
             darkMode = value,
             await loadPackageInfo(),
@@ -669,60 +668,49 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         // _displayTextInputDialog(context, null);
                       },
                     ),*/
-              body: TabBarView(
-                  physics: const CustomPageViewScrollPhysics(),
-                  controller: _tabController,
-                  children: List.generate(
-                      categoriesList.tabs.length,
-                      (index) => isLoading
-                          ? Container(
-                              alignment: Alignment.center,
-                              //color: colorCategory, //colors[index],
-                              /*color: Color(categoriesList
+              body: isLoading
+                  ? Container(
+                      alignment: Alignment.center,
+                      //color: colorCategory, //colors[index],
+                      /*color: Color(categoriesList
                                 .tabs[_tabController.index].color),*/
-                              child: LoadingIndicator(
-                                title: 'Aggiornamento in corso',
-                                description: feedsListUpdate.itemLoading,
-                                darkMode: darkMode,
-                                widget: AnimatedBuilder(
-                                  animation: _refreshIconController,
-                                  builder: (_, child) {
-                                    return Transform.rotate(
-                                      angle: _refreshIconController.value *
-                                          3 *
-                                          3.1415,
-                                      child: child,
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.autorenew,
-                                    size: 70,
-                                    color: darkMode
-                                        ? ThemeColor.light2
-                                        : ThemeColor.dark3,
-                                  ),
+                      child: LoadingIndicator(
+                        title: 'Aggiornamento in corso',
+                        description: feedsListUpdate.itemLoading,
+                        darkMode: darkMode,
+                        widget: AnimatedBuilder(
+                          animation: _refreshIconController,
+                          builder: (_, child) {
+                            return Transform.rotate(
+                              angle: _refreshIconController.value * 3 * 3.1415,
+                              child: child,
+                            );
+                          },
+                          child: Icon(
+                            Icons.autorenew,
+                            size: 70,
+                            color:
+                                darkMode ? ThemeColor.light2 : ThemeColor.dark3,
+                          ),
+                        ),
+                        progressLoading: feedsListUpdate.progressLoading,
+                      ),
+                    )
+                  : TabBarView(
+                      physics: const CustomPageViewScrollPhysics(),
+                      controller: _tabController,
+                      children: List.generate(
+                          categoriesList.tabs.length,
+                          (index) => Container(
+                                alignment: Alignment.center,
+                                child: NewsSection(
+                                  searchText: searchController.text,
+                                  feedsList: isLoading
+                                      ? feedsListUpdate
+                                      : feedsList[index],
+                                  isLoading: isLoading,
                                 ),
-                                progressLoading:
-                                    feedsListUpdate.progressLoading,
-                              ),
-                            )
-                          : Container(
-                              alignment: Alignment.center,
-                              //color: colorCategory, //colors[index],
-                              /*color: Color(categoriesList
-                                .tabs[_tabController.index].color),*/
-                              child: NewsSection(
-                                searchText: searchController.text,
-                                feedsList: isLoading
-                                    ? feedsListUpdate
-                                    : feedsList[index],
-                                isLoading: isLoading,
-                              ), /*Text(
-                              categoriesList.tabs[index].name,
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),*/
-                            ))));
+                              ))));
         }));
   }
 }

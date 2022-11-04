@@ -86,7 +86,7 @@ class FeedsList {
         for (var i = 0; i < sites.length; i++) {
           try {
             while (true) {
-              if (u < 10) {
+              if (u < 9) {
                 u++;
                 readFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
@@ -110,7 +110,6 @@ class FeedsList {
         }
         setUpdateItemLoading('');
         await Future.delayed(const Duration(milliseconds: 100));
-        setUpdateItemLoading('');
       }
 
       //remove feed older than N days

@@ -108,13 +108,13 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: MediaQuery.of(context).orientation ==
                               Orientation.landscape
-                          ? 3
-                          : 2,
+                          ? 4
+                          : 3,
                       crossAxisSpacing: 1,
                       mainAxisSpacing: 1,
                       childAspectRatio: MediaQuery.of(context).orientation ==
                               Orientation.landscape
-                          ? 1.6
+                          ? 1.3
                           : 0.9,
                     ),
                     itemBuilder: (
@@ -135,21 +135,24 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                                       category:
                                           recommendedList.items[index].name))),
                           child: GridTile(
-                            footer: GridTileBar(
-                              backgroundColor: Colors.black.withAlpha(50),
-                              title: Text(
-                                recommendedList.items[index].name,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(color: Colors.white),
+                              footer: GridTileBar(
+                                backgroundColor: Colors.black.withAlpha(50),
+                                title: Text(
+                                  recommendedList.items[index].name,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ),
-                            ),
-                            child: Icon(
-                              IconData(recommendedList.items[index].iconData,
-                                  fontFamily: 'MaterialIcons'),
-                              color: Colors.white70,
-                              size: 75,
-                            ),
-                          ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Icon(
+                                  IconData(
+                                      recommendedList.items[index].iconData,
+                                      fontFamily: 'MaterialIcons'),
+                                  color: Colors.white70,
+                                  size: 50,
+                                ),
+                              )),
                         ),
                       );
                     },

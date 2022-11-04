@@ -45,6 +45,11 @@ class _SitesPageState extends State<SitesPage>
             darkMode = value,
           });
       await loadData();
+      if (sitesList.items.isEmpty) {
+        Timer.run(() {
+          _showNewDialog(context);
+        });
+      }
     });
     super.initState();
   }
@@ -340,7 +345,7 @@ class _SitesPageState extends State<SitesPage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            'Options',
+            'Aggiungi nuovo sito',
             style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
@@ -361,30 +366,20 @@ class _SitesPageState extends State<SitesPage>
         ListTile(
             minLeadingWidth: 30,
             leading: const Icon(Icons.add_link_outlined),
-            title: const Text('Add new site'),
+            title: const Text('Inserisci link'),
             isThreeLine: true,
             subtitle: const Text(
-              'Inserisci indirizzo manualmente',
-            ),
-            onTap: (() =>
-                {Navigator.pop(context), _awaitEditSite(context, null)})),
-        ListTile(
-            minLeadingWidth: 30,
-            leading: const Icon(Icons.article_outlined),
-            title: const Text('Add site list'),
-            isThreeLine: true,
-            subtitle: const Text(
-              'Add multiple sites or import from OPML',
+              'Inserisci indirizzo link del sito da seguire',
             ),
             onTap: (() =>
                 {Navigator.pop(context), _awaitEditSite(context, null)})),
         ListTile(
             minLeadingWidth: 30,
             leading: const Icon(Icons.auto_graph),
-            title: const Text('Recommended sites'),
+            title: const Text('Siti popolati'),
             isThreeLine: true,
             subtitle: const Text(
-              'Choose from most popular website',
+              'Scegli tra i siti piu famosi da seguire',
             ),
             onTap: (() =>
                 {Navigator.pop(context), _awaitRecommendedSite(context)})),
