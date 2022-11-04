@@ -696,7 +696,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   },
                                   child: Icon(
                                     Icons.autorenew,
-                                    size: 80,
+                                    size: 70,
                                     color: darkMode
                                         ? ThemeColor.light2
                                         : ThemeColor.dark3,

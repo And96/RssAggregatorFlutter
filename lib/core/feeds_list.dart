@@ -86,7 +86,7 @@ class FeedsList {
         for (var i = 0; i < sites.length; i++) {
           try {
             while (true) {
-              if (u < 5) {
+              if (u < 10) {
                 u++;
                 readFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
@@ -101,7 +101,7 @@ class FeedsList {
                     });
                 break;
               } else {
-                await Future.delayed(const Duration(milliseconds: 100));
+                await Future.delayed(const Duration(milliseconds: 50));
               }
             }
           } catch (err) {
