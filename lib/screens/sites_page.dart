@@ -33,6 +33,9 @@ class _SitesPageState extends State<SitesPage>
 
   //Search indicator
   bool isOnSearch = false;
+  bool isOnAdded = false;
+
+  String sort = "category";
 
   //Controller
   TextEditingController searchController = TextEditingController();
@@ -240,8 +243,6 @@ class _SitesPageState extends State<SitesPage>
     );
   }
 
-  String sort = "category";
-
   Future<void> loadData() async {
     try {
       setState(() {
@@ -264,7 +265,7 @@ class _SitesPageState extends State<SitesPage>
           MaterialPageRoute(
             builder: (context) => const RecommendedCategoriesPage(),
           ));
-      loadData();
+      await loadData();
     } catch (err) {
       // print('Caught error: $err');
     }
@@ -280,7 +281,7 @@ class _SitesPageState extends State<SitesPage>
         category = siteUpdated.category;
         siteName = siteUpdated.siteName;
       }
-
+      List<String> siteAgg = [];
       // start the SecondScreen and wait for it to finish with a result
       final resultTextInput = await Navigator.push(
           context,
@@ -305,18 +306,18 @@ class _SitesPageState extends State<SitesPage>
               setState(() {
                 progressLoading = (i + 1) / listUrl.length;
               });
-              await sitesList.add(item, advancedSearch);
+              siteAgg.addAll(await sitesList.add(item, advancedSearch));
             }
           }
         } else {
           setState(() {
             progressLoading = 0.90;
           });
-          await sitesList.add(
+          siteAgg.addAll(await sitesList.add(
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true,
               category,
-              siteName);
+              siteName));
         }
         setState(() {
           progressLoading = 0.99;
@@ -330,6 +331,17 @@ class _SitesPageState extends State<SitesPage>
         );
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+        if (siteAgg.isNotEmpty) {
+          sleep(const Duration(milliseconds: 200));
+          setState(() {
+            sitesList.load('name').then((value) => {
+                  isOnSearch = false,
+                  isOnAdded = true,
+                  searchController.text = siteAgg.join(';')
+                });
+          });
+        }
       }
     } catch (err) {
       // print('Caught error: $err');
@@ -392,7 +404,7 @@ class _SitesPageState extends State<SitesPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !isOnSearch
+      appBar: !isOnSearch && !isOnAdded
           ? AppBar(
               title: sitesList.items.isEmpty
                   ? const Text('Sites')
@@ -419,6 +431,7 @@ class _SitesPageState extends State<SitesPage>
                       onPressed: () {
                         sleep(const Duration(milliseconds: 200));
                         setState(() {
+                          isOnAdded = false;
                           isOnSearch = isOnSearch ? false : true;
                           searchController.text = '';
                         });
@@ -440,48 +453,67 @@ class _SitesPageState extends State<SitesPage>
                       onPressed: () => showDeleteDialog(context, "*")),
               ],
             )
-          : AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                tooltip: 'Back',
-                onPressed: () {
-                  setState(() {
-                    sleep(const Duration(milliseconds: 200));
-                    isOnSearch = false;
-                    searchController.text = '';
-                  });
-                },
-              ), //
-              title: TextField(
-                autofocus: true,
-                style: const TextStyle(color: Colors.white),
-                cursorColor: Colors.white,
-                controller: searchController,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                onSubmitted: (value) {
-                  setState(() {});
-                },
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
+          : isOnSearch
+              ? AppBar(
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    tooltip: 'Back',
+                    onPressed: () {
+                      setState(() {
+                        sleep(const Duration(milliseconds: 200));
+                        isOnSearch = false;
+                        isOnAdded = false;
+                        searchController.text = '';
+                        loadData();
+                      });
+                    },
+                  ), //
+                  title: TextField(
+                    autofocus: true,
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white,
+                    controller: searchController,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    onSubmitted: (value) {
+                      setState(() {});
+                    },
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                  ),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      tooltip: 'Search',
+                      onPressed: () {
+                        setState(() {
+                          sitesList = sitesList;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          WidgetsBinding.instance.focusManager.primaryFocus
+                              ?.unfocus();
+                        });
+                      },
+                    ), //
+                  ],
+                )
+              : AppBar(
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    tooltip: 'Back',
+                    onPressed: () {
+                      setState(() {
+                        sleep(const Duration(milliseconds: 200));
+                        isOnSearch = false;
+                        isOnAdded = false;
+                        searchController.text = '';
+                        loadData();
+                      });
+                    },
+                  ), //
+                  title: const Text('Sites Added'),
                 ),
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  tooltip: 'Search',
-                  onPressed: () {
-                    setState(() {
-                      sitesList = sitesList;
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      WidgetsBinding.instance.focusManager.primaryFocus
-                          ?.unfocus();
-                    });
-                  },
-                ), //
-              ],
-            ),
       body: Stack(
         children: [
           isLoading == false

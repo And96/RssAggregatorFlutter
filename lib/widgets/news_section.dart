@@ -11,7 +11,6 @@ import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 /*import 'dart:async';*/
 import 'package:share_plus/share_plus.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/services.dart';
 
 class NewsSection extends StatefulWidget {
@@ -429,13 +428,13 @@ class _NewsSectionState extends State<NewsSection>
                       opacity: widget.isLoading ? opacityAnimation : 1.0,
                       duration: const Duration(milliseconds: 500),
                       child: EmptySection(
-                        title: 'Ricerca notizie in corso',
+                        title: '...',
                         description: widget.feedsList.itemLoading,
                         icon: Icons.query_stats,
                         darkMode: darkMode,
                       ),
                     ),
-                    Padding(
+                    /*Padding(
                       padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
                       child: LinearPercentIndicator(
                         animation: true,
@@ -446,7 +445,7 @@ class _NewsSectionState extends State<NewsSection>
                         percent: widget.feedsList.progressLoading,
                         barRadius: const Radius.circular(16),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

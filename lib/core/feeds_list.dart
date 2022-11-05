@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
@@ -84,16 +83,22 @@ class FeedsList {
       if (loadFromWeb) {
         int u = 0; //number sites in updating
         int c = 0; //number sites with update completed
+        List<String> listU =
+            []; //keep both u and listu because listu may have url duplicated
         for (var i = 0; i < sites.length; i++) {
           try {
             while (true) {
               if (u < settings.settingsNetworkSimultaneous) {
                 u++;
+                listU.add(sites[i].siteName);
+                setUpdateItemLoading(sites[i].siteName);
                 readFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
                       c++,
-                      progressLoading = round(c / sites.length, 2),
+                      listU.remove(sites[i].siteName),
+                      progressLoading = Utility().round(c / sites.length, 2),
                       if (progressLoading == 0) {progressLoading = 0.05},
+                      if (progressLoading > 0.90) {progressLoading = 1},
                       setUpdateItemLoading(null)
                     });
                 break;
@@ -109,37 +114,34 @@ class FeedsList {
 
         //wait that all fees are loaded, because readFeedsFromWeb is async but not waited
         while (u != 0) {
-          await Future.delayed(const Duration(milliseconds: 100));
+          try {
+            await Future.delayed(const Duration(milliseconds: 100));
+            if (listU.isNotEmpty) {
+              setUpdateItemLoading(listU[listU.length - 1]);
+            }
+          } catch (err) {
+            //print('Caught error: $err');
+          }
         }
         setUpdateItemLoading('');
       }
 
-      //remove feed older than N days
+      //remove feeds (older than N days)
       if (settings.settingsDaysLimit > 0) {
         items.removeWhere((e) =>
             (Utility().daysBetween(e.pubDate!, DateTime.now()) >
                 settings.settingsDaysLimit));
       }
 
-      //remove blacklist parental
+      //remove feeds (blacklist parental)
       if (settings.settingsBlacklistParental) {
-        List<String> blacklist = [
-          'porn',
-          'sess',
-          'violen',
-          'sex',
-          'uccid',
-          'tromb',
-          'mort',
-          'mastur'
-        ];
-        for (String keywoard in blacklist) {
+        for (String keywoard in Utility().blacklistParental) {
           items.removeWhere((e) =>
               (e.title.toLowerCase().contains(keywoard.toLowerCase().trim())));
         }
       }
 
-      //remove blacklist custom
+      //remove feeds (blacklist custom)
       if (settings.settingsBlacklistCustom.toString().trim().length > 1) {
         List<String> blacklist =
             settings.settingsBlacklistCustom.toString().trim().split(";");
@@ -157,11 +159,6 @@ class FeedsList {
       //print('Caught error: $err');
     }
     return [];
-  }
-
-  double round(double val, int places) {
-    num mod = pow(10.0, places);
-    return ((val * mod).round().toDouble() / mod);
   }
 
   Future<List<Feed>> parseRssFeed(
@@ -273,8 +270,6 @@ class FeedsList {
       print('Start: ${DateTime.now().difference(t1).inMicroseconds}');*/
 
       if (site.siteLink.trim().toLowerCase().contains("http")) {
-        setUpdateItemLoading(site.siteName);
-
 /*//DEBUG TIME ***
         print(
             'Before response: ${DateTime.now().difference(t1).inMicroseconds}');

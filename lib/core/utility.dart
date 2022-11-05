@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -109,11 +110,23 @@ class Utility {
     return inputText.toString();
   }
 
-  bool compareSearch(List<String?> textList, String? value) {
+  double round(double val, int places) {
+    try {
+      num mod = pow(10.0, places);
+      return ((val * mod).round().toDouble() / mod);
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return val;
+  }
+
+  bool compareSearch(List<String?> textList, String? textSearch) {
     try {
       for (var text in textList) {
-        if (cleanSearchText(text).contains(cleanSearchText(value))) {
-          return true;
+        for (var value in textSearch.toString().split(";")) {
+          if (cleanSearchText(text).contains(cleanSearchText(value))) {
+            return true;
+          }
         }
       }
     } catch (err) {
@@ -196,4 +209,15 @@ class Utility {
       // Error in getting access to the file.
     }
   }
+
+  List<String> blacklistParental = [
+    'porn',
+    'sess',
+    'violen',
+    'sex',
+    'uccid',
+    'tromb',
+    'mort',
+    'mastur'
+  ];
 }

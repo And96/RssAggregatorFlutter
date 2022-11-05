@@ -151,8 +151,9 @@ class SitesList {
     return false;
   }
 
-  Future<bool> add(String url, bool advancedSearch,
+  Future<List<String>> add(String url, bool advancedSearch,
       [String category = '', String siteName = '']) async {
+    List<String> siteAgg = [];
     try {
       String hostsiteName = url;
       if (url.toLowerCase().replaceFirst("http", "").contains("http") &&
@@ -202,12 +203,14 @@ class SitesList {
           category:
               category.trim() != '' ? category : categoriesList.defaultCategory,
         );
-        return await addSite(s1);
+        await addSite(s1);
+        siteAgg.add(s1.siteLink);
+        return siteAgg;
       }
     } catch (err) {
       // print('Caught error: $err');
     }
-    return false;
+    return siteAgg;
   }
 
   Future<List<Site>> get() async {
