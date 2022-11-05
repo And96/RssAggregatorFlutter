@@ -250,7 +250,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ? AppBar(
                       //   elevation: 4,
                       backgroundColor:
-                          darkMode ? Colors.black26 : colorCategory,
+                          darkMode ? ThemeColor.dark1 : colorCategory,
                       title: const Text("Aggregator"),
                       bottom: categoriesList.tabs.length <= 2
                           ? null
@@ -413,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     )
                   : AppBar(
                       backgroundColor:
-                          darkMode ? Colors.black26 : colorCategory,
+                          darkMode ? ThemeColor.dark1 : colorCategory,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         tooltip: 'Back',
