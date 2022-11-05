@@ -259,14 +259,11 @@ class _SitesPageState extends State<SitesPage>
 
   void _awaitRecommendedSite(BuildContext context) async {
     try {
-      // start the SecondScreen and wait for it to finish with a result
-      // final resultTextInput =
       await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const RecommendedCategoriesPage(),
           ));
-
       loadData();
     } catch (err) {
       // print('Caught error: $err');
