@@ -135,7 +135,7 @@ class FeedsList {
         ];
         for (String keywoard in blacklist) {
           items.removeWhere((e) =>
-              (Utility().compareSearch([e.title, e.link, e.host], keywoard)));
+              (e.title.toLowerCase().contains(keywoard.toLowerCase().trim())));
         }
       }
 
@@ -145,7 +145,7 @@ class FeedsList {
             settings.settingsBlacklistCustom.toString().trim().split(";");
         for (String keywoard in blacklist) {
           items.removeWhere((e) =>
-              (Utility().compareSearch([e.title, e.link, e.host], keywoard)));
+              (e.title.toLowerCase().contains(keywoard.toLowerCase().trim())));
         }
       }
 
