@@ -92,7 +92,7 @@ class SettingsPageState extends State<SettingsPage> {
             ],
           ),
           const PrefTitle(
-              leading: Icon(Icons.speed),
+              leading: Icon(Icons.cell_tower),
               title: Text('Network'),
               subtitle: Text('Customize parameters'),
               margin: EdgeInsets.only(top: 5.0)),
@@ -116,12 +116,12 @@ class SettingsPageState extends State<SettingsPage> {
             subtitle: Text('Customize parameters'),
             fullWidth: false,
             items: [
-              DropdownMenuItem(value: 10, child: Text('10')),
-              DropdownMenuItem(value: 50, child: Text('50')),
-              DropdownMenuItem(value: 100, child: Text('100')),
-              DropdownMenuItem(value: 200, child: Text('200')),
-              DropdownMenuItem(value: 500, child: Text('500')),
-              DropdownMenuItem(value: 1000, child: Text('1000')),
+              DropdownMenuItem(value: 10, child: Text('10 ms')),
+              DropdownMenuItem(value: 50, child: Text('50 ms')),
+              DropdownMenuItem(value: 100, child: Text('100 ms')),
+              DropdownMenuItem(value: 200, child: Text('200 ms')),
+              DropdownMenuItem(value: 500, child: Text('500 ms')),
+              DropdownMenuItem(value: 1000, child: Text('1000 ms')),
             ],
           ),
           const PrefDropdown<int>(

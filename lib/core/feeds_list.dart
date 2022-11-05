@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
@@ -91,7 +92,8 @@ class FeedsList {
                 readFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
                       c++,
-                      progressLoading = (c) / sites.length,
+                      progressLoading = round(c / sites.length, 2),
+                      if (progressLoading == 0) {progressLoading = 0.05},
                       setUpdateItemLoading(null)
                     });
                 break;
@@ -104,7 +106,11 @@ class FeedsList {
             //print('Caught error: $err');
           }
         }
-        await Future.delayed(const Duration(milliseconds: 100));
+
+        //wait that all fees are loaded, because readFeedsFromWeb is async but not waited
+        while (u != 0) {
+          await Future.delayed(const Duration(milliseconds: 100));
+        }
         setUpdateItemLoading('');
       }
 
@@ -123,6 +129,11 @@ class FeedsList {
       //print('Caught error: $err');
     }
     return [];
+  }
+
+  double round(double val, int places) {
+    num mod = pow(10.0, places);
+    return ((val * mod).round().toDouble() / mod);
   }
 
   Future<List<Feed>> parseRssFeed(
