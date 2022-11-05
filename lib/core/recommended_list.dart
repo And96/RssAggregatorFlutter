@@ -170,7 +170,7 @@ class RecommendedList {
 			{
 				"siteName": "sport.rai.it",
 				"siteLink": "https://www.rainews.it/rss/sport",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sport.rai.it"
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rainews.it"
 			},
 			{
 				"siteName": "sportmediaset.mediaset.it",
