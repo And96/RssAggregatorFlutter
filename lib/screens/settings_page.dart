@@ -23,9 +23,10 @@ class SettingsPageState extends State<SettingsPage> {
       body: PrefPage(
         children: [
           const PrefTitle(
+            leading: Icon(Icons.color_lens),
             title: Text('Personalization'),
             subtitle: Text('Customize colors'),
-            padding: EdgeInsets.only(top: 22.0),
+            margin: EdgeInsets.only(top: 5.0),
           ),
           //REMOVED BECAUSE COLOR IS NOW LINKED TO SELECTED CATEGORY
           /*const PrefDropdown<int>(
@@ -52,22 +53,13 @@ class SettingsPageState extends State<SettingsPage> {
               DropdownMenuItem(value: 'dark', child: Text('Dark')),
             ],
           ),
+
           const PrefTitle(
+              leading: Icon(Icons.settings),
               title: Text('Configuration'),
               subtitle: Text('Customize parameters'),
-              padding: EdgeInsets.only(top: 22.0)),
-          const PrefDropdown<int>(
-            title: Text('Timeout'),
-            pref: 'settings_timeout',
-            subtitle: Text('Customize parameters'),
-            fullWidth: false,
-            items: [
-              DropdownMenuItem(value: 2, child: Text('2 seconds')),
-              DropdownMenuItem(value: 4, child: Text('4 seconds')),
-              DropdownMenuItem(value: 8, child: Text('8 seconds')),
-              DropdownMenuItem(value: 16, child: Text('16 seconds')),
-            ],
-          ),
+              margin: EdgeInsets.only(top: 5.0)),
+
           const PrefDropdown<int>(
             title: Text('Days limit'),
             pref: 'settings_days_limit',
@@ -100,9 +92,85 @@ class SettingsPageState extends State<SettingsPage> {
             ],
           ),
           const PrefTitle(
+              leading: Icon(Icons.speed),
+              title: Text('Network'),
+              subtitle: Text('Customize parameters'),
+              margin: EdgeInsets.only(top: 5.0)),
+
+          const PrefDropdown<int>(
+            title: Text('Timeout'),
+            pref: 'settings_network_timeout',
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
+            items: [
+              DropdownMenuItem(value: 2, child: Text('2 seconds')),
+              DropdownMenuItem(value: 4, child: Text('4 seconds')),
+              DropdownMenuItem(value: 8, child: Text('8 seconds')),
+              DropdownMenuItem(value: 16, child: Text('16 seconds')),
+            ],
+          ),
+
+          const PrefDropdown<int>(
+            title: Text('Connection delay'),
+            pref: 'settings_network_delay',
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
+            items: [
+              DropdownMenuItem(value: 10, child: Text('10')),
+              DropdownMenuItem(value: 50, child: Text('50')),
+              DropdownMenuItem(value: 100, child: Text('100')),
+              DropdownMenuItem(value: 200, child: Text('200')),
+              DropdownMenuItem(value: 500, child: Text('500')),
+              DropdownMenuItem(value: 1000, child: Text('1000')),
+            ],
+          ),
+          const PrefDropdown<int>(
+            title: Text('Connections simultaneous'),
+            pref: 'settings_network_simultaneous',
+            subtitle: Text('Customize parameters'),
+            fullWidth: false,
+            items: [
+              DropdownMenuItem(value: 1, child: Text('1')),
+              DropdownMenuItem(value: 2, child: Text('2')),
+              DropdownMenuItem(value: 4, child: Text('4')),
+              DropdownMenuItem(value: 8, child: Text('8')),
+              DropdownMenuItem(value: 10, child: Text('10')),
+              DropdownMenuItem(value: 20, child: Text('20')),
+            ],
+          ),
+          const PrefTitle(
+              leading: Icon(Icons.security),
+              title: Text('Blacklist'),
+              subtitle: Text('Customize parameters'),
+              margin: EdgeInsets.only(top: 5.0)),
+          PrefCheckbox(
+            title: const Text('Parental block'),
+            subtitle: const Text('Block unwanted content'),
+            pref: 'settings_blacklist_parental',
+            onChange: (value) {
+              setState(() {});
+              if (!value) {
+                PrefService.of(context)
+                    .set('settings_blacklist_parental', false);
+              }
+            },
+          ),
+          PrefText(
+            hintText: 'Enter keywords list. Example: SPORT;BUY;BAD',
+            label: 'Custom blocklist',
+            pref: 'settings_blacklist_custom',
+            validator: (str) {
+              if (str != null && str.length > 10 && !str.contains(';')) {
+                return 'Enter keyword separated by ;';
+              }
+              return null;
+            },
+          ),
+          const PrefTitle(
+              leading: Icon(Icons.storage),
               title: Text('Storage'),
               subtitle: Text('Customize parameters'),
-              padding: EdgeInsets.only(top: 22.0)),
+              margin: EdgeInsets.only(top: 5.0)),
           PrefCheckbox(
             title: const Text('Load images'),
             subtitle: const Text('Fetch image from network'),

@@ -86,30 +86,26 @@ class FeedsList {
         for (var i = 0; i < sites.length; i++) {
           try {
             while (true) {
-              if (u < 9) {
+              if (u < settings.settingsNetworkSimultaneous) {
                 u++;
                 readFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
                       c++,
                       progressLoading = (c) / sites.length,
-                      // print(progressLoading),
                       setUpdateItemLoading(null)
-                      /*print('progress  $progressLoading.toString()'),
-                      print('c  $c.toString()'),
-                      print('u  $u.toString()'),
-                      print('i  $i.toString()')*/
                     });
                 break;
               } else {
-                await Future.delayed(const Duration(milliseconds: 50));
+                await Future.delayed(
+                    Duration(milliseconds: settings.settingsNetworkTimeout));
               }
             }
           } catch (err) {
             //print('Caught error: $err');
           }
         }
-        setUpdateItemLoading('');
         await Future.delayed(const Duration(milliseconds: 100));
+        setUpdateItemLoading('');
       }
 
       //remove feed older than N days
@@ -246,7 +242,7 @@ class FeedsList {
         t1 = DateTime.now();*/
 
         final response = await get(Uri.parse(site.siteLink))
-            .timeout(Duration(seconds: settings.settingsTimeout));
+            .timeout(Duration(seconds: settings.settingsNetworkTimeout));
 
 /*//DEBUG TIME ***
         print(

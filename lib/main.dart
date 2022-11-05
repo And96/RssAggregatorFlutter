@@ -13,10 +13,14 @@ Future<void> main() async {
     defaults: {
       'settings_ui_theme': 'light',
       'settings_ui_color': ThemeColor.primaryColorLight,
-      'settings_timeout': 8,
+      'settings_network_timeout': 8,
+      'settings_network_delay': 50,
+      'settings_network_simultaneous': 10,
       'settings_days_limit': 90,
       'settings_feeds_limit': 20,
       'settings_load_images': true,
+      'settings_blacklist_parental': true,
+      'settings_blacklist_custom': '',
     },
   );
 
