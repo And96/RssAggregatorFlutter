@@ -121,6 +121,34 @@ class FeedsList {
                 settings.settingsDaysLimit));
       }
 
+      //remove blacklist parental
+      if (settings.settingsBlacklistParental) {
+        List<String> blacklist = [
+          'porn',
+          'sess',
+          'violen',
+          'sex',
+          'uccid',
+          'tromb',
+          'mort',
+          'mastur'
+        ];
+        for (String keywoard in blacklist) {
+          items.removeWhere((e) =>
+              (Utility().compareSearch([e.title, e.link, e.host], keywoard)));
+        }
+      }
+
+      //remove blacklist custom
+      if (settings.settingsBlacklistCustom.toString().trim().length > 1) {
+        List<String> blacklist =
+            settings.settingsBlacklistCustom.toString().trim().split(";");
+        for (String keywoard in blacklist) {
+          items.removeWhere((e) =>
+              (Utility().compareSearch([e.title, e.link, e.host], keywoard)));
+        }
+      }
+
       //sort
       items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
 
