@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
+import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/screens/favourites_page.dart';
 import 'package:rss_aggregator_flutter/screens/readlater_page.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       FeedsList(updateItemLoading: _updateItemLoading);
   late List<FeedsList> feedsList = [];
   late CategoriesList categoriesList = CategoriesList();
+  late SitesList sitesList = SitesList(updateItemLoading: (String value) {});
   void _updateItemLoading(String itemLoading) {
     setState(() {});
   }
@@ -80,7 +82,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 .push(MaterialPageRoute(
                     builder: (context) => const WelcomePage()))
                 .then((value) => Phoenix.rebirth(context))
-            : null));
+            : sitesList.items.isEmpty
+                ? Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) => const SitesPage()))
+                    .then((value) => Phoenix.rebirth(context))
+                : null));
   }
 
   Future<bool> load() async {
@@ -91,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             darkMode = value,
             await loadPackageInfo(),
             await settings.init(),
+            await sitesList.load(),
             if (prefs.getBool('first_run_app') == null)
               {
                 categoriesList.add("News"),
