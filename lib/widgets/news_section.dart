@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
-/*import 'dart:async';*/
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
 
@@ -215,17 +214,20 @@ class _NewsSectionState extends State<NewsSection>
                     ],
                   ))
                 : Padding(
-                    padding: const EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(
+                        top: 5, left: 1, right: 1, bottom: 0),
                     child: Scrollbar(
                         controller: listviewController,
                         thickness: widget.searchText.isNotEmpty
                             ? 0
                             : 8, //hide scrollbar wrong if something is hidden is ok to hide them
-                        child: ListView.builder(
-                            controller: listviewController,
-                            itemCount: widget.feedsList.items.length,
-                            //separatorBuilder: null,
-                            /*separatorBuilder: (context, index) {
+                        child: MediaQuery.of(context).size.width <
+                                MediaQuery.of(context).size.height
+                            ? ListView.builder(
+                                controller: listviewController,
+                                itemCount: widget.feedsList.items.length,
+                                //separatorBuilder: null,
+                                /*separatorBuilder: (context, index) {
                               return Visibility(
                                   visible: widget.searchText.isEmpty ||
                                       Utility().compareSearch([
@@ -235,188 +237,412 @@ class _NewsSectionState extends State<NewsSection>
                                       ], widget.searchText),
                                   child: const Divider());
                             },*/
-                            itemBuilder: (BuildContext context, index) {
-                              final item = widget.feedsList.items[index];
+                                itemBuilder: (BuildContext context, index) {
+                                  final item = widget.feedsList.items[index];
 
-                              return Visibility(
-                                  visible: widget.searchText.isEmpty ||
-                                      Utility().compareSearch(
-                                          [item.title, item.link, item.host],
-                                          widget.searchText),
-                                  child: Container(
-                                      color: darkMode
-                                          ? ThemeColor.dark1.withAlpha(200)
-                                          : const Color.fromARGB(
-                                              255, 240, 240, 240),
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 3,
-                                              right: 3,
-                                              top: 1,
-                                              bottom: 1),
-                                          child: Card(
-                                              clipBehavior: Clip.hardEdge,
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
+                                  return Visibility(
+                                      visible: widget.searchText.isEmpty ||
+                                          Utility().compareSearch([
+                                            item.title,
+                                            item.link,
+                                            item.host
+                                          ], widget.searchText),
+                                      child: Container(
+                                          color: darkMode
+                                              ? ThemeColor.dark1.withAlpha(200)
+                                              : const Color.fromARGB(
+                                                  255, 240, 240, 240),
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3,
+                                                  right: 3,
+                                                  top: 1,
+                                                  bottom: 1),
+                                              child: Card(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: darkMode
+                                                          ? ThemeColor.dark3
+                                                              .withAlpha(50)
+                                                          : const Color
+                                                                  .fromARGB(255,
+                                                              255, 255, 255),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                  ),
+                                                  elevation: 0,
                                                   color: darkMode
-                                                      ? ThemeColor.dark3
-                                                          .withAlpha(50)
+                                                      ? ThemeColor.dark2
                                                       : const Color.fromARGB(
-                                                          255, 255, 255, 255),
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                              ),
-                                              elevation: 0,
-                                              color: darkMode
-                                                  ? ThemeColor.dark2
-                                                  : const Color.fromARGB(
-                                                      255, 250, 250, 250),
-                                              //shadowColor: Colors.white,
-                                              child: InkWell(
-                                                /*focusColor: Colors.green,
+                                                          255, 250, 250, 250),
+                                                  //shadowColor: Colors.white,
+                                                  child: InkWell(
+                                                    /*focusColor: Colors.green,
                                       hoverColor: Colors.black,*/
-                                                onTap: () => showOptionDialog(
-                                                    context, item),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8,
-                                                          bottom: 10,
-                                                          left: 0,
-                                                          right: 0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      ListTile(
-                                                        /* contentPadding:
+                                                    onTap: () =>
+                                                        showOptionDialog(
+                                                            context, item),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8,
+                                                              bottom: 10,
+                                                              left: 0,
+                                                              right: 0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          ListTile(
+                                                            /* contentPadding:
                                                     const EdgeInsets.all(5),*/
-                                                        minLeadingWidth: 25,
-                                                        leading: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(top: 0),
-                                                          child: SiteLogo(
-                                                            iconUrl:
-                                                                item.iconUrl,
-                                                          ),
-                                                        ),
-                                                        title: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(top: 2),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: <Widget>[
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
+                                                            minLeadingWidth: 25,
+                                                            leading: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 0),
+                                                              child: SiteLogo(
+                                                                iconUrl: item
+                                                                    .iconUrl,
+                                                              ),
+                                                            ),
+                                                            title: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 2),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
                                                                             .only(
                                                                         left:
                                                                             0),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          left:
-                                                                              0),
-                                                                      child:
-                                                                          Text(
-                                                                        (item
-                                                                            .host
-                                                                            .toString()),
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                          color: darkMode
-                                                                              ? ThemeColor.light3
-                                                                              : ThemeColor.dark4,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(left: 0),
+                                                                          child:
+                                                                              Text(
+                                                                            (item.host.toString()),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              color: darkMode ? ThemeColor.light3 : ThemeColor.dark4,
+                                                                            ),
+                                                                          ),
                                                                         ),
-                                                                      ),
+                                                                      ],
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                (DateFormat('dd/MM/yyyy HH:mm').format(Utility()
-                                                                    .tryParse(item
-                                                                        .pubDate
-                                                                        .toString())
-                                                                    .toLocal())),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: darkMode
-                                                                      ? ThemeColor
-                                                                          .light3
-                                                                      : ThemeColor
-                                                                          .dark4,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        //isThreeLine: true,
-                                                        subtitle: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 7,
-                                                                    bottom: 4),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                SizedBox(
-                                                                  child: Text(
-                                                                    item.title
-                                                                        .toString(),
-                                                                    maxLines: 3,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
+                                                                  ),
+                                                                  Text(
+                                                                    (DateFormat('dd/MM/yyyy HH:mm').format(Utility()
+                                                                        .tryParse(item
+                                                                            .pubDate
+                                                                            .toString())
+                                                                        .toLocal())),
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize:
-                                                                          16,
+                                                                          14,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .normal,
                                                                       color: darkMode
                                                                           ? ThemeColor
-                                                                              .light2
+                                                                              .light3
                                                                           : ThemeColor
-                                                                              .dark1,
+                                                                              .dark4,
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            )),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            //isThreeLine: true,
+                                                            subtitle: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 7,
+                                                                        bottom:
+                                                                            4),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    SizedBox(
+                                                                      child:
+                                                                          Text(
+                                                                        item.title
+                                                                            .toString(),
+                                                                        maxLines:
+                                                                            3,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          color: darkMode
+                                                                              ? ThemeColor.light2
+                                                                              : ThemeColor.dark1,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
+                                                    ),
+                                                  )))));
+                                })
+                            : GridView.builder(
+                                controller: listviewController,
+                                itemCount: widget.feedsList.items.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  final item = widget.feedsList.items[index];
+
+                                  return Visibility(
+                                      visible: widget.searchText.isEmpty ||
+                                          Utility().compareSearch([
+                                            item.title,
+                                            item.link,
+                                            item.host
+                                          ], widget.searchText),
+                                      child: Container(
+                                          color: darkMode
+                                              ? ThemeColor.dark1.withAlpha(200)
+                                              : const Color.fromARGB(
+                                                  255, 240, 240, 240),
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3,
+                                                  right: 3,
+                                                  top: 1,
+                                                  bottom: 1),
+                                              child: Card(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: darkMode
+                                                          ? ThemeColor.dark3
+                                                              .withAlpha(50)
+                                                          : const Color
+                                                                  .fromARGB(255,
+                                                              255, 255, 255),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
                                                   ),
-                                                ),
-                                              )))));
-                            })),
+                                                  elevation: 0,
+                                                  color: darkMode
+                                                      ? ThemeColor.dark2
+                                                      : const Color.fromARGB(
+                                                          255, 250, 250, 250),
+                                                  //shadowColor: Colors.white,
+                                                  child: InkWell(
+                                                    /*focusColor: Colors.green,
+                                      hoverColor: Colors.black,*/
+                                                    onTap: () =>
+                                                        showOptionDialog(
+                                                            context, item),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8,
+                                                              bottom: 10,
+                                                              left: 0,
+                                                              right: 0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          ListTile(
+                                                            /* contentPadding:
+                                                    const EdgeInsets.all(5),*/
+                                                            minLeadingWidth: 25,
+                                                            leading: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 0),
+                                                              child: SiteLogo(
+                                                                iconUrl: item
+                                                                    .iconUrl,
+                                                              ),
+                                                            ),
+                                                            title: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 2),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(left: 0),
+                                                                          child:
+                                                                              Text(
+                                                                            (item.host.toString()),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              color: darkMode ? ThemeColor.light3 : ThemeColor.dark4,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    (DateFormat('dd/MM/yyyy HH:mm').format(Utility()
+                                                                        .tryParse(item
+                                                                            .pubDate
+                                                                            .toString())
+                                                                        .toLocal())),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      color: darkMode
+                                                                          ? ThemeColor
+                                                                              .light3
+                                                                          : ThemeColor
+                                                                              .dark4,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            //isThreeLine: true,
+                                                            subtitle: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 7,
+                                                                        bottom:
+                                                                            4),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    SizedBox(
+                                                                      child:
+                                                                          Text(
+                                                                        item.title
+                                                                            .toString(),
+                                                                        maxLines:
+                                                                            3,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          color: darkMode
+                                                                              ? ThemeColor.light2
+                                                                              : ThemeColor.dark1,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )))));
+                                },
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                            MediaQuery.of(context).size.width >
+                                                    800
+                                                ? MediaQuery.of(context)
+                                                            .size
+                                                            .width >
+                                                        1150
+                                                    ? 4
+                                                    : 3
+                                                : 2,
+                                        crossAxisSpacing: 0,
+                                        mainAxisSpacing: 0,
+                                        childAspectRatio: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height <
+                                                1.9
+                                            ? MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height <
+                                                    1.6
+                                                ? MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height <
+                                                        1.4
+                                                    ? 2.3
+                                                    : 2.0
+                                                : 2.1
+                                            : 2.3),
+                              )),
                   )
             : Center(
                 child: Column(
