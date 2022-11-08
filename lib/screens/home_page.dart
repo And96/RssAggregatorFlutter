@@ -1,6 +1,7 @@
 import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
@@ -126,6 +127,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   setCategoryColor() {
     try {
       colorCategory = Color(categoriesList.tabs[_tabController.index].color);
+      /*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: colorCategory,
+      ));*/
       // Colors.primaries[Random().nextInt(Colors.primaries.length)];//random color
     } catch (err) {
       colorCategory = ThemeColor.primaryColorLight;
@@ -676,6 +680,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         // _displayTextInputDialog(context, null);
                       },
                     ),*/
+
               body: isLoading
                   ? Container(
                       alignment: Alignment.center,
