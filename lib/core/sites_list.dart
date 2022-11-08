@@ -225,8 +225,9 @@ class SitesList {
             a.siteName.toLowerCase().compareTo(b.siteName.toLowerCase()));
       }
       if (sort == "category") {
-        list.sort((a, b) =>
-            a.category.toLowerCase().compareTo(b.category.toLowerCase()));
+        list.sort((a, b) => (a.category + a.siteName)
+            .toLowerCase()
+            .compareTo((b.category + b.siteName).toLowerCase()));
       }
       return list;
     } catch (err) {
