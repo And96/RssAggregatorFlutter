@@ -37,34 +37,25 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
   http: ^0.13.5
   #webfeed: ^0.7.0 #--> use https://github.com/And96/webfeed_simplified 
-  animations: ^2.0.4
   cached_network_image: ^3.2.1
-  ionicons: ^0.2.1
   url_launcher: ^6.1.5
   shared_preferences: ^2.0.15
   favicon: ^1.1.0
   package_info_plus: ^3.0.1
   flutter_launcher_icons: ^0.10.0
   feed_finder: ^1.0.9
-  settings_ui: ^2.0.2
-  adaptive_theme: ^3.1.1
   pref: ^2.6.0
   flutter_phoenix: ^1.1.0
   percent_indicator: ^4.2.2
   flutter_material_color_picker: ^1.1.0+2
-  grouped_buttons_ns: ^1.0.0
   flutter_awesome_select: ^6.5.0
   share_plus: ^6.2.0
-  flutter_overboard: ^3.1.1
-  flutter_carousel_slider: ^1.0.9
   sqflite: ^2.1.0+1
   path: ^1.8.2
   sqflite_common_ffi: ^2.1.1+1
   animate_icons: ^2.0.0
-  google_fonts: ^3.0.1
   path_provider: ^2.0.11
   intro_slider: ^4.2.0
 
@@ -96,10 +87,9 @@ flutter_icons:
 
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
     
   change_app_package_name: ^1.1.0
+  dependency_validator: ^3.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
