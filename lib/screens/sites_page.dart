@@ -354,7 +354,7 @@ class _SitesPageState extends State<SitesPage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            'Aggiungi nuovo sito',
+            'Aggiungi siti da seguire',
             style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
@@ -378,7 +378,7 @@ class _SitesPageState extends State<SitesPage>
             title: const Text('Inserisci link'),
             isThreeLine: true,
             subtitle: const Text(
-              'Inserisci indirizzo link del sito da seguire',
+              'Inserisci indirizzo link del sito da aggiungere',
             ),
             onTap: (() =>
                 {Navigator.pop(context), _awaitEditSite(context, null)})),
