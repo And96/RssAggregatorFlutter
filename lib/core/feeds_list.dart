@@ -104,7 +104,7 @@ class FeedsList {
                 break;
               } else {
                 await Future.delayed(
-                    Duration(milliseconds: settings.settingsNetworkTimeout));
+                    Duration(milliseconds: settings.settingsNetworkDelay));
               }
             }
           } catch (err) {
