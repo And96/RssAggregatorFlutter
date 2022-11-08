@@ -149,13 +149,13 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
       await loadData();
     });
-    super.initState();
   }
 
   @override

@@ -42,6 +42,7 @@ class _SitesPageState extends State<SitesPage>
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await setOpacityAnimation();
       await ThemeColor.isDarkMode().then((value) => {
@@ -54,7 +55,6 @@ class _SitesPageState extends State<SitesPage>
         });
       }
     });
-    super.initState();
   }
 
   @override

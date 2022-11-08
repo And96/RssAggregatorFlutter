@@ -51,6 +51,7 @@ class _NewsSectionState extends State<NewsSection>
 
   @override
   initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       /*await setOpacityAnimation();*/
       await ThemeColor.isDarkMode().then((value) => {
@@ -58,7 +59,6 @@ class _NewsSectionState extends State<NewsSection>
           });
       await loadData();
     });
-    super.initState();
   }
 
   loadData() async {

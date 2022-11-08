@@ -28,6 +28,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
@@ -35,7 +36,6 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
       await loadData();
       c1 = AnimateIconController();
     });
-    super.initState();
   }
 
   @override
