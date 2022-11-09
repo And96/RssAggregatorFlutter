@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rss_aggregator_flutter/core/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -179,9 +181,19 @@ class Utility {
         sqfliteFfiInit();
         databaseFactory = databaseFactoryFfi;
       }
-      await getDatabasesPath().then((value) => {deleteDir(value)});
+      DB().close;
+
+      String path = await getDatabasesPath();
+      await ((await openDatabase(
+              join(await getDatabasesPath(), DB().databaseName)))
+          .close());
+      await deleteDatabase(path);
+      databaseFactory.deleteDatabase;
+      deleteDatabase(path);
+
+      deleteDir(path);
     } catch (err) {
-      //print('Caught error: $err');
+      print('Caught error: $err');
     }
   }
 
@@ -196,7 +208,7 @@ class Utility {
         });
       }
     } catch (e) {
-      //print('Caught error: $e');
+      print('Caught error: $e');
     }
   }
 

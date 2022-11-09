@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/core/database.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -9,9 +9,7 @@ import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:http/http.dart';
 import 'package:webfeed/webfeed.dart';
 import 'dart:async';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class FeedsList {
   late List<Site> sites = [];
@@ -332,46 +330,8 @@ class FeedsList {
     }
   }
 
-  static Database? _database;
-
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDB();
-    return _database!;
-  }
-
-  Future<Database?> _initDB() async {
-    try {
-      if (Platform.isWindows || Platform.isLinux) {
-        sqfliteFfiInit();
-        databaseFactory = databaseFactoryFfi;
-      }
-      return openDatabase(
-        // Set the path to the database. Note: Using the `join` function from the
-        // `path` package is best practice to ensure the path is correctly
-        // constructed for each platform.
-        join(await getDatabasesPath(), 'db_feeds.db'),
-        // When the database is first created, create a table to store dogs.
-        onUpgrade: (db, versionOld, versionNew) {
-          // Run the CREATE TABLE statement on the database.
-          return db.execute(
-            'DROP TABLE feeds; CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT)',
-          );
-        },
-        onCreate: (db, version) {
-          // Run the CREATE TABLE statement on the database.
-          return db.execute(
-            'CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT)',
-          );
-        },
-        // Set the version. This executes the onCreate function and provides a
-        // path to perform database upgrades and downgrades.
-        version: 2,
-      );
-    } catch (err) {
-      //print('Caught error: $err');
-    }
-    return null;
+    return DB().database;
   }
 
 // Define a function that inserts dogs into the database
