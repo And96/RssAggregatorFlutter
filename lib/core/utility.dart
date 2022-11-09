@@ -193,7 +193,7 @@ class Utility {
 
       deleteDir(path);
     } catch (err) {
-      print('Caught error: $err');
+      //print('Caught error: $err');
     }
   }
 
@@ -208,7 +208,7 @@ class Utility {
         });
       }
     } catch (e) {
-      print('Caught error: $e');
+      //print('Caught error: $e');
     }
   }
 
