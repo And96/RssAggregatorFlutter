@@ -77,6 +77,9 @@ class FeedsList {
             //print('Caught error: $err');
           }
         }
+        progressLoading = 1;
+        setUpdateItemLoading('');
+        await Future.delayed(const Duration(milliseconds: 100));
       }
 
       //online
@@ -146,8 +149,11 @@ class FeedsList {
         List<String> blacklist =
             settings.settingsBlacklistCustom.toString().trim().split(";");
         for (String keywoard in blacklist) {
-          items.removeWhere((e) =>
-              (e.title.toLowerCase().contains(keywoard.toLowerCase().trim())));
+          if (keywoard.trim() != "") {
+            items.removeWhere((e) => (e.title
+                .toLowerCase()
+                .contains(keywoard.toLowerCase().trim())));
+          }
         }
       }
 
