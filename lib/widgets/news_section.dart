@@ -318,7 +318,7 @@ class _NewsSectionState extends State<NewsSection>
                                                                 .size
                                                                 .height <
                                                         1.4
-                                                    ? 2.3
+                                                    ? 2.0
                                                     : 2.0
                                                 : 2.1
                                             : 2.9),

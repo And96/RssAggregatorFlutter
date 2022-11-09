@@ -97,10 +97,9 @@ class FeedTile extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  (DateFormat('dd/MM/yyyy HH:mm').format(
-                                      Utility()
-                                          .tryParse(pubDate.toString())
-                                          .toLocal())),
+                                  (DateFormat('dd/MM/yy HH:mm').format(Utility()
+                                      .tryParse(pubDate.toString())
+                                      .toLocal())),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
