@@ -973,7 +973,7 @@ class RecommendedList {
 			{
 				"siteName": "bergamo.it",
 				"siteLink": "https://news.google.com/rss/search?q=site:bergamo.it+when:10d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamo.it"
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comune.bergamo.it"
 			}
 		]
 	},
