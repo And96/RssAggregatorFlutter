@@ -93,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Future<bool> load() async {
     bool firstRun = false;
+    bool loadFromWeb = false;
     try {
       final prefs = await SharedPreferences.getInstance();
       await ThemeColor.isDarkMode().then((value) async => {
@@ -106,6 +107,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 await prefs.setBool('first_run_app', true),
                 firstRun = true,
               },
+            if (feedsListUpdate
+                .isUpdateFeedsRequired(prefs.getString('last_update_feeds')))
+              {
+                loadFromWeb = true,
+              },
             await categoriesList.load(true),
             await setCategoryColor(),
             setState(() {
@@ -116,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               setCategoryColor();
               setState(() {});
             }),
-            await loadData(false),
+            await loadData(loadFromWeb),
           });
     } catch (err) {
       //print('Caught error: $err');
@@ -156,6 +162,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       }
       isLoading = true;
       setState(() {});
+
       await feedsListUpdate.load(loadFromWeb, "*", "*");
       feedsList = [];
       for (Category c in categoriesList.tabs) {

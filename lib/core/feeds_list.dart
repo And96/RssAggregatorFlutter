@@ -29,7 +29,29 @@ class FeedsList {
       await settings.init();
       sites = await readSites(siteName, categoryName);
       items = await readFeeds(loadFromWeb);
+      if (loadFromWeb &&
+          items.isNotEmpty &&
+          siteName.length <= 1 &&
+          categoryName.length <= 1) {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('last_update_feeds', DateTime.now().toIso8601String());
+      }
       return true;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return false;
+  }
+
+  bool isUpdateFeedsRequired(String? lastUpdate) {
+    try {
+      if (lastUpdate == null) {
+        return true;
+      }
+      if (Utility().minutesBetween(DateTime.parse(lastUpdate), DateTime.now()) >
+          15) {
+        return true;
+      }
     } catch (err) {
       // print('Caught error: $err');
     }
