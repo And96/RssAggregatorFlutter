@@ -320,7 +320,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                             ? Colors.white
                                             : Colors.black87,
                                         isScrollable:
-                                            true, //categoriesList.tabs.length > 3? true: false,
+                                            categoriesList.tabs.length <= 3 &&
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width <
+                                                        500
+                                                ? false
+                                                : true,
                                         tabs: List.generate(
                                           categoriesList.tabs.length,
                                           (index) => Tab(
