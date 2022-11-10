@@ -118,7 +118,7 @@ class FeedsList {
               }
             }
           } catch (err) {
-            print('Caught error: $err');
+            //print('Caught error: $err');
           }
         }
 
