@@ -50,15 +50,17 @@ class LoadingIndicator extends StatelessWidget {
             width: 300,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(1, 10, 1, 20),
-              child: LinearPercentIndicator(
-                animation: true,
-                progressColor: ThemeColor.dark3,
-                lineHeight: 3.0,
-                animateFromLastPercent: true,
-                animationDuration: 500,
-                percent: progressLoading,
-                barRadius: const Radius.circular(16),
-              ),
+              child: progressLoading == 0
+                  ? null
+                  : LinearPercentIndicator(
+                      animation: true,
+                      progressColor: ThemeColor.dark3,
+                      lineHeight: 3.0,
+                      animateFromLastPercent: true,
+                      animationDuration: 500,
+                      percent: progressLoading,
+                      barRadius: const Radius.circular(16),
+                    ),
             ),
           ),
           SizedBox(

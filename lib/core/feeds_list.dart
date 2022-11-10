@@ -38,18 +38,20 @@ class FeedsList {
       }
       return true;
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
     return false;
   }
 
-  bool isUpdateFeedsRequired(String? lastUpdate) {
+  Future<bool> isUpdateFeedsRequired() async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String? lastUpdate = prefs.getString('last_update_feeds');
       if (lastUpdate == null) {
         return true;
       }
       if (Utility().minutesBetween(DateTime.parse(lastUpdate), DateTime.now()) >
-          15) {
+          5) {
         return true;
       }
     } catch (err) {
@@ -87,22 +89,6 @@ class FeedsList {
       items = [];
       setUpdateItemLoading('');
 
-      //offline
-      if (!loadFromWeb) {
-        progressLoading = 10;
-        for (var i = 0; i < sites.length; i++) {
-          try {
-            progressLoading = (i + 1) / sites.length;
-            await readFeedFromDB(sites[i]).then((value) => items.addAll(value));
-          } catch (err) {
-            //print('Caught error: $err');
-          }
-        }
-        progressLoading = 1;
-        setUpdateItemLoading('');
-        await Future.delayed(const Duration(milliseconds: 100));
-      }
-
       //online
       if (loadFromWeb) {
         int u = 0; //number sites in updating
@@ -116,7 +102,7 @@ class FeedsList {
                 u++;
                 listU.add(sites[i].siteName);
                 setUpdateItemLoading(sites[i].siteName);
-                readFeedsFromWeb(sites[i]).whenComplete(() => {
+                syncFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
                       c++,
                       listU.remove(sites[i].siteName),
@@ -132,7 +118,7 @@ class FeedsList {
               }
             }
           } catch (err) {
-            //print('Caught error: $err');
+            print('Caught error: $err');
           }
         }
 
@@ -149,6 +135,22 @@ class FeedsList {
         }
         setUpdateItemLoading('');
       }
+
+      ////offline
+      //if (!loadFromWeb) {
+      progressLoading = 0;
+      for (var i = 0; i < sites.length; i++) {
+        try {
+          //progressLoading = (i + 1) / sites.length;
+          await readFeedFromDB(sites[i]).then((value) => items.addAll(value));
+        } catch (err) {
+          //print('Caught error: $err');
+        }
+      }
+      //progressLoading = 1;
+      setUpdateItemLoading('');
+      await Future.delayed(const Duration(milliseconds: 50));
+      //}
 
       //remove feeds (older than N days)
       if (settings.settingsDaysLimit > 0) {
@@ -287,7 +289,7 @@ class FeedsList {
     }
   }
 
-  Future<void> readFeedsFromWeb(Site site) async {
+  Future<void> syncFeedsFromWeb(Site site) async {
     /* DateTime t1;*/
     try {
       //print(site.siteName);
@@ -335,13 +337,15 @@ class FeedsList {
         /*print('After delete: ${DateTime.now().difference(t1).inMicroseconds}');
         t1 = DateTime.now();*/
 
-        //filter first items
-        for (Feed f in itemsSite.take(settings.settingsFeedsLimit == 0
-            ? 9999
-            : settings.settingsFeedsLimit)) {
-          items.add(f);
-          await insertDB(f);
-        }
+        //filter first N items
+        itemsSite = itemsSite
+            .take(settings.settingsFeedsLimit == 0
+                ? 9999
+                : settings.settingsFeedsLimit)
+            .toList();
+
+        //save to database
+        await insertDBMultiple(itemsSite);
       }
 
 //DEBUG TIME ***
@@ -372,6 +376,24 @@ class FeedsList {
         feed.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  // Define a function that inserts dogs into the database
+  Future<void> insertDBMultiple(List<Feed> list) async {
+    try {
+      final db = await database;
+      Batch batch = db.batch();
+      for (Feed feed in list) {
+        batch.insert(
+          'feeds',
+          feed.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await batch.commit(noResult: true);
     } catch (err) {
       //print('Caught error: $err');
     }

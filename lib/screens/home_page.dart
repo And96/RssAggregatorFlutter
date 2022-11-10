@@ -107,11 +107,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 await prefs.setBool('first_run_app', true),
                 firstRun = true,
               },
-            if (feedsListUpdate
-                .isUpdateFeedsRequired(prefs.getString('last_update_feeds')))
-              {
-                loadFromWeb = true,
-              },
+            loadFromWeb = await feedsListUpdate.isUpdateFeedsRequired(),
             await categoriesList.load(true),
             await setCategoryColor(),
             setState(() {
