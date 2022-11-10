@@ -67,6 +67,7 @@ class FeedsList {
 
       //offline
       if (!loadFromWeb) {
+        progressLoading = 10;
         for (var i = 0; i < sites.length; i++) {
           try {
             progressLoading = (i + 1) / sites.length;
