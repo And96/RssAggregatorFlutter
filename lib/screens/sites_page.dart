@@ -36,6 +36,7 @@ class _SitesPageState extends State<SitesPage>
   bool isOnAdded = false;
 
   String sort = "category";
+  bool hideFab = false;
 
   //Controller
   TextEditingController searchController = TextEditingController();
@@ -350,6 +351,9 @@ class _SitesPageState extends State<SitesPage>
   }
 
   _showNewDialog(BuildContext context) async {
+    setState(() {
+      hideFab = true;
+    });
     var dialog = SimpleDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,7 +403,9 @@ class _SitesPageState extends State<SitesPage>
         context: context,
         builder: (BuildContext context) {
           return dialog;
-        });
+        }).then((value) => setState(() {
+          hideFab = false;
+        }));
   }
 
   @override
@@ -665,7 +671,7 @@ class _SitesPageState extends State<SitesPage>
                 ),
         ],
       ),
-      floatingActionButton: isLoading
+      floatingActionButton: isLoading || hideFab
           ? null
           : FloatingActionButton.extended(
               icon: const Icon(Icons.add),
