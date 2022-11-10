@@ -29,12 +29,14 @@ class FeedTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         color: darkMode
-            ? ThemeColor.dark1.withAlpha(200)
-            : const Color.fromARGB(255, 240, 240, 240),
+            ? ThemeColor.dark1.withAlpha(50)
+            : const Color.fromARGB(255, 235, 235, 235),
         child: Padding(
             padding:
-                const EdgeInsets.only(left: 3, right: 3, top: 1, bottom: 1),
+                const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
             child: Card(
+                margin:
+                    const EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
                 clipBehavior: Clip.hardEdge,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(

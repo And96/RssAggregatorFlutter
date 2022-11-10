@@ -22,6 +22,8 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 38, 50, 56),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
+        directionColorBegin: Alignment.topRight,
+        directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'FastFeed',
@@ -37,6 +39,8 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 1, 87, 155),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
+        directionColorBegin: Alignment.topRight,
+        directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Scegli siti',
@@ -52,6 +56,8 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 0, 77, 64),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
+        directionColorBegin: Alignment.topRight,
+        directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Funzionalita',
@@ -67,6 +73,8 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 123, 0, 255),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
+        directionColorBegin: Alignment.topRight,
+        directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Personalizzabile',
@@ -82,10 +90,12 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 38, 50, 56),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
+        directionColorBegin: Alignment.topRight,
+        directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Aggregator',
-          description: '\nGratis!\nSenza pubblicita!\nSenza abbonamento!',
+          description: '\nGratis\nSenza pubblicita\nSenza abbonamento',
           icon: Icons.newspaper,
           color: Colors.white,
         ),
@@ -118,7 +128,7 @@ class WelcomePageState extends State<WelcomePage> {
             style: TextStyle(color: Colors.white),
           ),
           renderSkipBtn: const Text(
-            "SALTA",
+            "",
             style: TextStyle(color: Colors.white),
           ),
           indicatorConfig: const IndicatorConfig(
@@ -127,6 +137,7 @@ class WelcomePageState extends State<WelcomePage> {
           ),
           isAutoScroll: false,
           isScrollable: true,
+          isShowPrevBtn: true,
           scrollPhysics: const BouncingScrollPhysics(),
           isLoopAutoScroll: false,
           curveScroll: Curves.easeInCubic,

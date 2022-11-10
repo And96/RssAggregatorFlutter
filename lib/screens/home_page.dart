@@ -260,9 +260,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           return Scaffold(
               appBar: !isOnSearch
                   ? AppBar(
-                      //   elevation: 4,
+                      //elevation: 5,
                       backgroundColor:
-                          darkMode ? ThemeColor.dark1 : colorCategory,
+                          darkMode ? ThemeColor.dark2 : colorCategory,
                       title: const Text("Aggregator"),
                       bottom: categoriesList.tabs.length <= 2
                           ? null
@@ -431,7 +431,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     )
                   : AppBar(
                       backgroundColor:
-                          darkMode ? ThemeColor.dark1 : colorCategory,
+                          darkMode ? ThemeColor.dark2 : colorCategory,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         tooltip: 'Back',
@@ -482,7 +482,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
                                 color: darkMode
-                                    ? Colors.black26
+                                    ? ThemeColor.dark2
                                     : colorCategory), //Theme.of(context).colorScheme.primary),
                             accountName: const Text("Aggregator RSS"),
                             accountEmail: const Text("News Feed Reader"),

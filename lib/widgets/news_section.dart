@@ -195,152 +195,146 @@ class _NewsSectionState extends State<NewsSection>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        widget.isLoading == false
-            ? widget.feedsList.items.isEmpty
-                ? Center(
-                    child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      EmptySection(
-                        title: 'Nessuna notizia presente',
-                        description: 'Aggiungi i tuoi siti da seguire',
-                        icon: Icons.new_label,
-                        darkMode: darkMode,
-                      ),
-                    ],
-                  ))
-                : Padding(
-                    padding: const EdgeInsets.only(
-                        top: 5, left: 1, right: 1, bottom: 0),
-                    child: Scrollbar(
-                        controller: listviewController,
-                        thickness: widget.searchText.isNotEmpty
-                            ? 0
-                            : 8, //hide scrollbar wrong if something is hidden is ok to hide them
-                        child: MediaQuery.of(context).size.width <
-                                MediaQuery.of(context).size.height
-                            ? ListView.builder(
-                                controller: listviewController,
-                                itemCount: widget.feedsList.items.length,
-                                //separatorBuilder: null,
-                                /*separatorBuilder: (context, index) {
-                              return Visibility(
-                                  visible: widget.searchText.isEmpty ||
-                                      Utility().compareSearch([
-                                        widget.feedsList.items[index].title,
-                                        widget.feedsList.items[index].link,
-                                        widget.feedsList.items[index].host
-                                      ], widget.searchText),
-                                  child: const Divider());
-                            },*/
-                                itemBuilder: (BuildContext context, index) {
-                                  final item = widget.feedsList.items[index];
-
-                                  return Visibility(
-                                      visible: widget.searchText.isEmpty ||
-                                          Utility().compareSearch([
-                                            item.title,
-                                            item.link,
-                                            item.host
-                                          ], widget.searchText),
-                                      child: InkWell(
-                                          onTap: () =>
-                                              showOptionDialog(context, item),
-                                          child: FeedTile(
-                                              darkMode: darkMode,
-                                              title: item.title,
-                                              link: item.link,
-                                              host: item.host,
-                                              pubDate: item.pubDate,
-                                              iconUrl: item.iconUrl)));
-                                })
-                            : GridView.builder(
-                                controller: listviewController,
-                                itemCount: widget.feedsList.items.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  final item = widget.feedsList.items[index];
-
-                                  return Visibility(
-                                      visible: widget.searchText.isEmpty ||
-                                          Utility().compareSearch([
-                                            item.title,
-                                            item.link,
-                                            item.host
-                                          ], widget.searchText),
-                                      child: InkWell(
-                                          onTap: () =>
-                                              showOptionDialog(context, item),
-                                          child: FeedTile(
-                                              darkMode: darkMode,
-                                              title: item.title,
-                                              link: item.link,
-                                              host: item.host,
-                                              pubDate: item.pubDate,
-                                              iconUrl: item.iconUrl)));
-                                },
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount:
-                                            MediaQuery.of(context).size.width >
-                                                    800
-                                                ? MediaQuery.of(context)
-                                                            .size
-                                                            .width >
-                                                        1150
-                                                    ? 4
-                                                    : 3
-                                                : 2,
-                                        crossAxisSpacing: 0,
-                                        mainAxisSpacing: 0,
-                                        childAspectRatio: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height <
-                                                1.9
-                                            ? MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .height <
-                                                    1.6
-                                                ? MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height <
-                                                        1.4
-                                                    ? 2.0
-                                                    : 2.0
-                                                : 2.1
-                                            : 2.9),
-                              )),
-                  )
-            : Center(
-                child: Column(
+    return Container(
+      color: darkMode
+          ? ThemeColor.dark1.withAlpha(50)
+          : const Color.fromARGB(255, 235, 235, 235),
+      child: widget.isLoading == false
+          ? widget.feedsList.items.isEmpty
+              ? Center(
+                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    AnimatedOpacity(
-                      opacity: widget.isLoading ? opacityAnimation : 1.0,
-                      duration: const Duration(milliseconds: 500),
-                      child: EmptySection(
-                        title: '...',
-                        description: widget.feedsList.itemLoading,
-                        icon: Icons.query_stats,
-                        darkMode: darkMode,
-                      ),
+                    EmptySection(
+                      title: 'Nessuna notizia presente',
+                      description: 'Aggiungi i tuoi siti da seguire',
+                      icon: Icons.new_label,
+                      darkMode: darkMode,
                     ),
-                    /*Padding(
+                  ],
+                ))
+              : Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5, left: 1, right: 1, bottom: 0),
+                  child: Scrollbar(
+                      controller: listviewController,
+                      thickness: widget.searchText.isNotEmpty
+                          ? 0
+                          : 8, //hide scrollbar wrong if something is hidden is ok to hide them
+                      child: MediaQuery.of(context).size.width <
+                              MediaQuery.of(context).size.height
+                          ? ListView.builder(
+                              controller: listviewController,
+                              itemCount: widget.feedsList.items.length,
+                              //separatorBuilder: null,
+                              /* separatorBuilder: (context, index) {
+                                return Visibility(
+                                    visible: widget.searchText.isEmpty ||
+                                        Utility().compareSearch([
+                                          widget.feedsList.items[index].title,
+                                          widget.feedsList.items[index].link,
+                                          widget.feedsList.items[index].host
+                                        ], widget.searchText),
+                                    child: const Divider());
+                              },*/
+                              itemBuilder: (BuildContext context, index) {
+                                final item = widget.feedsList.items[index];
+
+                                return Visibility(
+                                    visible: widget.searchText.isEmpty ||
+                                        Utility().compareSearch(
+                                            [item.title, item.link, item.host],
+                                            widget.searchText),
+                                    child: InkWell(
+                                        onTap: () =>
+                                            showOptionDialog(context, item),
+                                        child: FeedTile(
+                                            darkMode: darkMode,
+                                            title: item.title,
+                                            link: item.link,
+                                            host: item.host,
+                                            pubDate: item.pubDate,
+                                            iconUrl: item.iconUrl)));
+                              })
+                          : GridView.builder(
+                              controller: listviewController,
+                              itemCount: widget.feedsList.items.length,
+                              itemBuilder: (BuildContext context, index) {
+                                final item = widget.feedsList.items[index];
+
+                                return Visibility(
+                                    visible: widget.searchText.isEmpty ||
+                                        Utility().compareSearch(
+                                            [item.title, item.link, item.host],
+                                            widget.searchText),
+                                    child: InkWell(
+                                        onTap: () =>
+                                            showOptionDialog(context, item),
+                                        child: FeedTile(
+                                            darkMode: darkMode,
+                                            title: item.title,
+                                            link: item.link,
+                                            host: item.host,
+                                            pubDate: item.pubDate,
+                                            iconUrl: item.iconUrl)));
+                              },
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: MediaQuery.of(context)
+                                                  .size
+                                                  .width >
+                                              800
+                                          ? MediaQuery.of(context).size.width >
+                                                  1150
+                                              ? 4
+                                              : 3
+                                          : 2,
+                                      crossAxisSpacing: 0,
+                                      mainAxisSpacing: 0,
+                                      childAspectRatio: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .height <
+                                              1.9
+                                          ? MediaQuery.of(context).size.width /
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .height <
+                                                  1.6
+                                              ? MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .height <
+                                                      1.4
+                                                  ? 2.0
+                                                  : 2.0
+                                              : 2.1
+                                          : 2.9),
+                            )),
+                )
+          : Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  AnimatedOpacity(
+                    opacity: widget.isLoading ? opacityAnimation : 1.0,
+                    duration: const Duration(milliseconds: 500),
+                    child: EmptySection(
+                      title: '...',
+                      description: widget.feedsList.itemLoading,
+                      icon: Icons.query_stats,
+                      darkMode: darkMode,
+                    ),
+                  ),
+                  /*Padding(
                       padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
                       child: LinearPercentIndicator(
                         animation: true,
@@ -352,10 +346,9 @@ class _NewsSectionState extends State<NewsSection>
                         barRadius: const Radius.circular(16),
                       ),
                     ),*/
-                  ],
-                ),
+                ],
               ),
-      ],
+            ),
     );
   }
 }
