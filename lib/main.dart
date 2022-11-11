@@ -109,6 +109,16 @@ class MyAppState extends State<MyApp> {
                 seedColor: _themePrimaryColor!, brightness: Brightness.dark),
             brightness: Brightness.dark,
             listTileTheme: ListTileThemeData(tileColor: ThemeColor.dark2),
+            checkboxTheme: CheckboxThemeData(
+              fillColor: MaterialStateColor.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return Colors.blueGrey;
+                  }
+                  return Colors.white;
+                },
+              ),
+            ),
             dividerTheme: DividerThemeData(
               color: ThemeColor.dark3,
             ),

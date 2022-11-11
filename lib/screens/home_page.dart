@@ -59,6 +59,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   //Controller
   TextEditingController searchController = TextEditingController();
 
+  int _selectedIndex = 0;
+
+  //Theme
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
@@ -500,7 +510,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           ListTile(
                             leading: const Icon(
-                              Icons.newspaper,
+                              Icons.notes_sharp,
                             ),
                             title: const Text("Read News"),
                             onTap: () {
@@ -508,7 +518,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.library_books),
+                            leading: const Icon(Icons.link),
                             title: const Text("Manage Sites"),
                             onTap: () {
                               Navigator.of(context)
@@ -518,7 +528,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.sell),
+                            leading: const Icon(Icons.sell_outlined),
                             title: const Text("Categories"),
                             onTap: () {
                               Navigator.of(context)
@@ -529,7 +539,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.watch_later),
+                            leading: const Icon(Icons.watch_later_outlined),
                             title: const Text("Read Later"),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -537,7 +547,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.star),
+                            leading: const Icon(Icons.favorite_outline),
                             title: const Text("Favourites"),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -689,7 +699,45 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         // _displayTextInputDialog(context, null);
                       },
                     ),*/
-
+              bottomNavigationBar: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.notes_sharp), //line_style
+                    label: 'News',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite),
+                    label: 'Favourites',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.watch_later),
+                    label: 'Read Later',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.explore),
+                    label: 'Discover',
+                  ),
+                ],
+                //elevation: 8,
+                currentIndex: _selectedIndex,
+                backgroundColor: Theme.of(context).brightness == Brightness.dark
+                    ? ThemeColor.dark2
+                    : Colors.white,
+                selectedItemColor:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey[100]
+                        : Colors.blueGrey[800],
+                unselectedItemColor:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.blueGrey[200]
+                        : Colors.blueGrey[600],
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                selectedLabelStyle:
+                    const TextStyle(fontWeight: FontWeight.bold),
+                type: BottomNavigationBarType.fixed, // Fixed
+                onTap: _onItemTapped,
+              ),
               body: isLoading
                   ? Container(
                       alignment: Alignment.center,
