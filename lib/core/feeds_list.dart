@@ -122,6 +122,8 @@ class FeedsList {
           }
         }
 
+        //print("fine sync web");
+
         //wait that all fees are loaded, because readFeedsFromWeb is async but not waited
         while (u != 0) {
           try {
@@ -155,7 +157,7 @@ class FeedsList {
       //remove feeds (older than N days)
       if (settings.settingsDaysLimit > 0) {
         items.removeWhere((e) =>
-            (Utility().daysBetween(e.pubDate!, DateTime.now()) >
+            (Utility().daysBetween(e.pubDate, DateTime.now()) >
                 settings.settingsDaysLimit));
       }
 
@@ -181,7 +183,7 @@ class FeedsList {
       }
 
       //sort
-      items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+      items.sort((a, b) => b.pubDate.compareTo(a.pubDate));
 
       return items;
     } catch (err) {
@@ -264,7 +266,9 @@ class FeedsList {
                     ? element.id.toString().trim()
                     : element.links!.first.href.toString().trim(),
                 iconUrl: iconUrl.toString(),
-                pubDate: Utility().tryParse(element.published.toString()),
+                pubDate: Utility().tryParse(element.published == null
+                    ? element.updated.toString()
+                    : element.published.toString()),
                 host: hostname);
             itemsSite.add(feed);
           }
@@ -292,7 +296,7 @@ class FeedsList {
   Future<void> syncFeedsFromWeb(Site site) async {
     /* DateTime t1;*/
     try {
-      //print(site.siteName);
+      //print(site.siteLink);
 
       /*//DEBUG TIME ***
       t1 = DateTime.now();
@@ -323,7 +327,7 @@ class FeedsList {
         t1 = DateTime.now();*/
 
         //sort
-        itemsSite.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+        itemsSite.sort((a, b) => b.pubDate.compareTo(a.pubDate));
 
 //DEBUG TIME ***
 
@@ -352,6 +356,7 @@ class FeedsList {
 
       /* print('After insert db: ${DateTime.now().difference(t1).inMicroseconds}');
       t1 = DateTime.now();*/
+
     } catch (err) {
       //print('Caught error: $err');
     }
