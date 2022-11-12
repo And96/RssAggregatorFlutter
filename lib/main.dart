@@ -18,6 +18,7 @@ Future<void> main() async {
       'settings_network_simultaneous': 10,
       'settings_days_limit': 90,
       'settings_feeds_limit': 20,
+      'settings_refresh_after': 60,
       'settings_load_images': true,
       'settings_blacklist_parental': true,
       'settings_blacklist_custom': '',

@@ -122,7 +122,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                       index,
                     ) {
                       return Card(
-                        elevation: 2.0,
+                        elevation: 0.0,
                         //color: Color(recommendedList.items[index].color),
                         //color: Color.fromARGB(255, 236, 236, 236),
                         color: Color(recommendedList.items[index].color),

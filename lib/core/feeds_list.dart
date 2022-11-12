@@ -45,14 +45,24 @@ class FeedsList {
 
   Future<bool> isUpdateFeedsRequired() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      String? lastUpdate = prefs.getString('last_update_feeds');
-      if (lastUpdate == null) {
-        return true;
-      }
-      if (Utility().minutesBetween(DateTime.parse(lastUpdate), DateTime.now()) >
-          5) {
-        return true;
+      await settings.init();
+      if (settings.settingsRefreshAfter >= 0) {
+        //Force refresh is time is passed after parameter
+        final prefs = await SharedPreferences.getInstance();
+        String? lastUpdate = prefs.getString('last_update_feeds');
+        if (lastUpdate == null) {
+          return true;
+        }
+        if (settings.settingsRefreshAfter == 0 ||
+            Utility().minutesBetween(
+                    DateTime.parse(lastUpdate), DateTime.now()) >
+                settings.settingsRefreshAfter) {
+          return true;
+        }
+        //force refresh if no site is loaded
+        if (await countFeedFromDB() == 0) {
+          return true;
+        }
       }
     } catch (err) {
       // print('Caught error: $err');
@@ -404,7 +414,6 @@ class FeedsList {
     }
   }
 
-  // A method that retrieves all the dogs from the dogs table.
   Future<List<Feed>> readFeedFromDB(Site site) async {
     List<Feed> list = [];
     try {
@@ -416,6 +425,18 @@ class FeedsList {
       //print('Caught error: $err');
     }
     return list;
+  }
+
+  Future<int> countFeedFromDB() async {
+    try {
+      final db = await database;
+      return Sqflite.firstIntValue(
+              await db.rawQuery('SELECT COUNT(*) FROM feeds')) ??
+          0;
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    return 0;
   }
 
   Future<void> updateDB(Feed feed) async {

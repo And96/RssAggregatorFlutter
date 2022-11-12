@@ -105,6 +105,23 @@ class SettingsPageState extends State<SettingsPage> {
                 DropdownMenuItem(value: 0, child: Text('All')),
               ],
             ),
+          if (_selectedIndex == 0)
+            const PrefDropdown<int>(
+              title: Text('Refresh on start'),
+              pref: 'settings_refresh_after',
+              subtitle: Text('Auto refresh on start after a specific time'),
+              fullWidth: false,
+              items: [
+                DropdownMenuItem(value: 0, child: Text('Always')),
+                DropdownMenuItem(value: 10, child: Text('10 minutes')),
+                DropdownMenuItem(value: 30, child: Text('30 minutes')),
+                DropdownMenuItem(value: 60, child: Text('1 hour')),
+                DropdownMenuItem(value: 240, child: Text('4 hours')),
+                DropdownMenuItem(value: 720, child: Text('12 hours')),
+                DropdownMenuItem(value: 1440, child: Text('24 hours')),
+                DropdownMenuItem(value: -1, child: Text('Never')),
+              ],
+            ),
           if (_selectedIndex == 1)
             const PrefTitle(
               title: Text('Network'),

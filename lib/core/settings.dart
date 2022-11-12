@@ -5,8 +5,9 @@ class Settings {
   int settingsNetworkTimeout = 0;
   int settingsNetworkDelay = 0;
   int settingsNetworkSimultaneous = 0;
-  int settingsFeedsLimit = 0;
-  int settingsDaysLimit = 0;
+  int settingsFeedsLimit = 20;
+  int settingsRefreshAfter = 60;
+  int settingsDaysLimit = 90;
   bool settingsLoadImages = true;
   bool settingsBlacklistParental = true;
   String settingsBlacklistCustom = '';
@@ -22,6 +23,7 @@ class Settings {
       settingsNetworkSimultaneous =
           (prefs.getInt('settings_network_simultaneous'))!;
       settingsFeedsLimit = (prefs.getInt('settings_feeds_limit'))!;
+      settingsRefreshAfter = (prefs.getInt('settings_refresh_after'))!;
       settingsDaysLimit = (prefs.getInt('settings_days_limit'))!;
       settingsLoadImages = (prefs.getBool('settings_load_images'))!;
       settingsBlacklistParental =
