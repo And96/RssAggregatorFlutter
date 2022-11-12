@@ -62,7 +62,7 @@ class ReadlaterList {
       late List<Feed> list =
           List<Feed>.from(jsonData.map((model) => Feed.fromJson(model)));
       //sort
-      list.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+      list.sort((a, b) => b.pubDate.compareTo(a.pubDate));
       return list;
     } catch (err) {
       // print('Caught error: $err');

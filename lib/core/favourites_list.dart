@@ -62,7 +62,7 @@ class FavouritesList {
       late List<Feed> list =
           List<Feed>.from(jsonData.map((model) => Feed.fromMap(model)));
       //sort
-      items.sort((a, b) => b.pubDate!.compareTo(a.pubDate!));
+      items.sort((a, b) => b.pubDate.compareTo(a.pubDate));
       return list;
     } catch (err) {
       // print('Caught error: $err');

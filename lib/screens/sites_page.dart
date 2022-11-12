@@ -335,12 +335,15 @@ class _SitesPageState extends State<SitesPage>
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
         if (siteAgg.isNotEmpty) {
-          sleep(const Duration(milliseconds: 200));
+          sleep(const Duration(milliseconds: 300));
           setState(() {
             sitesList.load('name').then((value) => {
-                  isOnSearch = false,
-                  isOnAdded = true,
-                  searchController.text = siteAgg.join(';')
+                  if (sitesList.items.length > 1)
+                    {
+                      isOnSearch = false,
+                      isOnAdded = true,
+                      searchController.text = siteAgg.join(';')
+                    }
                 });
           });
         }

@@ -8,6 +8,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class Utility {
@@ -158,17 +160,136 @@ class Utility {
   }
 
   DateTime tryParse(String dateString) {
+    DateTime now = DateTime.now().toUtc();
+    DateTime defaultDate = DateTime.utc(now.year, now.month, now.day);
+    bool ok = false;
     try {
-      print(dateString);
+      DateTime dataOra = DateTime.utc(now.year, now.month, now.day);
 
-      DateTime dateLocal = DateTime.parse(dateString).toLocal();
-      if (dateLocal.isAfter(DateTime.now())) {
-        return DateTime.now();
+      if (dateString.toLowerCase().trim() == "null") {
+        return defaultDate;
       }
-      return dateLocal;
-    } on FormatException {
-      DateTime now = DateTime.now();
-      return DateTime(now.year, now.month, now.day).toLocal();
+
+      //TEST 1 DATA NORMALE
+      //print(DateTime.parse('2020-01-02')); // 2020-01-02 00:00:00.000
+      //print(DateTime.parse('20200102')); // 2020-01-02 00:00:00.000
+      //print(DateTime.parse('-12345-03-04')); // -12345-03-04 00:00:00.000
+      //print(DateTime.parse('2020-01-02 07')); // 2020-01-02 07:00:00.000
+      //print(DateTime.parse('2020-01-02T07')); // 2020-01-02 07:00:00.000
+      //print(DateTime.parse('2020-01-02T07:12')); // 2020-01-02 07:12:00.000
+      //print(DateTime.parse('2020-01-02T07:12:50')); // 2020-01-02 07:12:50.000
+      //print(DateTime.parse('2020-01-02T07:12:50Z')); // 2020-01-02 07:12:50.000Z
+      //print(DateTime.parse('2020-01-02T07:12:50+07')); // 2020-01-02 00:12:50.000Z
+      //print(DateTime.parse('2020-01-02T07:12:50+0700')); // 2020-01-02 00:12:50.00
+      //print(DateTime.parse('2020-01-02T07:12:50+07:00')); // 2020-01-02 00:12:50.00
+      if (ok == false) {
+        try {
+          dataOra = DateTime.tryParse(dateString)!.toUtc();
+          ok = true;
+        } catch (err) {
+          //
+        }
+      }
+
+      //TEST 2 FORMATO HTTP
+      //Wed, 28 Oct 2020 01:02:03 GMT
+      //Wednesday, 28-Oct-2020 01:02:03 GMT
+      //Wed Oct 28 01:02:03 2020
+      if (ok == false) {
+        try {
+          dataOra = HttpDate.parse(dateString).toUtc();
+          ok = true;
+        } catch (err) {
+          //
+        }
+      }
+
+      //TEST 3 DATEFORMAT
+      //Sat, 12 Nov 2022 12:00:00 +0200
+      if (ok == false) {
+        try {
+          DateTime dataOraSenzaTimeZome =
+              DateFormat('EEE, dd MMM yyyy HH:mm:ss').parse(dateString);
+          if (dateString.contains("+") || dateString.contains("-")) {
+            final regex = RegExp(r'([\+\-])([0-9]{2}):{0,1}([0-9]{2})');
+            final match = regex.firstMatch(dateString);
+            if (match != null && match.groupCount >= 1) {
+              int sign = match.group(1).toString() == "-" ? 1 : -1;
+              int hoursTimeZone = int.parse(match.group(2).toString());
+              int minutesTimeZone = int.parse(match.group(3).toString());
+              dataOra = DateTime.utc(
+                  dataOraSenzaTimeZome.year,
+                  dataOraSenzaTimeZome.month,
+                  dataOraSenzaTimeZome.day,
+                  dataOraSenzaTimeZome.hour + (hoursTimeZone * sign),
+                  dataOraSenzaTimeZome.minute + (minutesTimeZone * sign),
+                  dataOraSenzaTimeZome.second);
+            }
+            ok = true;
+          }
+        } catch (err) {
+          //
+        }
+      }
+
+      //TEST 4 WEBFEED + CASO SKY (say GMT, but no gmt, it's italian. dont lose time, it's italian only. time is ok)
+      //sab, 12 nov 2022 13:40:00 GMT
+      if (ok == false) {
+        try {
+          dateString = dateString
+              .toLowerCase()
+              .replaceAll("lun", "Mon")
+              .replaceAll("mar", "Tue")
+              .replaceAll("mer", "Wed")
+              .replaceAll("gio", "Thu")
+              .replaceAll("ven", "Fri")
+              .replaceAll("sab", "Sat")
+              .replaceAll("dom", "Sun")
+              .replaceAll("gen", "Jan")
+              .replaceAll("feb", "Feb")
+              .replaceAll("mar", "Mar")
+              .replaceAll("apr", "Apr")
+              .replaceAll("mag", "May")
+              .replaceAll("giu", "Jun")
+              .replaceAll("lug", "Jul")
+              .replaceAll("ago", "Ago")
+              .replaceAll("set", "Sep")
+              .replaceAll("ott", "Oct")
+              .replaceAll("nov", "Nov")
+              .replaceAll("dic", "Dec");
+          const rfc822DatePattern = 'EEE, dd MMM yyyy HH:mm:ss Z';
+          final num length =
+              dateString.length.clamp(0, rfc822DatePattern.length);
+          final trimmedPattern = rfc822DatePattern.substring(
+              0,
+              length
+                  as int?); //Some feeds use a shortened RFC 822 date, e.g. 'Tue, 04 Aug 2020'
+          final format = DateFormat(trimmedPattern, 'en_US');
+          dataOra = format.parse(dateString);
+          ok = true;
+        } catch (err) {
+          //
+        }
+      }
+
+      /*if (ok = false) {
+        print("errore conversione data");
+        print(dateString);
+      }*/
+
+      //wrong date future, back to midnight
+      //Corriere dello sport return Sat, 12 Nov 2022 15:09:42 GMT while it's 14.10 ???
+      //Sky dont respect GMT too 99% are ok
+      if (dataOra.isAfter(DateTime.now().toUtc())) {
+        /* print("data futura");
+        print(dateString);
+        print(dataOra);*/
+        return defaultDate;
+      }
+      return dataOra;
+    } catch (err) {
+      return defaultDate;
+      //return DateTime(now.year, now.month, now.day).toLocal();
     }
   }
 

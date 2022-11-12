@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 // ignore: depend_on_referenced_packages
@@ -19,7 +18,7 @@ class FeedTile extends StatelessWidget {
   });
 
   final String title;
-  final DateTime? pubDate;
+  final DateTime pubDate;
   final String link;
   final String host;
   final String iconUrl;
@@ -89,9 +88,9 @@ class FeedTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          (DateFormat('dd/MM/yy HH:mm').format(Utility()
-                              .tryParse(pubDate.toString())
-                              .toLocal())),
+                          DateFormat('dd/MM/yy HH:mm').format(
+                            pubDate.toLocal(),
+                          ),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.normal,

@@ -272,13 +272,10 @@ class _FavouritesPageState extends State<FavouritesPage>
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    (DateFormat(
-                                                            'dd/MM/yyyy HH:mm')
-                                                        .format(Utility()
-                                                            .tryParse(item
-                                                                .pubDate
-                                                                .toString())
-                                                            .toLocal())),
+                                                    DateFormat('dd/MM/yy HH:mm')
+                                                        .format(
+                                                      item.pubDate.toLocal(),
+                                                    ),
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:

@@ -3,7 +3,7 @@ import 'package:rss_aggregator_flutter/core/utility.dart';
 class Feed {
   var link = "";
   var title = "";
-  DateTime? pubDate;
+  DateTime pubDate;
   var iconUrl = "";
   var host = "";
   Feed(
