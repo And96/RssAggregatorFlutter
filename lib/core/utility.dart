@@ -157,9 +157,11 @@ class Utility {
     return 0;
   }
 
-  DateTime tryParse(String formattedString) {
+  DateTime tryParse(String dateString) {
     try {
-      DateTime dateLocal = DateTime.parse(formattedString).toLocal();
+      print(dateString);
+
+      DateTime dateLocal = DateTime.parse(dateString).toLocal();
       if (dateLocal.isAfter(DateTime.now())) {
         return DateTime.now();
       }
