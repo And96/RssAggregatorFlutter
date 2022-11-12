@@ -32,46 +32,47 @@ class LoadingIndicator extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.normal,
-                color: darkMode ? ThemeColor.light3 : ThemeColor.dark3,
+          if (progressLoading != 0)
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: darkMode ? ThemeColor.light3 : ThemeColor.dark3,
+                ),
               ),
             ),
-          ),
           const SizedBox(
             height: 15,
           ),
-          SizedBox(
-            width: 300,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(1, 10, 1, 20),
-              child: progressLoading == 0
-                  ? null
-                  : LinearPercentIndicator(
-                      animation: true,
-                      progressColor: ThemeColor.dark3,
-                      lineHeight: 3.0,
-                      animateFromLastPercent: true,
-                      animationDuration: 500,
-                      percent: progressLoading,
-                      barRadius: const Radius.circular(16),
-                    ),
+          if (progressLoading != 0)
+            SizedBox(
+              width: 300,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(1, 10, 1, 20),
+                child: LinearPercentIndicator(
+                  animation: true,
+                  progressColor: ThemeColor.dark3,
+                  lineHeight: 3.0,
+                  animateFromLastPercent: true,
+                  animationDuration: 500,
+                  percent: progressLoading,
+                  barRadius: const Radius.circular(16),
+                ),
+              ),
             ),
-          ),
-          SizedBox(
-              width: double.infinity,
-              child: Text(description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: darkMode ? ThemeColor.light4 : ThemeColor.dark4,
-                  ))),
+          if (progressLoading != 0)
+            SizedBox(
+                width: double.infinity,
+                child: Text(description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: darkMode ? ThemeColor.light4 : ThemeColor.dark4,
+                    ))),
         ],
       ),
     );

@@ -95,7 +95,7 @@ class FeedsList {
 
   Future<List<Feed>> readFeeds(bool loadFromWeb) async {
     try {
-      progressLoading = 0;
+      progressLoading = 0.001;
       items = [];
       setUpdateItemLoading('');
 
@@ -117,7 +117,7 @@ class FeedsList {
                       c++,
                       listU.remove(sites[i].siteName),
                       progressLoading = Utility().round(c / sites.length, 2),
-                      if (progressLoading == 0) {progressLoading = 0.05},
+                      if (progressLoading <= 0.05) {progressLoading = 0.05},
                       if (progressLoading > 0.90) {progressLoading = 1},
                       setUpdateItemLoading(null)
                     });
@@ -147,10 +147,18 @@ class FeedsList {
         }
         setUpdateItemLoading('');
       }
+      if (loadFromWeb) {
+        progressLoading = 1;
+        setUpdateItemLoading('');
+        await Future.delayed(const Duration(milliseconds: 300));
+      }
 
-      ////offline
-      //if (!loadFromWeb) {
-      progressLoading = 0;
+      //reset if offline
+      if (!loadFromWeb) {
+        progressLoading = 0;
+      }
+
+      //reload both online both offline
       for (var i = 0; i < sites.length; i++) {
         try {
           //progressLoading = (i + 1) / sites.length;
@@ -159,9 +167,7 @@ class FeedsList {
           //print('Caught error: $err');
         }
       }
-      //progressLoading = 1;
-      setUpdateItemLoading('');
-      await Future.delayed(const Duration(milliseconds: 50));
+
       //}
 
       //remove feeds (older than N days)
@@ -344,7 +350,7 @@ class FeedsList {
         /*print('After sort: ${DateTime.now().difference(t1).inMicroseconds}');
         t1 = DateTime.now();*/
 
-        deleteDB(site.siteName);
+        await deleteDB(site.siteName);
 
 //DEBUG TIME ***
 
