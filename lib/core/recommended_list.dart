@@ -240,7 +240,7 @@ class RecommendedList {
 			"siteLink": "http://turbolab.it",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=turbolab.it"
 		}, {
-			"siteName": "hdblog.it/",
+			"siteName": "hdblog.it",
 			"siteLink": "https://www.hdblog.it/feed",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hdblog.it/"
 		}, {

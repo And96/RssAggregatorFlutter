@@ -549,8 +549,32 @@ class _SitesPageState extends State<SitesPage>
                                   searchController.text),
                           child: InkWell(
                             child: ListTile(
-                                minLeadingWidth: 30,
-                                leading: SiteLogo(iconUrl: item.iconUrl),
+                                minLeadingWidth: 45,
+                                leading: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    CircleAvatar(
+                                        backgroundColor: Color(categoriesList
+                                                .getColor(item.category))
+                                            .withAlpha(60),
+                                        child: ClipOval(
+                                            child: SiteLogo(
+                                                iconUrl: item.iconUrl))),
+                                    Positioned(
+                                        top: 25,
+                                        left: 25,
+                                        child: CircleAvatar(
+                                            radius: 9,
+                                            backgroundColor: Color(
+                                                categoriesList
+                                                    .getColor(item.category)),
+                                            child: const Icon(
+                                              Icons.newspaper,
+                                              size: 12,
+                                              color: Colors.white,
+                                            ))),
+                                  ],
+                                ),
                                 title: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -560,13 +584,13 @@ class _SitesPageState extends State<SitesPage>
                                         padding: const EdgeInsets.only(top: 0),
                                         child: Text(
                                           (item.siteName.toString()),
-                                          /*style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                          color: darkMode
-                                              ? ThemeColor.light1
-                                              : ThemeColor.dark1,
-                                        ),*/
+                                          style: TextStyle(
+                                            // fontSize: 16,
+                                            //fontWeight: FontWeight.normal,
+                                            color: darkMode
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
                                       if (item.category.trim() != "")
@@ -626,7 +650,7 @@ class _SitesPageState extends State<SitesPage>
                                         SizedBox(
                                           child: Text(
                                             item.siteLink.toString(),
-                                            maxLines: 3,
+                                            maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                             /*style: TextStyle(
                                             fontSize: 14,

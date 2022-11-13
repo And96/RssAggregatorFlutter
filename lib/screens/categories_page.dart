@@ -373,13 +373,31 @@ class _CategoriesPageState extends State<CategoriesPage>
                         final item = categoriesList.items[index];
                         return InkWell(
                           child: ListTile(
-                            minLeadingWidth: 30,
-                            leading: SizedBox(
-                              height: double.infinity,
-                              width: 17,
-                              child: item.color.toString().trim() == ""
-                                  ? const Icon(Icons.sell)
-                                  : Icon(Icons.sell, color: Color(item.color)),
+                            minLeadingWidth: 50,
+                            leading: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                CircleAvatar(
+                                    backgroundColor:
+                                        Color(item.color).withAlpha(60),
+                                    child: ClipOval(
+                                        child:
+                                            item.color.toString().trim() == ""
+                                                ? const Icon(Icons.sell)
+                                                : Icon(Icons.sell,
+                                                    color: Color(item.color)))),
+                                /*Positioned(
+                                    top: 25,
+                                    left: 25,
+                                    child: CircleAvatar(
+                                        radius: 10,
+                                        backgroundColor: Color(item.color),
+                                        child: const Icon(
+                                          Icons.label,
+                                          size: 13,
+                                          color: Colors.white,
+                                        ))),*/
+                              ],
                             ),
                             title: Padding(
                               padding: const EdgeInsets.only(top: 0),
