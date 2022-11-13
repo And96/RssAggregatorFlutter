@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 
 bool darkMode = false;
 
@@ -55,8 +55,8 @@ class FeedTile extends StatelessWidget {
                 ListTile(
                   /* contentPadding:    const EdgeInsets.all(5),*/
                   minLeadingWidth: 25,
-                  leading: Padding(
-                    padding: const EdgeInsets.only(top: 0),
+                  leading: SizedBox(
+                    height: double.infinity,
                     child: SiteLogo(
                       iconUrl: iconUrl,
                     ),

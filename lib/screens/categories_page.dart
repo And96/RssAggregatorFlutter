@@ -8,7 +8,7 @@ import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_awesome_select/flutter_awesome_select.dart';
-import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo_big.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -229,8 +229,10 @@ class _CategoriesPageState extends State<CategoriesPage>
               meta: (index, item) => item.iconUrl,
               //group: (index, item) => item.category,
             ),
-            choiceSecondaryBuilder: (context, state, choice) =>
-                SiteLogo(iconUrl: choice.meta),
+            choiceSecondaryBuilder: (context, state, choice) => SiteLogoBig(
+                  iconUrl: choice.meta,
+                  color: Colors.white,
+                ),
             onChange: (selected) async {
               Navigator.pop(context);
               SnackBar snackBar;

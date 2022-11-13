@@ -6,7 +6,7 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
-import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo_big.dart';
 
 class RecommendedSitesPage extends StatefulWidget {
   const RecommendedSitesPage(
@@ -121,7 +121,10 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                             return InkWell(
                               child: ListTile(
                                   minLeadingWidth: 30,
-                                  leading: SiteLogo(iconUrl: item.iconUrl),
+                                  leading: SiteLogoBig(
+                                      iconUrl: item.iconUrl,
+                                      color: Color(
+                                          recommendedList.items[0].color)),
                                   title: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

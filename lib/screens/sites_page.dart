@@ -9,7 +9,7 @@ import 'package:rss_aggregator_flutter/screens/recommended_categories_page.dart'
 import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo_big.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
@@ -550,30 +550,10 @@ class _SitesPageState extends State<SitesPage>
                           child: InkWell(
                             child: ListTile(
                                 minLeadingWidth: 45,
-                                leading: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    CircleAvatar(
-                                        backgroundColor: Color(categoriesList
-                                                .getColor(item.category))
-                                            .withAlpha(60),
-                                        child: ClipOval(
-                                            child: SiteLogo(
-                                                iconUrl: item.iconUrl))),
-                                    Positioned(
-                                        top: 25,
-                                        left: 25,
-                                        child: CircleAvatar(
-                                            radius: 9,
-                                            backgroundColor: Color(
-                                                categoriesList
-                                                    .getColor(item.category)),
-                                            child: const Icon(
-                                              Icons.newspaper,
-                                              size: 12,
-                                              color: Colors.white,
-                                            ))),
-                                  ],
+                                leading: SiteLogoBig(
+                                  iconUrl: item.iconUrl,
+                                  color: Color(
+                                      categoriesList.getColor(item.category)),
                                 ),
                                 title: Row(
                                     mainAxisAlignment:
