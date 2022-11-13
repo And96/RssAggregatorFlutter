@@ -738,7 +738,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         selectedItemColor:
                             Theme.of(context).brightness == Brightness.dark
                                 ? Colors.grey[100]
-                                : Colors.blueGrey[800],
+                                : colorCategory,
                         unselectedItemColor:
                             Theme.of(context).brightness == Brightness.dark
                                 ? Colors.blueGrey[200]
@@ -822,6 +822,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   feedsList: isLoading
                                       ? feedsListUpdate
                                       : feedsList[index],
+                                  colorCategory: colorCategory,
                                   isLoading: isLoading,
                                 ),
                               ))));

@@ -16,12 +16,14 @@ class NewsSection extends StatefulWidget {
   final bool isLoading;
   final FeedsList feedsList;
   final String searchText;
-  const NewsSection(
-      {Key? key,
-      required this.isLoading,
-      required this.feedsList,
-      required this.searchText})
-      : super(key: key);
+  final Color colorCategory;
+  const NewsSection({
+    Key? key,
+    required this.isLoading,
+    required this.feedsList,
+    required this.searchText,
+    required this.colorCategory,
+  }) : super(key: key);
 
   @override
   State<NewsSection> createState() => _NewsSectionState();
@@ -198,7 +200,8 @@ class _NewsSectionState extends State<NewsSection>
     return Container(
       color: darkMode
           ? ThemeColor.dark1.withAlpha(90)
-          : const Color.fromARGB(255, 235, 235, 235),
+          : widget.colorCategory
+              .withAlpha(40), //const Color.fromARGB(255, 235, 235, 235),xx
       child: widget.isLoading == false
           ? widget.feedsList.items.isEmpty
               ? Center(
