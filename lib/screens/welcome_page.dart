@@ -22,7 +22,7 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 38, 50, 56),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topRight,
+        directionColorBegin: Alignment.topCenter,
         directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
@@ -37,9 +37,9 @@ class WelcomePageState extends State<WelcomePage> {
 
     listContentConfig.add(
       const ContentConfig(
-        colorBegin: Color.fromARGB(255, 1, 87, 155),
+        colorBegin: Color.fromARGB(255, 35, 79, 255),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topRight,
+        directionColorBegin: Alignment.topCenter,
         directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
@@ -56,7 +56,7 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 0, 77, 64),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topRight,
+        directionColorBegin: Alignment.topCenter,
         directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
@@ -73,7 +73,7 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 123, 0, 255),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topRight,
+        directionColorBegin: Alignment.topCenter,
         directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
@@ -90,7 +90,7 @@ class WelcomePageState extends State<WelcomePage> {
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 38, 50, 56),
         colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topRight,
+        directionColorBegin: Alignment.topCenter,
         directionColorEnd: Alignment.bottomCenter,
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
