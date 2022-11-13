@@ -151,7 +151,7 @@ class _NewsSectionState extends State<NewsSection>
           },
         ),
         ListTile(
-          leading: const Icon(Icons.star_border),
+          leading: const Icon(Icons.favorite_border),
           title: const Text('Add to favourites'),
           onTap: () {
             favouritesList.add(item);
@@ -210,7 +210,7 @@ class _NewsSectionState extends State<NewsSection>
                     EmptySection(
                       title: 'Nessuna notizia presente',
                       description: 'Aggiungi i tuoi siti da seguire',
-                      icon: Icons.new_label,
+                      icon: Icons.space_dashboard,
                       darkMode: darkMode,
                     ),
                   ],

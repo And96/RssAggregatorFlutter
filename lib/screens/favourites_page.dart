@@ -211,7 +211,7 @@ class _FavouritesPageState extends State<FavouritesPage>
                           EmptySection(
                             title: 'Nessuna notizia presente',
                             description: 'Aggiungi i tuoi siti da seguire',
-                            icon: Icons.star,
+                            icon: Icons.favorite,
                             darkMode: darkMode,
                           ),
                         ],

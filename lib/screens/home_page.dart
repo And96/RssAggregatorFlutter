@@ -7,6 +7,7 @@ import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
+import 'package:rss_aggregator_flutter/screens/discover_page.dart';
 import 'package:rss_aggregator_flutter/screens/favourites_page.dart';
 import 'package:rss_aggregator_flutter/screens/readlater_page.dart';
 //import 'package:rss_aggregator_flutter/screens/sites_page.dart';
@@ -63,9 +64,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   //Theme
 
-  void _onItemTapped(int index) {
+  void _onBottomItemTap(int index) {
+    switch (index) {
+      case 1:
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ReadlaterPage()));
+        break;
+      case 2:
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const FavouritesPage()));
+        break;
+      case 3:
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const DiscoverPage()));
+        break;
+    }
+    //in homepage there is only newspage
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = 0;
     });
   }
 
@@ -517,6 +533,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               Navigator.pop(context);
                             },
                           ),
+                          const Divider(),
                           ListTile(
                             leading: const Icon(Icons.link),
                             title: const Text("Manage Sites"),
@@ -536,23 +553,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       builder: (context) =>
                                           const CategoriesPage()))
                                   .then((value) => Phoenix.rebirth(context));
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.watch_later_outlined),
-                            title: const Text("Read Later"),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const ReadlaterPage()));
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.favorite_outline),
-                            title: const Text("Favourites"),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FavouritesPage()));
                             },
                           ),
                           const Divider(),
@@ -699,45 +699,57 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         // _displayTextInputDialog(context, null);
                       },
                     ),*/
-              bottomNavigationBar: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.notes_sharp), //line_style
-                    label: 'News',
+              bottomNavigationBar: Container(
+                  height: 58,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(color: Colors.black26, blurRadius: 10.0),
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite),
-                    label: 'Favourites',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.watch_later),
-                    label: 'Read Later',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.explore),
-                    label: 'Discover',
-                  ),
-                ],
-                //elevation: 8,
-                currentIndex: _selectedIndex,
-                backgroundColor: Theme.of(context).brightness == Brightness.dark
-                    ? ThemeColor.dark2
-                    : Colors.white,
-                selectedItemColor:
-                    Theme.of(context).brightness == Brightness.dark
-                        ? Colors.grey[100]
-                        : Colors.blueGrey[800],
-                unselectedItemColor:
-                    Theme.of(context).brightness == Brightness.dark
-                        ? Colors.blueGrey[200]
-                        : Colors.blueGrey[600],
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                selectedLabelStyle:
-                    const TextStyle(fontWeight: FontWeight.bold),
-                type: BottomNavigationBarType.fixed, // Fixed
-                onTap: _onItemTapped,
-              ),
+                  child: Material(
+                      elevation: 8,
+                      color: darkMode ? Colors.black26 : Colors.white,
+                      child: BottomNavigationBar(
+                        items: const <BottomNavigationBarItem>[
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.notes_sharp), //line_style
+                            label: 'News',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.watch_later),
+                            label: 'Read Later',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.favorite),
+                            label: 'Favourites',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.explore),
+                            label: 'Discover',
+                          ),
+                        ],
+                        //elevation: 8,
+                        currentIndex: _selectedIndex,
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? ThemeColor.dark2
+                                : Colors.white,
+                        selectedItemColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.grey[100]
+                                : Colors.blueGrey[800],
+                        unselectedItemColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.blueGrey[200]
+                                : Colors.blueGrey[600],
+                        showSelectedLabels: true,
+                        showUnselectedLabels: true,
+                        selectedLabelStyle:
+                            const TextStyle(fontWeight: FontWeight.bold),
+                        type: BottomNavigationBarType.fixed, // Fixed
+                        onTap: _onBottomItemTap,
+                      ))),
               body: isLoading
                   ? Container(
                       alignment: Alignment.center,
