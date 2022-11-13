@@ -20,14 +20,19 @@ class SiteLogo extends StatelessWidget {
         iconUrl.toString().trim() == ""
             ? const Icon(Icons.link)
             : ClipOval(
-                child: CachedNetworkImage(
-                  height: 19,
-                  width: 19,
-                  fit: BoxFit.cover,
-                  imageUrl: iconUrl,
-                  placeholder: (context, url) => const Icon(Icons.link),
-                  errorWidget: (context, url, error) =>
-                      const Icon(Icons.link_off),
+                child: Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  child: CachedNetworkImage(
+                    height: 19,
+                    width: 19,
+                    fit: BoxFit.cover,
+                    imageUrl: iconUrl,
+                    placeholder: (context, url) => const Icon(Icons.link),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.link_off),
+                  ),
                 ),
               ),
       ],

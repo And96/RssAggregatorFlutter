@@ -229,7 +229,7 @@ class _FavouritesPageState extends State<FavouritesPage>
                               return InkWell(
                                   onTap: () => showOptionDialog(context, item),
                                   child: ListTile(
-                                    minLeadingWidth: 30,
+                                    minLeadingWidth: 25,
                                     leading: SiteLogo(iconUrl: item.iconUrl),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 0),

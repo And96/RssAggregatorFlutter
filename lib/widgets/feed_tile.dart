@@ -55,11 +55,8 @@ class FeedTile extends StatelessWidget {
                 ListTile(
                   /* contentPadding:    const EdgeInsets.all(5),*/
                   minLeadingWidth: 25,
-                  leading: SizedBox(
-                    height: double.infinity,
-                    child: SiteLogo(
-                      iconUrl: iconUrl,
-                    ),
+                  leading: SiteLogo(
+                    iconUrl: iconUrl,
                   ),
                   title: Padding(
                     padding: const EdgeInsets.only(top: 2),
