@@ -72,7 +72,7 @@ class RecommendedList {
 			},
 			{
 				"siteName": "repubblica.it",
-				"siteLink": "https://espresso.repubblica.it/rss?sezione=espresso",
+				"siteLink": "http://www.repubblica.it/rss/cronaca/rss2.0.xml",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=repubblica.it"
 			},
 			{

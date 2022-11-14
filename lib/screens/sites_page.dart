@@ -193,14 +193,16 @@ class _SitesPageState extends State<SitesPage>
           leading: const Icon(Icons.delete),
           title: const Text('Delete site'),
           onTap: () async {
-            await sitesList.delete(site.siteLink).then((value) => setState(() {
-                  Navigator.pop(context);
-                  const snackBar = SnackBar(
-                    duration: Duration(seconds: 1),
-                    content: Text('Deleted'),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }));
+            await sitesList
+                .delete(site.siteLink, site.siteName)
+                .then((value) => setState(() {
+                      Navigator.pop(context);
+                      const snackBar = SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text('Deleted'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }));
           },
           //onTap: showDeleteAlertDialog(context, url),
         ),
@@ -213,13 +215,13 @@ class _SitesPageState extends State<SitesPage>
         });
   }
 
-  showDeleteDialog(BuildContext context, String url) {
+  showDeleteAllDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("Yes"),
       onPressed: () {
         setState(() {
-          sitesList.delete(url);
+          sitesList.delete("*", "");
         });
         Navigator.pop(context);
       },
@@ -297,7 +299,7 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        await sitesList.delete(siteLink);
+        await sitesList.delete(siteLink, siteName);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
@@ -460,7 +462,7 @@ class _SitesPageState extends State<SitesPage>
                   IconButton(
                       icon: const Icon(Icons.delete),
                       tooltip: 'Delete',
-                      onPressed: () => showDeleteDialog(context, "*")),
+                      onPressed: () => showDeleteAllDialog(context)),
               ],
             )
           : isOnSearch

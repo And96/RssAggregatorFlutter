@@ -73,7 +73,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
 
       bool exists = await sitesList.exists(selected.siteLink);
       if (exists) {
-        await sitesList.delete(selected.siteLink);
+        await sitesList.delete(selected.siteLink, selected.siteName);
         selected.added = false;
       } else {
         bool exists =

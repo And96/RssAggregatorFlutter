@@ -79,7 +79,7 @@ class SitesList {
     await prefs.setString('db_sites', jsonEncode(list));
   }
 
-  Future<bool> delete(String url) async {
+  Future<bool> delete(String url, String siteName) async {
     try {
       await load();
       if (url == "*") {
@@ -88,7 +88,7 @@ class SitesList {
       } else {
         items.removeWhere((e) =>
             (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
-        await FeedsList(updateItemLoading: null).deleteDB(url);
+        await FeedsList(updateItemLoading: null).deleteDB(siteName);
       }
       await save(items);
       await load();

@@ -95,12 +95,17 @@ class FeedsList {
 
   Future<List<Feed>> readFeeds(bool loadFromWeb) async {
     try {
-      progressLoading = 0.001;
       items = [];
-      setUpdateItemLoading('');
+
+      //dont load anything if no sites
+      if (sites.isEmpty) {
+        return [];
+      }
 
       //online
       if (loadFromWeb) {
+        progressLoading = 0.001;
+        setUpdateItemLoading('');
         int u = 0; //number sites in updating
         int c = 0; //number sites with update completed
         List<String> listU =
@@ -468,15 +473,16 @@ class FeedsList {
   }
 
   Future<int> countFeedFromDB() async {
+    int n = 0;
     try {
       final db = await database;
-      return Sqflite.firstIntValue(
+      n = Sqflite.firstIntValue(
               await db.rawQuery('SELECT COUNT(*) FROM feeds')) ??
           0;
     } catch (err) {
       //print('Caught error: $err');
     }
-    return 0;
+    return n;
   }
 
   Future<void> updateDB(Feed feed) async {
@@ -495,6 +501,9 @@ class FeedsList {
 
   Future<void> deleteDB(String host) async {
     try {
+      if (host.toString().trim() == "") {
+        return;
+      }
       final db = await database;
       await db.delete(
         'feeds',

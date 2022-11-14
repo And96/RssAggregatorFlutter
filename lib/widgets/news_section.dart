@@ -213,7 +213,8 @@ class _NewsSectionState extends State<NewsSection>
                   children: <Widget>[
                     EmptySection(
                       title: 'Nessuna notizia presente',
-                      description: 'Aggiungi i tuoi siti da seguire',
+                      description:
+                          'Premi aggiorna o aggiungi altri siti da seguire',
                       icon: Icons.space_dashboard,
                       darkMode: darkMode,
                     ),
