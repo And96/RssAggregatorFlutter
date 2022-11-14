@@ -204,6 +204,10 @@ class RecommendedList {
 			"siteLink": "https://www.mvnonews.com/feed/",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mvnonews.com"
 		}, {
+			"siteName": "andreagaleazzi.com",
+			"siteLink": "https://andreagaleazzi.com/feed/",
+			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=andreagaleazzi.com"
+		}, {
 			"siteName": "mondo3.com",
 			"siteLink": "https://mondo3.com/rss",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mondo3.com"
@@ -663,7 +667,7 @@ class RecommendedList {
 	},
 	{
 		"name": "TV",
-		"color": 4283045004,
+		"color": 4286259106,
 		"iconData": 57943,
 		"language": "italiano",
 		"sites": [{
@@ -981,6 +985,90 @@ class RecommendedList {
 		"name": "Milano",
 		"color": 4281408402,
 		"iconData": 57907,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Cibo",
+		"color": 4294551589,
+		"iconData": 57946,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Viaggi",
+		"color": 4283045004,
+		"iconData": 58131,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Roma",
+		"color": 4292363029,
+		"iconData": 58280,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Milan",
+		"color": 4291176488,
+		"iconData": 58866,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Juventus",
+		"color": 4284513675,
+		"iconData": 58866,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Torino",
+		"color": 4283315246,
+		"iconData": 59068,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			}
+		]
+	},
+  {
+		"name": "Atalanta",
+		"color": 4279903102,
+		"iconData": 58866,
 		"language": "italiano",
 		"sites": [{
 				"siteName": "ecodibergamo.it",
