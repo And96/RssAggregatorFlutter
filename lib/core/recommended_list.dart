@@ -805,7 +805,7 @@ class RecommendedList {
 			},
 			{
 				"siteName": "inter.it",
-				"siteLink": "https://news.google.com/rss/search?q=inter.it+when:15d&hl=it&gl=IT&ceid=IT:it",
+				"siteLink": "https://news.google.com/rss/search?q=site:inter.it+when:15d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=inter.it"
 			},
 			{

@@ -279,7 +279,7 @@ class Site {
           !url.contains("/feed") &&
           !url.contains("rss")) {
         String urlRss =
-            "https://news.google.com/rss/search?q=site:inter.it+when:14d&hl=it&gl=IT&ceid=IT:it";
+            "https://news.google.com/rss/search?q=site:inter.it+when:15d&hl=it&gl=IT&ceid=IT:it";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
@@ -437,9 +437,13 @@ class Site {
         } else {
           langGoogleNews = "&hl=en-US&gl=US&ceid=US:en";
         }
+        String siteFilter = "";
+        if (url.contains(".")) {
+          siteFilter = "site:";
+        }
         //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
         String urlRss =
-            "https://news.google.com/rss/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:2d$langGoogleNews";
+            "https://news.google.com/rss/search?q=$siteFilter${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:2d$langGoogleNews";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
