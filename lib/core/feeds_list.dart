@@ -277,10 +277,7 @@ class FeedsList {
                         element.title.toString().trim() == ""
                     ? Utility().cleanText(element.content)
                     : Utility().cleanText(element.title),
-                link: element.links == null ||
-                        element.links!.first.href.toString().trim() == ""
-                    ? element.id.toString().trim()
-                    : element.links!.first.href.toString().trim(),
+                link: getLinkAtom(element),
                 iconUrl: iconUrl.toString(),
                 pubDate: Utility().tryParse(element.published == null
                     ? element.updated.toString()
@@ -294,6 +291,43 @@ class FeedsList {
       // print('Caught error: $err');
     }
     return itemsSite;
+  }
+
+  String getLinkAtom(AtomItem element) {
+    try {
+      if (element.links != null) {
+        try {
+          return element.links!
+              .firstWhere((element) =>
+                  element.href.toString().toLowerCase().contains(".htm"))
+              .href
+              .toString()
+              .trim();
+        } catch (err) {
+          //
+        }
+        try {
+          return element.links!
+              .firstWhere((element) =>
+                  !element.href.toString().toLowerCase().contains("comment") &&
+                  !element.href.toString().contains("www.blogger.com"))
+              .href
+              .toString()
+              .trim();
+        } catch (err) {
+          //
+        }
+        try {
+          return element.links!.first.href.toString().trim();
+        } catch (err) {
+          //
+        }
+      }
+      return element.id.toString().trim();
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return "";
   }
 
   setUpdateItemLoading(String? text) {
