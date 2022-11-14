@@ -247,21 +247,23 @@ class _NewsSectionState extends State<NewsSection>
                               itemBuilder: (BuildContext context, index) {
                                 final item = widget.feedsList.items[index];
 
-                                return Visibility(
-                                    visible: widget.searchText.isEmpty ||
-                                        Utility().compareSearch(
-                                            [item.title, item.link, item.host],
-                                            widget.searchText),
-                                    child: InkWell(
-                                        onTap: () =>
-                                            showOptionDialog(context, item),
-                                        child: FeedTile(
-                                            darkMode: darkMode,
-                                            title: item.title,
-                                            link: item.link,
-                                            host: item.host,
-                                            pubDate: item.pubDate,
-                                            iconUrl: item.iconUrl)));
+                                if (widget.searchText.isEmpty ||
+                                    Utility().compareSearch(
+                                        [item.title, item.link, item.host],
+                                        widget.searchText)) {
+                                  return InkWell(
+                                      onTap: () =>
+                                          showOptionDialog(context, item),
+                                      child: FeedTile(
+                                          darkMode: darkMode,
+                                          title: item.title,
+                                          link: item.link,
+                                          host: item.host,
+                                          pubDate: item.pubDate,
+                                          iconUrl: item.iconUrl));
+                                } else {
+                                  return const SizedBox();
+                                }
                               })
                           : GridView.builder(
                               controller: listviewController,
