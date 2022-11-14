@@ -443,7 +443,7 @@ class Site {
         }
         //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
         String urlRss =
-            "https://news.google.com/rss/search?q=$siteFilter${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:2d$langGoogleNews";
+            "https://news.google.com/rss/search?q=$siteFilter${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:3d$langGoogleNews";
         bool valid = await isUrlRSS(urlRss);
         if (valid) {
           return urlRss;
