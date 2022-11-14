@@ -201,7 +201,7 @@ class _NewsSectionState extends State<NewsSection>
       color: darkMode
           ? ThemeColor.dark1.withAlpha(90)
           : widget.feedsList.items.isNotEmpty
-              ? widget.colorCategory.withAlpha(40)
+              ? widget.colorCategory.withAlpha(30)
               : const Color.fromARGB(255, 235, 235, 235),
       child: widget.isLoading == false
           ? widget.feedsList.items.isEmpty
