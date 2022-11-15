@@ -49,7 +49,7 @@ class LoadingIndicator extends StatelessWidget {
           ),
           if (progressLoading != 0)
             SizedBox(
-              width: 300,
+              width: 250,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(1, 10, 1, 20),
                 child: LinearPercentIndicator(

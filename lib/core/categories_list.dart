@@ -77,7 +77,8 @@ class CategoriesList {
     try {
       List<Category> categories = await get();
       List<Category> tabs = [];
-      tabs.add(Category(name: '*', color: ThemeColor().defaultCategoryColor));
+      tabs.add(Category(
+          name: '*', color: ThemeColor().defaultCategoryColor, icon: 0));
       SitesList sitesList = SitesList(updateItemLoading: (String value) {});
       await sitesList.load();
       for (Category c in categories) {
@@ -121,7 +122,7 @@ class CategoriesList {
     }
   }
 
-  Future<bool> add(String name, [int color = -1]) async {
+  Future<bool> add(String name, [int color = -1, int icon = -1]) async {
     try {
       await load();
       name = name.trim();
@@ -131,9 +132,13 @@ class CategoriesList {
         if (color < 0) {
           color = ThemeColor().defaultCategoryColor;
         }
+        if (icon < 0) {
+          icon = ThemeColor().defaultCategoryIcon;
+        }
         var c = Category(
           name: name,
           color: color,
+          icon: icon,
         );
         items.add(c);
         await save(items);

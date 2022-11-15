@@ -99,7 +99,8 @@ class WelcomePageState extends State<WelcomePage> {
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Aggregator',
-          description: '\n Gratis\n Senza pubblicità\n Senza abbonamento',
+          description:
+              '\n \u2023 Gratis\n \u2023 Senza pubblicità\n \u2023 Senza abbonamento',
           icon: Icons.newspaper,
           color: Colors.white,
           centerAlign: false,

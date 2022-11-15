@@ -516,6 +516,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             accountName: const Text("Aggregator RSS"),
                             accountEmail: const Text("News Feed Reader"),
                             currentAccountPicture: const CircleAvatar(
+                              //radius: 30,
                               backgroundColor: Colors.white,
                               foregroundColor: Colors.black87,
                               child: Icon(
@@ -704,7 +705,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     boxShadow: [
-                      BoxShadow(color: Colors.black26, blurRadius: 10.0),
+                      BoxShadow(color: Colors.black26, blurRadius: 8.0),
                     ],
                   ),
                   child: Material(
@@ -737,11 +738,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 : Colors.white,
                         selectedItemColor:
                             Theme.of(context).brightness == Brightness.dark
-                                ? Colors.grey[100]
+                                ? Colors.grey[300]
                                 : colorCategory,
                         unselectedItemColor:
                             Theme.of(context).brightness == Brightness.dark
-                                ? Colors.blueGrey[200]
+                                ? Colors.grey[300]
                                 : Colors.blueGrey[600],
                         showSelectedLabels: true,
                         showUnselectedLabels: true,

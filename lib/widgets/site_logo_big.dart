@@ -26,7 +26,7 @@ class SiteLogoBig extends StatelessWidget {
               ),
             ),
             child: CircleAvatar(
-                //radius: 30,
+                //radius: 23,
                 backgroundColor: Colors.white,
                 child: ClipOval(
                     child: SizedBox(

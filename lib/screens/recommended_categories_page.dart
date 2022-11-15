@@ -110,8 +110,8 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                               Orientation.landscape
                           ? 4
                           : 3,
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
                       childAspectRatio: MediaQuery.of(context).orientation ==
                               Orientation.landscape
                           ? 1.3

@@ -51,6 +51,8 @@ class ThemeColor {
 
   int defaultCategoryColor = Colors.blueGrey[900]!.value;
 
+  int defaultCategoryIcon = 984385;
+
   List<ColorSwatch<dynamic>> getColorPicker() {
     List<ColorSwatch<dynamic>> pickerColorSwatch = [];
     for (Color color in pickerColors) {
@@ -60,11 +62,11 @@ class ThemeColor {
   }
 
   static Color light1 = const Color.fromARGB(255, 238, 238, 238);
-  static Color light2 = const Color.fromARGB(255, 205, 205, 205);
+  static Color light2 = const Color.fromARGB(255, 210, 210, 210);
   static Color light3 = const Color.fromARGB(255, 160, 160, 160);
   static Color light4 = const Color.fromARGB(255, 140, 140, 140);
 
-  static Color dark1 = const Color.fromARGB(255, 15, 15, 15);
+  static Color dark1 = const Color.fromARGB(255, 10, 10, 10);
   static Color dark2 = const Color.fromARGB(255, 25, 25, 25);
   static Color dark3 = const Color.fromARGB(255, 65, 65, 65);
   static Color dark4 = const Color.fromARGB(255, 130, 130, 130);

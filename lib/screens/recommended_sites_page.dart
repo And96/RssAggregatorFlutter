@@ -80,7 +80,9 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
             await categoriesList.exists(recommendedList.items[0].name);
         if (!exists) {
           await categoriesList.add(
-              recommendedList.items[0].name, recommendedList.items[0].color);
+              recommendedList.items[0].name,
+              recommendedList.items[0].color,
+              recommendedList.items[0].iconData);
         }
         Site site = Site(
             siteName: selected.siteName,

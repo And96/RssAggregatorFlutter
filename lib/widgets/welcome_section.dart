@@ -47,15 +47,18 @@ class WelcomeSection extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              description,
-              textAlign: centerAlign ? TextAlign.center : TextAlign.start,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.normal,
-                color: color,
+          SizedBox(
+            width: 300,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                description,
+                textAlign: centerAlign ? TextAlign.center : TextAlign.start,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: color,
+                ),
               ),
             ),
           ),

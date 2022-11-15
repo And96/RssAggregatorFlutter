@@ -200,9 +200,7 @@ class _NewsSectionState extends State<NewsSection>
     return Container(
       color: darkMode
           ? ThemeColor.dark1.withAlpha(90)
-          : widget.feedsList.items.isNotEmpty
-              ? widget.colorCategory.withAlpha(30)
-              : const Color.fromARGB(255, 235, 235, 235),
+          : ThemeColor.light2.withAlpha(110),
       child: widget.isLoading == false
           ? widget.feedsList.items.isEmpty
               ? Center(

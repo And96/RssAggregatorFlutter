@@ -375,21 +375,29 @@ class _CategoriesPageState extends State<CategoriesPage>
                         final item = categoriesList.items[index];
                         return InkWell(
                           child: ListTile(
-                            minLeadingWidth: 50,
+                            minLeadingWidth: 55,
                             leading: Stack(
                               clipBehavior: Clip.none,
                               children: [
                                 CircleAvatar(
+                                    radius: 23,
                                     backgroundColor:
-                                        Color(item.color).withAlpha(60),
-                                    child: ClipOval(
-                                        child:
-                                            item.color.toString().trim() == ""
-                                                ? const Icon(Icons.sell)
-                                                : Icon(Icons.sell,
-                                                    color: Color(item.color)))),
+                                        Color(item.color).withAlpha(255),
+                                    child: ClipRRect(
+                                        child: item.color.toString().trim() ==
+                                                    "" &&
+                                                item.icon > 0
+                                            ? const Icon(Icons.newspaper)
+                                            : Icon(
+                                                IconData(item.icon,
+                                                    fontFamily:
+                                                        'MaterialIcons'),
+                                                color:
+                                                    Colors.white.withAlpha(200),
+                                                size: 25,
+                                              ))),
                                 /*Positioned(
-                                    top: 25,
+                                    top: 25,v
                                     left: 25,
                                     child: CircleAvatar(
                                         radius: 10,
@@ -405,12 +413,20 @@ class _CategoriesPageState extends State<CategoriesPage>
                               padding: const EdgeInsets.only(top: 0),
                               child: Text(
                                 (item.name.toString()),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            subtitle: const Padding(
+                              padding: EdgeInsets.only(top: 0),
+                              child: Text(
+                                ("Premi per modificare"),
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: darkMode
-                                        ? ThemeColor.light1
-                                        : ThemeColor.dark1),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                             isThreeLine: false,

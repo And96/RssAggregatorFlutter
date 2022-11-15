@@ -113,8 +113,8 @@ class SettingsPageState extends State<SettingsPage> {
               fullWidth: false,
               items: [
                 DropdownMenuItem(value: 0, child: Text('Always')),
-                DropdownMenuItem(value: 10, child: Text('10 minutes')),
-                DropdownMenuItem(value: 30, child: Text('30 minutes')),
+                DropdownMenuItem(value: 10, child: Text('10 min')),
+                DropdownMenuItem(value: 30, child: Text('30 min')),
                 DropdownMenuItem(value: 60, child: Text('1 hour')),
                 DropdownMenuItem(value: 240, child: Text('4 hours')),
                 DropdownMenuItem(value: 720, child: Text('12 hours')),
