@@ -21,33 +21,35 @@ class WelcomePageState extends State<WelcomePage> {
     listContentConfig.add(
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 38, 50, 56),
-        colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topCenter,
-        directionColorEnd: Alignment.bottomCenter,
+        colorEnd: Color.fromARGB(255, 38, 50, 56),
+        /* directionColorBegin: Alignment.center,
+        directionColorEnd: Alignment.bottomCenter,*/
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'FastFeed',
           description:
-              'Leggi le notizie dei tuoi siti preferiti in una unica applicazione',
+              'Leggi le notizie dei tuoi siti preferiti in una unica applicazione.',
           icon: Icons.newspaper,
           color: Colors.white,
+          centerAlign: true,
         ),
       ),
     );
 
     listContentConfig.add(
       const ContentConfig(
-        colorBegin: Color.fromARGB(255, 35, 79, 255),
-        colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topCenter,
-        directionColorEnd: Alignment.bottomCenter,
+        colorBegin: Color.fromARGB(255, 16, 79, 175),
+        colorEnd: Color.fromARGB(255, 16, 79, 175),
+        /*directionColorBegin: Alignment.center,
+        directionColorEnd: Alignment.center,*/
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
-          title: 'Scegli siti',
+          title: 'Configurazione',
           description:
-              'Impostati i siti da seguire, troverai in automatico le notizie ordinate',
+              'Scegli le fonti di informazione.\nPuoi aggiungere i siti piu popolati o inserire manualmente i link da seguire.',
           icon: Icons.add_link,
           color: Colors.white,
+          centerAlign: true,
         ),
       ),
     );
@@ -55,33 +57,35 @@ class WelcomePageState extends State<WelcomePage> {
     listContentConfig.add(
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 0, 77, 64),
-        colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topCenter,
-        directionColorEnd: Alignment.bottomCenter,
+        colorEnd: Color.fromARGB(255, 0, 77, 64),
+        /* directionColorBegin: Alignment.center,
+        directionColorEnd: Alignment.bottomCenter,*/
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Funzionalita',
           description:
-              'Apri nel browser, salva preferiti, leggi piu tardi, condividi, lettura offline.',
+              'Troverai le notizie ordinate in elenco.Puoi aprirle nel browser, condividerle, salvarle nei preferiti, o leggerle piu tardi offline.',
           icon: Icons.local_activity,
           color: Colors.white,
+          centerAlign: true,
         ),
       ),
     );
 
     listContentConfig.add(
       const ContentConfig(
-        colorBegin: Color.fromARGB(255, 123, 0, 255),
-        colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topCenter,
-        directionColorEnd: Alignment.bottomCenter,
+        colorBegin: Color.fromARGB(255, 173, 20, 87),
+        colorEnd: Color.fromARGB(255, 173, 20, 87),
+        /*directionColorBegin: Alignment.center,
+        directionColorEnd: Alignment.bottomCenter,*/
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Personalizzabile',
           description:
-              'Crea categorie, raggruppa notizie, personalizza colori, modalita scura e altre impostazioni avanzate',
+              'Crea categorie, raggruppa notizie, personalizza colori, modalita scura e altre impostazioni.',
           icon: Icons.color_lens,
           color: Colors.white,
+          centerAlign: true,
         ),
       ),
     );
@@ -89,15 +93,16 @@ class WelcomePageState extends State<WelcomePage> {
     listContentConfig.add(
       const ContentConfig(
         colorBegin: Color.fromARGB(255, 38, 50, 56),
-        colorEnd: Color.fromARGB(255, 0, 0, 0),
-        directionColorBegin: Alignment.topCenter,
-        directionColorEnd: Alignment.bottomCenter,
+        colorEnd: Color.fromARGB(255, 38, 50, 56),
+        /* directionColorBegin: Alignment.center,
+        directionColorEnd: Alignment.bottomCenter,*/
         marginDescription: EdgeInsets.all(2),
         widgetDescription: WelcomeSection(
           title: 'Aggregator',
-          description: '\nGratis\nSenza pubblicita\nSenza abbonamento',
+          description: '\n Gratis\n Senza pubblicità\n Senza abbonamento',
           icon: Icons.newspaper,
           color: Colors.white,
+          centerAlign: false,
         ),
       ),
     );

@@ -9,17 +9,19 @@ class WelcomeSection extends StatelessWidget {
     required this.description,
     required this.icon,
     required this.color,
+    required this.centerAlign,
   });
 
   final String title;
   final String description;
   final IconData icon;
   final Color color;
+  final bool centerAlign;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 50),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -45,15 +47,18 @@ class WelcomeSection extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          SizedBox(
-              width: double.infinity,
-              child: Text(description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal,
-                    color: color,
-                  ))),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              description,
+              textAlign: centerAlign ? TextAlign.center : TextAlign.start,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+                color: color,
+              ),
+            ),
+          ),
         ],
       ),
     );
