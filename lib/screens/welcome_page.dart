@@ -64,7 +64,7 @@ class WelcomePageState extends State<WelcomePage> {
         widgetDescription: WelcomeSection(
           title: 'Funzionalita',
           description:
-              'Troverai le notizie ordinate in elenco.Puoi aprirle nel browser, condividerle, salvarle nei preferiti, o leggerle piu tardi offline.',
+              'Troverai le notizie ordinate in elenco. Puoi aprirle nel browser, condividerle, salvarle nei preferiti, o leggerle piu tardi offline.',
           icon: Icons.local_activity,
           color: Colors.white,
           centerAlign: true,
