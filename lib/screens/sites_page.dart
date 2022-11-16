@@ -52,7 +52,7 @@ class _SitesPageState extends State<SitesPage>
       await loadData();
       if (sitesList.items.isEmpty) {
         Timer.run(() {
-          sleep(const Duration(milliseconds: 250));
+          sleep(const Duration(milliseconds: 400));
           _showNewDialog(context);
         });
       }
