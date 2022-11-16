@@ -38,7 +38,7 @@ class FeedTile extends StatelessWidget {
                     : const Color.fromARGB(255, 255, 255, 255),
                 width: 1.0,
               ),
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(7.0),
             ),
             elevation: 1,
             color: darkMode

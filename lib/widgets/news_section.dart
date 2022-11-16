@@ -324,18 +324,6 @@ class _NewsSectionState extends State<NewsSection>
                     icon: Icons.query_stats,
                     darkMode: darkMode,
                   ),
-                  /*Padding(
-                      padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
-                      child: LinearPercentIndicator(
-                        animation: true,
-                        progressColor: Theme.of(context).colorScheme.primary,
-                        lineHeight: 3.0,
-                        animateFromLastPercent: true,
-                        animationDuration: 2000,
-                        percent: widget.feedsList.progressLoading,
-                        barRadius: const Radius.circular(16),
-                      ),
-                    ),*/
                 ],
               ),
             ),
