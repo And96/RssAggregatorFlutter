@@ -44,7 +44,7 @@ dependencies:
   shared_preferences: ^2.0.15
   favicon: ^1.1.0
   package_info_plus: ^3.0.1
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   feed_finder: ^1.0.9
   pref: ^2.6.0
   flutter_phoenix: ^1.1.0
