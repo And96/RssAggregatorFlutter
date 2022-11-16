@@ -35,9 +35,10 @@ class _NewsSectionState extends State<NewsSection>
 
   bool isLoading = false;
 
+  late List<Feed> items = [];
+
   //Theme
   static bool darkMode = false;
-  double opacityAnimation = 1.0;
 
   late FavouritesList favouritesList = FavouritesList();
   late ReadlaterList readlaterList = ReadlaterList();
@@ -55,12 +56,27 @@ class _NewsSectionState extends State<NewsSection>
   initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      /*await setOpacityAnimation();*/
-      await ThemeColor.isDarkMode().then((value) => {
-            darkMode = value,
-          });
-      await loadData();
+      try {
+        await ThemeColor.isDarkMode().then((value) => {
+              darkMode = value,
+            });
+        await loadData();
+      } catch (err) {
+        //print('Caught error: $err');
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(NewsSection oldWidget) {
+    try {
+      if (oldWidget.searchText != widget.searchText) {
+        loadData();
+      }
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   loadData() async {
@@ -69,6 +85,14 @@ class _NewsSectionState extends State<NewsSection>
         isLoading = true;
       });
       await favouritesList.load();
+      await readlaterList.load();
+      items = widget.feedsList.items.map((e) => e).toList();
+      if (widget.searchText.isNotEmpty) {
+        items = items
+            .where((item) => Utility().compareSearch(
+                [item.title, item.link, item.host], widget.searchText))
+            .toList();
+      }
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -76,18 +100,6 @@ class _NewsSectionState extends State<NewsSection>
       isLoading = false;
     });
   }
-
-  /*Timer? _timerOpacityAnimation;
-  setOpacityAnimation() {
-    if (mounted) {
-      _timerOpacityAnimation = Timer(const Duration(milliseconds: 800), () {
-        setState(() {
-          opacityAnimation = opacityAnimation <= 0.5 ? 1.0 : 0.5;
-          setOpacityAnimation();
-        });
-      });
-    }
-  }*/
 
   void showOptionDialog(BuildContext context, Feed item) {
     var dialog = SimpleDialog(
@@ -230,60 +242,37 @@ class _NewsSectionState extends State<NewsSection>
                               MediaQuery.of(context).size.height
                           ? ListView.builder(
                               controller: listviewController,
-                              itemCount: widget.feedsList.items.length,
-                              //separatorBuilder: null,
-                              /* separatorBuilder: (context, index) {
-                                return Visibility(
-                                    visible: widget.searchText.isEmpty ||
-                                        Utility().compareSearch([
-                                          widget.feedsList.items[index].title,
-                                          widget.feedsList.items[index].link,
-                                          widget.feedsList.items[index].host
-                                        ], widget.searchText),
-                                    child: const Divider());
-                              },*/
+                              itemCount: items.length,
                               itemBuilder: (BuildContext context, index) {
-                                final item = widget.feedsList.items[index];
+                                final item = items[index];
 
-                                if (widget.searchText.isEmpty ||
-                                    Utility().compareSearch(
-                                        [item.title, item.link, item.host],
-                                        widget.searchText)) {
-                                  return InkWell(
-                                      onTap: () =>
-                                          showOptionDialog(context, item),
-                                      child: FeedTile(
-                                          darkMode: darkMode,
-                                          title: item.title,
-                                          link: item.link,
-                                          host: item.host,
-                                          pubDate: item.pubDate,
-                                          iconUrl: item.iconUrl));
-                                } else {
-                                  return const SizedBox();
-                                }
+                                return InkWell(
+                                    onTap: () =>
+                                        showOptionDialog(context, item),
+                                    child: FeedTile(
+                                        darkMode: darkMode,
+                                        title: item.title,
+                                        link: item.link,
+                                        host: item.host,
+                                        pubDate: item.pubDate,
+                                        iconUrl: item.iconUrl));
                               })
                           : GridView.builder(
                               controller: listviewController,
-                              itemCount: widget.feedsList.items.length,
+                              itemCount: items.length,
                               itemBuilder: (BuildContext context, index) {
-                                final item = widget.feedsList.items[index];
+                                final item = items[index];
 
-                                return Visibility(
-                                    visible: widget.searchText.isEmpty ||
-                                        Utility().compareSearch(
-                                            [item.title, item.link, item.host],
-                                            widget.searchText),
-                                    child: InkWell(
-                                        onTap: () =>
-                                            showOptionDialog(context, item),
-                                        child: FeedTile(
-                                            darkMode: darkMode,
-                                            title: item.title,
-                                            link: item.link,
-                                            host: item.host,
-                                            pubDate: item.pubDate,
-                                            iconUrl: item.iconUrl)));
+                                return InkWell(
+                                    onTap: () =>
+                                        showOptionDialog(context, item),
+                                    child: FeedTile(
+                                        darkMode: darkMode,
+                                        title: item.title,
+                                        link: item.link,
+                                        host: item.host,
+                                        pubDate: item.pubDate,
+                                        iconUrl: item.iconUrl));
                               },
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
@@ -329,15 +318,11 @@ class _NewsSectionState extends State<NewsSection>
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  AnimatedOpacity(
-                    opacity: widget.isLoading ? opacityAnimation : 1.0,
-                    duration: const Duration(milliseconds: 500),
-                    child: EmptySection(
-                      title: '...',
-                      description: widget.feedsList.itemLoading,
-                      icon: Icons.query_stats,
-                      darkMode: darkMode,
-                    ),
+                  EmptySection(
+                    title: '...',
+                    description: widget.feedsList.itemLoading,
+                    icon: Icons.query_stats,
+                    darkMode: darkMode,
                   ),
                   /*Padding(
                       padding: const EdgeInsets.fromLTRB(100, 18, 100, 0),
