@@ -45,7 +45,6 @@ class _SitesPageState extends State<SitesPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await setOpacityAnimation();
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
@@ -61,7 +60,6 @@ class _SitesPageState extends State<SitesPage>
 
   @override
   dispose() {
-    _timerOpacityAnimation?.cancel();
     _refreshIconController.stop(canceled: true);
     _refreshIconController.dispose();
     searchController.dispose();
@@ -71,18 +69,6 @@ class _SitesPageState extends State<SitesPage>
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
-
-  Timer? _timerOpacityAnimation;
-  setOpacityAnimation() {
-    if (mounted) {
-      _timerOpacityAnimation = Timer(const Duration(milliseconds: 1000), () {
-        setState(() {
-          opacityAnimation = opacityAnimation <= 0.01 ? 1.0 : 0.01;
-          setOpacityAnimation();
-        });
-      });
-    }
-  }
 
   void _updateItemLoading(String itemLoading) {
     setState(() {});
@@ -356,9 +342,8 @@ class _SitesPageState extends State<SitesPage>
   }
 
   _showNewDialog(BuildContext context) async {
-    setState(() {
-      hideFab = true;
-    });
+    hideFab = true;
+    setState(() {});
     var dialog = SimpleDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
