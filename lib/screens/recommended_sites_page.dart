@@ -102,9 +102,12 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(recommendedList.items[0].name),
-        backgroundColor:
-            darkMode ? null : Color(recommendedList.items[0].color),
+        title: Text(recommendedList.items.isEmpty
+            ? "Category"
+            : recommendedList.items[0].name),
+        backgroundColor: darkMode || recommendedList.items.isEmpty
+            ? null
+            : Color(recommendedList.items[0].color),
       ),
       body: Stack(
         children: [

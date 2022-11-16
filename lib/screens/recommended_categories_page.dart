@@ -108,7 +108,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: MediaQuery.of(context).orientation ==
                               Orientation.landscape
-                          ? 4
+                          ? 5
                           : 3,
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
