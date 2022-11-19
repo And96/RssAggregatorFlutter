@@ -100,28 +100,37 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                   }).toList(),
                 ))
         ]),
-        body: Stack(
-          children: [
-            isLoading == false
-                ? GridView.builder(
-                    itemCount: recommendedList.items.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: MediaQuery.of(context).orientation ==
-                              Orientation.landscape
-                          ? 5
-                          : 3,
-                      crossAxisSpacing: 0,
-                      mainAxisSpacing: 0,
-                      childAspectRatio: MediaQuery.of(context).orientation ==
-                              Orientation.landscape
-                          ? 1.3
-                          : 0.9,
-                    ),
-                    itemBuilder: (
-                      context,
-                      index,
-                    ) {
-                      return Card(
+        body: Container(
+          padding: const EdgeInsets.only(right: 3, left: 3, top: 3, bottom: 3),
+          child: isLoading == false
+              ? GridView.builder(
+                  itemCount: recommendedList.items.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? 5
+                        : 3,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0,
+                    childAspectRatio: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? 1.3
+                        : 0.9,
+                  ),
+                  itemBuilder: (
+                    context,
+                    index,
+                  ) {
+                    return Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: darkMode
+                                ? ThemeColor.dark3.withAlpha(0)
+                                : Colors.black.withAlpha(10),
+                            width: 0.0,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                         elevation: 0.0,
                         //color: Color(recommendedList.items[index].color),
                         //color: Color.fromARGB(255, 236, 236, 236),
@@ -134,49 +143,51 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                                           recommendedList.items[index].language,
                                       category:
                                           recommendedList.items[index].name))),
-                          child: GridTile(
-                              footer: GridTileBar(
-                                backgroundColor: Colors.black.withAlpha(50),
-                                title: Text(
-                                  recommendedList.items[index].name,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(color: Colors.white),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: GridTile(
+                                footer: GridTileBar(
+                                  backgroundColor:
+                                      Colors.grey[900]?.withAlpha(65),
+                                  title: Text(
+                                    recommendedList.items[index].name,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
                                 ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Icon(
-                                  IconData(
-                                      recommendedList.items[index].iconData,
-                                      fontFamily: 'MaterialIcons'),
-                                  color: Colors.white70,
-                                  size: 50,
-                                ),
-                              )),
-                        ),
-                      );
-                    },
-                  )
-                : Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        AnimatedOpacity(
-                          opacity: 1.0,
-                          duration: const Duration(milliseconds: 500),
-                          child: EmptySection(
-                            title: 'Loading',
-                            description: '...',
-                            icon: Icons.query_stats,
-                            darkMode: darkMode,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Icon(
+                                    IconData(
+                                        recommendedList.items[index].iconData,
+                                        fontFamily: 'MaterialIcons'),
+                                    color: Colors.white70,
+                                    size: 50,
+                                  ),
+                                )),
                           ),
+                        ));
+                  },
+                )
+              : Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      AnimatedOpacity(
+                        opacity: 1.0,
+                        duration: const Duration(milliseconds: 500),
+                        child: EmptySection(
+                          title: 'Loading',
+                          description: '...',
+                          icon: Icons.query_stats,
+                          darkMode: darkMode,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-          ],
+                ),
         ));
   }
 }
