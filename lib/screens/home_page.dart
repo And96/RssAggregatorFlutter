@@ -103,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) => load().then((value) =>
         value == true
             ? Navigator.of(context)
@@ -289,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           return Scaffold(
               appBar: !isOnSearch
                   ? AppBar(
-                      //elevation: 5,
+                      elevation: 0,
                       backgroundColor:
                           darkMode ? ThemeColor.dark2 : colorCategory,
                       title: const Text("Aggregator"),
@@ -700,17 +701,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         // _displayTextInputDialog(context, null);
                       },
                     ),*/
-              bottomNavigationBar: Container(
+              bottomNavigationBar: /*Container(
                   height: 58,
                   width: double.infinity,
-                  decoration: const BoxDecoration(
+                  /*decoration: const BoxDecoration(
                     boxShadow: [
-                      BoxShadow(color: Colors.black26, blurRadius: 8.0),
+                      BoxShadow(color: Colors.black20, blurRadius: 8.0),
                     ],
-                  ),
-                  child: Material(
-                      elevation: 8,
-                      color: darkMode ? Colors.black26 : Colors.white,
+                  ),*/
+                  child:*/
+                  Material(
+                      elevation: 0,
+                      color: darkMode ? Colors.black12 : Colors.white,
                       child: BottomNavigationBar(
                         items: const <BottomNavigationBarItem>[
                           BottomNavigationBarItem(
@@ -750,7 +752,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             const TextStyle(fontWeight: FontWeight.bold),
                         type: BottomNavigationBarType.fixed, // Fixed
                         onTap: _onBottomItemTap,
-                      ))),
+                      )),
               body: isLoading
                   ? Container(
                       alignment: Alignment.center,

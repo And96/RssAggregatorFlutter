@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 
 bool darkMode = false;
@@ -29,21 +29,22 @@ class FeedTile extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
         child: Card(
-            margin: const EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
+            margin:
+                const EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 5),
             clipBehavior: Clip.hardEdge,
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: darkMode
-                    ? ThemeColor.dark3.withAlpha(50)
+                    ? ThemeColor.dark3.withAlpha(0)
                     : const Color.fromARGB(255, 255, 255, 255),
                 width: 1.0,
               ),
-              borderRadius: BorderRadius.circular(7.0),
+              borderRadius: BorderRadius.circular(15.0),
             ),
-            elevation: 1,
+            elevation: 0,
             color: darkMode
                 ? ThemeColor.dark2
-                : const Color.fromARGB(255, 248, 248, 248),
+                : const Color.fromARGB(255, 250, 250, 250),
             shadowColor: darkMode ? Colors.black : Colors.white,
             child: Padding(
               padding:
@@ -84,9 +85,7 @@ class FeedTile extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            DateFormat('dd/MM/yy HH:mm').format(
-                              pubDate.toLocal(),
-                            ),
+                            Utility().dateFormat(context, pubDate),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -113,6 +112,7 @@ class FeedTile extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
+                                  //but instead of 300 it's 350
                                   color: darkMode
                                       ? ThemeColor.light1
                                       : Colors.black,

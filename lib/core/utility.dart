@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rss_aggregator_flutter/core/database.dart';
@@ -53,6 +54,46 @@ class Utility {
     }
     return false;
   }
+
+  String dateFormat(BuildContext context, DateTime date) {
+    try {
+      var languageTag = "it"; // TO-DO IMPLEMENT LANGUAGE LATER
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final yesterday = DateTime(now.year, now.month, now.day - 1);
+
+      if (languageTag.toString().toLowerCase().contains("it") == true) {
+        String gg = "";
+        final aDate = DateTime(date.year, date.month, date.day);
+        if (aDate == today) {
+          return "Oggi${DateFormat(' HH:mm').format(
+            date.toLocal(),
+          )}";
+        } else if (aDate == yesterday) {
+          return "Ieri${DateFormat(' HH:mm').format(
+            date.toLocal(),
+          )}";
+        } else if (aDate.year == today.year) {
+          return DateFormat('dd/MM/yy HH:mm').format(
+            date.toLocal(),
+          );
+        } else {
+          return DateFormat('dd/MM/yy HH:mm').format(
+            date.toLocal(),
+          );
+        }
+      }
+
+      return DateFormat('dd MMM HH:mm').format(
+        date.toLocal(),
+      );
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return date.toString();
+  }
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   String cleanText(String? inputText) {
     try {
