@@ -212,9 +212,11 @@ class _NewsSectionState extends State<NewsSection>
     return Container(
       color: darkMode
           ? ThemeColor.dark1.withAlpha(90)
-          : Color.alphaBlend(widget.colorCategory.withAlpha(100),
-                  Colors.blueGrey.withAlpha(100))
-              .withAlpha(20), //.withOpacity(0.1),
+          : widget.feedsList.items.isEmpty
+              ? ThemeColor.light1
+              : Color.alphaBlend(widget.colorCategory.withAlpha(100),
+                      Colors.blueGrey.withAlpha(100))
+                  .withAlpha(25), //.withOpacity(0.1),
       child: widget.isLoading == false
           ? widget.feedsList.items.isEmpty
               ? Center(

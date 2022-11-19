@@ -5,6 +5,28 @@ import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 bool darkMode = false;
 
+class LoadingIndicator extends StatefulWidget {
+  const LoadingIndicator(
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.darkMode,
+      required this.progressLoading})
+      : super(key: key);
+
+  final String title;
+  final String description;
+  final bool darkMode;
+  final double progressLoading;
+
+  @override
+  State<LoadingIndicator> createState() => _LoadingIndicatorState();
+}
+
+class _LoadingIndicatorState extends State<LoadingIndicator>
+    with SingleTickerProviderStateMixin {
+/*
+
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
     super.key,
@@ -13,30 +35,72 @@ class LoadingIndicator extends StatelessWidget {
     required this.widget,
     required this.darkMode,
     required this.progressLoading,
-  });
+  });*/
 
-  final String title;
-  final String description;
-  final Widget widget;
-  final bool darkMode;
-  final double progressLoading;
+  late final AnimationController _refreshIconController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..repeat();
+
+  @override
+  void dispose() {
+    _refreshIconController.stop(canceled: true);
+    _refreshIconController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: darkMode ? ThemeColor.dark1.withAlpha(90) : ThemeColor.light1,
       padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 1),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          widget,
+          Stack(
+            alignment: Alignment.topRight,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 25, top: 12),
+                child: AnimatedBuilder(
+                  animation: _refreshIconController,
+                  builder: (_, child) {
+                    return Transform.rotate(
+                      angle: _refreshIconController.value * 2 * 3.1415,
+                      child: child,
+                    );
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    size: 70,
+                    color: darkMode ? ThemeColor.light2 : ThemeColor.dark3,
+                  ),
+                ),
+              ),
+              // Max Size
+              AnimatedBuilder(
+                animation: _refreshIconController,
+                builder: (_, child) {
+                  return Transform.rotate(
+                    angle: _refreshIconController.value * 2 * 3.1415 * -1,
+                    child: child,
+                  );
+                },
+                child: Icon(
+                  Icons.settings,
+                  size: 40,
+                  color: darkMode ? ThemeColor.light2 : ThemeColor.dark3,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(
             height: 15,
           ),
-          if (progressLoading != 0)
+          if (widget.progressLoading != 0)
             Align(
               alignment: Alignment.center,
               child: Text(
-                title,
+                widget.title,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.normal,
@@ -47,7 +111,7 @@ class LoadingIndicator extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          if (progressLoading != 0)
+          if (widget.progressLoading != 0)
             SizedBox(
               width: 250,
               child: Padding(
@@ -58,15 +122,15 @@ class LoadingIndicator extends StatelessWidget {
                   lineHeight: 3.0,
                   animateFromLastPercent: true,
                   animationDuration: 500,
-                  percent: progressLoading,
+                  percent: widget.progressLoading,
                   barRadius: const Radius.circular(16),
                 ),
               ),
             ),
-          if (progressLoading != 0)
+          if (widget.progressLoading != 0)
             SizedBox(
                 width: double.infinity,
-                child: Text(description,
+                child: Text(widget.description,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,

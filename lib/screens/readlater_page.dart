@@ -201,7 +201,7 @@ class _ReadlaterPageState extends State<ReadlaterPage>
         body: Container(
             color: darkMode
                 ? ThemeColor.dark1.withAlpha(90)
-                : ThemeColor.light1.withAlpha(255),
+                : ThemeColor.light1.withAlpha(90),
             child: Stack(children: [
               isLoading == false
                   ? readlaterList.items.isEmpty

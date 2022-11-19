@@ -615,53 +615,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         title: 'Aggiornamento in corso',
                         description: feedsListUpdate.itemLoading,
                         darkMode: darkMode,
-                        widget: Stack(
-                          alignment: Alignment.topRight,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 25, top: 12),
-                              child: AnimatedBuilder(
-                                animation: _refreshIconController,
-                                builder: (_, child) {
-                                  return Transform.rotate(
-                                    angle: _refreshIconController.value *
-                                        2 *
-                                        3.1415,
-                                    child: child,
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.settings,
-                                  size: 70,
-                                  color: darkMode
-                                      ? ThemeColor.light2
-                                      : ThemeColor.dark3,
-                                ),
-                              ),
-                            ),
-                            // Max Size
-                            AnimatedBuilder(
-                              animation: _refreshIconController,
-                              builder: (_, child) {
-                                return Transform.rotate(
-                                  angle: _refreshIconController.value *
-                                      2 *
-                                      3.1415 *
-                                      -1,
-                                  child: child,
-                                );
-                              },
-                              child: Icon(
-                                Icons.settings,
-                                size: 40,
-                                color: darkMode
-                                    ? ThemeColor.light2
-                                    : ThemeColor.dark3,
-                              ),
-                            ),
-                          ],
-                        ),
                         progressLoading: feedsListUpdate.progressLoading,
                       ),
                     )
