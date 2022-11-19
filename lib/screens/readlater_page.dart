@@ -201,7 +201,9 @@ class _ReadlaterPageState extends State<ReadlaterPage>
         body: Container(
             color: darkMode
                 ? ThemeColor.dark1.withAlpha(90)
-                : ThemeColor.light1.withAlpha(90),
+                : ThemeColor.light1.withAlpha(255),
+            padding:
+                const EdgeInsets.only(top: 6, left: 6, right: 6, bottom: 0),
             child: Stack(children: [
               isLoading == false
                   ? readlaterList.items.isEmpty

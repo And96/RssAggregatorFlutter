@@ -64,20 +64,34 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
 
   //Theme
+  void pageRouterVerticalAnimation(StatefulWidget page) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        }));
+  }
 
   void _onBottomItemTap(int index) {
     switch (index) {
       case 1:
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const ReadlaterPage()));
+        pageRouterVerticalAnimation(const ReadlaterPage());
         break;
       case 2:
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const FavouritesPage()));
+        pageRouterVerticalAnimation(const FavouritesPage());
         break;
       case 3:
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const DiscoverPage()));
+        pageRouterVerticalAnimation(const DiscoverPage());
         break;
     }
     //in homepage there is only newspage
