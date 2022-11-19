@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
@@ -77,6 +76,11 @@ class _NewsPageState extends State<NewsPage>
 
       await feedList.load(
           loadFromWeb, widget.siteFilter, widget.categoryFilter);
+
+      if (widget.siteFilter.trim().length > 1) {
+      } else {
+        colorCategory = Color(categoriesList.getColor(widget.categoryFilter));
+      }
     } catch (err) {
       //print('Caught error: $err');
     }

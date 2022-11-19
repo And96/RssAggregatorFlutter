@@ -140,6 +140,7 @@ class _CategoriesPageState extends State<CategoriesPage>
     _openColorPickerDialog(
       name,
       MaterialColorPicker(
+        //circleSize: 50,
         selectedColor: Color(color),
         colors: ThemeColor().getColorPicker(),
         allowShades: false,
@@ -220,50 +221,53 @@ class _CategoriesPageState extends State<CategoriesPage>
             _openColorPicker(category.name, category.color);
           },
         ),
-        SmartSelect<String>.multiple(
-            title: 'Select sites',
-            selectedValue: sitesSelectedCategory,
-            //sitesList.toList(category.name), //const [], //category.sites,*/
-            modalType: S2ModalType.fullPage,
-            //choiceGrouped: true,
-            modalFilter: true,
-            choiceItems: S2Choice.listFrom<String, Site>(
-              source: sitesList.items,
-              value: (index, item) => item.siteLink,
-              title: (index, item) => item.siteName,
-              subtitle: (index, item) => item.siteLink,
-              meta: (index, item) => item.iconUrl,
-              //group: (index, item) => item.category,
-            ),
-            choiceSecondaryBuilder: (context, state, choice) => SiteLogoBig(
-                  iconUrl: choice.meta,
-                  color: Colors.white,
-                ),
-            onChange: (selected) async {
-              Navigator.pop(context);
-              SnackBar snackBar;
-              _changeCategory(selected, category.name).then((value) => {
-                    snackBar = SnackBar(
-                      duration: const Duration(milliseconds: 1000),
-                      content: Text('Changed category to ${category.name}'),
-                    ),
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                    sitesSelectedCategory = [],
-                    setState(() {}),
-                  });
-            },
-            tileBuilder: (context, state) {
-              return S2Tile.fromState(
-                state,
-                isTwoLine: true,
-                leading: const Icon(Icons.list),
-                trailing: const Icon(
-                  Icons.sell,
-                  size: 0,
-                ),
-                title: const Text("Choose sites"),
-              );
-            }),
+        SizedBox(
+          width: 300,
+          child: SmartSelect<String>.multiple(
+              title: 'Select sites',
+              selectedValue: sitesSelectedCategory,
+              //sitesList.toList(category.name), //const [], //category.sites,*/
+              modalType: S2ModalType.fullPage,
+              //choiceGrouped: true,
+              modalFilter: true,
+              choiceItems: S2Choice.listFrom<String, Site>(
+                source: sitesList.items,
+                value: (index, item) => item.siteLink,
+                title: (index, item) => item.siteName,
+                subtitle: (index, item) => item.siteLink,
+                meta: (index, item) => item.iconUrl,
+                //group: (index, item) => item.category,
+              ),
+              choiceSecondaryBuilder: (context, state, choice) => SiteLogoBig(
+                    iconUrl: choice.meta,
+                    color: Colors.white,
+                  ),
+              onChange: (selected) async {
+                Navigator.pop(context);
+                SnackBar snackBar;
+                _changeCategory(selected, category.name).then((value) => {
+                      snackBar = SnackBar(
+                        duration: const Duration(milliseconds: 1000),
+                        content: Text('Changed category to ${category.name}'),
+                      ),
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                      sitesSelectedCategory = [],
+                      setState(() {}),
+                    });
+              },
+              tileBuilder: (context, state) {
+                return S2Tile.fromState(
+                  state,
+                  isTwoLine: true,
+                  leading: const Icon(Icons.list),
+                  trailing: const Icon(
+                    Icons.sell,
+                    size: 0,
+                  ),
+                  title: const Text("Choose sites"),
+                );
+              }),
+        ),
         ListTile(
           leading: const Icon(Icons.delete),
           title: const Text('Delete'),
