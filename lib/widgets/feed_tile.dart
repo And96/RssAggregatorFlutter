@@ -29,8 +29,7 @@ class FeedTile extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
         child: Card(
-            margin:
-                const EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 5),
+            margin: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 5),
             clipBehavior: Clip.hardEdge,
             shape: RoundedRectangleBorder(
               side: BorderSide(

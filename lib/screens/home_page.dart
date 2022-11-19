@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
+import 'package:rss_aggregator_flutter/core/scroll_physics.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
@@ -103,7 +104,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) => load().then((value) =>
         value == true
             ? Navigator.of(context)
@@ -368,36 +368,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                                     .tabs[index].name,
                                           ),
                                         )),
-                                    // width: 100,
                                   ),
-                                  /*Container(
-                                    color: darkMode
-                                        ? Colors.black26
-                                        : const Color.fromARGB(
-                                            255, 255, 255, 255),
-                                    height: 30,
-
-                                    //width: 10000,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '11 Novembre 2022 22:17',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.normal,
-                                        color: darkMode
-                                            ? ThemeColor.light1
-                                            : ThemeColor.dark2,
-                                      ),
-                                    ),
-                                  ),*/
-
-                                  /*Expanded(
-                                    child: Container(
-                                      color: Colors.amber,
-                                      height: 50,
-                                      width: 1000,
-                                    ),
-                                  ),*/
                                 ],
                               ),
                             ),
@@ -412,12 +383,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 isOnSearch = isOnSearch ? false : true;
                                 searchController.text = '';
                               });
-                              /*if (feedsList.items.isNotEmpty) {
-                          listviewController.animateTo(
-                              listviewController.position.minScrollExtent,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.fastOutSlowIn);
-                        }*/
                             },
                           ), //
                         if (!isLoading)
@@ -426,7 +391,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             tooltip: 'Refresh',
                             onPressed: () => {
                               sleep(const Duration(milliseconds: 200)),
-                              // _showRefreshDialog(context),
                               loadData(true)
                             },
                           ),
@@ -592,115 +556,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-              /*bottomNavigationBar: Container(
-                color: Colors.white,
-                height: 50,
-
-                //width: 10000,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    const Text(
-                      '11 Novembre 2022 22:17',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black
-                          //color: darkMode ? ThemeColor.light1 : ThemeColor.dark2,
-                          ),
-                    ),
-                    IconButton(
-                      color: colorCategory,
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: const Icon(Icons.list_alt),
-                      tooltip: 'Close',
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              ),*/
-              /*bottomNavigationBar: categoriesList.tabs.length <= 2
-                  ? null
-                  : Container(
-                      height: 58,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(color: Colors.black26, blurRadius: 10.0),
-                        ],
-                      ),
-                      child: Material(
-                        elevation: 8,
-                        color: darkMode ? Colors.black26 : Colors.white,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              TabBar(
-                                  controller: _tabController,
-                                  indicatorPadding:
-                                      const EdgeInsets.symmetric(vertical: 7),
-                                  padding: categoriesList.tabs.length <= 2
-                                      ? const EdgeInsets.only(
-                                          right: 40, left: 40)
-                                      : const EdgeInsets.only(
-                                          right: 15, left: 15),
-                                  labelPadding: categoriesList.tabs.length <= 2
-                                      ? const EdgeInsets.only(
-                                          right: 30, left: 30)
-                                      : const EdgeInsets.only(
-                                          right: 20, left: 20),
-                                  unselectedLabelColor:
-                                      darkMode ? Colors.white : Colors.black87,
-
-                                  //indicatorSize: TabBarIndicatorSize.label,
-                                  indicatorColor: colorCategory,
-                                  indicator: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: colorCategory,
-                                          spreadRadius: 0,
-                                          blurRadius: 0,
-                                          offset: const Offset(0,
-                                              0), // changes position of shadow
-                                        ),
-                                      ],
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(100),
-                                        topRight: Radius.circular(100),
-                                        bottomLeft: Radius.circular(100),
-                                        bottomRight: Radius.circular(100),
-                                      ),
-                                      color: colorCategory),
-                                  labelColor: Colors.white,
-                                  isScrollable:
-                                      true, //categoriesList.tabs.length > 3
-                                  //? true
-                                  //: false,
-                                  tabs: List.generate(
-                                    categoriesList.tabs.length,
-                                    (index) => Tab(
-                                      text:
-                                          categoriesList.tabs[index].name == '*'
-                                              ? 'Tutti'
-                                              : categoriesList.tabs[index].name,
-                                    ),
-                                  )),
-                            ]),
-                      ),
-                    ),*/
-
-              /*floatingActionButton: isLoading
-                  ? null
-                  : FloatingActionButton.extended(
-                      icon: const Icon(Icons.list_alt),
-                      label: const Text('Visual'),
-                      backgroundColor: colorCategory,
-                      onPressed: () {
-                        // _displayTextInputDialog(context, null);
-                      },
-                    ),*/
               bottomNavigationBar: /*Container(
                   height: 58,
                   width: double.infinity,
@@ -756,9 +611,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               body: isLoading
                   ? Container(
                       alignment: Alignment.center,
-                      //color: colorCategory, //colors[index],
-                      /*color: Color(categoriesList
-                                .tabs[_tabController.index].color),*/
                       child: LoadingIndicator(
                         title: 'Aggiornamento in corso',
                         description: feedsListUpdate.itemLoading,
@@ -831,22 +683,4 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               ))));
         }));
   }
-}
-
-//custom page changing speed because by default on swiping _tabController.addListener(() { is fired later than on tap
-class CustomPageViewScrollPhysics extends ScrollPhysics {
-  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
-
-  @override
-  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return CustomPageViewScrollPhysics(parent: buildParent(ancestor)!);
-  }
-
-  @override
-  SpringDescription get spring => const SpringDescription(
-        mass: 200,
-        stiffness: 100,
-        damping: 0.4,
-      );
 }

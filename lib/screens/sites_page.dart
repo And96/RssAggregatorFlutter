@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
+import 'package:rss_aggregator_flutter/screens/news_page.dart';
 import 'package:rss_aggregator_flutter/screens/recommended_categories_page.dart';
 import 'package:rss_aggregator_flutter/screens/site_url_page.dart';
 import 'package:flutter/services.dart';
@@ -97,8 +98,13 @@ class _SitesPageState extends State<SitesPage>
         ListTile(
           leading: const Icon(Icons.newspaper),
           title: const Text('Open news'),
-          onTap: () {
-            Navigator.pop(context, site.siteName);
+          onTap: () async {
+            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NewsPage(
+                      siteFilter: site.siteName,
+                      categoryFilter: '*',
+                    )));
           },
         ),
         ListTile(

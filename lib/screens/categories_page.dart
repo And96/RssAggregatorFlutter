@@ -4,6 +4,7 @@ import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
+import 'package:rss_aggregator_flutter/screens/news_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
@@ -194,8 +195,13 @@ class _CategoriesPageState extends State<CategoriesPage>
         ListTile(
           leading: const Icon(Icons.newspaper),
           title: const Text('Open news'),
-          onTap: () {
-            Navigator.pop(context, category.name);
+          onTap: () async {
+            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NewsPage(
+                      siteFilter: '*',
+                      categoryFilter: category.name,
+                    )));
           },
         ),
         ListTile(

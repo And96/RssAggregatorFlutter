@@ -60,7 +60,7 @@ class _NewsSectionState extends State<NewsSection>
         await ThemeColor.isDarkMode().then((value) => {
               darkMode = value,
             });
-        await loadData();
+        await loadData(false);
       } catch (err) {
         //print('Caught error: $err');
       }
@@ -70,8 +70,8 @@ class _NewsSectionState extends State<NewsSection>
   @override
   void didUpdateWidget(NewsSection oldWidget) {
     try {
-      if (oldWidget.searchText != widget.searchText) {
-        loadData();
+      if (oldWidget.searchText != widget.searchText || items.isEmpty) {
+        loadData(false);
       }
     } catch (err) {
       //print('Caught error: $err');
@@ -79,7 +79,7 @@ class _NewsSectionState extends State<NewsSection>
     super.didUpdateWidget(oldWidget);
   }
 
-  loadData() async {
+  Future<void> loadData(bool loadFromWeb) async {
     try {
       setState(() {
         isLoading = true;
@@ -234,7 +234,7 @@ class _NewsSectionState extends State<NewsSection>
                 ))
               : Padding(
                   padding: const EdgeInsets.only(
-                      top: 5, left: 1, right: 1, bottom: 0),
+                      top: 6, left: 6, right: 6, bottom: 0),
                   child: Scrollbar(
                       controller: listviewController,
                       thickness: widget.searchText.isNotEmpty
