@@ -547,7 +547,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.sell),
+                            leading: const Icon(Icons.swap_horizontal_circle),
                             title: const Text("Categories"),
                             onTap: () {
                               Navigator.of(context)
