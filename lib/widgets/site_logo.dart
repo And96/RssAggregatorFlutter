@@ -25,8 +25,8 @@ class SiteLogo extends StatelessWidget {
                   margin: EdgeInsets.zero,
                   padding: EdgeInsets.zero,
                   child: CachedNetworkImage(
-                    height: 19,
-                    width: 19,
+                    height: 20,
+                    width: 20,
                     fit: BoxFit.cover,
                     imageUrl: iconUrl,
                     placeholder: (context, url) => const Icon(Icons.link),

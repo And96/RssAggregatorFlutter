@@ -63,7 +63,6 @@ class Utility {
       final yesterday = DateTime(now.year, now.month, now.day - 1);
 
       if (languageTag.toString().toLowerCase().contains("it") == true) {
-        String gg = "";
         final aDate = DateTime(date.year, date.month, date.day);
         if (aDate == today) {
           return "Oggi${DateFormat(' HH:mm').format(

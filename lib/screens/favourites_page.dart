@@ -4,12 +4,9 @@ import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
+import 'package:rss_aggregator_flutter/widgets/feed_tile.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
-/*import 'dart:async';*/
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({Key? key}) : super(key: key);
@@ -169,6 +166,9 @@ class _FavouritesPageState extends State<FavouritesPage>
     });
   }
 
+  //Controller
+  final ScrollController listviewController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,119 +198,134 @@ class _FavouritesPageState extends State<FavouritesPage>
                   onPressed: () => showDeleteDialog(context, "*")),
           ],
         ),
-        body: Stack(
-          children: [
-            isLoading == false
-                ? favouritesList.items.isEmpty
-                    ? Center(
-                        child: Column(
+        body: Container(
+            color: darkMode
+                ? ThemeColor.dark1.withAlpha(90)
+                : ThemeColor.light1.withAlpha(255),
+            child: Stack(children: [
+              isLoading == false
+                  ? favouritesList.items.isEmpty
+                      ? Center(
+                          child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            EmptySection(
+                              title: 'Nessuna elemento presente',
+                              description:
+                                  'Le notizie che salverai nei preferiti verranno visualizzate qui',
+                              icon: Icons.favorite,
+                              darkMode: darkMode,
+                            ),
+                          ],
+                        ))
+                      : Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5, left: 1, right: 1, bottom: 0),
+                          child: Scrollbar(
+                              controller: listviewController,
+                              /*thickness: widget.searchText.isNotEmpty
+                          ? 0
+                          : 8,*/ //hide scrollbar wrong if something is hidden is ok to hide them
+                              child: MediaQuery.of(context).size.width <
+                                      MediaQuery.of(context).size.height
+                                  ? ListView.builder(
+                                      controller: listviewController,
+                                      itemCount: favouritesList.items.length,
+                                      itemBuilder:
+                                          (BuildContext context, index) {
+                                        final item =
+                                            favouritesList.items[index];
+
+                                        return InkWell(
+                                            onTap: () =>
+                                                showOptionDialog(context, item),
+                                            child: FeedTile(
+                                                darkMode: darkMode,
+                                                title: item.title,
+                                                link: item.link,
+                                                host: item.host,
+                                                pubDate: item.pubDate,
+                                                iconUrl: item.iconUrl));
+                                      })
+                                  : GridView.builder(
+                                      controller: listviewController,
+                                      itemCount: favouritesList.items.length,
+                                      itemBuilder:
+                                          (BuildContext context, index) {
+                                        final item =
+                                            favouritesList.items[index];
+
+                                        return InkWell(
+                                            onTap: () =>
+                                                showOptionDialog(context, item),
+                                            child: FeedTile(
+                                                darkMode: darkMode,
+                                                title: item.title,
+                                                link: item.link,
+                                                host: item.host,
+                                                pubDate: item.pubDate,
+                                                iconUrl: item.iconUrl));
+                                      },
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount:
+                                                  MediaQuery.of(context)
+                                                              .size
+                                                              .width >
+                                                          800
+                                                      ? MediaQuery.of(context)
+                                                                  .size
+                                                                  .width >
+                                                              1150
+                                                          ? 4
+                                                          : 3
+                                                      : 2,
+                                              crossAxisSpacing: 0,
+                                              mainAxisSpacing: 0,
+                                              childAspectRatio: MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .height <
+                                                      1.9
+                                                  ? MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              MediaQuery.of(context)
+                                                                  .size
+                                                                  .height <
+                                                          1.6
+                                                      ? MediaQuery.of(context)
+                                                                      .size
+                                                                      .width /
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .height <
+                                                              1.4
+                                                          ? 2.0
+                                                          : 2.0
+                                                      : 2.1
+                                                  : 2.9),
+                                    )),
+                        )
+                  : Center(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           EmptySection(
-                            title: 'Nessuna notizia presente',
-                            description: 'Aggiungi i tuoi siti da seguire',
-                            icon: Icons.favorite,
-                            darkMode: darkMode,
-                          ),
-                        ],
-                      ))
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: ListView.separated(
-                            itemCount: favouritesList.items.length,
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
-                            itemBuilder: (BuildContext context, index) {
-                              final item = favouritesList.items[index];
-
-                              return InkWell(
-                                  onTap: () => showOptionDialog(context, item),
-                                  child: ListTile(
-                                    minLeadingWidth: 25,
-                                    leading: SiteLogo(iconUrl: item.iconUrl),
-                                    title: Padding(
-                                      padding: const EdgeInsets.only(top: 0),
-                                      child: Text(
-                                        (item.host.toString()),
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                          color: darkMode
-                                              ? ThemeColor.light3
-                                              : ThemeColor.dark4,
-                                        ),
-                                      ),
-                                    ),
-                                    isThreeLine: true,
-                                    subtitle: Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            SizedBox(
-                                              child: Text(
-                                                item.title.toString(),
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: darkMode
-                                                        ? ThemeColor.light2
-                                                        : ThemeColor.dark1),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 5),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    DateFormat('dd/MM/yy HH:mm')
-                                                        .format(
-                                                      item.pubDate.toLocal(),
-                                                    ),
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        color: darkMode
-                                                            ? ThemeColor.light3
-                                                            : ThemeColor.dark4),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                  ));
-                            }))
-                : Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        AnimatedOpacity(
-                          opacity: 1.0,
-                          duration: const Duration(milliseconds: 500),
-                          child: EmptySection(
-                            title: 'Loading',
-                            description: '...',
+                            title: '...',
+                            description: 'Caricamento in corso',
                             icon: Icons.query_stats,
                             darkMode: darkMode,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-          ],
-        ));
+            ])));
   }
 }

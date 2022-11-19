@@ -50,10 +50,8 @@ class _SitesPageState extends State<SitesPage>
           });
       await loadData();
       if (sitesList.items.isEmpty) {
-        Timer.run(() {
-          sleep(const Duration(milliseconds: 400));
-          _showNewDialog(context);
-        });
+        await Future.delayed(
+            const Duration(milliseconds: 500), () => _showNewDialog(context));
       }
     });
   }
