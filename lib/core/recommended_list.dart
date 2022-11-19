@@ -309,6 +309,10 @@ class RecommendedList {
 				"siteName": "forum.mrwebmaster.it",
 				"siteLink": "https://forum.mrwebmaster.it/forums/-/index.rss",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=forum.mrwebmaster.it"
+			},{
+				"siteName": "hackerjournal.it",
+				"siteLink": "https://hackerjournal.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hackerjournal.it"
 			}]
 	},
 	{
@@ -502,11 +506,6 @@ class RecommendedList {
 				"siteName": "educazionefinanziaria.com",
 				"siteLink": "https://www.educazionefinanziaria.com/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=educazionefinanziaria.com"
-			},
-			{
-				"siteName": "entrepreneur.com",
-				"siteLink": "https://www.entrepreneur.com/latest.rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=entrepreneur.com"
 			},
 			{
 				"siteName": "financecue.it",
@@ -755,11 +754,6 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=efficacemente.com"
 			},
 			{
-				"siteName": "geopop.it",
-				"siteLink": "https://www.geopop.it/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=geopop.it"
-			},
-			{
 				"siteName": "wikihow.it",
 				"siteLink": "https://www.wikihow.it/feed.rss",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wikihow.it"
@@ -978,6 +972,11 @@ class RecommendedList {
 				"siteName": "bergamo.it",
 				"siteLink": "https://news.google.com/rss/search?q=site:bergamo.it+when:10d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comune.bergamo.it"
+			},
+			{
+				"siteName": "bergamoesport.it",
+				"siteLink": "https://www.bergamoesport.it/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamoesport.it"
 			}
 		]
 	},
@@ -1083,11 +1082,6 @@ class RecommendedList {
 		"iconData": 61871,
 		"language": "english",
 		"sites": [{
-				"siteName": "hackerjournal.it",
-				"siteLink": "https://hackerjournal.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hackerjournal.it"
-			},
-			{
 				"siteName": "blog.malwarebytes.com",
 				"siteLink": "https://blog.malwarebytes.com/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=malwarebytes.com"
@@ -1176,6 +1170,11 @@ class RecommendedList {
 				"siteName": "interpersonal.stackexchange.com",
 				"siteLink": "https://interpersonal.stackexchange.com/feeds",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=interpersonal.stackexchange.com"
+			},
+      {
+				"siteName": "entrepreneur.com",
+				"siteLink": "https://www.entrepreneur.com/latest.rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=entrepreneur.com"
 			}
 		]
 	},
@@ -1195,19 +1194,9 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=linuxjournal.com"
 			},
 			{
-				"siteName": "hub.packtpub.com",
-				"siteLink": "hub.packtpub.com/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=packtpub.com"
-			},
-			{
 				"siteName": "stackoverflow.blog",
 				"siteLink": "https://stackoverflow.blog/feed",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stackoverflow.blog"
-			},
-			{
-				"siteName": "codeburst.io",
-				"siteLink": "https://codeburst.io/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=codeburst.io"
 			}
 		]
 	}

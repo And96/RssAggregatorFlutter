@@ -125,7 +125,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                             final item = recommendedList.items[0].sites[index];
                             return InkWell(
                               child: ListTile(
-                                  minLeadingWidth: 30,
+                                  minLeadingWidth: 50,
                                   leading: SiteLogoBig(
                                       iconUrl: item.iconUrl,
                                       color: Color(

@@ -184,6 +184,9 @@ class _NewsPageState extends State<NewsPage>
         body: isLoading
             ? Container(
                 alignment: Alignment.center,
+                color: darkMode
+                    ? ThemeColor.dark1.withAlpha(100)
+                    : ThemeColor.light1,
                 child: LoadingIndicator(
                   title: 'Aggiornamento in corso',
                   description: feedList.itemLoading,

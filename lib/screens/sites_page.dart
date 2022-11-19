@@ -540,7 +540,7 @@ class _SitesPageState extends State<SitesPage>
                                   searchController.text),
                           child: InkWell(
                             child: ListTile(
-                                minLeadingWidth: 45,
+                                minLeadingWidth: 50,
                                 leading: SiteLogoBig(
                                   iconUrl: item.iconUrl,
                                   color: Color(

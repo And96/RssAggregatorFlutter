@@ -42,6 +42,16 @@ class LoadingIndicator extends StatelessWidget {
         ..repeat();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ThemeColor.isDarkMode().then((value) => {
+            darkMode = value,
+          });
+    });
+  }
+
+  @override
   void dispose() {
     _refreshIconController.stop(canceled: true);
     _refreshIconController.dispose();

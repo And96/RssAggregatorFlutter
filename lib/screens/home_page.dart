@@ -628,7 +628,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               body: isLoading
                   ? Container(
                       color: darkMode
-                          ? ThemeColor.dark1.withAlpha(90)
+                          ? ThemeColor.dark1.withAlpha(100)
                           : ThemeColor.light1,
                       alignment: Alignment.center,
                       child: LoadingIndicator(
