@@ -138,6 +138,7 @@ class _NewsPageState extends State<NewsPage>
                 ],
               )
             : AppBar(
+                elevation: 0,
                 backgroundColor: darkMode ? ThemeColor.dark2 : colorCategory,
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),

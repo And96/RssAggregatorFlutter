@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   //Loading indicator
-  bool isLoading = false;
+  bool isLoading = true;
 
   //Search indicator
   bool isOnSearch = false;
@@ -159,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               setCategoryColor();
               setState(() {});
             }),
+            isLoading = false,
             await loadData(loadFromWeb),
           });
     } catch (err) {
@@ -570,7 +571,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-              bottomNavigationBar: /*Container(
+              bottomNavigationBar: isLoading
+                  ? null
+                  : /*Container(
                   height: 58,
                   width: double.infinity,
                   /*decoration: const BoxDecoration(
@@ -624,6 +627,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       )),
               body: isLoading
                   ? Container(
+                      color: darkMode
+                          ? ThemeColor.dark1.withAlpha(90)
+                          : ThemeColor.light1,
                       alignment: Alignment.center,
                       child: LoadingIndicator(
                         title: 'Aggiornamento in corso',

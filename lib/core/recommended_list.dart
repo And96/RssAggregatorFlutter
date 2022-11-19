@@ -718,7 +718,7 @@ class RecommendedList {
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=prevenzioneatavola.it"
 		}, {
 			"siteName": "ecoblog.it",
-			"siteLink": "https://www.ecoblog.it/rss2.xml",
+			"siteLink": "https://www.ecoblog.it/feed/",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecoblog.it"
 		}, {
 			"siteName": "geopop.it",

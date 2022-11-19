@@ -51,7 +51,6 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: darkMode ? ThemeColor.dark1.withAlpha(90) : ThemeColor.light1,
       padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 1),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
