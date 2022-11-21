@@ -94,11 +94,13 @@ class MyAppState extends State<MyApp> {
           title: 'Aggregator',
           themeMode: _themeBrightness,
           theme: ThemeData(
+            useMaterial3: false,
             listTileTheme: const ListTileThemeData(iconColor: Colors.black54),
             primarySwatch:
                 ThemeColor().createMaterialColor(ThemeColor.primaryColorLight),
           ),
           darkTheme: ThemeData.dark().copyWith(
+            useMaterial3: false,
             drawerTheme: DrawerThemeData(
               backgroundColor: ThemeColor.dark2,
             ),
