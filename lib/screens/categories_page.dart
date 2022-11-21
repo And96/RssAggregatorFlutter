@@ -200,7 +200,7 @@ class _CategoriesPageState extends State<CategoriesPage>
             Navigator.pop(context);
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => NewsPage(
-                      siteFilter: '*',
+                      siteFilter: 0,
                       categoryFilter: category.name,
                     )));
           },

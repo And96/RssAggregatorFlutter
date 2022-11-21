@@ -201,11 +201,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       isLoading = true;
       setState(() {});
 
-      await feedsListUpdate.load(loadFromWeb, "*", "*");
+      await feedsListUpdate.load(loadFromWeb, 0, "*");
       feedsList = [];
       for (Category c in categoriesList.tabs) {
         FeedsList f = FeedsList(updateItemLoading: null);
-        await f.load(false, '*', c.name);
+        await f.load(false, 0, c.name);
         feedsList.add(f);
       }
     } catch (err) {

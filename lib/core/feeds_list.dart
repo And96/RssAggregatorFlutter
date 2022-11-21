@@ -23,15 +23,14 @@ class FeedsList {
   late ValueChanged<String>? updateItemLoading;
   FeedsList({this.updateItemLoading});
 
-  Future<bool> load(
-      bool loadFromWeb, String siteName, String categoryName) async {
+  Future<bool> load(bool loadFromWeb, int siteID, String categoryName) async {
     try {
       await settings.init();
-      sites = await readSites(siteName, categoryName);
+      sites = await readSites(siteID, categoryName);
       items = await readFeeds(loadFromWeb);
       if (loadFromWeb &&
           items.isNotEmpty &&
-          siteName.length <= 1 &&
+          siteID <= 0 &&
           categoryName.length <= 1) {
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('last_update_feeds', DateTime.now().toIso8601String());
@@ -70,16 +69,16 @@ class FeedsList {
     return false;
   }
 
-  Future<List<Site>> readSites(String siteName, String categoryName) async {
+  Future<List<Site>> readSites(int siteID, String categoryName) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final List<dynamic> jsonData =
           await jsonDecode(prefs.getString('db_sites') ?? '[]');
       late List<Site> listLocal =
           List<Site>.from(jsonData.map((model) => Site.fromJson(model)));
-      if (siteName != "*") {
+      if (siteID > 0) {
         listLocal =
-            listLocal.where((element) => element.siteName == siteName).toList();
+            listLocal.where((element) => element.siteID == siteID).toList();
       }
       if (categoryName != "*") {
         listLocal = listLocal

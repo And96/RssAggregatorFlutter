@@ -102,7 +102,7 @@ class _SitesPageState extends State<SitesPage>
             Navigator.pop(context);
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => NewsPage(
-                      siteFilter: site.siteName,
+                      siteFilter: site.siteID,
                       categoryFilter: '*',
                     )));
           },

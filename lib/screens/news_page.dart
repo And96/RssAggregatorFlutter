@@ -12,7 +12,7 @@ class NewsPage extends StatefulWidget {
       {Key? key, required this.siteFilter, required this.categoryFilter})
       : super(key: key);
 
-  final String siteFilter;
+  final int siteFilter;
   final String categoryFilter;
 
   @override
@@ -36,6 +36,8 @@ class _NewsPageState extends State<NewsPage>
 
   //Theme
   static bool darkMode = false;
+
+  String siteName = "";
 
   //Controller
   TextEditingController searchController = TextEditingController();
@@ -77,7 +79,11 @@ class _NewsPageState extends State<NewsPage>
       await feedList.load(
           loadFromWeb, widget.siteFilter, widget.categoryFilter);
 
-      if (widget.siteFilter.trim().length > 1) {
+      if (widget.siteFilter > 0) {
+        //get color from icon
+        siteName = sitesList.items.isNotEmpty
+            ? sitesList.items[0].siteName
+            : "Not found";
       } else {
         colorCategory = Color(categoriesList.getColor(widget.categoryFilter));
       }
@@ -95,8 +101,8 @@ class _NewsPageState extends State<NewsPage>
             ? AppBar(
                 elevation: 0,
                 backgroundColor: darkMode ? ThemeColor.dark2 : colorCategory,
-                title: widget.siteFilter.trim().length > 1
-                    ? Text(widget.siteFilter)
+                title: widget.siteFilter > 0
+                    ? Text(siteName)
                     : Text(widget.categoryFilter),
                 actions: <Widget>[
                   if (!isLoading && feedList.sites.isNotEmpty)
