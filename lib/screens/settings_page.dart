@@ -27,8 +27,24 @@ class SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  void setLinesCustomBlacklist(String? value) {
+    value ??= PrefService.of(context).get('settings_blacklist_custom');
+    setState(() {
+      linesCustomBlacklist =
+          value.toString().length > 10 && value.toString().contains(";")
+              ? 10
+              : 1;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    setLinesCustomBlacklist(null);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -193,14 +209,11 @@ class SettingsPageState extends State<SettingsPage> {
             ),
           if (_selectedIndex == 2)
             PrefText(
-              hintText: '\nEnter keywords list.\nExample: SPORT;BUY;BAD',
+              hintText: 'Enter keywords list. e.g: WORD1;WORD2;WORD3',
               label: 'Custom blocklist',
               pref: 'settings_blacklist_custom',
               keyboardType: TextInputType.multiline,
-              onChange: (value) => setState(() {
-                linesCustomBlacklist =
-                    value.length > 10 && value.contains(";") ? 10 : 1;
-              }),
+              onChange: (value) => setLinesCustomBlacklist(value),
               maxLines: linesCustomBlacklist,
               validator: (str) {
                 if (str != null && str.length > 10 && !str.contains(';')) {

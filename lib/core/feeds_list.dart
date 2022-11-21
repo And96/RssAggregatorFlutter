@@ -192,8 +192,11 @@ class FeedsList {
 
       //remove feeds (blacklist custom)
       if (settings.settingsBlacklistCustom.toString().trim().length > 1) {
-        List<String> blacklist =
-            settings.settingsBlacklistCustom.toString().trim().split(";");
+        List<String> blacklist = settings.settingsBlacklistCustom
+            .toString()
+            .trim()
+            .replaceAll("\n", ";")
+            .split(";");
         for (String keywoard in blacklist) {
           if (keywoard.trim() != "") {
             items.removeWhere((e) => (e.title
