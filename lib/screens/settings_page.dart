@@ -19,6 +19,8 @@ class SettingsPageState extends State<SettingsPage> {
   //Theme
   static bool darkMode = false;
 
+  int linesCustomBlacklist = 1;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -191,9 +193,15 @@ class SettingsPageState extends State<SettingsPage> {
             ),
           if (_selectedIndex == 2)
             PrefText(
-              hintText: 'Enter keywords list. Example: SPORT;BUY;BAD',
+              hintText: '\nEnter keywords list.\nExample: SPORT;BUY;BAD',
               label: 'Custom blocklist',
               pref: 'settings_blacklist_custom',
+              keyboardType: TextInputType.multiline,
+              onChange: (value) => setState(() {
+                linesCustomBlacklist =
+                    value.length > 10 && value.contains(";") ? 10 : 1;
+              }),
+              maxLines: linesCustomBlacklist,
               validator: (str) {
                 if (str != null && str.length > 10 && !str.contains(';')) {
                   return 'Enter keyword separated by ;';
