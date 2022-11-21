@@ -127,15 +127,17 @@ class _SitesPageState extends State<SitesPage>
               title: (index, item) => item,
             ),
             onChange: (selected) async {
-              SnackBar snackBar = SnackBar(
-                duration: const Duration(milliseconds: 1500),
-                content: Text('Changed category to ${selected.value}'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              Navigator.pop(context);
-              sitesList
-                  .setCategory(site.siteLink, selected.value)
-                  .then((value) => setState(() {}));
+              if (selected.value != site.category) {
+                SnackBar snackBar = SnackBar(
+                  duration: const Duration(milliseconds: 1500),
+                  content: Text('Changed category to ${selected.value}'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Navigator.pop(context);
+                sitesList
+                    .setCategory(site.siteLink, selected.value)
+                    .then((value) => setState(() {}));
+              }
             },
             tileBuilder: (context, state) {
               return S2Tile.fromState(
@@ -322,9 +324,9 @@ class _SitesPageState extends State<SitesPage>
         setState(() {
           isLoading = false;
         });
-        const snackBar = SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Search completed'),
+        var snackBar = SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text('Search completed. ${siteAgg.length} link found'),
         );
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);

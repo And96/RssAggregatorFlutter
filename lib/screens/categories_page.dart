@@ -43,12 +43,17 @@ class _CategoriesPageState extends State<CategoriesPage>
         if (categoryUpdated != null) {
           categoriesList.delete(categoryUpdated.name);
           sitesList
-              .renameCategory(categoryUpdated.name, _textFieldController.text)
+              .renameCategory(
+                categoryUpdated.name,
+                _textFieldController.text,
+              )
               .then((value) => setState(() {}));
         }
         categoriesList
-            .add(_textFieldController.text,
-                categoryUpdated == null ? -1 : categoryUpdated.color)
+            .add(
+                _textFieldController.text,
+                categoryUpdated == null ? -1 : categoryUpdated.color,
+                categoryUpdated == null ? -1 : categoryUpdated.icon)
             .then((value) => setState(() {}));
         Navigator.pop(context);
       },
@@ -106,12 +111,12 @@ class _CategoriesPageState extends State<CategoriesPage>
     return true;
   }
 
-  void _openColorPickerDialog(String name, Widget content) {
+  void _openColorPickerDialog(Category category, Widget content) {
     Widget saveButton = TextButton(
       child: const Text("Save"),
       onPressed: () {
         categoriesList
-            .add(name, _selectedColor!.value)
+            .add(category.name, _selectedColor!.value, category.icon)
             .then((value) => setState(() {}));
 
         Navigator.pop(context);
@@ -128,7 +133,7 @@ class _CategoriesPageState extends State<CategoriesPage>
       builder: (_) {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(6.0),
-          title: Text(name),
+          title: Text(category.name),
           content: content,
           actions: [saveButton, cancelButton],
         );
@@ -136,9 +141,9 @@ class _CategoriesPageState extends State<CategoriesPage>
     );
   }
 
-  void _openColorPicker(String name, int color) async {
+  void _openColorPicker(Category category, int color) async {
     _openColorPickerDialog(
-      name,
+      category,
       MaterialColorPicker(
         //circleSize: 50,
         selectedColor: Color(color),
@@ -218,7 +223,7 @@ class _CategoriesPageState extends State<CategoriesPage>
           title: const Text('Choose color'),
           onTap: () {
             Navigator.pop(context);
-            _openColorPicker(category.name, category.color);
+            _openColorPicker(category, category.color);
           },
         ),
         SizedBox(
@@ -246,11 +251,14 @@ class _CategoriesPageState extends State<CategoriesPage>
                 Navigator.pop(context);
                 SnackBar snackBar;
                 _changeCategory(selected, category.name).then((value) => {
-                      snackBar = SnackBar(
-                        duration: const Duration(milliseconds: 1000),
-                        content: Text('Changed category to ${category.name}'),
-                      ),
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                      if (selected.length != sitesSelectedCategory.length)
+                        {
+                          snackBar = SnackBar(
+                            duration: const Duration(milliseconds: 1000),
+                            content: Text('Saving ${category.name}'),
+                          ),
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                        },
                       sitesSelectedCategory = [],
                       setState(() {}),
                     });
@@ -429,11 +437,11 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 ),
                               ),
                             ),
-                            subtitle: const Padding(
-                              padding: EdgeInsets.only(top: 0),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 0),
                               child: Text(
-                                ("Premi per modificare"),
-                                style: TextStyle(
+                                ("${sitesList.getNrSitesFromCategory(item.name)} siti in questa categoria"),
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
                                 ),

@@ -44,6 +44,23 @@ class SitesList {
     return list;
   }
 
+  int getNrSitesFromCategory(String category) {
+    try {
+      int n = 0;
+      for (Site item in items) {
+        if (category.trim() == "" ||
+            item.category.toLowerCase().trim() ==
+                category.toLowerCase().trim()) {
+          n++;
+        }
+      }
+      return n;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return 0;
+  }
+
   Future<bool> load([String sort = ""]) async {
     try {
       if (sort.trim() != "") {
