@@ -211,7 +211,7 @@ class _NewsSectionState extends State<NewsSection>
   Widget build(BuildContext context) {
     return Container(
       color: darkMode
-          ? ThemeColor.dark1.withAlpha(150)
+          ? ThemeColor.dark1.withAlpha(120)
           : widget.feedsList.items.isEmpty
               ? ThemeColor.light1
               : Color.alphaBlend(widget.colorCategory.withAlpha(100),

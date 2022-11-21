@@ -491,7 +491,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
                                 color: darkMode
-                                    ? ThemeColor.dark2
+                                    ? const Color.fromARGB(255, 20, 20, 20)
                                     : colorCategory), //Theme.of(context).colorScheme.primary),
                             accountName: const Text("Aggregator RSS"),
                             accountEmail: const Text("News Feed Reader"),

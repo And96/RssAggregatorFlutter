@@ -200,7 +200,7 @@ class _FavouritesPageState extends State<FavouritesPage>
         ),
         body: Container(
             color: darkMode
-                ? ThemeColor.dark1.withAlpha(150)
+                ? ThemeColor.dark1.withAlpha(120)
                 : ThemeColor.light1.withAlpha(255),
             padding:
                 const EdgeInsets.only(top: 6, left: 6, right: 6, bottom: 0),
