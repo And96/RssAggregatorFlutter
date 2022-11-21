@@ -184,7 +184,7 @@ class _SitesPageState extends State<SitesPage>
           title: const Text('Delete site'),
           onTap: () async {
             await sitesList
-                .delete(site.siteLink, site.siteName)
+                .delete(site.siteLink, site.siteName, site.siteID)
                 .then((value) => setState(() {
                       Navigator.pop(context);
                       const snackBar = SnackBar(
@@ -211,7 +211,7 @@ class _SitesPageState extends State<SitesPage>
       child: const Text("Yes"),
       onPressed: () {
         setState(() {
-          sitesList.delete("*", "");
+          sitesList.delete("*", "", 0);
         });
         Navigator.pop(context);
       },
@@ -270,10 +270,12 @@ class _SitesPageState extends State<SitesPage>
       String siteLink = '';
       String category = '';
       String siteName = '';
+      int siteID = 0;
       if (siteUpdated != null) {
         siteLink = siteUpdated.siteLink;
         category = siteUpdated.category;
         siteName = siteUpdated.siteName;
+        siteID = siteUpdated.siteID;
       }
       List<String> siteAgg = [];
       // start the SecondScreen and wait for it to finish with a result
@@ -289,7 +291,7 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        await sitesList.delete(siteLink, siteName);
+        await sitesList.delete(siteLink, siteName, siteID);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
@@ -311,7 +313,8 @@ class _SitesPageState extends State<SitesPage>
               inputText.toString().replaceAll(" ", "").replaceAll("\n", ""),
               true,
               category,
-              siteName));
+              siteName,
+              siteID));
         }
         setState(() {
           progressLoading = 0.99;

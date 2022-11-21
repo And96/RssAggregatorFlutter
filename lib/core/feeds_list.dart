@@ -213,8 +213,7 @@ class FeedsList {
     return [];
   }
 
-  Future<List<Feed>> parseRssFeed(
-      Site site, String hostname, Response response) async {
+  Future<List<Feed>> parseRssFeed(Site site, Response response) async {
     List<Feed> itemsSite = [];
     try {
       RssFeed channel = RssFeed();
@@ -245,7 +244,8 @@ class FeedsList {
                         : element.link.toString().trim(),
                 iconUrl: iconUrl.toString(),
                 pubDate: Utility().tryParse(element.pubDate.toString()),
-                host: hostname);
+                host: site.siteName,
+                siteID: site.siteID);
             itemsSite.add(feed);
           }
         }
@@ -256,8 +256,7 @@ class FeedsList {
     return itemsSite;
   }
 
-  Future<List<Feed>> parseAtomFeed(
-      Site site, String hostname, Response response) async {
+  Future<List<Feed>> parseAtomFeed(Site site, Response response) async {
     List<Feed> itemsSite = [];
     try {
       AtomFeed channel = AtomFeed();
@@ -287,7 +286,8 @@ class FeedsList {
                 pubDate: Utility().tryParse(element.published == null
                     ? element.updated.toString()
                     : element.published.toString()),
-                host: hostname);
+                host: site.siteName,
+                siteID: site.siteID);
             itemsSite.add(feed);
           }
         }
@@ -372,9 +372,9 @@ class FeedsList {
         t1 = DateTime.now();*/
 
         List<Feed> itemsSite;
-        itemsSite = await parseRssFeed(site, site.siteName, response);
+        itemsSite = await parseRssFeed(site, response);
         if (itemsSite.isEmpty) {
-          itemsSite = await parseAtomFeed(site, site.siteName, response);
+          itemsSite = await parseAtomFeed(site, response);
         }
 
 /*//DEBUG TIME ***
@@ -389,7 +389,7 @@ class FeedsList {
         /*print('After sort: ${DateTime.now().difference(t1).inMicroseconds}');
         t1 = DateTime.now();*/
 
-        await deleteDB(site.siteName);
+        await deleteDB(site.siteName, site.siteID);
 
 //DEBUG TIME ***
 
@@ -464,7 +464,7 @@ class FeedsList {
     try {
       final db = await database;
       final List<Map<String, dynamic>> maps = await db
-          .rawQuery('SELECT * FROM feeds WHERE host=?', [site.siteName]);
+          .rawQuery('SELECT * FROM feeds WHERE siteID=?', [site.siteID]);
       list = List<Feed>.from(maps.map((model) => Feed.fromMap(model)));
     } catch (err) {
       //print('Caught error: $err');
@@ -499,17 +499,24 @@ class FeedsList {
     }
   }
 
-  Future<void> deleteDB(String host) async {
+  Future<void> deleteDB(String siteName, int siteID) async {
     try {
-      if (host.toString().trim() == "") {
-        return;
-      }
       final db = await database;
-      await db.delete(
-        'feeds',
-        where: 'host = ?',
-        whereArgs: [host],
-      );
+
+      if (siteID > 0) {
+        await db.delete(
+          'feeds',
+          where: 'siteID = ?',
+          whereArgs: [siteID],
+        );
+      } else {
+        final db = await database;
+        await db.delete(
+          'feeds',
+          where: 'host = ?',
+          whereArgs: [siteName],
+        );
+      }
     } catch (err) {
       //print('Caught error: $err');
     }

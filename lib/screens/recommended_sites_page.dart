@@ -71,9 +71,9 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
     try {
       await Future.delayed(const Duration(milliseconds: 1000));
 
-      bool exists = await sitesList.exists(selected.siteLink);
-      if (exists) {
-        await sitesList.delete(selected.siteLink, selected.siteName);
+      int siteID = await sitesList.getSiteID(selected.siteLink);
+      if (siteID > 0) {
+        await sitesList.delete(selected.siteLink, selected.siteName, 0);
         selected.added = false;
       } else {
         bool exists =
@@ -85,6 +85,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
               recommendedList.items[0].iconData);
         }
         Site site = Site(
+            siteID: siteID,
             siteName: selected.siteName,
             siteLink: selected.siteLink,
             iconUrl: selected.iconUrl,

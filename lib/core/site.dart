@@ -6,11 +6,13 @@ import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart';
 
 class Site {
+  var siteID = 0;
   var siteName = "";
   var siteLink = "";
   var iconUrl = "";
   var category = "";
   Site({
+    required this.siteID,
     required this.siteName,
     required this.siteLink,
     required this.iconUrl,
@@ -19,6 +21,7 @@ class Site {
 
   factory Site.fromJson(Map<String, dynamic> json) {
     return Site(
+      siteID: json["siteID"],
       siteName: json["siteName"],
       siteLink: json["siteLink"],
       iconUrl: json["iconUrl"],
@@ -28,6 +31,7 @@ class Site {
 
   Map<String, dynamic> toJson() {
     return {
+      "siteID": siteID,
       "siteName": siteName,
       "siteLink": siteLink,
       "iconUrl": iconUrl,
@@ -37,7 +41,27 @@ class Site {
 
   @override
   String toString() =>
-      '{siteName: $siteName siteLink: $siteLink iconUrl: $iconUrl}';
+      '{siteID: $siteID siteName: $siteName siteLink: $siteLink iconUrl: $iconUrl}';
+
+  int setSiteID() {
+    try {
+      if (siteID <= 0) {
+        siteID = siteID = getNewSiteID();
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return siteID;
+  }
+
+  static int getNewSiteID() {
+    try {
+      return DateTime.now().millisecondsSinceEpoch;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return 0;
+  }
 
   static Future<String> getUrlFormatted(String url, bool advancedSearch) async {
     try {

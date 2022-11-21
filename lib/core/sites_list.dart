@@ -74,21 +74,38 @@ class SitesList {
     return false;
   }
 
+  Future<int> getSiteID(String url) async {
+    try {
+      List<Site> l = await get();
+      l = l
+          .where((e) =>
+              (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()))
+          .toList();
+      if (l.isNotEmpty) {
+        return l[0].siteID;
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return -1;
+  }
+
   Future<void> save(List<Site> list) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('db_sites', jsonEncode(list));
   }
 
-  Future<bool> delete(String url, String siteName) async {
+  Future<bool> delete(String url, String siteName, int siteID) async {
     try {
       await load();
       if (url == "*") {
         items = [];
         await FeedsList(updateItemLoading: null).deleteAllDB();
       } else {
+        items.removeWhere((e) => (e.siteID == siteID));
         items.removeWhere((e) =>
             (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
-        await FeedsList(updateItemLoading: null).deleteDB(siteName);
+        await FeedsList(updateItemLoading: null).deleteDB(siteName, siteID);
       }
       await save(items);
       await load();
@@ -139,6 +156,7 @@ class SitesList {
   Future<bool> addSite(Site site) async {
     try {
       await load();
+      site.setSiteID();
       items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
           Utility().cleanUrlCompare(site.siteLink)));
       items.add(site);
@@ -152,7 +170,7 @@ class SitesList {
   }
 
   Future<List<String>> add(String url, bool advancedSearch,
-      [String category = '', String siteName = '']) async {
+      [String category = '', String siteName = '', int siteID = 0]) async {
     List<String> siteAgg = [];
     try {
       String hostsiteName = url;
@@ -196,6 +214,7 @@ class SitesList {
 
       if (url.length > 1) {
         var s1 = Site(
+          siteID: 0,
           siteName: siteName.trim() != '' ? siteName : hostsiteName,
           siteLink: url,
           iconUrl: await SiteIcon()
