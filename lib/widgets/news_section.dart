@@ -291,7 +291,9 @@ class _NewsSectionState extends State<NewsSection>
                         .getMainColorFromUrl(item.iconUrl), // async work
                     builder:
                         (BuildContext context, AsyncSnapshot<Color?> snapshot) {
-                      Color paletteColor = snapshot.data!;
+                      Color paletteColor = snapshot.data == null
+                          ? Color(ThemeColor().defaultCategoryColor)
+                          : snapshot.data!;
                       return Container(
                         padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                         width: double.infinity,
