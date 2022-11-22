@@ -650,7 +650,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   feedsList: isLoading
                                       ? feedsListUpdate
                                       : feedsList[index],
-                                  colorCategory: colorCategory,
+                                  mainColor: colorCategory,
                                   isLoading: isLoading,
                                 ),
                               ))));

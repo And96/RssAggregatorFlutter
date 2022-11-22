@@ -54,7 +54,7 @@ class _NewsPageState extends State<NewsPage>
     super.dispose();
   }
 
-  Color colorCategory = ThemeColor.primaryColorLight;
+  Color mainColor = ThemeColor.primaryColorLight;
 
   @override
   void initState() {
@@ -76,16 +76,37 @@ class _NewsPageState extends State<NewsPage>
       setState(() {});
       await categoriesList.load(true);
 
+      await sitesList.load();
+
       await feedList.load(
           loadFromWeb, widget.siteFilter, widget.categoryFilter);
 
       if (widget.siteFilter > 0) {
         //get color from icon
-        siteName = sitesList.items.isNotEmpty
-            ? sitesList.items[0].siteName
+        siteName = sitesList.items
+                .where((e) => e.siteID == widget.siteFilter)
+                .isNotEmpty
+            ? sitesList.items
+                .where((e) => e.siteID == widget.siteFilter)
+                .first
+                .siteName
             : "Not found";
+
+        if (!darkMode) {
+          mainColor = (await ThemeColor().getMainColorFromUrl(sitesList.items
+              .where((e) => e.siteID == widget.siteFilter)
+              .first
+              .iconUrl))!;
+          if (mainColor.blue + mainColor.red + mainColor.green > 400) {
+            mainColor = Color.fromARGB(
+                255,
+                mainColor.red < 30 ? 0 : mainColor.red - 30,
+                mainColor.green < 30 ? 0 : mainColor.green - 30,
+                mainColor.blue < 30 ? 0 : mainColor.blue - 30);
+          }
+        }
       } else {
-        colorCategory = Color(categoriesList.getColor(widget.categoryFilter));
+        mainColor = Color(categoriesList.getColor(widget.categoryFilter));
       }
     } catch (err) {
       //print('Caught error: $err');
@@ -100,7 +121,7 @@ class _NewsPageState extends State<NewsPage>
         appBar: !isOnSearch
             ? AppBar(
                 elevation: 0,
-                backgroundColor: darkMode ? ThemeColor.dark2 : colorCategory,
+                backgroundColor: darkMode ? ThemeColor.dark2 : mainColor,
                 title: widget.siteFilter > 0
                     ? Text(siteName)
                     : Text(widget.categoryFilter),
@@ -145,7 +166,7 @@ class _NewsPageState extends State<NewsPage>
               )
             : AppBar(
                 elevation: 0,
-                backgroundColor: darkMode ? ThemeColor.dark2 : colorCategory,
+                backgroundColor: darkMode ? ThemeColor.dark2 : mainColor,
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   tooltip: 'Back',
@@ -205,7 +226,7 @@ class _NewsPageState extends State<NewsPage>
                 child: NewsSection(
                   searchText: searchController.text,
                   feedsList: feedList,
-                  colorCategory: colorCategory,
+                  mainColor: mainColor,
                   isLoading: isLoading,
                 ),
               ));

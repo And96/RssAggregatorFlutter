@@ -4,6 +4,7 @@ import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/readlater_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
+import 'package:rss_aggregator_flutter/screens/news_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
@@ -16,13 +17,13 @@ class NewsSection extends StatefulWidget {
   final bool isLoading;
   final FeedsList feedsList;
   final String searchText;
-  final Color colorCategory;
+  final Color mainColor;
   const NewsSection({
     Key? key,
     required this.isLoading,
     required this.feedsList,
     required this.searchText,
-    required this.colorCategory,
+    required this.mainColor,
   }) : super(key: key);
 
   @override
@@ -106,10 +107,20 @@ class _NewsSectionState extends State<NewsSection>
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(
-            height: 20,
-            width: 20,
-            child: SiteLogo(iconUrl: item.iconUrl),
+          InkWell(
+            onTap: () async {
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NewsPage(
+                        siteFilter: item.siteID,
+                        categoryFilter: '*',
+                      )));
+            },
+            child: SizedBox(
+              height: 20,
+              width: 20,
+              child: SiteLogo(iconUrl: item.iconUrl),
+            ),
           ),
           Text(
             item.host,
@@ -129,75 +140,238 @@ class _NewsSectionState extends State<NewsSection>
       ),
       contentPadding: const EdgeInsets.all(8),
       children: <Widget>[
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: SizedBox(
+        Container(
+            padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
             width: 250,
-            child: Text(
-              item.link,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.left,
-              maxLines: 3,
-            ),
-          ),
-        ),
-        const Divider(),
-        ListTile(
+            child: SingleChildScrollView(
+              //MUST TO ADDED
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    child: Text(
+                      item.link,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.left,
+                      maxLines: 3,
+                    ),
+                  ),
+                  const Divider(),
+                  GridView(
+                      shrinkWrap: true, //MUST TO ADDED
+
+                      physics:
+                          const NeverScrollableScrollPhysics(), //MUST TO ADDED
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 0,
+                              crossAxisSpacing: 0,
+                              childAspectRatio: 1.6),
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            readlaterList.add(item);
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Added to read later'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Icon(
+                                  Icons.watch_later_outlined,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.grey[300]
+                                      : Colors.grey[700],
+                                  size: 27.0,
+                                )),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                  child: Text('Leggi piu tardi'),
+                                ),
+                              ]),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            favouritesList.add(item);
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Added to favourites'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Icon(
+                                  Icons.favorite_border,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.grey[300]
+                                      : Colors.grey[700],
+                                  size: 27.0,
+                                )),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                  child: Text('Salva nei preferiti'),
+                                ),
+                              ]),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Clipboard.setData(ClipboardData(text: item.link));
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Link copied to clipboard'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Icon(
+                                  Icons.copy,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.grey[300]
+                                      : Colors.grey[700],
+                                  size: 27.0,
+                                )),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                  child: Text('Copia Link'),
+                                ),
+                              ]),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Share.share(item.link);
+                            Navigator.pop(context);
+                          },
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Icon(
+                                  Icons.share,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.grey[300]
+                                      : Colors.grey[700],
+                                  size: 27.0,
+                                )),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                  child: Text('Condividi Link'),
+                                ),
+                              ]),
+                        ),
+                      ]),
+                  const Divider(),
+                  FutureBuilder<Color?>(
+                    future: ThemeColor()
+                        .getMainColorFromUrl(item.iconUrl), // async work
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Color?> snapshot) {
+                      Color paletteColor = snapshot.data!;
+                      return Container(
+                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                        width: double.infinity,
+                        height: 55,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: darkMode
+                                  ? ThemeColor.dark3.withAlpha(0)
+                                  : Colors.black.withAlpha(10),
+                              width: 0.0,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 0.0,
+                          //color: Color(recommendedList.items[index].color),
+                          //color: Color.fromARGB(255, 236, 236, 236),
+                          color: darkMode ||
+                                  (paletteColor.blue / 2 +
+                                          paletteColor.green +
+                                          paletteColor.red <
+                                      170)
+                              ? paletteColor.withAlpha(150)
+                              : paletteColor.withAlpha(190),
+                          //padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                          /* width: double.infinity,
+                        height: double.infinity,*/
+
+                          child: InkWell(
+                            splashColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.grey[900]
+                                    : Colors.white,
+                            onTap: () async {
+                              Utility().launchInBrowser(Uri.parse(item.link));
+                              Navigator.pop(context);
+                            },
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                                    child: Icon(
+                                      Icons.open_in_browser,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Colors.grey[300]
+                                          : Colors.black.withAlpha(200),
+                                      size: 27.0,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Leggi sul sito',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    textAlign: TextAlign.left,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+
+                /*ListTile(
           leading: const Icon(Icons.open_in_new),
           title: const Text('Open site'),
           onTap: () async {
             Utility().launchInBrowser(Uri.parse(item.link));
             Navigator.pop(context);
           },
-        ),
-        ListTile(
-          leading: const Icon(Icons.watch_later_outlined),
-          title: const Text('Read later'),
-          onTap: () {
-            readlaterList.add(item);
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Added to read later'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.favorite_border),
-          title: const Text('Add to favourites'),
-          onTap: () {
-            favouritesList.add(item);
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Added to favourites'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.copy),
-          title: const Text('Copy link'),
-          onTap: () {
-            Clipboard.setData(ClipboardData(text: item.link));
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Link copied to clipboard'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.share),
-          title: const Text('Share link'),
-          onTap: () {
-            Share.share(item.link);
-            Navigator.pop(context);
-          },
-        ),
+        ),*/
+              ),
+            ))
       ],
     );
     showDialog(
@@ -214,7 +388,7 @@ class _NewsSectionState extends State<NewsSection>
           ? ThemeColor.dark1.withAlpha(120)
           : widget.feedsList.items.isEmpty
               ? ThemeColor.light1
-              : Color.alphaBlend(widget.colorCategory.withAlpha(100),
+              : Color.alphaBlend(widget.mainColor.withAlpha(100),
                       Colors.blueGrey.withAlpha(100))
                   .withAlpha(25), //.withOpacity(0.1),
       child: widget.isLoading == false

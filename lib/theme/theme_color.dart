@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeColor {
@@ -112,5 +114,19 @@ class ThemeColor {
       );
     }
     return MaterialColor(color.value, swatch);
+  }
+
+  Future<Color?> getMainColorFromUrl(String url) async {
+    try {
+      PaletteGenerator paletteGenerator;
+      paletteGenerator = await PaletteGenerator.fromImageProvider(
+        Image(image: CachedNetworkImageProvider(url)).image,
+        //Image.network(url).image,
+      );
+      return paletteGenerator.dominantColor!.color;
+    } catch (e) {
+      //
+    }
+    return Colors.grey[600];
   }
 }
