@@ -7,7 +7,7 @@ import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/news_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
-import 'package:rss_aggregator_flutter/widgets/button_card_menu.dart';
+import 'package:rss_aggregator_flutter/widgets/button_feed_option.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/feed_tile.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
@@ -173,7 +173,7 @@ class _NewsSectionState extends State<NewsSection>
                               crossAxisSpacing: 3,
                               childAspectRatio: 1.6),
                       children: [
-                        ButtonCardMenu(
+                        ButtonFeedOption(
                           text: "Leggi piu tardi",
                           icon: Icons.watch_later_outlined,
                           function: () {
@@ -187,7 +187,7 @@ class _NewsSectionState extends State<NewsSection>
                                 .showSnackBar(snackBar);
                           },
                         ),
-                        ButtonCardMenu(
+                        ButtonFeedOption(
                           text: "Salva nei preferiti",
                           icon: Icons.favorite_border,
                           function: () {
@@ -201,7 +201,7 @@ class _NewsSectionState extends State<NewsSection>
                                 .showSnackBar(snackBar);
                           },
                         ),
-                        ButtonCardMenu(
+                        ButtonFeedOption(
                           text: "Copia Link",
                           icon: Icons.copy,
                           function: () {
@@ -215,7 +215,7 @@ class _NewsSectionState extends State<NewsSection>
                                 .showSnackBar(snackBar);
                           },
                         ),
-                        ButtonCardMenu(
+                        ButtonFeedOption(
                           text: "Condividi Link",
                           icon: Icons.share,
                           function: () {
