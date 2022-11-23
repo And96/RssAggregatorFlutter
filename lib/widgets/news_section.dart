@@ -7,6 +7,7 @@ import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/news_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/button_card_menu.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/feed_tile.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
@@ -141,8 +142,8 @@ class _NewsSectionState extends State<NewsSection>
       contentPadding: const EdgeInsets.all(8),
       children: <Widget>[
         Container(
-            padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-            width: 250,
+            padding: const EdgeInsets.fromLTRB(3, 3, 3, 3),
+            width: 300,
             child: SingleChildScrollView(
               //MUST TO ADDED
               child: Column(
@@ -151,7 +152,7 @@ class _NewsSectionState extends State<NewsSection>
                 children: <Widget>[
                   const Divider(),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    padding: const EdgeInsets.fromLTRB(4, 0, 3, 4),
                     child: Text(
                       item.link,
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -170,10 +171,12 @@ class _NewsSectionState extends State<NewsSection>
                               crossAxisCount: 2,
                               mainAxisSpacing: 0,
                               crossAxisSpacing: 0,
-                              childAspectRatio: 1.6),
+                              childAspectRatio: 1.7),
                       children: [
-                        InkWell(
-                          onTap: () {
+                        ButtonCardMenu(
+                          text: "Leggi piu tardi",
+                          icon: Icons.watch_later_outlined,
+                          function: () {
                             readlaterList.add(item);
                             Navigator.pop(context);
                             const snackBar = SnackBar(
@@ -183,27 +186,11 @@ class _NewsSectionState extends State<NewsSection>
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Expanded(
-                                    child: Icon(
-                                  Icons.watch_later_outlined,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.grey[300]
-                                      : Colors.grey[700],
-                                  size: 27.0,
-                                )),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: Text('Leggi piu tardi'),
-                                ),
-                              ]),
                         ),
-                        InkWell(
-                          onTap: () {
+                        ButtonCardMenu(
+                          text: "Salva nei preferiti",
+                          icon: Icons.favorite_border,
+                          function: () {
                             favouritesList.add(item);
                             Navigator.pop(context);
                             const snackBar = SnackBar(
@@ -213,27 +200,11 @@ class _NewsSectionState extends State<NewsSection>
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Expanded(
-                                    child: Icon(
-                                  Icons.favorite_border,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.grey[300]
-                                      : Colors.grey[700],
-                                  size: 27.0,
-                                )),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: Text('Salva nei preferiti'),
-                                ),
-                              ]),
                         ),
-                        InkWell(
-                          onTap: () {
+                        ButtonCardMenu(
+                          text: "Copia Link",
+                          icon: Icons.copy,
+                          function: () {
                             Clipboard.setData(ClipboardData(text: item.link));
                             Navigator.pop(context);
                             const snackBar = SnackBar(
@@ -243,46 +214,14 @@ class _NewsSectionState extends State<NewsSection>
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                    child: Icon(
-                                  Icons.copy,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.grey[300]
-                                      : Colors.grey[700],
-                                  size: 27.0,
-                                )),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: Text('Copia Link'),
-                                ),
-                              ]),
                         ),
-                        InkWell(
-                          onTap: () {
+                        ButtonCardMenu(
+                          text: "Condividi Link",
+                          icon: Icons.share,
+                          function: () {
                             Share.share(item.link);
                             Navigator.pop(context);
                           },
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                    child: Icon(
-                                  Icons.share,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.grey[300]
-                                      : Colors.grey[700],
-                                  size: 27.0,
-                                )),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: Text('Condividi Link'),
-                                ),
-                              ]),
                         ),
                       ]),
                   const Divider(),
@@ -297,7 +236,7 @@ class _NewsSectionState extends State<NewsSection>
                       return Container(
                         padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                         width: double.infinity,
-                        height: 55,
+                        height: 70,
                         child: Card(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(
@@ -309,8 +248,6 @@ class _NewsSectionState extends State<NewsSection>
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           elevation: 0.0,
-                          //color: Color(recommendedList.items[index].color),
-                          //color: Color.fromARGB(255, 236, 236, 236),
                           color: darkMode ||
                                   (paletteColor.blue / 2 +
                                           paletteColor.green +
@@ -318,10 +255,6 @@ class _NewsSectionState extends State<NewsSection>
                                       170)
                               ? paletteColor.withAlpha(150)
                               : paletteColor.withAlpha(190),
-                          //padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                          /* width: double.infinity,
-                        height: double.infinity,*/
-
                           child: InkWell(
                             splashColor:
                                 Theme.of(context).brightness == Brightness.dark
@@ -363,15 +296,6 @@ class _NewsSectionState extends State<NewsSection>
                     },
                   ),
                 ],
-
-                /*ListTile(
-          leading: const Icon(Icons.open_in_new),
-          title: const Text('Open site'),
-          onTap: () async {
-            Utility().launchInBrowser(Uri.parse(item.link));
-            Navigator.pop(context);
-          },
-        ),*/
               ),
             ))
       ],
