@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
-class ButtonCardMenu extends StatelessWidget {
-  const ButtonCardMenu({
+class ButtonFeedOption extends StatelessWidget {
+  const ButtonFeedOption({
     super.key,
     required this.text,
     required this.function,
