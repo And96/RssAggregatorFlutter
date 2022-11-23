@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/Readlater_list.dart';
+import 'package:rss_aggregator_flutter/core/favourites_list.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:flutter/services.dart';
+import 'package:rss_aggregator_flutter/screens/news_page.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/button_feed_open.dart';
+import 'package:rss_aggregator_flutter/widgets/button_feed_option.dart';
 import 'package:rss_aggregator_flutter/widgets/feed_tile.dart';
+import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 
@@ -20,6 +25,7 @@ class _ReadlaterPageState extends State<ReadlaterPage>
   bool isLoading = false;
   double progressLoading = 0;
   late ReadlaterList readlaterList = ReadlaterList();
+  late FavouritesList favouritesList = FavouritesList();
   bool darkMode = false;
 
   @override
@@ -49,8 +55,25 @@ class _ReadlaterPageState extends State<ReadlaterPage>
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          const Text(
-            "Options",
+          InkWell(
+            onTap: () async {
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NewsPage(
+                        siteFilter: item.siteID,
+                        categoryFilter: '*',
+                      )));
+            },
+            child: SizedBox(
+              height: 20,
+              width: 20,
+              child: SiteLogo(iconUrl: item.iconUrl),
+            ),
+          ),
+          Text(
+            item.host,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
           ),
           IconButton(
             padding: EdgeInsets.zero,
@@ -65,52 +88,112 @@ class _ReadlaterPageState extends State<ReadlaterPage>
       ),
       contentPadding: const EdgeInsets.all(8),
       children: <Widget>[
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.open_in_new),
-          title: const Text('Open site'),
-          onTap: () async {
-            Utility().launchInBrowser(Uri.parse(item.link));
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.copy),
-          title: const Text('Copy link'),
-          onTap: () {
-            Clipboard.setData(ClipboardData(text: item.link));
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(milliseconds: 500),
-              content: Text('Link copied to clipboard'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.share),
-          title: const Text('Share link'),
-          onTap: () {
-            Share.share(item.link);
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.delete),
-          title: const Text('Delete link'),
-          onTap: () {
-            setState(() {
-              readlaterList.delete(item.link);
-            });
-            Navigator.pop(context);
-            const snackBar = SnackBar(
-              duration: Duration(seconds: 1),
-              content: Text('Deleted'),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-          //onTap: showDeleteAlertDialog(context, url),
-        ),
+        Container(
+            padding: const EdgeInsets.fromLTRB(3, 3, 3, 3),
+            width: 300,
+            child: SingleChildScrollView(
+              //MUST TO ADDED
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    child: Text(
+                      item.link,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.left,
+                      maxLines: 3,
+                    ),
+                  ),
+                  const Divider(),
+                  GridView(
+                      shrinkWrap: true, //MUST TO ADDED
+
+                      physics:
+                          const NeverScrollableScrollPhysics(), //MUST TO ADDED
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 3,
+                              crossAxisSpacing: 3,
+                              childAspectRatio: 1.6),
+                      children: [
+                        ButtonFeedOption(
+                            text: "Rimuovi link",
+                            icon: Icons.delete_outlined,
+                            function: () {
+                              setState(() {
+                                readlaterList.delete(item.link);
+                              });
+                              Navigator.pop(context);
+                              const snackBar = SnackBar(
+                                duration: Duration(seconds: 1),
+                                content: Text('Deleted'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }),
+                        ButtonFeedOption(
+                          text: "Salva nei preferiti",
+                          icon: Icons.favorite_border,
+                          function: () {
+                            favouritesList.add(item);
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Added to favourites'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                        ),
+                        ButtonFeedOption(
+                          text: "Copia Link",
+                          icon: Icons.copy,
+                          function: () {
+                            Clipboard.setData(ClipboardData(text: item.link));
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Link copied to clipboard'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                        ),
+                        ButtonFeedOption(
+                          text: "Condividi Link",
+                          icon: Icons.share,
+                          function: () {
+                            Share.share(item.link);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ]),
+                  const Divider(),
+                  FutureBuilder<Color?>(
+                    future: ThemeColor()
+                        .getMainColorFromUrl(item.iconUrl), // async work
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Color?> snapshot) {
+                      Color paletteColor = snapshot.data == null
+                          ? Color(ThemeColor().defaultCategoryColor)
+                          : snapshot.data!;
+                      return ButtonFeedOpen(
+                          text: "Leggi sul sito",
+                          function: () {
+                            Utility().launchInBrowser(Uri.parse(item.link));
+                            Navigator.pop(context);
+                          },
+                          icon: Icons.public,
+                          color: paletteColor);
+                    },
+                  ),
+                ],
+              ),
+            ))
       ],
     );
     showDialog(

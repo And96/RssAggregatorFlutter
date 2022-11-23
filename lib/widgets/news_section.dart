@@ -7,6 +7,7 @@ import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/news_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
+import 'package:rss_aggregator_flutter/widgets/button_feed_open.dart';
 import 'package:rss_aggregator_flutter/widgets/button_feed_option.dart';
 import 'package:rss_aggregator_flutter/widgets/empty_section.dart';
 import 'package:rss_aggregator_flutter/widgets/feed_tile.dart';
@@ -233,77 +234,14 @@ class _NewsSectionState extends State<NewsSection>
                       Color paletteColor = snapshot.data == null
                           ? Color(ThemeColor().defaultCategoryColor)
                           : snapshot.data!;
-                      return Container(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        width: double.infinity,
-                        height: 70,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              color: darkMode
-                                  ? ThemeColor.dark3.withAlpha(0)
-                                  : Colors.black.withAlpha(10),
-                              width: 0.0,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 0.0,
-                          color: darkMode ||
-                                  (paletteColor.blue / 2 +
-                                          paletteColor.green +
-                                          paletteColor.red <
-                                      170)
-                              ? paletteColor.withAlpha(150)
-                              : paletteColor.withAlpha(190),
-                          child: InkWell(
-                            splashColor:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.grey[900]
-                                    : Colors.white,
-                            onTap: () async {
-                              Utility().launchInBrowser(Uri.parse(item.link));
-                              Navigator.pop(context);
-                            },
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                                    child: Icon(
-                                      Icons.public,
-                                      color: (0.299 * paletteColor.red) +
-                                                  (0.587 * paletteColor.green) +
-                                                  (0.114 * paletteColor.blue) >
-                                              (darkMode ? 160 : 145)
-                                          ? Colors.black
-                                          : Colors.white,
-                                      size: 28.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Leggi sul sito',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: (0.299 * paletteColor.red) +
-                                                    (0.587 *
-                                                        paletteColor.green) +
-                                                    (0.114 *
-                                                        paletteColor.blue) >
-                                                (darkMode ? 160 : 145)
-                                            ? Colors.black
-                                            : Colors.white),
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
+                      return ButtonFeedOpen(
+                          text: "Leggi sul sito",
+                          function: () {
+                            Utility().launchInBrowser(Uri.parse(item.link));
+                            Navigator.pop(context);
+                          },
+                          icon: Icons.public,
+                          color: paletteColor);
                     },
                   ),
                 ],

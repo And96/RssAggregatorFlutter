@@ -29,7 +29,7 @@ class ButtonFeedOption extends StatelessWidget {
           : ThemeColor.light1.withAlpha(170),
       child: InkWell(
         onTap: () {
-          function;
+          function.call();
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 8, 0, 12),
