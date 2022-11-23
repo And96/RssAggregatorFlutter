@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
-bool darkMode = false;
-
 class ButtonCardMenu extends StatelessWidget {
   const ButtonCardMenu({
     super.key,
@@ -26,7 +24,9 @@ class ButtonCardMenu extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 0.0,
-      color: darkMode ? ThemeColor.dark1 : ThemeColor.light1.withAlpha(175),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? ThemeColor.dark3.withAlpha(90)
+          : ThemeColor.light1.withAlpha(170),
       child: InkWell(
         onTap: () {
           function;

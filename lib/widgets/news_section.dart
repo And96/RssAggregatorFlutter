@@ -152,7 +152,7 @@ class _NewsSectionState extends State<NewsSection>
                 children: <Widget>[
                   const Divider(),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 0, 3, 4),
+                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                     child: Text(
                       item.link,
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -169,9 +169,9 @@ class _NewsSectionState extends State<NewsSection>
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              mainAxisSpacing: 0,
-                              crossAxisSpacing: 0,
-                              childAspectRatio: 1.7),
+                              mainAxisSpacing: 3,
+                              crossAxisSpacing: 3,
+                              childAspectRatio: 1.6),
                       children: [
                         ButtonCardMenu(
                           text: "Leggi piu tardi",
@@ -234,7 +234,7 @@ class _NewsSectionState extends State<NewsSection>
                           ? Color(ThemeColor().defaultCategoryColor)
                           : snapshot.data!;
                       return Container(
-                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         width: double.infinity,
                         height: 70,
                         child: Card(
@@ -272,19 +272,30 @@ class _NewsSectionState extends State<NewsSection>
                                     padding:
                                         const EdgeInsets.fromLTRB(0, 0, 15, 0),
                                     child: Icon(
-                                      Icons.open_in_browser,
-                                      color: Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? Colors.grey[300]
-                                          : Colors.black.withAlpha(200),
-                                      size: 27.0,
+                                      Icons.public,
+                                      color: (0.299 * paletteColor.red) +
+                                                  (0.587 * paletteColor.green) +
+                                                  (0.114 * paletteColor.blue) >
+                                              (darkMode ? 160 : 145)
+                                          ? Colors.black
+                                          : Colors.white,
+                                      size: 28.0,
                                     ),
                                   ),
                                   Text(
                                     'Leggi sul sito',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
                                     textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: (0.299 * paletteColor.red) +
+                                                    (0.587 *
+                                                        paletteColor.green) +
+                                                    (0.114 *
+                                                        paletteColor.blue) >
+                                                (darkMode ? 160 : 145)
+                                            ? Colors.black
+                                            : Colors.white),
                                     maxLines: 1,
                                   ),
                                 ],
