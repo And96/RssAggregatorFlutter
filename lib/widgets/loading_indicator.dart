@@ -55,8 +55,8 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
         children: [
           if (widget.progressLoading == 0)
             Icon(
-              Icons.feed,
-              size: 80,
+              Icons.bolt,
+              size: 70,
               color: darkMode ? ThemeColor.light4 : ThemeColor.dark3,
             ),
           if (widget.progressLoading > 0)
