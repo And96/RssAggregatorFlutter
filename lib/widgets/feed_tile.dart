@@ -15,6 +15,7 @@ class FeedTile extends StatelessWidget {
     required this.pubDate,
     required this.iconUrl,
     required this.darkMode,
+    required this.function,
   });
 
   final String title;
@@ -22,6 +23,7 @@ class FeedTile extends StatelessWidget {
   final String link;
   final String host;
   final String iconUrl;
+  final Function function;
   final bool darkMode;
 
   @override
@@ -43,86 +45,92 @@ class FeedTile extends StatelessWidget {
             elevation: 0,
             color: darkMode
                 ? ThemeColor.dark2
-                : const Color.fromARGB(255, 250, 250, 250),
+                : const Color.fromARGB(255, 255, 255, 255),
             shadowColor: darkMode ? Colors.black : Colors.white,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, bottom: 10, left: 0, right: 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    /* contentPadding:    const EdgeInsets.all(5),*/
-                    minLeadingWidth: 25,
-                    leading: SiteLogo(
-                      iconUrl: iconUrl,
-                    ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 0),
+            child: InkWell(
+                hoverColor: darkMode
+                    ? ThemeColor.dark3.withAlpha(50)
+                    : ThemeColor.light1.withAlpha(150),
+                splashColor: darkMode ? ThemeColor.dark1 : Colors.white,
+                onTap: () => function.call(),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 10, left: 0, right: 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        /* contentPadding:    const EdgeInsets.all(5),*/
+                        minLeadingWidth: 25,
+                        leading: SiteLogo(
+                          iconUrl: iconUrl,
+                        ),
+                        title: Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 0),
+                                      child: Text(
+                                        (host.toString()),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          color: darkMode
+                                              ? ThemeColor.light3
+                                              : ThemeColor.dark4,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                Utility().dateFormat(context, pubDate),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: darkMode
+                                      ? ThemeColor.light3
+                                      : ThemeColor.dark4,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //isThreeLine: true,
+                        subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 7, bottom: 4),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SizedBox(
                                   child: Text(
-                                    (host.toString()),
+                                    title.toString(),
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.normal,
+                                      //but instead of 300 it's 350
                                       color: darkMode
-                                          ? ThemeColor.light3
-                                          : ThemeColor.dark4,
+                                          ? ThemeColor.light1
+                                          : Colors.black,
                                     ),
                                   ),
                                 ),
                               ],
-                            ),
-                          ),
-                          Text(
-                            Utility().dateFormat(context, pubDate),
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              color: darkMode
-                                  ? ThemeColor.light3
-                                  : ThemeColor.dark4,
-                            ),
-                          ),
-                        ],
+                            )),
                       ),
-                    ),
-                    //isThreeLine: true,
-                    subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 7, bottom: 4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                              child: Text(
-                                title.toString(),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  //but instead of 300 it's 350
-                                  color: darkMode
-                                      ? ThemeColor.light1
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
+                    ],
                   ),
-                ],
-              ),
-            )));
+                ))));
   }
 }

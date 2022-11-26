@@ -299,16 +299,15 @@ class _NewsSectionState extends State<NewsSection>
                               itemBuilder: (BuildContext context, index) {
                                 final item = items[index];
 
-                                return InkWell(
-                                    onTap: () =>
-                                        showOptionDialog(context, item),
-                                    child: FeedTile(
+                                return  FeedTile(
                                         darkMode: darkMode,
                                         title: item.title,
                                         link: item.link,
                                         host: item.host,
                                         pubDate: item.pubDate,
-                                        iconUrl: item.iconUrl));
+                                        iconUrl: item.iconUrl,
+                                         function:  () =>
+                                                showOptionDialog(context, item),);
                               })
                           : GridView.builder(
                               controller: listviewController,
@@ -316,16 +315,15 @@ class _NewsSectionState extends State<NewsSection>
                               itemBuilder: (BuildContext context, index) {
                                 final item = items[index];
 
-                                return InkWell(
-                                    onTap: () =>
-                                        showOptionDialog(context, item),
-                                    child: FeedTile(
+                                return  FeedTile(
                                         darkMode: darkMode,
                                         title: item.title,
                                         link: item.link,
                                         host: item.host,
                                         pubDate: item.pubDate,
-                                        iconUrl: item.iconUrl));
+                                        iconUrl: item.iconUrl,
+                                         function:  () =>
+                                                showOptionDialog(context, item),);
                               },
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(

@@ -323,16 +323,16 @@ class _FavouritesPageState extends State<FavouritesPage>
                                         final item =
                                             favouritesList.items[index];
 
-                                        return InkWell(
-                                            onTap: () =>
-                                                showOptionDialog(context, item),
-                                            child: FeedTile(
-                                                darkMode: darkMode,
-                                                title: item.title,
-                                                link: item.link,
-                                                host: item.host,
-                                                pubDate: item.pubDate,
-                                                iconUrl: item.iconUrl));
+                                        return FeedTile(
+                                          darkMode: darkMode,
+                                          title: item.title,
+                                          link: item.link,
+                                          host: item.host,
+                                          pubDate: item.pubDate,
+                                          iconUrl: item.iconUrl,
+                                          function: () =>
+                                              showOptionDialog(context, item),
+                                        );
                                       })
                                   : GridView.builder(
                                       controller: listviewController,
@@ -342,16 +342,16 @@ class _FavouritesPageState extends State<FavouritesPage>
                                         final item =
                                             favouritesList.items[index];
 
-                                        return InkWell(
-                                            onTap: () =>
-                                                showOptionDialog(context, item),
-                                            child: FeedTile(
-                                                darkMode: darkMode,
-                                                title: item.title,
-                                                link: item.link,
-                                                host: item.host,
-                                                pubDate: item.pubDate,
-                                                iconUrl: item.iconUrl));
+                                        return FeedTile(
+                                          darkMode: darkMode,
+                                          title: item.title,
+                                          link: item.link,
+                                          host: item.host,
+                                          pubDate: item.pubDate,
+                                          iconUrl: item.iconUrl,
+                                          function: () =>
+                                              showOptionDialog(context, item),
+                                        );
                                       },
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(

@@ -322,16 +322,15 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                           (BuildContext context, index) {
                                         final item = readlaterList.items[index];
 
-                                        return InkWell(
-                                            onTap: () =>
-                                                showOptionDialog(context, item),
-                                            child: FeedTile(
+                                        return  FeedTile(
                                                 darkMode: darkMode,
                                                 title: item.title,
                                                 link: item.link,
                                                 host: item.host,
                                                 pubDate: item.pubDate,
-                                                iconUrl: item.iconUrl));
+                                                iconUrl: item.iconUrl,
+                                                 function:  () =>
+                                                showOptionDialog(context, item),);
                                       })
                                   : GridView.builder(
                                       controller: listviewController,
@@ -340,16 +339,15 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                           (BuildContext context, index) {
                                         final item = readlaterList.items[index];
 
-                                        return InkWell(
-                                            onTap: () =>
-                                                showOptionDialog(context, item),
-                                            child: FeedTile(
+                                        return FeedTile(
                                                 darkMode: darkMode,
                                                 title: item.title,
                                                 link: item.link,
                                                 host: item.host,
                                                 pubDate: item.pubDate,
-                                                iconUrl: item.iconUrl));
+                                                iconUrl: item.iconUrl,
+                                                 function:  () =>
+                                                showOptionDialog(context, item),);
                                       },
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
