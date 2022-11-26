@@ -191,7 +191,11 @@ class RecommendedList {
 				"siteName": "fantacalcio.it",
 				"siteLink": "https://news.google.com/rss/search?q=fantacalcio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fantacalcio.it"
-			}
+			}, {
+			"siteName": "sportitalia.com",
+			"siteLink": "https://news.google.com/rss/search?q=sportitalia.com+when:2d&hl=it&gl=IT&ceid=IT:it",
+			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportitalia.com"
+		}
 		]
 	},
 	{
@@ -360,10 +364,6 @@ class RecommendedList {
 			"siteName": "alfredopedulla.com",
 			"siteLink": "https://www.alfredopedulla.com/feed/",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alfredopedulla.com"
-		}, {
-			"siteName": "sportitalia.com",
-			"siteLink": "https://news.google.com/rss/search?q=sportitalia.com+when:2d&hl=it&gl=IT&ceid=IT:it",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportitalia.com"
 		}]
 	},
 	{
@@ -698,11 +698,6 @@ class RecommendedList {
 				"siteName": "serialminds.com",
 				"siteLink": "https://feeds.feedburner.com/serialminds",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=serialminds.com"
-			},
-			{
-				"siteName": "telefilmaddicted.com",
-				"siteLink": "https://www.telefilmaddicted.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=telefilmaddicted.com"
 			}
 		]
 	},
@@ -975,7 +970,7 @@ class RecommendedList {
 			},
 			{
 				"siteName": "bergamoesport.it",
-				"siteLink": "https://www.bergamoesport.it/",
+				"siteLink": "https://www.bergamoesport.it/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamoesport.it"
 			}
 		]
@@ -1070,9 +1065,28 @@ class RecommendedList {
 		"iconData": 58866,
 		"language": "italiano",
 		"sites": [{
-				"siteName": "ecodibergamo.it",
-				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+				"siteName": "atalanta.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:atalanta.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=atalanta.it"
+			},{
+				"siteName": "atalantini.online",
+				"siteLink": "https://www.atalantini.online/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=atalantini.online"
+			}
+      ,{
+				"siteName": "calcioatalanta.it",
+				"siteLink": "https://www.calcioatalanta.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=calcioatalanta.it"
+			}
+      ,{
+				"siteName": "diarionerazzurro.it",
+				"siteLink": "https://www.diarionerazzurro.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=diarionerazzurro.it"
+			}
+      ,{
+				"siteName": "tuttoatalanta.com",
+				"siteLink": "https://www.tuttoatalanta.com/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tuttoatalanta.com"
 			}
 		]
 	},
