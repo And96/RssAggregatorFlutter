@@ -35,17 +35,20 @@ class ButtonFeedOption extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Icon(
-                icon,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey[300]
-                    : Colors.grey[800],
-                size: 27.0,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Icon(
+                  icon,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey[300]
+                      : Colors.grey[800],
+                  size: 27.0,
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: Text(
                   text,
                 ),
