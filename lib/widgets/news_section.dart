@@ -263,9 +263,8 @@ class _NewsSectionState extends State<NewsSection>
           ? ThemeColor.dark1.withAlpha(120)
           : widget.feedsList.items.isEmpty
               ? ThemeColor.light1
-              : Color.alphaBlend(widget.mainColor.withAlpha(100),
-                      Colors.blueGrey.withAlpha(100))
-                  .withAlpha(25), //.withOpacity(0.1),
+              : Color.alphaBlend(widget.mainColor, Colors.blueGrey)
+                  .withAlpha(15), //.withOpacity(0.1),
       child: widget.isLoading == false
           ? widget.feedsList.items.isEmpty
               ? Center(
@@ -299,15 +298,16 @@ class _NewsSectionState extends State<NewsSection>
                               itemBuilder: (BuildContext context, index) {
                                 final item = items[index];
 
-                                return  FeedTile(
-                                        darkMode: darkMode,
-                                        title: item.title,
-                                        link: item.link,
-                                        host: item.host,
-                                        pubDate: item.pubDate,
-                                        iconUrl: item.iconUrl,
-                                         function:  () =>
-                                                showOptionDialog(context, item),);
+                                return FeedTile(
+                                  darkMode: darkMode,
+                                  title: item.title,
+                                  link: item.link,
+                                  host: item.host,
+                                  pubDate: item.pubDate,
+                                  iconUrl: item.iconUrl,
+                                  function: () =>
+                                      showOptionDialog(context, item),
+                                );
                               })
                           : GridView.builder(
                               controller: listviewController,
@@ -315,15 +315,16 @@ class _NewsSectionState extends State<NewsSection>
                               itemBuilder: (BuildContext context, index) {
                                 final item = items[index];
 
-                                return  FeedTile(
-                                        darkMode: darkMode,
-                                        title: item.title,
-                                        link: item.link,
-                                        host: item.host,
-                                        pubDate: item.pubDate,
-                                        iconUrl: item.iconUrl,
-                                         function:  () =>
-                                                showOptionDialog(context, item),);
+                                return FeedTile(
+                                  darkMode: darkMode,
+                                  title: item.title,
+                                  link: item.link,
+                                  host: item.host,
+                                  pubDate: item.pubDate,
+                                  iconUrl: item.iconUrl,
+                                  function: () =>
+                                      showOptionDialog(context, item),
+                                );
                               },
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
