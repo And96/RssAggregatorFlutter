@@ -155,7 +155,7 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                   .showSnackBar(snackBar);
                             }),
                         ButtonFeedOption(
-                          text: "Salva\nnei preferiti",
+                          text: "Salva\nin preferiti",
                           icon: Icons.favorite_border,
                           function: () {
                             favouritesList.add(item);

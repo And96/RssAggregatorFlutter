@@ -208,7 +208,7 @@ class _NewsSectionState extends State<NewsSection>
                           },
                         ),
                         ButtonFeedOption(
-                          text: "Salva\nnei preferiti",
+                          text: "Salva\nin preferiti",
                           icon: Icons.favorite_border,
                           function: () {
                             favouritesList.add(item);

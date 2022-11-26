@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  card_loading:
+    dependency: "direct main"
+    description:
+      name: card_loading
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   change_app_package_name:
     dependency: "direct dev"
     description:
