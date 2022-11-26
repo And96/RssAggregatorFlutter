@@ -38,19 +38,22 @@ class DB {
         // When the database is first created, create a table to store dogs.
         onUpgrade: (db, versionOld, versionNew) {
           // Run the CREATE TABLE statement on the database.
-          return db.execute(
-            'DROP TABLE feeds; CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT, siteID INT)',
-          );
+          /*return db.execute(
+            'CREATE INDEX idx_siteID ON feeds (siteID);',
+          );*/
         },
         onCreate: (db, version) {
           // Run the CREATE TABLE statement on the database.
-          return db.execute(
+          db.execute(
             'CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT, siteID INT)',
+          );
+          db.execute(
+            'CREATE INDEX idx_siteID ON feeds (siteID);',
           );
         },
         // Set the version. This executes the onCreate function and provides a
         // path to perform database upgrades and downgrades.
-        version: 2,
+        version: 6,
       );
     } catch (err) {
       //print('Caught error: $err');
