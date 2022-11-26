@@ -66,14 +66,14 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
                   padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                   child: Icon(
                     widget.icon,
-                    color: (0.299 * widget.color.red) +
-                                (0.587 * widget.color.green) +
-                                (0.114 * widget.color.blue) >
-                            (Theme.of(context).brightness == Brightness.dark
-                                ? 160
-                                : 145)
-                        ? Colors.black
-                        : Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : (0.299 * widget.color.red) +
+                                    (0.587 * widget.color.green) +
+                                    (0.114 * widget.color.blue) >
+                                145
+                            ? Colors.black
+                            : Colors.white,
                     size: 28.0,
                   ),
                 ),
@@ -83,14 +83,14 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: (0.299 * widget.color.red) +
-                                  (0.587 * widget.color.green) +
-                                  (0.114 * widget.color.blue) >
-                              (Theme.of(context).brightness == Brightness.dark
-                                  ? 160
-                                  : 145)
-                          ? Colors.black
-                          : Colors.white),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : (0.299 * widget.color.red) +
+                                      (0.587 * widget.color.green) +
+                                      (0.114 * widget.color.blue) >
+                                  145
+                              ? Colors.black
+                              : Colors.white),
                   maxLines: 1,
                 ),
               ],
