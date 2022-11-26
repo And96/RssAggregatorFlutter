@@ -76,7 +76,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                         decoration: BoxDecoration(
                             color: darkMode
                                 ? ThemeColor.dark2.withAlpha(255)
-                                : Colors.blueGrey[100],
+                                : Colors.grey[100],
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15))),
                         child: Column(
