@@ -129,7 +129,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                                 : Colors.black.withAlpha(10),
                             width: 0.0,
                           ),
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
                         elevation: 0.0,
                         //color: Color(recommendedList.items[index].color),
@@ -144,7 +144,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                                       category:
                                           recommendedList.items[index].name))),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(15),
                             child: GridTile(
                                 footer: GridTileBar(
                                   backgroundColor:

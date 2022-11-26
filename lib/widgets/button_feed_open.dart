@@ -32,18 +32,28 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
             color: ThemeColor.dark3.withAlpha(0),
             width: 0.0,
           ),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         elevation: 0.0,
-        color: Theme.of(context).brightness == Brightness.dark ||
-                (widget.color.blue / 2 + widget.color.green + widget.color.red <
+        color: Theme.of(context).brightness == Brightness.dark
+            ? ThemeColor.dark3.withAlpha(50)
+            : (widget.color.blue / 2 + widget.color.green + widget.color.red <
                     170)
-            ? widget.color.withAlpha(150)
-            : widget.color.withAlpha(190),
+                ? widget.color.withAlpha(150)
+                : widget.color.withAlpha(200),
         child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          highlightColor: Theme.of(context).brightness == Brightness.dark
+              ? widget.color.withAlpha(50)
+              : widget.color.withAlpha(50),
+          hoverColor: Theme.of(context).brightness == Brightness.dark
+              ? widget.color.withAlpha(50)
+              : widget.color.withAlpha(50),
           splashColor: Theme.of(context).brightness == Brightness.dark
-              ? Colors.grey[900]
-              : Colors.white,
+              ? widget.color
+              : widget.color,
           onTap: () async {
             widget.function.call();
           },

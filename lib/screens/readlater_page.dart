@@ -108,71 +108,6 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                     ),
                   ),
                   const Divider(),
-                  GridView(
-                      shrinkWrap: true, //MUST TO ADDED
-
-                      physics:
-                          const NeverScrollableScrollPhysics(), //MUST TO ADDED
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 3,
-                              crossAxisSpacing: 3,
-                              childAspectRatio: 1.6),
-                      children: [
-                        ButtonFeedOption(
-                            text: "Rimuovi link",
-                            icon: Icons.delete_outlined,
-                            function: () {
-                              setState(() {
-                                readlaterList.delete(item.link);
-                              });
-                              Navigator.pop(context);
-                              const snackBar = SnackBar(
-                                duration: Duration(seconds: 1),
-                                content: Text('Deleted'),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }),
-                        ButtonFeedOption(
-                          text: "Salva nei preferiti",
-                          icon: Icons.favorite_border,
-                          function: () {
-                            favouritesList.add(item);
-                            Navigator.pop(context);
-                            const snackBar = SnackBar(
-                              duration: Duration(milliseconds: 500),
-                              content: Text('Added to favourites'),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          },
-                        ),
-                        ButtonFeedOption(
-                          text: "Copia Link",
-                          icon: Icons.copy,
-                          function: () {
-                            Clipboard.setData(ClipboardData(text: item.link));
-                            Navigator.pop(context);
-                            const snackBar = SnackBar(
-                              duration: Duration(milliseconds: 500),
-                              content: Text('Link copied to clipboard'),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          },
-                        ),
-                        ButtonFeedOption(
-                          text: "Condividi Link",
-                          icon: Icons.share,
-                          function: () {
-                            Share.share(item.link);
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ]),
-                  const Divider(),
                   FutureBuilder<Color?>(
                     future: ThemeColor()
                         .getMainColorFromUrl(item.iconUrl), // async work
@@ -191,6 +126,71 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                           color: paletteColor);
                     },
                   ),
+                  const Divider(),
+                  GridView(
+                      shrinkWrap: true, //MUST TO ADDED
+
+                      physics:
+                          const NeverScrollableScrollPhysics(), //MUST TO ADDED
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 3,
+                              crossAxisSpacing: 3,
+                              childAspectRatio: 2.0),
+                      children: [
+                        ButtonFeedOption(
+                            text: "Rimuovi\nlink",
+                            icon: Icons.delete_outlined,
+                            function: () {
+                              setState(() {
+                                readlaterList.delete(item.link);
+                              });
+                              Navigator.pop(context);
+                              const snackBar = SnackBar(
+                                duration: Duration(seconds: 1),
+                                content: Text('Deleted'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }),
+                        ButtonFeedOption(
+                          text: "Salva\nnei preferiti",
+                          icon: Icons.favorite_border,
+                          function: () {
+                            favouritesList.add(item);
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Added to favourites'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                        ),
+                        ButtonFeedOption(
+                          text: "Copia\nLink",
+                          icon: Icons.copy,
+                          function: () {
+                            Clipboard.setData(ClipboardData(text: item.link));
+                            Navigator.pop(context);
+                            const snackBar = SnackBar(
+                              duration: Duration(milliseconds: 500),
+                              content: Text('Link copied to clipboard'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                        ),
+                        ButtonFeedOption(
+                          text: "Condividi\nLink",
+                          icon: Icons.share,
+                          function: () {
+                            Share.share(item.link);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ]),
                 ],
               ),
             ))

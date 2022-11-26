@@ -21,17 +21,39 @@ class ButtonFeedOption extends StatelessWidget {
           color: Colors.black.withAlpha(0),
           width: 0.0,
         ),
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
       elevation: 0.0,
       color: Theme.of(context).brightness == Brightness.dark
-          ? ThemeColor.dark3.withAlpha(90)
-          : ThemeColor.light1.withAlpha(170),
+          ? ThemeColor.dark3.withAlpha(50)
+          : ThemeColor.light1.withAlpha(230),
       child: InkWell(
-        onTap: () {
-          function.call();
-        },
-        child: Padding(
+          onTap: () {
+            function.call();
+          },
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[300]
+                    : Colors.grey[800],
+                size: 27.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: Text(
+                  text,
+                ),
+              ),
+            ],
+          )
+
+          /*child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 8, 0, 12),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,8 +69,8 @@ class ButtonFeedOption extends StatelessWidget {
                 )),
                 Text(text),
               ]),
-        ),
-      ),
+        ),*/
+          ),
     );
   }
 }
