@@ -81,6 +81,13 @@ class _NewsPageState extends State<NewsPage>
       await feedList.load(
           loadFromWeb, widget.siteFilter, widget.categoryFilter);
 
+      //reload if 1 site only and no item
+      if (widget.siteFilter > 0) {
+        if (feedList.items.isEmpty) {
+          await feedList.load(true, widget.siteFilter, widget.categoryFilter);
+        }
+      }
+
       if (widget.siteFilter > 0) {
         //get color from icon
         siteName = sitesList.items
@@ -109,7 +116,7 @@ class _NewsPageState extends State<NewsPage>
         mainColor = Color(categoriesList.getColor(widget.categoryFilter));
       }
     } catch (err) {
-      //print('Caught error: $err');
+      // print('Caught error: $err');
     }
     isLoading = false;
     setState(() {});

@@ -122,11 +122,11 @@ class ThemeColor {
       paletteGenerator = await PaletteGenerator.fromImageProvider(
         Image(image: CachedNetworkImageProvider(url)).image,
         //Image.network(url).image,
-      );
+      ).timeout(const Duration(seconds: 1));
       return paletteGenerator.dominantColor!.color;
     } catch (e) {
       //
     }
-    return Colors.grey[600];
+    return Colors.blueGrey[900];
   }
 }
