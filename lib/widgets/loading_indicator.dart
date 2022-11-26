@@ -25,18 +25,6 @@ class LoadingIndicator extends StatefulWidget {
 
 class _LoadingIndicatorState extends State<LoadingIndicator>
     with SingleTickerProviderStateMixin {
-/*
-
-class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.widget,
-    required this.darkMode,
-    required this.progressLoading,
-  });*/
-
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
@@ -65,43 +53,50 @@ class LoadingIndicator extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Stack(
-            alignment: Alignment.topRight,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 25, top: 12),
-                child: AnimatedBuilder(
+          if (widget.progressLoading == 0)
+            Icon(
+              Icons.feed,
+              size: 80,
+              color: darkMode ? ThemeColor.light4 : ThemeColor.dark3,
+            ),
+          if (widget.progressLoading > 0)
+            Stack(
+              alignment: Alignment.topRight,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 25, top: 12),
+                  child: AnimatedBuilder(
+                    animation: _refreshIconController,
+                    builder: (_, child) {
+                      return Transform.rotate(
+                        angle: _refreshIconController.value * 2 * 3.1415,
+                        child: child,
+                      );
+                    },
+                    child: Icon(
+                      Icons.settings,
+                      size: 70,
+                      color: darkMode ? ThemeColor.light2 : ThemeColor.dark3,
+                    ),
+                  ),
+                ),
+                // Max Size
+                AnimatedBuilder(
                   animation: _refreshIconController,
                   builder: (_, child) {
                     return Transform.rotate(
-                      angle: _refreshIconController.value * 2 * 3.1415,
+                      angle: _refreshIconController.value * 2 * 3.1415 * -1,
                       child: child,
                     );
                   },
                   child: Icon(
                     Icons.settings,
-                    size: 70,
+                    size: 40,
                     color: darkMode ? ThemeColor.light2 : ThemeColor.dark3,
                   ),
                 ),
-              ),
-              // Max Size
-              AnimatedBuilder(
-                animation: _refreshIconController,
-                builder: (_, child) {
-                  return Transform.rotate(
-                    angle: _refreshIconController.value * 2 * 3.1415 * -1,
-                    child: child,
-                  );
-                },
-                child: Icon(
-                  Icons.settings,
-                  size: 40,
-                  color: darkMode ? ThemeColor.light2 : ThemeColor.dark3,
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
           const SizedBox(
             height: 15,
           ),
