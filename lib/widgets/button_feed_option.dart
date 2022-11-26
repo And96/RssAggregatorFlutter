@@ -38,7 +38,7 @@ class ButtonFeedOption extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 child: Icon(
                   icon,
                   color: Theme.of(context).brightness == Brightness.dark
@@ -47,33 +47,16 @@ class ButtonFeedOption extends StatelessWidget {
                   size: 27.0,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: Text(
-                  text,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                  child: Text(
+                    text,
+                  ),
                 ),
               ),
             ],
-          )
-
-          /*child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 8, 0, 12),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                    child: Icon(
-                  icon,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.grey[300]
-                      : Colors.grey[800],
-                  size: 27.0,
-                )),
-                Text(text),
-              ]),
-        ),*/
-          ),
+          )),
     );
   }
 }
