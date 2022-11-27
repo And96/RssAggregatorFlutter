@@ -14,13 +14,19 @@ class LoadingIndicator extends StatefulWidget {
       required this.title,
       required this.description,
       required this.darkMode,
-      required this.progressLoading})
+      required this.progressLoading,
+      required this.progressCompleted,
+      required this.progressRemaining,
+      required this.progressAll})
       : super(key: key);
 
   final String title;
   final String description;
   final bool darkMode;
   final double progressLoading;
+  final int progressCompleted;
+  final int progressRemaining;
+  final int progressAll;
 
   @override
   State<LoadingIndicator> createState() => _LoadingIndicatorState();
@@ -167,16 +173,38 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                       ),
                                     ),
                                     SizedBox(
-                                        width: double.infinity,
-                                        child: Text(widget.description,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                              color: darkMode
-                                                  ? ThemeColor.light4
-                                                  : ThemeColor.dark4,
-                                            ))),
+                                      width: double.infinity,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Expanded(
+                                              child: Text(widget.description,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: darkMode
+                                                        ? ThemeColor.light4
+                                                        : ThemeColor.dark4,
+                                                  ))),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            child: Text(
+                                                "(${widget.progressCompleted}/${widget.progressAll})",
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: darkMode
+                                                      ? ThemeColor.light4
+                                                      : ThemeColor.dark4,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ]),
                             ])))
             ]));

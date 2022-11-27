@@ -17,6 +17,9 @@ class FeedsList {
 
   String itemLoading = "";
   double progressLoading = 0;
+  int progressCompleted = 0;
+  int progressRemaining = 0;
+  int progressAll = 0;
 
   Settings settings = Settings();
 
@@ -96,6 +99,10 @@ class FeedsList {
     try {
       items = [];
 
+      progressCompleted = 0;
+      progressRemaining = 0;
+      progressAll = 0;
+
       //dont load anything if no sites
       if (sites.isEmpty) {
         return [];
@@ -109,6 +116,8 @@ class FeedsList {
         int c = 0; //number sites with update completed
         List<String> listU =
             []; //keep both u and listu because listu may have url duplicated
+        progressAll = sites.length;
+        progressRemaining = sites.length;
         for (var i = 0; i < sites.length; i++) {
           try {
             while (true) {
@@ -119,6 +128,8 @@ class FeedsList {
                 syncFeedsFromWeb(sites[i]).whenComplete(() => {
                       u--,
                       c++,
+                      progressCompleted = c,
+                      progressRemaining = progressAll - progressCompleted,
                       listU.remove(sites[i].siteName),
                       progressLoading = Utility().round(c / sites.length, 2),
                       if (progressLoading <= 0.05) {progressLoading = 0.05},

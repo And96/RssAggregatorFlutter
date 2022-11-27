@@ -636,6 +636,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         description: feedsListUpdate.itemLoading,
                         darkMode: darkMode,
                         progressLoading: feedsListUpdate.progressLoading,
+                        progressAll: feedsListUpdate.progressAll,
+                        progressCompleted: feedsListUpdate.progressCompleted,
+                        progressRemaining: feedsListUpdate.progressRemaining,
                       ),
                     )
                   : TabBarView(

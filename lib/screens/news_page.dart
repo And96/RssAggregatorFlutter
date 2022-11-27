@@ -226,6 +226,9 @@ class _NewsPageState extends State<NewsPage>
                   description: feedList.itemLoading,
                   darkMode: darkMode,
                   progressLoading: feedList.progressLoading,
+                  progressAll: feedList.progressAll,
+                  progressCompleted: feedList.progressCompleted,
+                  progressRemaining: feedList.progressRemaining,
                 ),
               )
             : Container(
