@@ -184,16 +184,16 @@ class RecommendedList {
 			},
 			{
 				"siteName": "sport.virgilio.it",
-				"siteLink": "https://news.google.com/rss/search?q=sport.virgilio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"siteLink": "https://news.google.com/rss/search?q=site:sport.virgilio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sport.virgilio.it"
 			},
 			{
 				"siteName": "fantacalcio.it",
-				"siteLink": "https://news.google.com/rss/search?q=fantacalcio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"siteLink": "https://news.google.com/rss/search?q=site:fantacalcio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fantacalcio.it"
 			}, {
 			"siteName": "sportitalia.com",
-			"siteLink": "https://news.google.com/rss/search?q=sportitalia.com+when:2d&hl=it&gl=IT&ceid=IT:it",
+			"siteLink": "https://news.google.com/rss/search?q=site:sportitalia.com+when:2d&hl=it&gl=IT&ceid=IT:it",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportitalia.com"
 		}
 		]
@@ -338,19 +338,15 @@ class RecommendedList {
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gianlucadimarzio.com"
 		}, {
 			"siteName": "tuttomercatoweb.com",
-			"siteLink": "https://news.google.com/rss/search?q=tuttomercatoweb.com+when:1d&hl=it&gl=IT&ceid=IT:it",
+			"siteLink": "https://news.google.com/rss/search?q=site:tuttomercatoweb.com+when:1d&hl=it&gl=IT&ceid=IT:it",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tuttomercatoweb.com"
 		}, {
 			"siteName": "goal.com",
-			"siteLink": "https://news.google.com/rss/search?q=goal.com+when:2d&hl=it&gl=IT&ceid=IT:it",
+			"siteLink": "https://news.google.com/rss/search?q=site:goal.com+when:2d&hl=it&gl=IT&ceid=IT:it",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=goal.com"
 		}, {
 			"siteName": "transfermarkt.it",
-			"siteLink": "https://news.google.com/rss/search?q=transfermarkt.it+when:2d&hl=it&gl=IT&ceid=IT:it",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=transfermarkt.it"
-		}, {
-			"siteName": "transfermarkt.it",
-			"siteLink": "https://news.google.com/rss/search?q=transfermarkt.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+			"siteLink": "https://news.google.com/rss/search?q=site:transfermarkt.it+when:2d&hl=it&gl=IT&ceid=IT:it",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=transfermarkt.it"
 		}, {
 			"siteName": "calciostyle.it",
@@ -364,7 +360,11 @@ class RecommendedList {
 			"siteName": "alfredopedulla.com",
 			"siteLink": "https://www.alfredopedulla.com/feed/",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alfredopedulla.com"
-		}]
+		},{
+				"siteName": "numero-diez.com",
+				"siteLink": "https://www.numero-diez.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=numero-diez.com"
+			}]
 	},
 	{
 		"name": "Motori",
@@ -378,7 +378,7 @@ class RecommendedList {
 			},
 			{
 				"siteName": "formula1.it",
-				"siteLink": "https://news.google.com/rss/search?q=formula1.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"siteLink": "https://news.google.com/rss/search?q=site:formula1.it+when:2d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=formula1.it"
 			},
 			{
@@ -387,7 +387,7 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motorionline.com"
 			}, {
 				"siteName": "it.motorsport.com",
-				"siteLink": "https://news.google.com/rss/search?q=it.motorsport.com+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"siteLink": "https://news.google.com/rss/search?q=site:it.motorsport.com+when:2d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motorsport.com"
 			}, {
 				"siteName": "f1ingenerale.com",
@@ -883,7 +883,7 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blogdellamusica.eu"
 			}, {
 				"siteName": "rockit.it",
-				"siteLink": "https://news.google.com/rss/search?q=rockit.it+when:5d&hl=it&gl=IT&ceid=IT:it",
+				"siteLink": "https://news.google.com/rss/search?q=site:rockit.it+when:5d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockit.it"
 			}
 		]
@@ -1028,10 +1028,39 @@ class RecommendedList {
 		"color": 4291176488,
 		"iconData": 58866,
 		"language": "italiano",
-		"sites": [{
-				"siteName": "ecodibergamo.it",
-				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+		"sites": [
+      {
+				"siteName": "acmilan.com",
+				"siteLink": "https://news.google.com/rss/search?q=site:acmilan.com+when:7d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=acmilan.com"
+			},{
+				"siteName": "ilmilanista.it",
+				"siteLink": "https://www.ilmilanista.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilmilanista.it"
+			},{
+				"siteName": "magliarossonera.it",
+				"siteLink": "https://www.bing.com/news/search?q=magliarossonera.it&format=rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=magliarossonera.it"
+			},{
+				"siteName": "milanlive.it",
+				"siteLink": "https://www.milanlive.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=milanlive.it"
+			},{
+				"siteName": "milannews.it",
+				"siteLink": "https://www.milannews.it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=milannews.it"
+			},{
+				"siteName": "milannews24.com",
+				"siteLink": "https://www.milannews24.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=milannews24.com"
+			},{
+				"siteName": "pianetamilan.it",
+				"siteLink": "https://www.pianetamilan.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=pianetamilan.it"
+			},{
+				"siteName": "spaziomilan.it",
+				"siteLink": "https://www.spaziomilan.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=spaziomilan.it"
 			}
 		]
 	},
@@ -1040,10 +1069,55 @@ class RecommendedList {
 		"color": 4284513675,
 		"iconData": 58866,
 		"language": "italiano",
-		"sites": [{
-				"siteName": "ecodibergamo.it",
-				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+		"sites": [
+      {
+				"siteName": "juventus.com",
+				"siteLink": "https://news.google.com/rss/search?q=site:juventus.com+when:10d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=juventus.com"
+			},{
+				"siteName": "bianconeranews.it",
+				"siteLink": "https://www.bianconeranews.it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bianconeranews.it"
+			},{
+				"siteName": "ilbianconero.com",
+				"siteLink": "https://news.google.com/rss/search?q=site:ilbianconero.com+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilbianconero.com"
+			},{
+				"siteName": "juvenews.eu",
+				"siteLink": "https://www.juvenews.eu/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=juvenews.eu"
+			},{
+				"siteName": "juvefc.com",
+				"siteLink": "https://www.juvefc.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=juvefc.com"
+			},{
+				"siteName": "juvelive.it",
+				"siteLink": "https://www.juvelive.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=juvelive.it"
+			},{
+				"siteName": "spazioj.it",
+				"siteLink": "https://www.spazioj.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=spazioj.it"
+			},{
+				"siteName": "tifojuventus.it",
+				"siteLink": "https://www.tifojuventus.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tifojuventus.it"
+			},{
+				"siteName": "tuttojuve.com",
+				"siteLink": "https://www.tuttojuve.com/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tuttojuve.com"
+			},{
+				"siteName": "juventusnews24.com",
+				"siteLink": "https://www.juventusnews24.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=juventusnews24.com"
+			},{
+				"siteName": "tuttojuve24.it",
+				"siteLink": "https://tuttojuve24.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tuttojuve24.it"
+			},{
+				"siteName": "mondobianconero.com",
+				"siteLink": "https://mondobianconero.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mondobianconero.com"
 			}
 		]
 	},
