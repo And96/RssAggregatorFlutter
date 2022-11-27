@@ -72,7 +72,9 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                 ),
               if (widget.progressLoading > 0)
                 BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                    filter: darkMode
+                        ? ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0)
+                        : ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
                     child: Container(
                         height: 235,
                         width: 275,
@@ -81,7 +83,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                         decoration: BoxDecoration(
                             color: darkMode
                                 ? ThemeColor.dark2.withAlpha(255)
-                                : Colors.grey[100],
+                                : Color(ThemeColor().defaultCategoryColor),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15))),
                         child: Column(
@@ -108,7 +110,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                         size: 70,
                                         color: darkMode
                                             ? ThemeColor.light2
-                                            : ThemeColor.dark3,
+                                            : ThemeColor.light1,
                                       ),
                                     ),
                                   ),
@@ -129,7 +131,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                       size: 40,
                                       color: darkMode
                                           ? ThemeColor.light2
-                                          : ThemeColor.dark3,
+                                          : ThemeColor.light1,
                                     ),
                                   ),
                                 ],
@@ -149,7 +151,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                           fontWeight: FontWeight.normal,
                                           color: darkMode
                                               ? ThemeColor.light3
-                                              : ThemeColor.dark3,
+                                              : ThemeColor.light1,
                                         ),
                                       ),
                                     ),
@@ -187,7 +189,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                                         FontWeight.normal,
                                                     color: darkMode
                                                         ? ThemeColor.light4
-                                                        : ThemeColor.dark4,
+                                                        : ThemeColor.light2,
                                                   ))),
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -199,7 +201,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                                   fontWeight: FontWeight.normal,
                                                   color: darkMode
                                                       ? ThemeColor.light4
-                                                      : ThemeColor.dark4,
+                                                      : ThemeColor.light2,
                                                 )),
                                           ),
                                         ],
