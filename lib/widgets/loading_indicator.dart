@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/loading_list_background.dart';
@@ -60,10 +61,8 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                 darkMode: darkMode,
               ),
               if (widget.progressLoading == 0)
-                Icon(
-                  Icons.bolt,
-                  size: 70,
-                  color: darkMode ? ThemeColor.light4 : ThemeColor.dark3,
+                SpinKitDoubleBounce(
+                  color: Colors.grey[800],
                 ),
               if (widget.progressLoading > 0)
                 BackdropFilter(
