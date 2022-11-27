@@ -88,9 +88,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         pageRouterVerticalAnimation(const ReadlaterPage());
         break;
       case 2:
-        pageRouterVerticalAnimation(const FavouritesPage());
+        loadData(true);
         break;
       case 3:
+        pageRouterVerticalAnimation(const FavouritesPage());
+        break;
+      case 4:
         pageRouterVerticalAnimation(const DiscoverPage());
         break;
     }
@@ -573,58 +576,76 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     ),
               bottomNavigationBar: isLoading
                   ? null
-                  : /*Container(
-                  height: 58,
-                  width: double.infinity,
-                  /*decoration: const BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(color: Colors.black20, blurRadius: 8.0),
-                    ],
-                  ),*/
-                  child:*/
-                  Material(
-                      elevation: 0,
-                      color: darkMode ? Colors.black12 : Colors.white,
-                      child: BottomNavigationBar(
-                        items: const <BottomNavigationBarItem>[
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.notes_sharp), //line_style
-                            label: 'News',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.watch_later),
-                            label: 'Read Later',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.favorite),
-                            label: 'Favourites',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.explore),
-                            label: 'Discover',
-                          ),
+                  : Container(
+                      height: 66,
+                      width: double.infinity,
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.all(0),
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Colors.black26, blurRadius: 2.0),
                         ],
-                        //elevation: 8,
-                        currentIndex: _selectedIndex,
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? ThemeColor.dark2
-                                : Colors.white,
-                        selectedItemColor:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors.grey[300]
-                                : colorCategory,
-                        unselectedItemColor:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors.grey[300]
-                                : Colors.blueGrey[600],
-                        showSelectedLabels: true,
-                        showUnselectedLabels: true,
-                        selectedLabelStyle:
-                            const TextStyle(fontWeight: FontWeight.bold),
-                        type: BottomNavigationBarType.fixed, // Fixed
-                        onTap: _onBottomItemTap,
-                      )),
+                      ),
+                      child: Material(
+                          elevation: 0,
+                          color: darkMode ? Colors.black12 : Colors.white,
+                          child: BottomNavigationBar(
+                            items: <BottomNavigationBarItem>[
+                              const BottomNavigationBarItem(
+                                icon: Icon(Icons.notes_sharp), //line_style
+                                label: 'News',
+                              ),
+                              const BottomNavigationBarItem(
+                                icon: Icon(Icons.watch_later),
+                                label: 'Read Later',
+                              ),
+                              BottomNavigationBarItem(
+                                tooltip: "Refresh",
+                                label: "",
+                                icon: Container(
+                                  alignment: Alignment.bottomCenter,
+                                  decoration: BoxDecoration(
+                                      color: colorCategory,
+                                      shape: BoxShape.circle),
+                                  padding: const EdgeInsets.all(14),
+                                  child: const Icon(
+                                    Icons.refresh,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                //title: const Text("", style: TextStyle(fontSize: 0)),
+                              ),
+                              const BottomNavigationBarItem(
+                                icon: Icon(Icons.favorite),
+                                label: 'Favourites',
+                              ),
+                              const BottomNavigationBarItem(
+                                icon: Icon(Icons.explore),
+                                label: 'Discover',
+                              ),
+                            ],
+                            //elevation: 8,
+                            currentIndex: _selectedIndex,
+                            backgroundColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? ThemeColor.dark2
+                                    : Colors.white,
+                            selectedItemColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.grey[300]
+                                    : colorCategory,
+                            unselectedItemColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.grey[300]
+                                    : Colors.blueGrey[600],
+                            showSelectedLabels: true,
+                            showUnselectedLabels: true,
+                            selectedLabelStyle:
+                                const TextStyle(fontWeight: FontWeight.bold),
+                            type: BottomNavigationBarType.fixed, // Fixed
+                            onTap: _onBottomItemTap,
+                          )),
+                    ),
               body: isLoading
                   ? Container(
                       color: darkMode
