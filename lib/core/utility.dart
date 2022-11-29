@@ -114,6 +114,8 @@ class Utility {
           .replaceAll("&quot;", " ")
           .replaceAll("&#8217;", "'")
           .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
+          .replaceAll(RegExp('&[a-z]{3,6};'), " ")
+          .replaceAll("  ", " ")
           .replaceAll("  ", " ");
     } catch (err) {
       // print('Caught error: $err');
