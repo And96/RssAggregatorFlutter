@@ -403,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               });
                             },
                           ), //
-                        if (!isLoading)
+                        /*if (!isLoading)
                           IconButton(
                             icon: const Icon(Icons.refresh),
                             tooltip: 'Refresh',
@@ -412,7 +412,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               loadData(true)
                             },
                           ),
-
+*/
                         if (isLoading)
                           IconButton(
                             icon: AnimatedBuilder(
@@ -577,13 +577,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               bottomNavigationBar: isLoading
                   ? null
                   : Container(
-                      height: 66,
+                      height: 68,
                       width: double.infinity,
                       alignment: Alignment.bottomCenter,
                       padding: const EdgeInsets.all(0),
                       decoration: const BoxDecoration(
                         boxShadow: [
-                          BoxShadow(color: Colors.black26, blurRadius: 2.0),
+                          BoxShadow(color: Colors.black12, blurRadius: 2.0),
                         ],
                       ),
                       child: Material(
@@ -609,7 +609,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       shape: BoxShape.circle),
                                   padding: const EdgeInsets.all(14),
                                   child: const Icon(
-                                    Icons.refresh,
+                                    Icons.sync,
                                     color: Colors.white,
                                   ),
                                 ),

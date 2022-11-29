@@ -110,7 +110,9 @@ class FeedsList {
 
       //online
       if (loadFromWeb) {
-        progressLoading = 0.001;
+        progressLoading = sites.isNotEmpty && sites.length < 10
+            ? 1 / (sites.length) - (1 / (sites.length * 2))
+            : 0.001;
         setUpdateItemLoading('');
         int u = 0; //number sites in updating
         int c = 0; //number sites with update completed
@@ -161,11 +163,11 @@ class FeedsList {
           }
         }
         setUpdateItemLoading('');
-      }
-      if (loadFromWeb) {
+
         progressLoading = 1;
         setUpdateItemLoading('');
-        await Future.delayed(const Duration(milliseconds: 300));
+        await Future.delayed(
+            Duration(milliseconds: sites.length < 10 ? 500 : 100));
       }
 
       //reset if offline
