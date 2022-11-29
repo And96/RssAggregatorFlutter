@@ -8,7 +8,6 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
-import 'package:rss_aggregator_flutter/widgets/site_logo_big.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key, required this.feedsList}) : super(key: key);
