@@ -307,6 +307,7 @@ class _NewsSectionState extends State<NewsSection>
                                   iconUrl: item.iconUrl,
                                   function: () =>
                                       showOptionDialog(context, item),
+                                  mainColor: widget.mainColor,
                                 );
                               })
                           : GridView.builder(
@@ -324,6 +325,7 @@ class _NewsSectionState extends State<NewsSection>
                                   iconUrl: item.iconUrl,
                                   function: () =>
                                       showOptionDialog(context, item),
+                                  mainColor: widget.mainColor,
                                 );
                               },
                               gridDelegate:

@@ -37,10 +37,7 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
         elevation: 0.0,
         color: Theme.of(context).brightness == Brightness.dark
             ? ThemeColor.dark3.withAlpha(50)
-            : (widget.color.blue / 2 + widget.color.green + widget.color.red <
-                    170)
-                ? widget.color.withAlpha(150)
-                : widget.color.withAlpha(200),
+            : ThemeColor.light1.withAlpha(230),
         child: InkWell(
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -67,13 +64,8 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
                   child: Icon(
                     widget.icon,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : (0.299 * widget.color.red) +
-                                    (0.587 * widget.color.green) +
-                                    (0.114 * widget.color.blue) >
-                                145
-                            ? Colors.black
-                            : Colors.white,
+                        ? Colors.grey[300]
+                        : Colors.grey[800],
                     size: 28.0,
                   ),
                 ),
@@ -81,16 +73,12 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
                   widget.text,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : (0.299 * widget.color.red) +
-                                      (0.587 * widget.color.green) +
-                                      (0.114 * widget.color.blue) >
-                                  145
-                              ? Colors.black
-                              : Colors.white),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey[300]
+                        : Colors.grey[800],
+                  ),
                   maxLines: 1,
                 ),
               ],

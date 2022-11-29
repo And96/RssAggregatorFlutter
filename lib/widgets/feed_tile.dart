@@ -16,6 +16,7 @@ class FeedTile extends StatelessWidget {
     required this.iconUrl,
     required this.darkMode,
     required this.function,
+    required this.mainColor,
   });
 
   final String title;
@@ -25,6 +26,7 @@ class FeedTile extends StatelessWidget {
   final String iconUrl;
   final Function function;
   final bool darkMode;
+  final Color mainColor;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,16 @@ class FeedTile extends StatelessWidget {
             child: InkWell(
                 hoverColor: darkMode
                     ? ThemeColor.dark3.withAlpha(50)
-                    : ThemeColor.light1.withAlpha(150),
-                splashColor: darkMode ? ThemeColor.dark1 : Colors.white,
-                onTap: () => function.call(),
+                    : ThemeColor.light1.withAlpha(50),
+                highlightColor: darkMode
+                    ? ThemeColor.dark3.withAlpha(150)
+                    : mainColor.withAlpha(30),
+                splashColor:
+                    darkMode ? ThemeColor.dark1 : mainColor.withAlpha(50),
+                onTap: () async => {
+                      await Future.delayed(const Duration(milliseconds: 100)),
+                      function.call()
+                    },
                 child: Padding(
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 10, left: 0, right: 0),

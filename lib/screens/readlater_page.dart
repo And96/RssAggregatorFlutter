@@ -330,7 +330,8 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                                 pubDate: item.pubDate,
                                                 iconUrl: item.iconUrl,
                                                  function:  () =>
-                                                showOptionDialog(context, item),);
+                                                showOptionDialog(context, item), mainColor:
+                                              ThemeColor.primaryColorLight,);
                                       })
                                   : GridView.builder(
                                       controller: listviewController,
@@ -347,7 +348,8 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                                 pubDate: item.pubDate,
                                                 iconUrl: item.iconUrl,
                                                  function:  () =>
-                                                showOptionDialog(context, item),);
+                                                showOptionDialog(context, item), mainColor:
+                                              ThemeColor.primaryColorLight,);
                                       },
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(

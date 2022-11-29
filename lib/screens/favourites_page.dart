@@ -332,6 +332,8 @@ class _FavouritesPageState extends State<FavouritesPage>
                                           iconUrl: item.iconUrl,
                                           function: () =>
                                               showOptionDialog(context, item),
+                                          mainColor:
+                                              ThemeColor.primaryColorLight,
                                         );
                                       })
                                   : GridView.builder(
@@ -351,6 +353,8 @@ class _FavouritesPageState extends State<FavouritesPage>
                                           iconUrl: item.iconUrl,
                                           function: () =>
                                               showOptionDialog(context, item),
+                                               mainColor:
+                                              ThemeColor.primaryColorLight,
                                         );
                                       },
                                       gridDelegate:
