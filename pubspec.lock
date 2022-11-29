@@ -721,7 +721,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: acb65ace9dadaae44bfae8c52b41624e6df1a6af
+      resolved-ref: "9a5290b62320b53c42599f1218f63ffe74fc53d4"
       url: "https://github.com/And96/webfeed_simplified"
     source: git
     version: "0.7.0"

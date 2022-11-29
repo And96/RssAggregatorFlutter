@@ -11,6 +11,9 @@ class CategoriesList {
 
   int getColor(String categoryName) {
     try {
+      if (items.isEmpty) {
+        load(false);
+      }
       return items.firstWhere((e) => e.name == categoryName).color;
     } catch (err) {
       // print('Caught error: $err');

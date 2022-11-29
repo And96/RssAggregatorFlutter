@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         pageRouterVerticalAnimation(const FavouritesPage());
         break;
       case 4:
-        pageRouterVerticalAnimation(const DiscoverPage());
+        pageRouterVerticalAnimation(DiscoverPage(feedsList: feedsList[0]));
         break;
     }
     //in homepage there is only newspage

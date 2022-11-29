@@ -107,6 +107,22 @@ class SitesList {
     return -1;
   }
 
+  Future<Site?> getSiteFromName(String name) async {
+    try {
+      List<Site> l = await get();
+      l = l
+          .where((e) =>
+              (e.siteName.trim().toLowerCase() == name.trim().toLowerCase()))
+          .toList();
+      if (l.isNotEmpty) {
+        return l[0];
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return null;
+  }
+
   Future<void> save(List<Site> list) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('db_sites', jsonEncode(list));
