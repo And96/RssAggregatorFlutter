@@ -45,10 +45,8 @@ class FeedTile extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: darkMode
-                          ? ThemeColor.dark3.withAlpha(0)
-                          : const Color.fromARGB(255, 255, 255, 255),
-                      width: 1.0,
+                      color: darkMode ? ThemeColor.dark3 : Colors.white,
+                      width: 0.0,
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -60,16 +58,16 @@ class FeedTile extends StatelessWidget {
                   child: InkWell(
                       hoverColor: darkMode
                           ? ThemeColor.dark3.withAlpha(50)
-                          : ThemeColor.light1.withAlpha(50),
+                          : ThemeColor.light1.withAlpha(70),
                       highlightColor: darkMode
                           ? ThemeColor.dark3.withAlpha(150)
-                          : paletteColor.withAlpha(30),
+                          : paletteColor.withAlpha(40),
                       splashColor: darkMode
                           ? ThemeColor.dark1
-                          : paletteColor.withAlpha(50),
+                          : paletteColor.withAlpha(150),
                       onTap: () async => {
                             await Future.delayed(
-                                const Duration(milliseconds: 100)),
+                                const Duration(milliseconds: 150)),
                             function.call()
                           },
                       child: Padding(
