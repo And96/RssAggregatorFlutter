@@ -39,6 +39,7 @@ class _DiscoverPageState extends State<DiscoverPage>
   }
 
   Color colorCategory = ThemeColor.primaryColorLight;
+  Color siteColor = ThemeColor.primaryColorLight;
 
   late CategoriesList categoriesList = CategoriesList();
 
@@ -61,6 +62,7 @@ class _DiscoverPageState extends State<DiscoverPage>
       categoryName = s.category;
     }
     colorCategory = Color(categoriesList.getColor(categoryName));
+    siteColor = (await ThemeColor().getMainColorFromUrl(f.iconUrl))!;
     any_link_preview.Metadata? metadata =
         await any_link_preview.AnyLinkPreview.getMetadata(
       link: f.link,
@@ -80,17 +82,17 @@ class _DiscoverPageState extends State<DiscoverPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text(f.host),
         elevation: 1,
-        backgroundColor: colorCategory,
+        backgroundColor: siteColor,
         actions: [
           IconButton(
               icon: const Icon(Icons.shuffle),
               tooltip: 'Random',
               onPressed: () => pageChanged(pageIndex)),
         ],
-      ),
+      ),*/
       body: PageView.builder(
 
           //itemCount: 3,
@@ -104,139 +106,202 @@ class _DiscoverPageState extends State<DiscoverPage>
                 onPageChanged: (value) => pageChanged(value),
                 itemBuilder: (context, indexH) {
                   return Container(
-                    color: colorCategory.withAlpha(30), //index
-                    child: Stack(
-                      children: [
-                        Center(
-                            child: SingleChildScrollView(
-                                child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                                width: 500,
-                                child: Expanded(
-                                    child: Card(
-                                        margin: const EdgeInsets.only(
-                                            left: 20,
-                                            right: 20,
-                                            top: 50,
-                                            bottom: 50),
-                                        clipBehavior: Clip.hardEdge,
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            color: darkMode
-                                                ? ThemeColor.dark3
-                                                : Colors.white,
-                                            width: 0.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                        ),
-                                        elevation: 0,
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 20,
-                                              right: 20,
-                                              top: 20,
-                                              bottom: 20),
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    SiteLogo(
-                                                      //  color: colorCategory,
-                                                      iconUrl: f.iconUrl,
+                      color: Colors.grey.withAlpha(50), //index
+                      child: Center(
+                          child: SingleChildScrollView(
+                              child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SizedBox(
+                              width: 500,
+                              child: Card(
+                                  margin: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 50, bottom: 50),
+                                  clipBehavior: Clip.hardEdge,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: darkMode
+                                          ? ThemeColor.dark3
+                                          : Colors.white,
+                                      width: 0.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  elevation: 0,
+                                  child: Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 0, right: 0, top: 0, bottom: 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          SizedBox(
+                                              height: 210,
+                                              child: Stack(
+                                                  fit: StackFit.expand,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: Image(
+                                                                    // height: 100,
+                                                                    //width: 100,
+                                                                    image: CachedNetworkImageProvider(imageUrlMeta2.length >
+                                                                            10
+                                                                        ? imageUrlMeta2
+                                                                        : imageUrlMeta1))
+                                                                .image),
+                                                      ),
+                                                      foregroundDecoration:
+                                                          BoxDecoration(
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Colors.transparent,
+                                                            Colors.black
+                                                                .withAlpha(170),
+                                                          ],
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          stops: const [
+                                                            0.4,
+                                                            0.9
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ),
-                                                    Text(
-                                                      f.host,
+                                                    Positioned(
+                                                        bottom: 0,
+                                                        left: 0,
+                                                        width: 350,
+                                                        child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(20.0),
+                                                            child: Text(f.title,
+                                                                maxLines: 4,
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)))),
+                                                  ])),
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                top: 20,
+                                                bottom: 20),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 20,
+                                                            right: 20,
+                                                            top: 0,
+                                                            bottom: 20),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        SiteLogo(
+                                                          //  color: colorCategory,
+                                                          iconUrl: f.iconUrl,
+                                                        ),
+                                                        Text(
+                                                          f.host,
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                                Card(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 0,
-                                                      right: 0,
-                                                      top: 0,
-                                                      bottom: 20),
-                                                  clipBehavior: Clip.hardEdge,
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      color: darkMode
-                                                          ? ThemeColor.dark3
-                                                          : Colors.white,
-                                                      width: 0.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15.0),
                                                   ),
-                                                  elevation: 0,
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    height: 50,
-                                                    color: colorCategory
-                                                        .withAlpha(225),
-                                                    child: Center(
-                                                      child: CircleAvatar(
-                                                          radius: 23,
-                                                          backgroundColor:
-                                                              colorCategory
+                                                  Card(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 0,
+                                                            right: 0,
+                                                            top: 0,
+                                                            bottom: 20),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                        color: darkMode
+                                                            ? ThemeColor.dark3
+                                                            : Colors.white,
+                                                        width: 0.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0),
+                                                    ),
+                                                    elevation: 0,
+                                                    child: Container(
+                                                      width: double.infinity,
+                                                      height: 50,
+                                                      color: colorCategory
+                                                          .withAlpha(225),
+                                                      child: Center(
+                                                        child: CircleAvatar(
+                                                            radius: 23,
+                                                            backgroundColor:
+                                                                colorCategory
+                                                                    .withAlpha(
+                                                                        255),
+                                                            child: ClipRRect(
+                                                                child: Icon(
+                                                              Icons.newspaper,
+                                                              color: Colors
+                                                                  .white
                                                                   .withAlpha(
-                                                                      255),
-                                                          child: ClipRRect(
-                                                              child: Icon(
-                                                            Icons.newspaper,
-                                                            color: Colors.white
-                                                                .withAlpha(200),
-                                                            size: 25,
-                                                          ))),
+                                                                      200),
+                                                              size: 25,
+                                                            ))),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  'Random $feedIndex pagina $indexV-$indexH ${f.link.padRight(100).substring(0, 100)} ${f.pubDate} $categoryName ${f.title}',
-                                                ),
-                                                Text(
-                                                  '$descMeta1\n\n$imageUrlMeta1',
-                                                  style: const TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.bold,
+                                                  Text(
+                                                    '${f.link.padRight(100).substring(0, 100)} \n\n${f.pubDate} $categoryName \n',
                                                   ),
-                                                ),
-                                                Text(
-                                                  '$descMeta2\n\n$imageUrlMeta2',
-                                                  style: const TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight:
-                                                        FontWeight.normal,
+                                                  Text(
+                                                    '$descMeta1\n\n$imageUrlMeta1',
+                                                    style: const TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
-                                                CachedNetworkImage(
-                                                  imageUrl: imageUrlMeta2,
-                                                  placeholder: (context, url) =>
-                                                      const Icon(Icons.link),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          const Icon(
-                                                              Icons.link_off),
-                                                ),
-                                              ]),
-                                        ))))
-                          ],
-                        )))
-                      ],
-                    ),
-                  );
+                                                  Text(
+                                                    '$descMeta2\n\n$imageUrlMeta2',
+                                                    style: const TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                ]),
+                                          )
+                                        ],
+                                      ))))
+                        ],
+                      ))));
                 });
           }),
     );
