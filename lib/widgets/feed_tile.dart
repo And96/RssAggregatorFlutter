@@ -67,7 +67,7 @@ class FeedTile extends StatelessWidget {
                           : paletteColor.withAlpha(150),
                       onTap: () async => {
                             await Future.delayed(
-                                const Duration(milliseconds: 150)),
+                                const Duration(milliseconds: 100)),
                             function.call()
                           },
                       child: Padding(

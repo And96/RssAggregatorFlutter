@@ -52,7 +52,7 @@ class _ButtonFeedOpenState extends State<ButtonFeedOpen> {
               ? widget.color
               : widget.color,
           onTap: () async {
-            await Future.delayed(const Duration(milliseconds: 200));
+            await Future.delayed(const Duration(milliseconds: 150));
             widget.function.call();
           },
           child: Center(
