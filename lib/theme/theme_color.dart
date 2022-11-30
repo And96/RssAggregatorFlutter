@@ -74,7 +74,7 @@ class ThemeColor {
   static Color dark4 = const Color.fromARGB(255, 130, 130, 130);
 
   List<Color> pickerColors = [
-    Colors.green,
+    Colors.green[500]!,
     Colors.green[700]!,
     Colors.teal[800]!,
     Colors.cyan[800]!,
