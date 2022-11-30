@@ -398,6 +398,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             onPressed: () {
                               sleep(const Duration(milliseconds: 200));
                               setState(() {
+                                _tabController.index = 0;
                                 isOnSearch = isOnSearch ? false : true;
                                 searchController.text = '';
                               });
