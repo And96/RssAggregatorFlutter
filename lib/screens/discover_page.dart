@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
@@ -8,7 +9,8 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
-import 'package:any_link_preview/any_link_preview.dart';
+import 'package:any_link_preview/any_link_preview.dart' as any_link_preview;
+import 'package:metadata_fetch/metadata_fetch.dart' as metadata_fetch;
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key, required this.feedsList}) : super(key: key);
@@ -44,8 +46,10 @@ class _DiscoverPageState extends State<DiscoverPage>
   int feedIndex = 0;
   int pageIndex = 0;
   String categoryName = "";
-  String desc = "";
-  String imageUrl = "";
+  String descMeta1 = ""; //any_link_preview
+  String imageUrlMeta1 = "";
+  String descMeta2 = ""; //metadata_fetch
+  String imageUrlMeta2 = "";
   void pageChanged(int value) async {
     pageIndex = value;
     var rng = Random();
@@ -57,13 +61,19 @@ class _DiscoverPageState extends State<DiscoverPage>
       categoryName = s.category;
     }
     colorCategory = Color(categoriesList.getColor(categoryName));
-    Metadata? metadata = await AnyLinkPreview.getMetadata(
+    any_link_preview.Metadata? metadata =
+        await any_link_preview.AnyLinkPreview.getMetadata(
       link: f.link,
       cache: const Duration(days: 3),
       //proxyUrl: "https://cors-anywhere.herokuapp.com/", // Needed for web app
     );
-    desc = metadata?.desc ?? "";
-    imageUrl = metadata?.image ?? "";
+    descMeta1 = metadata?.desc ?? "";
+    imageUrlMeta1 = metadata?.image ?? "";
+    metadata_fetch.Metadata? metadata2 =
+        await metadata_fetch.MetadataFetch.extract(f.link);
+
+    descMeta2 = metadata2?.description ?? "";
+    imageUrlMeta2 = metadata2?.image ?? "";
     setState(() {});
   }
 
@@ -76,8 +86,8 @@ class _DiscoverPageState extends State<DiscoverPage>
         backgroundColor: colorCategory,
         actions: [
           IconButton(
-              icon: const Icon(Icons.delete),
-              tooltip: 'Delete',
+              icon: const Icon(Icons.shuffle),
+              tooltip: 'Random',
               onPressed: () => pageChanged(pageIndex)),
         ],
       ),
@@ -94,7 +104,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                 onPageChanged: (value) => pageChanged(value),
                 itemBuilder: (context, indexH) {
                   return Container(
-                    color: colorCategory.withAlpha(225), //index
+                    color: colorCategory.withAlpha(30), //index
                     child: Stack(
                       children: [
                         Center(
@@ -194,7 +204,31 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Random $feedIndex \n\npagina $indexV-$indexH \n\n link ${f.link.substring(0, 50)}\n\n${f.pubDate}\n\n$categoryName\n\n${f.title}\n\n$desc\n\n$imageUrl',
+                                                  'Random $feedIndex pagina $indexV-$indexH ${f.link.padRight(100).substring(0, 100)} ${f.pubDate} $categoryName ${f.title}',
+                                                ),
+                                                Text(
+                                                  '$descMeta1\n\n$imageUrlMeta1',
+                                                  style: const TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '$descMeta2\n\n$imageUrlMeta2',
+                                                  style: const TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                                CachedNetworkImage(
+                                                  imageUrl: imageUrlMeta2,
+                                                  placeholder: (context, url) =>
+                                                      const Icon(Icons.link),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          const Icon(
+                                                              Icons.link_off),
                                                 ),
                                               ]),
                                         ))))
