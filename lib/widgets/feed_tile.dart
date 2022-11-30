@@ -42,10 +42,10 @@ class FeedTile extends StatelessWidget {
               child: Card(
                   margin: const EdgeInsets.only(
                       left: 8, right: 8, top: 8, bottom: 5),
-                  clipBehavior: Clip.hardEdge,
+                  clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: darkMode ? ThemeColor.dark3 : Colors.white,
+                    side: const BorderSide(
+                      color: Colors.transparent,
                       width: 0.0,
                     ),
                     borderRadius: BorderRadius.circular(15.0),
