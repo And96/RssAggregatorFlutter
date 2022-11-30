@@ -8,6 +8,7 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/site_logo.dart';
+import 'package:any_link_preview/any_link_preview.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key, required this.feedsList}) : super(key: key);
@@ -43,6 +44,8 @@ class _DiscoverPageState extends State<DiscoverPage>
   int feedIndex = 0;
   int pageIndex = 0;
   String categoryName = "";
+  String desc = "";
+  String imageUrl = "";
   void pageChanged(int value) async {
     pageIndex = value;
     var rng = Random();
@@ -54,6 +57,13 @@ class _DiscoverPageState extends State<DiscoverPage>
       categoryName = s.category;
     }
     colorCategory = Color(categoriesList.getColor(categoryName));
+    Metadata? metadata = await AnyLinkPreview.getMetadata(
+      link: f.link,
+      cache: const Duration(days: 3),
+      //proxyUrl: "https://cors-anywhere.herokuapp.com/", // Needed for web app
+    );
+    desc = metadata?.desc ?? "";
+    imageUrl = metadata?.image ?? "";
     setState(() {});
   }
 
@@ -64,6 +74,12 @@ class _DiscoverPageState extends State<DiscoverPage>
         title: Text(f.host),
         elevation: 1,
         backgroundColor: colorCategory,
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Delete',
+              onPressed: () => pageChanged(pageIndex)),
+        ],
       ),
       body: PageView.builder(
 
@@ -82,101 +98,108 @@ class _DiscoverPageState extends State<DiscoverPage>
                     child: Stack(
                       children: [
                         Center(
-                            child: Column(
+                            child: SingleChildScrollView(
+                                child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Expanded(
-                                child: Card(
-                                    margin: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 50,
-                                        bottom: 50),
-                                    clipBehavior: Clip.hardEdge,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        color: darkMode
-                                            ? ThemeColor.dark3
-                                            : Colors.white,
-                                        width: 0.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    elevation: 0,
-                                    child: Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 20,
-                                          top: 20,
-                                          bottom: 20),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Row(
+                            SizedBox(
+                                width: 500,
+                                child: Expanded(
+                                    child: Card(
+                                        margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 50,
+                                            bottom: 50),
+                                        clipBehavior: Clip.hardEdge,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: darkMode
+                                                ? ThemeColor.dark3
+                                                : Colors.white,
+                                            width: 0.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        elevation: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 20,
+                                              bottom: 20),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SiteLogo(
-                                                  //  color: colorCategory,
-                                                  iconUrl: f.iconUrl,
+                                                  MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    SiteLogo(
+                                                      //  color: colorCategory,
+                                                      iconUrl: f.iconUrl,
+                                                    ),
+                                                    Text(
+                                                      f.host,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Card(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 0,
+                                                      right: 0,
+                                                      top: 0,
+                                                      bottom: 20),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: darkMode
+                                                          ? ThemeColor.dark3
+                                                          : Colors.white,
+                                                      width: 0.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                  ),
+                                                  elevation: 0,
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 50,
+                                                    color: colorCategory
+                                                        .withAlpha(225),
+                                                    child: Center(
+                                                      child: CircleAvatar(
+                                                          radius: 23,
+                                                          backgroundColor:
+                                                              colorCategory
+                                                                  .withAlpha(
+                                                                      255),
+                                                          child: ClipRRect(
+                                                              child: Icon(
+                                                            Icons.newspaper,
+                                                            color: Colors.white
+                                                                .withAlpha(200),
+                                                            size: 25,
+                                                          ))),
+                                                    ),
+                                                  ),
                                                 ),
                                                 Text(
-                                                  f.host,
+                                                  'Random $feedIndex \n\npagina $indexV-$indexH \n\n link ${f.link.substring(0, 50)}\n\n${f.pubDate}\n\n$categoryName\n\n${f.title}\n\n$desc\n\n$imageUrl',
                                                 ),
-                                              ],
-                                            ),
-                                            Card(
-                                              margin: const EdgeInsets.only(
-                                                  left: 0,
-                                                  right: 0,
-                                                  top: 0,
-                                                  bottom: 20),
-                                              clipBehavior: Clip.hardEdge,
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                  color: darkMode
-                                                      ? ThemeColor.dark3
-                                                      : Colors.white,
-                                                  width: 0.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                              ),
-                                              elevation: 0,
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 200,
-                                                color: colorCategory
-                                                    .withAlpha(225),
-                                                child: Center(
-                                                  child: CircleAvatar(
-                                                      radius: 23,
-                                                      backgroundColor:
-                                                          colorCategory
-                                                              .withAlpha(255),
-                                                      child: ClipRRect(
-                                                          child: Icon(
-                                                        Icons.newspaper,
-                                                        color: Colors.white
-                                                            .withAlpha(200),
-                                                        size: 25,
-                                                      ))),
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              'Random $feedIndex \n\npagina $indexV-$indexH \n\n link ${f.link}\n\n${f.pubDate}\n\n$categoryName',
-                                            ),
-                                          ]),
-                                    )))
+                                              ]),
+                                        ))))
                           ],
-                        ))
+                        )))
                       ],
                     ),
                   );
