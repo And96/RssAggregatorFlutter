@@ -83,7 +83,7 @@ class _DiscoverPageState extends State<DiscoverPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text(f.host),
         elevation: 1,
         backgroundColor: siteColor,
@@ -94,7 +94,7 @@ class _DiscoverPageState extends State<DiscoverPage>
               tooltip: 'Random',
               onPressed: () => pageChanged(pageIndex)),
         ],
-      ),
+      ),*/
       body: PageView.builder(
 
           //itemCount: 3,
@@ -146,14 +146,15 @@ class _DiscoverPageState extends State<DiscoverPage>
                                               clipBehavior: Clip.antiAlias,
                                               shape: RoundedRectangleBorder(
                                                 side: const BorderSide(
-                                                  color: Colors.transparent,
-                                                  width: 0.0,
+                                                  color: Colors.white,
+                                                  width: 4.0,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(15.0),
                                               ),
                                               elevation: 0,
                                               child: Container(
+                                                  //   color: Colors.orange,
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 0,
@@ -170,30 +171,14 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                         MainAxisSize.min,
                                                     children: <Widget>[
                                                       Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 20,
-                                                                right: 20,
-                                                                top: 15,
-                                                                bottom: 15),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            SiteLogo(
-                                                              //  color: colorCategory,
-                                                              iconUrl:
-                                                                  f.iconUrl,
-                                                            ),
-                                                            Text(
-                                                              f.host,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
+                                                          //color: Colors.orange,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 0,
+                                                                  right: 0,
+                                                                  top: 0,
+                                                                  bottom: 0),
                                                           height: 210,
                                                           child: Stack(
                                                               fit: StackFit
@@ -201,6 +186,15 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                               children: <
                                                                   Widget>[
                                                                 Container(
+                                                                  //    color: Colors
+                                                                  //       .purple,
+                                                                  margin: const EdgeInsets
+                                                                          .only(
+                                                                      left: 0,
+                                                                      right: 0,
+                                                                      top: 0,
+                                                                      bottom:
+                                                                          0),
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     image: DecorationImage(
@@ -220,14 +214,14 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                             .transparent,
                                                                         Colors
                                                                             .black
-                                                                            .withAlpha(180),
+                                                                            .withAlpha(195),
                                                                       ],
                                                                       begin: Alignment
                                                                           .topCenter,
                                                                       end: Alignment
                                                                           .bottomCenter,
                                                                       stops: const [
-                                                                        0.4,
+                                                                        0.3,
                                                                         0.9
                                                                       ],
                                                                     ),
@@ -265,6 +259,33 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                 MainAxisSize
                                                                     .min,
                                                             children: <Widget>[
+                                                              Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            20,
+                                                                        right:
+                                                                            20,
+                                                                        top: 0,
+                                                                        bottom:
+                                                                            20),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    SiteLogo(
+                                                                      //  color: colorCategory,
+                                                                      iconUrl: f
+                                                                          .iconUrl,
+                                                                    ),
+                                                                    Text(
+                                                                      f.host,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
                                                               Card(
                                                                 margin:
                                                                     const EdgeInsets
