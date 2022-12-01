@@ -498,11 +498,6 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=economyup.it"
 			},
 			{
-				"siteName": "econsultancy.com",
-				"siteLink": "https://econsultancy.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=econsultancy.com"
-			},
-			{
 				"siteName": "educazionefinanziaria.com",
 				"siteLink": "https://www.educazionefinanziaria.com/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=educazionefinanziaria.com"
@@ -1263,6 +1258,11 @@ class RecommendedList {
 				"siteName": "entrepreneur.com",
 				"siteLink": "https://www.entrepreneur.com/latest.rss",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=entrepreneur.com"
+			},
+			{
+				"siteName": "econsultancy.com",
+				"siteLink": "https://econsultancy.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=econsultancy.com"
 			}
 		]
 	},
