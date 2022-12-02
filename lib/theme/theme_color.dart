@@ -69,7 +69,7 @@ class ThemeColor {
   static Color light4 = const Color.fromARGB(255, 140, 140, 140);
 
   static Color dark1 = const Color.fromARGB(255, 10, 10, 10);
-  static Color dark2 = const Color.fromARGB(255, 34, 35, 40);
+  static Color dark2 = const Color.fromARGB(255, 25, 27, 32);
   static Color dark3 = const Color.fromARGB(255, 65, 65, 65);
   static Color dark4 = const Color.fromARGB(255, 130, 130, 130);
 
