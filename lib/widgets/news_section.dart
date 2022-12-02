@@ -285,7 +285,7 @@ class _NewsSectionState extends State<NewsSection>
                 ))
               : Padding(
                   padding: const EdgeInsets.only(
-                      top: 6, left: 6, right: 6, bottom: 0),
+                      top: 8, left: 4, right: 4, bottom: 0),
                   child: Scrollbar(
                       controller: listviewController,
                       thickness: widget.searchText.isNotEmpty
