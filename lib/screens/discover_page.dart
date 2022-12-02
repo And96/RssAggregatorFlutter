@@ -50,6 +50,7 @@ class _DiscoverPageState extends State<DiscoverPage>
   int feedIndex = 0;
   int pageIndex = 0;
   String categoryName = "";
+  int categoryIcon = 0;
   String descMeta1 = ""; //any_link_preview
   String imageUrlMeta1 = "";
   String descMeta2 = ""; //metadata_fetch
@@ -65,6 +66,7 @@ class _DiscoverPageState extends State<DiscoverPage>
       categoryName = s.category;
     }
     colorCategory = Color(categoriesList.getColor(categoryName));
+    categoryIcon = categoriesList.getIcon(categoryName);
     siteColor = (await ThemeColor().getMainColorFromUrl(f.iconUrl))!;
     any_link_preview.Metadata? metadata =
         await any_link_preview.AnyLinkPreview.getMetadata(
@@ -337,10 +339,10 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                               mainAxisSize: MainAxisSize.min,
                                                                               children: [
                                                                                 Padding(
-                                                                                  padding: const EdgeInsets.only(top: 0, left: 1, right: 6, bottom: 0),
+                                                                                  padding: const EdgeInsets.only(top: 1, left: 1, right: 6, bottom: 1),
                                                                                   child: ClipRRect(
                                                                                       child: Icon(
-                                                                                    Icons.newspaper,
+                                                                                    IconData(categoryIcon, fontFamily: 'MaterialIcons'),
                                                                                     color: Colors.white.withAlpha(200),
                                                                                     size: 15,
                                                                                   )),

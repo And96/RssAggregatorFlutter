@@ -21,6 +21,18 @@ class CategoriesList {
     return ThemeColor().defaultCategoryColor;
   }
 
+  int getIcon(String categoryName) {
+    try {
+      if (items.isEmpty) {
+        load(false);
+      }
+      return items.firstWhere((e) => e.name == categoryName).icon;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return ThemeColor().defaultCategoryIcon;
+  }
+
   List<String> toList() {
     List<String> list = [];
     try {
