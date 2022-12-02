@@ -404,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               });
                             },
                           ), //
-                        /*if (!isLoading)
+                        if (!isLoading)
                           IconButton(
                             icon: const Icon(Icons.refresh),
                             tooltip: 'Refresh',
@@ -413,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               loadData(true)
                             },
                           ),
-*/
+
                         if (isLoading)
                           IconButton(
                             icon: AnimatedBuilder(
