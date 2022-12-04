@@ -129,4 +129,18 @@ class ThemeColor {
     }
     return Colors.blueGrey[900];
   }
+
+  bool isColorDark(Color color) {
+    try {
+      double grayscale =
+          (0.299 * color.red) + (0.587 * color.green) + (0.114 * color.blue);
+      if (grayscale <= 155) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      //
+    }
+    return false;
+  }
 }
