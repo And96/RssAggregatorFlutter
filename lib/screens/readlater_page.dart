@@ -123,7 +123,8 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                             Navigator.pop(context);
                           },
                           icon: Icons.public,
-                          color: paletteColor);
+                          color1: Colors.transparent,
+                          color2: paletteColor);
                     },
                   ),
                   const Divider(),
@@ -322,16 +323,18 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                           (BuildContext context, index) {
                                         final item = readlaterList.items[index];
 
-                                        return  FeedTile(
-                                                darkMode: darkMode,
-                                                title: item.title,
-                                                link: item.link,
-                                                host: item.host,
-                                                pubDate: item.pubDate,
-                                                iconUrl: item.iconUrl,
-                                                 function:  () =>
-                                                showOptionDialog(context, item), mainColor:
-                                              ThemeColor.primaryColorLight,);
+                                        return FeedTile(
+                                          darkMode: darkMode,
+                                          title: item.title,
+                                          link: item.link,
+                                          host: item.host,
+                                          pubDate: item.pubDate,
+                                          iconUrl: item.iconUrl,
+                                          function: () =>
+                                              showOptionDialog(context, item),
+                                          mainColor:
+                                              ThemeColor.primaryColorLight,
+                                        );
                                       })
                                   : GridView.builder(
                                       controller: listviewController,
@@ -341,15 +344,17 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                                         final item = readlaterList.items[index];
 
                                         return FeedTile(
-                                                darkMode: darkMode,
-                                                title: item.title,
-                                                link: item.link,
-                                                host: item.host,
-                                                pubDate: item.pubDate,
-                                                iconUrl: item.iconUrl,
-                                                 function:  () =>
-                                                showOptionDialog(context, item), mainColor:
-                                              ThemeColor.primaryColorLight,);
+                                          darkMode: darkMode,
+                                          title: item.title,
+                                          link: item.link,
+                                          host: item.host,
+                                          pubDate: item.pubDate,
+                                          iconUrl: item.iconUrl,
+                                          function: () =>
+                                              showOptionDialog(context, item),
+                                          mainColor:
+                                              ThemeColor.primaryColorLight,
+                                        );
                                       },
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(

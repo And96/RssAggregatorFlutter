@@ -177,7 +177,8 @@ class _NewsSectionState extends State<NewsSection>
                             Navigator.pop(context);
                           },
                           icon: Icons.public,
-                          color: paletteColor);
+                          color1: Colors.transparent,
+                          color2: paletteColor);
                     },
                   ),
                   const Divider(),
