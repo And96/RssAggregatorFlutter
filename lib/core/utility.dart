@@ -98,7 +98,6 @@ class Utility {
     try {
       return inputText
           .toString()
-          .trim()
           .replaceAll("&agrave;", "a")
           .replaceAll("&egrave;", "e")
           .replaceAll("&igrave;", "i")
@@ -115,9 +114,11 @@ class Utility {
           .replaceAll("&#8217;", "'")
           .replaceAll(RegExp('&#[0-9]{1,5};'), " ")
           .replaceAll(RegExp('&[a-z]{3,6};'), " ")
+          .replaceAll(RegExp('<[/]{0,1}[a-z]{1,10}[ ]{0,1}[/]{0,1}>'), " ")
           .replaceAll('\n', ". ")
           .replaceAll("  ", " ")
-          .replaceAll("  ", " ");
+          .replaceAll("  ", " ")
+          .trim();
     } catch (err) {
       // print('Caught error: $err');
     }
