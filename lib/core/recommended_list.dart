@@ -481,7 +481,7 @@ class RecommendedList {
 			},
 			{
 				"siteName": "affarimiei.biz",
-				"siteLink": "https://www.affarimiei.biz/feed",
+				"siteLink": "https://news.google.com/rss/search?q=site:affarimiei.biz+when:30d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=affarimiei.biz"
 			},
 			{
