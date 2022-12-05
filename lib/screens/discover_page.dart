@@ -58,6 +58,9 @@ class _DiscoverPageState extends State<DiscoverPage>
     //generate random numer
     var rng = Random();
     feedIndex = rng.nextInt(widget.feedsList.items.length - 1);
+    if (value < 0) {
+      value = 0;
+    }
     if (value < widget.feedsList.items.length - 1) {
       feedIndex = value;
     } else {

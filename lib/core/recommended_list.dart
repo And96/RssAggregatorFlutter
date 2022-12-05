@@ -747,6 +747,10 @@ class RecommendedList {
 		"iconData": 984461,
 		"language": "italiano",
 		"sites": [{
+         "siteName": "thewom.it",
+         "siteLink": "https://www.thewom.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thewom.it"
+         },{
 			"siteName": "prevenzioneatavola.it",
 			"siteLink": "https://blog.prevenzioneatavola.it/feed/",
 			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=prevenzioneatavola.it"
@@ -1077,11 +1081,31 @@ class RecommendedList {
 		"iconData": 58131,
 		"language": "italiano",
 		"sites": [{
+         "siteName": "agendaonline.it",
+         "siteLink": "https://www.agendaonline.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=agendaonline.it"
+         },{
+         "siteName": "viaggi.corriere.it",
+         "siteLink": "https://viaggi.corriere.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=viaggi.corriere.it"
+         },{
+         "siteName": "viaggiamo.it",
+         "siteLink": "https://www.viaggiamo.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=viaggiamo.it"
+         },{
          "siteName": "archetravel.com",
          "siteLink": "https://www.archetravel.com/feed/",
          "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=archetravel.com"
+         },{
+         "siteName": "siviaggia.it",
+         "siteLink": "https://siviaggia.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=siviaggia.it"
+         },
+		 {
+         "siteName": "guidaviaggi.it",
+         "siteLink": "https://www.guidaviaggi.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=guidaviaggi.it"
          }
-		 
 		 
 		 ,
 		 {
