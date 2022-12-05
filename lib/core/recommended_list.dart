@@ -323,12 +323,8 @@ class RecommendedList {
 				"siteLink": "https://hackerjournal.it/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hackerjournal.it"
 			},{
-         "siteName": "gamesblog.it",
-         "siteLink": "https://www.bing.com/news/search?q=gamesblog.it&format=rss",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gamesblog.it"
-      },{
          "siteName": "ilsoftware.it",
-         "siteLink": "https://www.bing.com/news/search?q=ilsoftware.it&format=rss",
+         "siteLink": "https://www.bing.com/news/search?q=ilsoftware.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
          "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilsoftware.it"
       },{
          "siteName": "aranzulla.it",
@@ -1108,7 +1104,7 @@ class RecommendedList {
 		 ,
 		 {
          "siteName": "montagnadiviaggi.it",
-         "siteLink": "https://www.bing.com/news/search?q=montagnadiviaggi.it&format=rss",
+         "siteLink": "https://www.bing.com/news/search?q=montagnadiviaggi.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
          "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=montagnadiviaggi.it"
          }
 		 ,
@@ -1126,8 +1122,8 @@ class RecommendedList {
          }
 		 ,
 		 {
-         "siteName": "viaggiare-low-cost.it",
-         "siteLink": "https://www.bing.com/news/search?q=viaggiare-low-cost.it&format=rss",
+         "siteName": "",
+         "siteLink": "https://www.bing.com/news/search?q=viaggiare-low-cost.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
          "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=viaggiare-low-cost.it"
          }
 		 
@@ -1161,7 +1157,7 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilmilanista.it"
 			},{
 				"siteName": "magliarossonera.it",
-				"siteLink": "https://www.bing.com/news/search?q=magliarossonera.it&format=rss",
+				"siteLink": "https://www.bing.com/news/search?q=magliarossonera.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=magliarossonera.it"
 			},{
 				"siteName": "milanlive.it",

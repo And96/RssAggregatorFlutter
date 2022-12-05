@@ -496,7 +496,7 @@ class Site {
             !url.contains("feedburner") &&
             !url.contains("bing.com")) {
           String urlRss =
-              "https://www.bing.com/news/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}&format=rss";
+              "https://www.bing.com/news/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss";
           bool valid = await isUrlRSS(urlRss);
           if (valid) {
             return urlRss;
