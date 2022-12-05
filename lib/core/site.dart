@@ -454,41 +454,53 @@ class Site {
       }
 
       if (url.length > 1) {
-        final String defaultLocale = Platform.localeName;
-        String langGoogleNews = "";
-        if (defaultLocale.toString().toLowerCase().contains("it")) {
-          langGoogleNews = "&hl=it&gl=IT&ceid=IT:it";
-        } else {
-          langGoogleNews = "&hl=en-US&gl=US&ceid=US:en";
-        }
-        String siteFilter = "";
-        if (url.contains(".")) {
-          siteFilter = "site:";
-        }
-        //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
-        String urlRss =
-            "https://news.google.com/rss/search?q=$siteFilter${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:3d$langGoogleNews";
-        bool valid = await isUrlRSS(urlRss);
-        if (valid) {
-          return urlRss;
-        }
-      }
-
-      if (url.length > 1) {
-        String urlRss =
-            "http://feeds.feedburner.com/${name.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
-        bool valid = await isUrlRSS(urlRss);
-        if (valid) {
-          return urlRss;
+        if (!url.contains("news.google") &&
+            !url.contains("feedburner") &&
+            !url.contains("bing.com")) {
+          final String defaultLocale = Platform.localeName;
+          String langGoogleNews = "";
+          if (defaultLocale.toString().toLowerCase().contains("it")) {
+            langGoogleNews = "&hl=it&gl=IT&ceid=IT:it";
+          } else {
+            langGoogleNews = "&hl=en-US&gl=US&ceid=US:en";
+          }
+          String siteFilter = "";
+          if (url.contains(".")) {
+            siteFilter = "site:";
+          }
+          //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
+          String urlRss =
+              "https://news.google.com/rss/search?q=$siteFilter${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:3d$langGoogleNews";
+          bool valid = await isUrlRSS(urlRss);
+          if (valid) {
+            return urlRss;
+          }
         }
       }
 
       if (url.length > 1) {
-        String urlRss =
-            "https://www.bing.com/news/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}&format=rss";
-        bool valid = await isUrlRSS(urlRss);
-        if (valid) {
-          return urlRss;
+        if (!url.contains("news.google") &&
+            !url.contains("feedburner") &&
+            !url.contains("bing.com")) {
+          String urlRss =
+              "http://feeds.feedburner.com/${name.replaceAll(".com", "").replaceAll(".it", "").replaceAll(".net", "").replaceAll(".org", "")}";
+          bool valid = await isUrlRSS(urlRss);
+          if (valid) {
+            return urlRss;
+          }
+        }
+      }
+
+      if (url.length > 1) {
+        if (!url.contains("news.google") &&
+            !url.contains("feedburner") &&
+            !url.contains("bing.com")) {
+          String urlRss =
+              "https://www.bing.com/news/search?q=${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}&format=rss";
+          bool valid = await isUrlRSS(urlRss);
+          if (valid) {
+            return urlRss;
+          }
         }
       }
     } catch (err) {

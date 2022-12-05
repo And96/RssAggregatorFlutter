@@ -293,7 +293,7 @@ class _SitesPageState extends State<SitesPage>
           isLoading = true;
         });
 
-        await sitesList.delete(siteLink, siteName, siteID);
+        //await sitesList.delete(siteLink, siteName, siteID);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);

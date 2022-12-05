@@ -190,6 +190,7 @@ class SitesList {
     try {
       await load();
       site.setSiteID();
+      items.removeWhere((e) => (e.siteID == site.siteID));
       items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
           Utility().cleanUrlCompare(site.siteLink)));
       items.add(site);
@@ -247,7 +248,7 @@ class SitesList {
 
       if (url.length > 1) {
         var s1 = Site(
-          siteID: 0,
+          siteID: siteID,
           siteName: siteName.trim() != '' ? siteName : hostsiteName,
           siteLink: url,
           iconUrl: await SiteIcon()
