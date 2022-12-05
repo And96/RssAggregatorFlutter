@@ -267,7 +267,9 @@ class _SitesPageState extends State<SitesPage>
     }
   }
 
-  void _awaitEditSite(BuildContext context, Site? siteUpdated) async {
+  Future<List<String>> _awaitEditSite(
+      BuildContext context, Site? siteUpdated) async {
+    List<String> siteAgg = [];
     try {
       String siteLink = '';
       String category = '';
@@ -279,7 +281,7 @@ class _SitesPageState extends State<SitesPage>
         siteName = siteUpdated.siteName;
         siteID = siteUpdated.siteID;
       }
-      List<String> siteAgg = [];
+
       // start the SecondScreen and wait for it to finish with a result
       final resultTextInput = await Navigator.push(
           context,
@@ -324,12 +326,6 @@ class _SitesPageState extends State<SitesPage>
         setState(() {
           isLoading = false;
         });
-        var snackBar = SnackBar(
-          duration: const Duration(seconds: 2),
-          content: Text('Search completed. ${siteAgg.length} link found'),
-        );
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
         if (siteAgg.isNotEmpty) {
           sleep(const Duration(milliseconds: 300));
@@ -346,8 +342,9 @@ class _SitesPageState extends State<SitesPage>
         }
       }
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
+    return siteAgg;
   }
 
   _showNewDialog(BuildContext context) async {
@@ -384,8 +381,18 @@ class _SitesPageState extends State<SitesPage>
             subtitle: const Text(
               'Inserisci indirizzo link del sito da aggiungere',
             ),
-            onTap: (() =>
-                {Navigator.pop(context), _awaitEditSite(context, null)})),
+            onTap: (() => {
+                  Navigator.pop(context),
+                  _awaitEditSite(context, null).then((siteAgg) => {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(seconds: 2),
+                            content: Text(
+                                'Search completed. ${siteAgg.length} link found'),
+                          ),
+                        ),
+                      })
+                })),
         ListTile(
             minLeadingWidth: 30,
             leading: const Icon(Icons.auto_graph),
