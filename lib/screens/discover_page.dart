@@ -84,11 +84,11 @@ class _DiscoverPageState extends State<DiscoverPage>
       link: f.link,
       cache: const Duration(days: 1),
     );
-    descMeta1 = metadata?.desc.toString().replaceAll('\n', ". ") ?? "";
+    descMeta1 = Utility().cleanText(metadata?.desc).replaceAll('\n', ". ");
     imageUrlMeta1 = metadata?.image ?? "";
     metadata_fetch.Metadata? metadata2 =
         await metadata_fetch.MetadataFetch.extract(f.link);
-    descMeta2 = metadata2?.description ?? "";
+    descMeta2 = Utility().cleanText(metadata2?.description);
     imageUrlMeta2 = metadata2?.image ?? "";
     setState(() {});
   }
