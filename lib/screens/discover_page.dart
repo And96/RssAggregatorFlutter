@@ -37,7 +37,7 @@ class _DiscoverPageState extends State<DiscoverPage>
             darkMode = value,
           });
     });
-    pageChanged(-1);
+    pageChanged(0);
   }
 
   Color colorCategory = ThemeColor.primaryColorLight;
@@ -55,15 +55,15 @@ class _DiscoverPageState extends State<DiscoverPage>
   String descMeta2 = ""; //metadata_fetch
   String imageUrlMeta2 = "";
   void pageChanged(int value) async {
-    pageIndex = value;
     //generate random numer
     var rng = Random();
     feedIndex = rng.nextInt(widget.feedsList.items.length - 1);
     if (value < widget.feedsList.items.length - 1) {
-      feedIndex = value + 1;
+      feedIndex = value;
     } else {
       feedIndex = 0;
     }
+    pageIndex = feedIndex;
     f = widget.feedsList.items[feedIndex];
     Site? s = await sitesList.getSiteFromName(f.host);
     categoryName = "";
@@ -84,7 +84,7 @@ class _DiscoverPageState extends State<DiscoverPage>
       link: f.link,
       cache: const Duration(days: 1),
     );
-    descMeta1 = Utility().cleanText(metadata?.desc).replaceAll('\n', ". ");
+    descMeta1 = Utility().cleanText(metadata?.desc);
     imageUrlMeta1 = metadata?.image ?? "";
     metadata_fetch.Metadata? metadata2 =
         await metadata_fetch.MetadataFetch.extract(f.link);
@@ -97,16 +97,16 @@ class _DiscoverPageState extends State<DiscoverPage>
 
   void _handleKeyPressed(FocusNode f, RawKeyEvent e) {
     if (e.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
-      pageChanged(pageIndex);
+      pageChanged(pageIndex - 1);
     }
     if (e.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-      pageChanged(pageIndex);
+      pageChanged(pageIndex + 1);
     }
     if (e.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-      pageChanged(pageIndex);
+      pageChanged(pageIndex - 1);
     }
     if (e.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-      pageChanged(pageIndex);
+      pageChanged(pageIndex + 1);
     }
     if (e.isKeyPressed(LogicalKeyboardKey.escape)) {
       Navigator.pop(context);
@@ -360,7 +360,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                                         ),
                                                                                         tooltip: 'Favourite',
                                                                                         onPressed: () {
-                                                                                          pageChanged(pageIndex);
+                                                                                          pageChanged(pageIndex + 1);
                                                                                         },
                                                                                       ),
                                                                                     if (_showMoreOptions)
@@ -373,7 +373,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                                         ),
                                                                                         tooltip: 'Read Later',
                                                                                         onPressed: () {
-                                                                                          pageChanged(pageIndex);
+                                                                                          pageChanged(pageIndex + 1);
                                                                                         },
                                                                                       ),
                                                                                     if (_showMoreOptions)
@@ -386,7 +386,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                                         ),
                                                                                         tooltip: 'Copy link',
                                                                                         onPressed: () {
-                                                                                          pageChanged(pageIndex);
+                                                                                          pageChanged(pageIndex + 1);
                                                                                         },
                                                                                       ),
                                                                                   ],
@@ -413,7 +413,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                                                                                         ),
                                                                                         tooltip: 'Share',
                                                                                         onPressed: () {
-                                                                                          pageChanged(pageIndex);
+                                                                                          pageChanged(pageIndex + 1);
                                                                                         },
                                                                                       ),
                                                                                   ],
