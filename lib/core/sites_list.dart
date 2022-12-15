@@ -6,7 +6,8 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/core/site_icon.dart';
-import 'package:collection/collection.dart'; // <- required or firstWhereOrNull is not defined
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 
 class SitesList {
   late List<Site> items = [];
@@ -196,7 +197,8 @@ class SitesList {
           (Utility().cleanUrlCompare(e.siteLink) ==
               Utility().cleanUrlCompare(site.siteLink)));
       if (siteOld != null) {
-        site.category = site.category;
+        site.siteID = siteOld.siteID;
+        site.category = siteOld.category;
         items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
             Utility().cleanUrlCompare(site.siteLink)));
       }
