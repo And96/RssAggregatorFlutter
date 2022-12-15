@@ -63,6 +63,8 @@ dependencies:
   flutter_spinkit: ^5.1.0
   any_link_preview: ^2.0.9
   metadata_fetch: ^0.4.1
+  cube_transition: ^1.0.2
+  cube_transition_plus: ^2.0.1
 
 flutter_launcher_icons:
     path: ../..

@@ -141,6 +141,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.2"
+  cube_transition:
+    dependency: "direct main"
+    description:
+      name: cube_transition
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  cube_transition_plus:
+    dependency: "direct main"
+    description:
+      name: cube_transition_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   dependency_validator:
     dependency: "direct dev"
     description:
