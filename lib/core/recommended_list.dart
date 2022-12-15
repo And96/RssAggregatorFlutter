@@ -148,6 +148,10 @@ class RecommendedList {
 				"siteName": "www.internazionale.it",
 				"siteLink": "https://www.internazionale.it/sitemaps/rss.xml",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.internazionale.it"
+			}, {
+				"siteName": "metronews.it",
+				"siteLink": "https://metronews.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=metronews.it"
 			}
 		]
 	},
@@ -341,6 +345,10 @@ class RecommendedList {
 				"siteName": "tomshw.it",
 				"siteLink": "https://www.tomshw.it/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tomshw.it"
+			}, {
+				"siteName": "zeusnews.it",
+				"siteLink": "https://feeds.feedburner.com/ZeusNews",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=zeusnews.it"
 			}
 		]
 	},
@@ -458,59 +466,59 @@ class RecommendedList {
 				"siteName": "it.motor1.com",
 				"siteLink": "https://it.motor1.com/rss/news/all/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=it.motor1.com"
-			},{
-         "siteName": "alvolante.it",
-         "siteLink": "https://www.alvolante.it/rss.xml",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alvolante.it"
-         },	 
-		 {
-         "siteName": "automoto.it",
-         "siteLink": "https://news.google.com/rss/search?q=site:automoto.it+when:3d&hl=it&gl=IT&ceid=IT:it",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=automoto.it"
-         },
-		 
-		 {
-         "siteName": "livegp.it",
-         "siteLink": "https://livegp.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=livegp.it"
-         },
-		{
-         "siteName": "motorbox.com",
-         "siteLink": "https://www.motorbox.com/rss.xml",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motorbox.com"
-         } ,
-		 {
-         "siteName": "motors-addict.com",
-         "siteLink": "https://www.motors-addict.com/it/58a31a66cac90d3222644a47/rss",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motors-addict.com"
-         },
-		 {
-         "siteName": "newsauto.it",
-         "siteLink": "https://newsauto.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=newsauto.it"
-         },
-		 {
-         "siteName": "rally.it",
-         "siteLink": "https://www.rally.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rally.it"
-         },
-		 {
-         "siteName": "rallyeslalom.com",
-         "siteLink": "https://www.rallyeslalom.com/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rallyeslalom.com"
-         }, 
-		 {
-         "siteName": "rallytime.eu",
-         "siteLink": "https://www.rallytime.eu/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rallytime.eu"
-         },
-		 {
-         "siteName": "veloce.it",
-         "siteLink": "https://veloce.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=veloce.it"
-         }
-		 
-		 
+			}, {
+				"siteName": "alvolante.it",
+				"siteLink": "https://www.alvolante.it/rss.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alvolante.it"
+			},
+			{
+				"siteName": "automoto.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:automoto.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=automoto.it"
+			},
+
+			{
+				"siteName": "livegp.it",
+				"siteLink": "https://livegp.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=livegp.it"
+			},
+			{
+				"siteName": "motorbox.com",
+				"siteLink": "https://www.motorbox.com/rss.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motorbox.com"
+			},
+			{
+				"siteName": "motors-addict.com",
+				"siteLink": "https://www.motors-addict.com/it/58a31a66cac90d3222644a47/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motors-addict.com"
+			},
+			{
+				"siteName": "newsauto.it",
+				"siteLink": "https://newsauto.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=newsauto.it"
+			},
+			{
+				"siteName": "rally.it",
+				"siteLink": "https://www.rally.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rally.it"
+			},
+			{
+				"siteName": "rallyeslalom.com",
+				"siteLink": "https://www.rallyeslalom.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rallyeslalom.com"
+			},
+			{
+				"siteName": "rallytime.eu",
+				"siteLink": "https://www.rallytime.eu/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rallytime.eu"
+			},
+			{
+				"siteName": "veloce.it",
+				"siteLink": "https://veloce.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=veloce.it"
+			}
+
+
 		]
 	},
 	{
@@ -786,6 +794,14 @@ class RecommendedList {
 				"siteName": "televisionando.it",
 				"siteLink": "https://news.google.com/rss/search?q=site:televisionando.it+when:3d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=televisionando.it"
+			}, {
+				"siteName": "webl0g.net",
+				"siteLink": "https://www.webl0g.net/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=webl0g.net"
+			}, {
+				"siteName": "movietele.it",
+				"siteLink": "https://www.movietele.it/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=movietele.it"
 			}
 		]
 	},
@@ -890,11 +906,11 @@ class RecommendedList {
 				"siteName": "nationalgeographic.it",
 				"siteLink": "https://news.google.com/rss/search?q=nationalgeographic.it+when:4d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nationalgeographic.it"
-			},{
-         "siteName": "gqitalia.it",
-         "siteLink": "https://www.gqitalia.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
-         }
+			}, {
+				"siteName": "gqitalia.it",
+				"siteLink": "https://www.gqitalia.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
+			}
 
 		]
 	},
@@ -997,35 +1013,55 @@ class RecommendedList {
 				"siteName": "rockit.it",
 				"siteLink": "https://news.google.com/rss/search?q=site:rockit.it+when:5d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockit.it"
-			},{
-         "siteName": "dlso.it",
-         "siteLink": "https://www.dlso.it/site/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dlso.it"
-         },{
-         "siteName": "parkettchannel.it",
-         "siteLink": "https://www.parkettchannel.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=parkettchannel.it"
-         },{
-         "siteName": "rockol.it",
-         "siteLink": "https://news.google.com/rss/search?q=site:rockol.it+when:3d&hl=it&gl=IT&ceid=IT:it",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockol.it"
-         },{
-         "siteName": "sentireascoltare.com",
-         "siteLink": "https://www.sentireascoltare.com/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sentireascoltare.com"
-         },{
-         "siteName": "soundsblog.it",
-         "siteLink": "https://www.soundsblog.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=soundsblog.it"
-         },{
-         "siteName": "soundwall.it",
-         "siteLink": "https://www.soundwall.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=soundwall.it"
-         },{
-         "siteName": "spaziorock.it",
-         "siteLink": "https://www.spaziorock.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=spaziorock.it"
-         }
+			}, {
+				"siteName": "dlso.it",
+				"siteLink": "https://www.dlso.it/site/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dlso.it"
+			}, {
+				"siteName": "parkettchannel.it",
+				"siteLink": "https://www.parkettchannel.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=parkettchannel.it"
+			}, {
+				"siteName": "rockol.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:rockol.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockol.it"
+			}, {
+				"siteName": "sentireascoltare.com",
+				"siteLink": "https://www.sentireascoltare.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sentireascoltare.com"
+			}, {
+				"siteName": "soundsblog.it",
+				"siteLink": "https://www.soundsblog.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=soundsblog.it"
+			}, {
+				"siteName": "soundwall.it",
+				"siteLink": "https://www.soundwall.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=soundwall.it"
+			}, {
+				"siteName": "spaziorock.it",
+				"siteLink": "https://www.spaziorock.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=spaziorock.it"
+			}, {
+				"siteName": "allmusicitalia.it",
+				"siteLink": "https://www.allmusicitalia.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=allmusicitalia.it"
+			}, {
+				"siteName": "deejay.it",
+				"siteLink": "https://www.deejay.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=deejay.it"
+			}, {
+				"siteName": "imusicfun.it",
+				"siteLink": "https://www.imusicfun.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=imusicfun.it"
+			}, {
+				"siteName": "rollingstone.it",
+				"siteLink": "https://www.rollingstone.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rollingstone.it"
+			}, {
+				"siteName": "mbmusic.it",
+				"siteLink": "https://www.mbmusic.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mbmusic.it"
+			}
 		]
 	},
 	{
@@ -1158,26 +1194,52 @@ class RecommendedList {
 		"iconData": 57946,
 		"language": "italiano",
 		"sites": [{
-			"siteName": "giallozafferano.it",
-			"siteLink": "https://www.giallozafferano.it/feed",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=giallozafferano.it"
-		}, {
-			"siteName": "agrodolce.it",
-			"siteLink": "https://www.agrodolce.it/feed/",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=agrodolce.it"
-		}, {
-			"siteName": "dissapore.com",
-			"siteLink": "https://news.google.com/rss/search?q=site:dissapore.com+when:3d&hl=it&gl=IT&ceid=IT:it",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dissapore.com"
-		}, {
-			"siteName": "misya.info",
-			"siteLink": "https://www.misya.info/feed",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=misya.info"
-		}, {
-			"siteName": "piuricette.it",
-			"siteLink": "https://www.piuricette.it/feed/",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=piuricette.it"
-		}]
+				"siteName": "giallozafferano.it",
+				"siteLink": "https://www.giallozafferano.it/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=giallozafferano.it"
+			}, {
+				"siteName": "agrodolce.it",
+				"siteLink": "https://www.agrodolce.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=agrodolce.it"
+			}, {
+				"siteName": "dissapore.com",
+				"siteLink": "https://news.google.com/rss/search?q=site:dissapore.com+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dissapore.com"
+			}, {
+				"siteName": "misya.info",
+				"siteLink": "https://www.misya.info/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=misya.info"
+			}, {
+				"siteName": "piuricette.it",
+				"siteLink": "https://www.piuricette.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=piuricette.it"
+			},
+
+			{
+				"siteName": "cibochepassioneblog.it",
+				"siteLink": "https://cibochepassioneblog.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cibochepassioneblog.it"
+			},
+
+			{
+				"siteName": "cookingwithsere.it",
+				"siteLink": "https://www.cookingwithsere.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cookingwithsere.it"
+			},
+
+			{
+				"siteName": "lacucinachevale.com",
+				"siteLink": "https://www.lacucinachevale.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lacucinachevale.com"
+			},
+
+			{
+				"siteName": "lucianopignataro.it",
+				"siteLink": "https://www.lucianopignataro.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lucianopignataro.it"
+			}
+
+		]
 	},
 	{
 		"name": "Viaggi",
@@ -1261,11 +1323,36 @@ class RecommendedList {
 		"color": 4292363029,
 		"iconData": 58280,
 		"language": "italiano",
-		"sites": [{
-			"siteName": "ecodibergamo.it",
-			"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
-		}]
+		"sites": [
+
+			{
+				"siteName": "ilcorrieredellacitta.com",
+				"siteLink": "https://www.ilcorrieredellacitta.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilcorrieredellacitta.com"
+			}, {
+				"siteName": "lacronacadiroma.it",
+				"siteLink": "https://www.lacronacadiroma.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lacronacadiroma.it"
+			}, {
+				"siteName": "romadailynews.it",
+				"siteLink": "https://www.romadailynews.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=romadailynews.it"
+			}, {
+				"siteName": "romaedintorninotizie.it",
+				"siteLink": "https://www.romaedintorninotizie.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=romaedintorninotizie.it"
+			}, {
+				"siteName": "romanews.eu",
+				"siteLink": "https://www.romanews.eu/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=romanews.eu"
+			}, {
+				"siteName": "romatoday.it",
+				"siteLink": "https://www.romatoday.it/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=romatoday.it"
+			}
+
+
+		]
 	},
 	{
 		"name": "Milan",
@@ -1366,11 +1453,30 @@ class RecommendedList {
 		"color": 4283315246,
 		"iconData": 59068,
 		"language": "italiano",
-		"sites": [{
-			"siteName": "ecodibergamo.it",
-			"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
-		}]
+		"sites": [
+
+			{
+				"siteName": "cronacaqui.it",
+				"siteLink": "https://cronacaqui.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cronacaqui.it"
+			}, {
+				"siteName": "primatorino.it",
+				"siteLink": "https://primatorino.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primatorino.it"
+			}, {
+				"siteName": "torinoggi.it",
+				"siteLink": "https://www.torinoggi.it/links/rss/argomenti/torinoggiit/rss.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinoggi.it"
+			}, {
+				"siteName": "torinonews24.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:torinonews24.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinonews24.it"
+			}, {
+				"siteName": "torinotoday.it",
+				"siteLink": "https://www.torinotoday.it/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinotoday.it"
+			}
+		]
 	},
 	{
 		"name": "Atalanta",
