@@ -458,7 +458,59 @@ class RecommendedList {
 				"siteName": "it.motor1.com",
 				"siteLink": "https://it.motor1.com/rss/news/all/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=it.motor1.com"
-			}
+			},{
+         "siteName": "alvolante.it",
+         "siteLink": "https://www.alvolante.it/rss.xml",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alvolante.it"
+         },	 
+		 {
+         "siteName": "automoto.it",
+         "siteLink": "https://news.google.com/rss/search?q=site:automoto.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=automoto.it"
+         },
+		 
+		 {
+         "siteName": "livegp.it",
+         "siteLink": "https://livegp.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=livegp.it"
+         },
+		{
+         "siteName": "motorbox.com",
+         "siteLink": "https://www.motorbox.com/rss.xml",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motorbox.com"
+         } ,
+		 {
+         "siteName": "motors-addict.com",
+         "siteLink": "https://www.motors-addict.com/it/58a31a66cac90d3222644a47/rss",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=motors-addict.com"
+         },
+		 {
+         "siteName": "newsauto.it",
+         "siteLink": "https://newsauto.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=newsauto.it"
+         },
+		 {
+         "siteName": "rally.it",
+         "siteLink": "https://www.rally.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rally.it"
+         },
+		 {
+         "siteName": "rallyeslalom.com",
+         "siteLink": "https://www.rallyeslalom.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rallyeslalom.com"
+         }, 
+		 {
+         "siteName": "rallytime.eu",
+         "siteLink": "https://www.rallytime.eu/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rallytime.eu"
+         },
+		 {
+         "siteName": "veloce.it",
+         "siteLink": "https://veloce.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=veloce.it"
+         }
+		 
+		 
 		]
 	},
 	{
@@ -838,7 +890,11 @@ class RecommendedList {
 				"siteName": "nationalgeographic.it",
 				"siteLink": "https://news.google.com/rss/search?q=nationalgeographic.it+when:4d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nationalgeographic.it"
-			}
+			},{
+         "siteName": "gqitalia.it",
+         "siteLink": "https://www.gqitalia.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
+         }
 
 		]
 	},
@@ -941,7 +997,35 @@ class RecommendedList {
 				"siteName": "rockit.it",
 				"siteLink": "https://news.google.com/rss/search?q=site:rockit.it+when:5d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockit.it"
-			}
+			},{
+         "siteName": "dlso.it",
+         "siteLink": "https://www.dlso.it/site/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dlso.it"
+         },{
+         "siteName": "parkettchannel.it",
+         "siteLink": "https://www.parkettchannel.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=parkettchannel.it"
+         },{
+         "siteName": "rockol.it",
+         "siteLink": "https://news.google.com/rss/search?q=site:rockol.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockol.it"
+         },{
+         "siteName": "sentireascoltare.com",
+         "siteLink": "https://www.sentireascoltare.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sentireascoltare.com"
+         },{
+         "siteName": "soundsblog.it",
+         "siteLink": "https://www.soundsblog.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=soundsblog.it"
+         },{
+         "siteName": "soundwall.it",
+         "siteLink": "https://www.soundwall.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=soundwall.it"
+         },{
+         "siteName": "spaziorock.it",
+         "siteLink": "https://www.spaziorock.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=spaziorock.it"
+         }
 		]
 	},
 	{
