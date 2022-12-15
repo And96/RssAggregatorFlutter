@@ -6,6 +6,7 @@ import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rss_aggregator_flutter/core/site_icon.dart';
+import 'package:collection/collection.dart'; // <- required or firstWhereOrNull is not defined
 
 class SitesList {
   late List<Site> items = [];
@@ -191,8 +192,14 @@ class SitesList {
       await load();
       site.setSiteID();
       items.removeWhere((e) => (e.siteID == site.siteID));
-      items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
-          Utility().cleanUrlCompare(site.siteLink)));
+      Site? siteOld = items.firstWhereOrNull((e) =>
+          (Utility().cleanUrlCompare(e.siteLink) ==
+              Utility().cleanUrlCompare(site.siteLink)));
+      if (siteOld != null) {
+        site.category = site.category;
+        items.removeWhere((e) => (Utility().cleanUrlCompare(e.siteLink) ==
+            Utility().cleanUrlCompare(site.siteLink)));
+      }
       items.add(site);
       await save(items);
       await load();
