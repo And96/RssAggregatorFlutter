@@ -163,7 +163,6 @@ class FeedsList {
           }
         }
         setUpdateItemLoading('');
-
         progressLoading = 1;
         setUpdateItemLoading('');
         await Future.delayed(
@@ -403,8 +402,8 @@ class FeedsList {
 
         /*print('After sort: ${DateTime.now().difference(t1).inMicroseconds}');
         t1 = DateTime.now();*/
-
-        await deleteDB(site.siteName, site.siteID);
+/*xxx
+        await deleteDB(site.siteName, site.siteID);*/ //now keep last n record
 
 //DEBUG TIME ***
 
@@ -418,8 +417,16 @@ class FeedsList {
                 : settings.settingsFeedsLimit)
             .toList();
 
+//remove feed with same title multiple source can report same news/link
+        for (Feed feed in itemsSite) {
+          await deleteDBSameTitle(feed.title);
+        }
+
         //save to database
         await insertDBMultiple(itemsSite);
+
+//delete old feed (keep latest 20 items + delete N days ago)
+        await deleteDBOld(site.siteID, settings.settingsFeedsLimit);
       }
 
 //DEBUG TIME ***
@@ -531,6 +538,31 @@ class FeedsList {
           where: 'host = ?',
           whereArgs: [siteName],
         );
+      }
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  Future<void> deleteDBSameTitle(String title) async {
+    try {
+      final db = await database;
+      await db.delete(
+        'feeds',
+        where: 'TRIM(title) = ?',
+        whereArgs: [title.trim()],
+      );
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  Future<void> deleteDBOld(int siteID, int settingsFeedsLimit) async {
+    try {
+      if (settingsFeedsLimit > 0) {
+        final db = await database;
+        await db.execute(
+            'DELETE FROM feeds WHERE siteID=$siteID AND pubDate NOT IN (SELECT pubDate FROM feeds WHERE siteID=$siteID ORDER BY pubDate DESC LIMIT $settingsFeedsLimit)');
       }
     } catch (err) {
       //print('Caught error: $err');
