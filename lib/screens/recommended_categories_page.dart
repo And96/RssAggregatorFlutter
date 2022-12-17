@@ -102,6 +102,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
         ]),
         body: Container(
           padding: const EdgeInsets.only(right: 3, left: 3, top: 3, bottom: 3),
+          color: darkMode ? ThemeColor.dark1.withAlpha(180) : ThemeColor.light2,
           child: isLoading == false
               ? GridView.builder(
                   itemCount: recommendedList.items.length,
@@ -115,7 +116,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                     childAspectRatio: MediaQuery.of(context).orientation ==
                             Orientation.landscape
                         ? 1.3
-                        : 0.9,
+                        : 0.8,
                   ),
                   itemBuilder: (
                     context,
@@ -133,40 +134,55 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                         ),
                         elevation: 0.0,
                         //color: Color(recommendedList.items[index].color),
-                        //color: Color.fromARGB(255, 236, 236, 236),
-                        color: Color(recommendedList.items[index].color),
+                        color: darkMode
+                            ? ThemeColor.dark2.withAlpha(150)
+                            : ThemeColor.light1.withAlpha(150),
                         child: InkWell(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => RecommendedSitesPage(
-                                      language:
-                                          recommendedList.items[index].language,
-                                      category:
-                                          recommendedList.items[index].name))),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: GridTile(
-                                footer: GridTileBar(
-                                  backgroundColor:
-                                      Colors.grey[900]?.withAlpha(65),
-                                  title: Text(
-                                    recommendedList.items[index].name,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(color: Colors.white),
+                            onTap: () {
+                              Future.delayed(const Duration(milliseconds: 100))
+                                  .then((value) => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RecommendedSitesPage(
+                                                  language: recommendedList
+                                                      .items[index].language,
+                                                  category: recommendedList
+                                                      .items[index].name))));
+                            },
+                            hoverColor: darkMode
+                                ? ThemeColor.dark3.withAlpha(50)
+                                : ThemeColor.light1.withAlpha(70),
+                            highlightColor: darkMode
+                                ? ThemeColor.dark3.withAlpha(150)
+                                : Color(recommendedList.items[index].color)
+                                    .withAlpha(40),
+                            splashColor: darkMode
+                                ? ThemeColor.dark1
+                                : Color(recommendedList.items[index].color)
+                                    .withAlpha(150),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(
+                                        recommendedList.items[index].color),
                                   ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 20),
                                   child: Icon(
                                     IconData(
                                         recommendedList.items[index].iconData,
                                         fontFamily: 'MaterialIcons'),
                                     color: Colors.white70,
-                                    size: 50,
+                                    size: 30,
                                   ),
-                                )),
-                          ),
-                        ));
+                                ),
+                                Text(
+                                  recommendedList.items[index].name,
+                                )
+                              ],
+                            )));
                   },
                 )
               : Center(
