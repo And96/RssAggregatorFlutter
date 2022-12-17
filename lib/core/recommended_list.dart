@@ -126,7 +126,7 @@ class RecommendedList {
 			},
 			{
 				"siteName": "rainews.it",
-				"siteLink": "https://www.rainews.it/rss/tutti",
+				"siteLink": "https://www.rainews.it/rss/cronaca",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rainews.it"
 			},
 			{
