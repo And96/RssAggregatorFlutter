@@ -507,7 +507,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               ),
                             ),
                           ),
-                          ListTile(
+                          /*ListTile(
                             leading: const Icon(
                               Icons.notes_sharp,
                             ),
@@ -516,10 +516,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               Navigator.pop(context);
                             },
                           ),
+                          const Divider(),*/
+                          ListTile(
+                            leading: const Icon(
+                              Icons.explore,
+                            ),
+                            title: const Text("Scopri"),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      DiscoverPage(feedsList: feedsList[0])));
+                            },
+                          ),
                           const Divider(),
                           ListTile(
                             leading: const Icon(Icons.public),
-                            title: const Text("Manage Sites"),
+                            title: const Text("Gestisci siti"),
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
@@ -529,7 +541,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           ListTile(
                             leading: const Icon(Icons.swap_horizontal_circle),
-                            title: const Text("Categories"),
+                            title: const Text("Categorie"),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesPage()))
+                                  .then((value) => Phoenix.rebirth(context));
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.watch_later),
+                            title: const Text("Leggi piu tardi"),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) => const SitesPage()))
+                                  .then((value) => Phoenix.rebirth(context));
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.favorite),
+                            title: const Text("Preferiti"),
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
@@ -573,7 +606,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-              bottomNavigationBar: isLoading
+              /*bottomNavigationBar: isLoading
                   ? null
                   : BottomNavigationBar(
                       items: const <BottomNavigationBarItem>[
@@ -630,7 +663,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           const TextStyle(fontWeight: FontWeight.bold),
                       type: BottomNavigationBarType.fixed, // Fixed
                       onTap: _onBottomItemTap,
-                    ),
+                    ),*/
               body: isLoading
                   ? Container(
                       color: darkMode
