@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   //Controller
   TextEditingController searchController = TextEditingController();
 
-  int _selectedIndex = 0;
+  //int _selectedIndex = 0;
 
   //Theme
   void pageRouterVerticalAnimation(StatefulWidget page) {
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         }));
   }
 
-  void _onBottomItemTap(int index) {
+  /*void _onBottomItemTap(int index) {
     switch (index) {
       case 1:
         pageRouterVerticalAnimation(const ReadlaterPage());
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     setState(() {
       _selectedIndex = 0;
     });
-  }
+  }*/
 
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
@@ -554,21 +554,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             leading: const Icon(Icons.watch_later),
                             title: const Text("Leggi piu tardi"),
                             onTap: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) => const SitesPage()))
-                                  .then((value) => Phoenix.rebirth(context));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const ReadlaterPage()));
                             },
                           ),
                           ListTile(
                             leading: const Icon(Icons.favorite),
                             title: const Text("Preferiti"),
                             onTap: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoriesPage()))
-                                  .then((value) => Phoenix.rebirth(context));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const FavouritesPage()));
                             },
                           ),
                           const Divider(),
