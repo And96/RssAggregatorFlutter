@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 
 bool darkMode = false;
 
@@ -22,12 +23,16 @@ class SiteLogoBig extends StatelessWidget {
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50.0),
-                side: const BorderSide(width: 2, color: Colors.black87),
+                side: const BorderSide(
+                  width: 0,
+                  color: Colors.transparent,
+                ),
               ),
+              //color: color,
             ),
             child: CircleAvatar(
-                //radius: 23,
-                backgroundColor: Colors.white,
+                radius: 21,
+                backgroundColor: ThemeColor.light1,
                 child: ClipOval(
                     child: SizedBox(
                   child: iconUrl.toString().trim() == ""
@@ -38,17 +43,26 @@ class SiteLogoBig extends StatelessWidget {
                           imageUrl: iconUrl,
                           placeholder: (context, url) => const Icon(Icons.link),
                           errorWidget: (context, url, error) =>
-                              const Icon(Icons.link_off),
+                              const Icon(Icons.link),
                         ),
                 )))),
-        Positioned(
-            top: 27,
-            left: 27,
-            child: CircleAvatar(
-                radius: 9,
-                backgroundColor: Colors.black.withAlpha(200),
-                child:
-                    const Icon(Icons.rss_feed, size: 13, color: Colors.white))),
+        FutureBuilder<Color?>(
+          future: ThemeColor().getMainColorFromUrl(iconUrl), // async work
+          builder: (BuildContext context, AsyncSnapshot<Color?> snapshot) {
+            Color paletteColor = snapshot.data == null
+                ? Color(ThemeColor().defaultCategoryColor)
+                : snapshot.data!;
+            return Positioned(
+                top: 27,
+                left: 27,
+                child: CircleAvatar(
+                    radius: 9,
+                    backgroundColor: paletteColor.withAlpha(
+                        175), //ThemeColor().getMainColorFromUrl(iconUrl),
+                    child: const Icon(Icons.rss_feed,
+                        size: 13, color: Colors.white)));
+          },
+        ),
       ],
     );
   }
