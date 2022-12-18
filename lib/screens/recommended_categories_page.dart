@@ -87,10 +87,8 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                   //iconDisabledColor: Colors.white,
                   onChanged: (String? value) {
                     // This is called when the user selects an item.
-                    setState(() async {
-                      dropdownValue = value!;
-                      await loadData();
-                    });
+                    dropdownValue = value!;
+                    loadData();
                   },
                   items: list.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -101,7 +99,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                 ))
         ]),
         body: Container(
-          padding: const EdgeInsets.only(right: 3, left: 3, top: 3, bottom: 3),
+          padding: const EdgeInsets.only(right: 7, left: 7, top: 7, bottom: 7),
           color: darkMode ? ThemeColor.dark1.withAlpha(180) : ThemeColor.light2,
           child: isLoading == false
               ? GridView.builder(
@@ -111,8 +109,8 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                             Orientation.landscape
                         ? 5
                         : 3,
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
                     childAspectRatio: MediaQuery.of(context).orientation ==
                             Orientation.landscape
                         ? 1.3
@@ -139,7 +137,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                             : ThemeColor.light1.withAlpha(150),
                         child: InkWell(
                             onTap: () {
-                              Future.delayed(const Duration(milliseconds: 100))
+                              Future.delayed(const Duration(milliseconds: 120))
                                   .then((value) => Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
@@ -164,7 +162,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(
@@ -175,7 +173,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                                         recommendedList.items[index].iconData,
                                         fontFamily: 'MaterialIcons'),
                                     color: Colors.white70,
-                                    size: 30,
+                                    size: 37,
                                   ),
                                 ),
                                 Text(

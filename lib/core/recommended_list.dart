@@ -156,60 +156,118 @@ class RecommendedList {
 		]
 	},
 	{
-		"name": "Sport",
-		"color": 4278223759,
-		"iconData": 58857,
+		"name": "Curiosita",
+		"color": 4289533015,
+		"iconData": 984461,
 		"language": "italiano",
 		"sites": [{
-				"siteName": "gazzetta.it",
-				"siteLink": "https://www.gazzetta.it/rss/home.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gazzetta.it"
-			},
-			{
-				"siteName": "sport.sky.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:sport.sky.it+when:2d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sport.sky.it"
-			},
-			{
-				"siteName": "oasport.it",
-				"siteLink": "https://www.oasport.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=oasport.it"
-			},
-			{
-				"siteName": "sport.rai.it",
-				"siteLink": "https://www.rainews.it/rss/sport",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rainews.it"
-			},
-			{
-				"siteName": "sportmediaset.mediaset.it",
-				"siteLink": "https://sportmediaset.mediaset.it/rss.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportmediaset.mediaset.it"
-			},
-			{
-				"siteName": "corrieredellosport.it",
-				"siteLink": "https://corrieredellosport.it/rss/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=corrieredellosport.it"
-			},
-			{
-				"siteName": "sport.virgilio.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:sport.virgilio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sport.virgilio.it"
-			},
-			{
-				"siteName": "fantacalcio.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:fantacalcio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fantacalcio.it"
+				"siteName": "thewom.it",
+				"siteLink": "https://www.thewom.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thewom.it"
 			}, {
-				"siteName": "sportitalia.com",
-				"siteLink": "https://news.google.com/rss/search?q=site:sportitalia.com+when:2d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportitalia.com"
+				"siteName": "prevenzioneatavola.it",
+				"siteLink": "https://blog.prevenzioneatavola.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=prevenzioneatavola.it"
+			}, {
+				"siteName": "ecoblog.it",
+				"siteLink": "https://www.ecoblog.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecoblog.it"
+			}, {
+				"siteName": "geopop.it",
+				"siteLink": "https://www.geopop.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=geopop.it"
+			}, {
+				"siteName": "attivissimo.blogspot.com",
+				"siteLink": "https://feeds.feedburner.com/Disinformatico",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=attivissimo.blogspot.com"
+			}, {
+				"siteName": "lescienze.it",
+				"siteLink": "http://www.lescienze.it/rss/all/rss2.0.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lescienze.it"
+			}, {
+				"siteName": "my-personaltrainer.it",
+				"siteLink": "https://feeds.feedburner.com/My-personaltrainer/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=my-personaltrainer.it"
+			}, {
+				"siteName": "stateofmind.it",
+				"siteLink": "https://www.stateofmind.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stateofmind.it"
+			}, {
+				"siteName": "tantasalute.it",
+				"siteLink": "https://www.tantasalute.it/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tantasalute.it"
+			}, {
+				"siteName": "benessereblog.it",
+				"siteLink": "https://www.benessereblog.it/rss2.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=benessereblog.it"
+			},
+			{
+				"siteName": "efficacemente.com",
+				"siteLink": "https://feeds2.feedburner.com/EfficaceMente",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=efficacemente.com"
+			},
+			{
+				"siteName": "wikihow.it",
+				"siteLink": "https://www.wikihow.it/feed.rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wikihow.it"
+			},
+			{
+				"siteName": "lamenteemeravigliosa.it",
+				"siteLink": "https://lamenteemeravigliosa.it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lamenteemeravigliosa.it"
+			},
+			{
+				"siteName": "ninjamarketing.it",
+				"siteLink": "https://www.ninjamarketing.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ninjamarketing.it"
+			},
+			{
+				"siteName": "skuola.net",
+				"siteLink": "https://www.skuola.net/rss.php",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=skuola.net"
+			},
+			{
+				"siteName": "thevision.com",
+				"siteLink": "https://thevision.com/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thevision.com"
+			},
+			{
+				"siteName": "wired.it",
+				"siteLink": "https://www.wired.it/feed/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wired.it"
+			},
+			{
+				"siteName": "vice.com",
+				"siteLink": "https://www.vice.com/it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=vice.com"
+			}, {
+				"siteName": "focus.it",
+				"siteLink": "https://www.focus.it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=focus.it"
+			}, {
+				"siteName": "www.lescienze.it",
+				"siteLink": "https://www.lescienze.it/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.lescienze.it"
+			}, {
+				"siteName": "www.galileonet.it",
+				"siteLink": "https://www.galileonet.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.galileonet.it"
+			}, {
+				"siteName": "nationalgeographic.it",
+				"siteLink": "https://news.google.com/rss/search?q=nationalgeographic.it+when:4d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nationalgeographic.it"
+			}, {
+				"siteName": "gqitalia.it",
+				"siteLink": "https://www.gqitalia.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
 			}
+
 		]
 	},
 	{
 		"name": "Tecnologia",
 		"color": 4281896508,
-		"iconData": 57872,
+		"iconData": 58169,
 		"language": "italiano",
 		"sites": [{
 				"siteName": "mvnonews.com",
@@ -349,6 +407,57 @@ class RecommendedList {
 				"siteName": "zeusnews.it",
 				"siteLink": "https://feeds.feedburner.com/ZeusNews",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=zeusnews.it"
+			}
+		]
+	},
+	{
+		"name": "Sport",
+		"color": 4278223759,
+		"iconData": 58857,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "gazzetta.it",
+				"siteLink": "https://www.gazzetta.it/rss/home.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gazzetta.it"
+			},
+			{
+				"siteName": "sport.sky.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:sport.sky.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sport.sky.it"
+			},
+			{
+				"siteName": "oasport.it",
+				"siteLink": "https://www.oasport.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=oasport.it"
+			},
+			{
+				"siteName": "sport.rai.it",
+				"siteLink": "https://www.rainews.it/rss/sport",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rainews.it"
+			},
+			{
+				"siteName": "sportmediaset.mediaset.it",
+				"siteLink": "https://sportmediaset.mediaset.it/rss.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportmediaset.mediaset.it"
+			},
+			{
+				"siteName": "corrieredellosport.it",
+				"siteLink": "https://corrieredellosport.it/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=corrieredellosport.it"
+			},
+			{
+				"siteName": "sport.virgilio.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:sport.virgilio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sport.virgilio.it"
+			},
+			{
+				"siteName": "fantacalcio.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:fantacalcio.it+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fantacalcio.it"
+			}, {
+				"siteName": "sportitalia.com",
+				"siteLink": "https://news.google.com/rss/search?q=site:sportitalia.com+when:2d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportitalia.com"
 			}
 		]
 	},
@@ -749,249 +858,6 @@ class RecommendedList {
 		]
 	},
 	{
-		"name": "TV",
-		"color": 4286259106,
-		"iconData": 57943,
-		"language": "italiano",
-		"sites": [{
-				"siteName": "badtaste.it",
-				"siteLink": "https://www.badtaste.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=badtaste.it"
-			},
-			{
-				"siteName": "davidemaggio.it",
-				"siteLink": "https://feeds.feedburner.com/DavideMaggio",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=davidemaggio.it"
-			},
-			{
-				"siteName": "digital-news.it",
-				"siteLink": "https://www.digital-news.it/rss.php",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=digital-news.it"
-			},
-			{
-				"siteName": "hallofseries.com",
-				"siteLink": "https://www.hallofseries.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hallofseries.com"
-			},
-			{
-				"siteName": "recenserie.com",
-				"siteLink": "https://recenserie.com/feed",
-				"iconUrl": "https://icons.duckduckgo.com/ip3/recenserie.com.ico"
-			},
-			{
-				"siteName": "serialminds.com",
-				"siteLink": "https://feeds.feedburner.com/serialminds",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=serialminds.com"
-			}, {
-				"siteName": "tvblog.it",
-				"siteLink": "https://www.tvblog.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tvblog.it"
-			}, {
-				"siteName": "gossipblog.it",
-				"siteLink": "https://www.gossipblog.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gossipblog.it"
-			}, {
-				"siteName": "televisionando.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:televisionando.it+when:3d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=televisionando.it"
-			}, {
-				"siteName": "webl0g.net",
-				"siteLink": "https://www.webl0g.net/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=webl0g.net"
-			}, {
-				"siteName": "movietele.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:movietele.it+when:4d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=movietele.it"
-			}
-		]
-	},
-	{
-		"name": "Curiosita",
-		"color": 4289533015,
-		"iconData": 984461,
-		"language": "italiano",
-		"sites": [{
-				"siteName": "thewom.it",
-				"siteLink": "https://www.thewom.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thewom.it"
-			}, {
-				"siteName": "prevenzioneatavola.it",
-				"siteLink": "https://blog.prevenzioneatavola.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=prevenzioneatavola.it"
-			}, {
-				"siteName": "ecoblog.it",
-				"siteLink": "https://www.ecoblog.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecoblog.it"
-			}, {
-				"siteName": "geopop.it",
-				"siteLink": "https://www.geopop.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=geopop.it"
-			}, {
-				"siteName": "attivissimo.blogspot.com",
-				"siteLink": "https://feeds.feedburner.com/Disinformatico",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=attivissimo.blogspot.com"
-			}, {
-				"siteName": "lescienze.it",
-				"siteLink": "http://www.lescienze.it/rss/all/rss2.0.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lescienze.it"
-			}, {
-				"siteName": "my-personaltrainer.it",
-				"siteLink": "https://feeds.feedburner.com/My-personaltrainer/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=my-personaltrainer.it"
-			}, {
-				"siteName": "stateofmind.it",
-				"siteLink": "https://www.stateofmind.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stateofmind.it"
-			}, {
-				"siteName": "tantasalute.it",
-				"siteLink": "https://www.tantasalute.it/rss/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tantasalute.it"
-			}, {
-				"siteName": "benessereblog.it",
-				"siteLink": "https://www.benessereblog.it/rss2.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=benessereblog.it"
-			},
-			{
-				"siteName": "efficacemente.com",
-				"siteLink": "https://feeds2.feedburner.com/EfficaceMente",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=efficacemente.com"
-			},
-			{
-				"siteName": "wikihow.it",
-				"siteLink": "https://www.wikihow.it/feed.rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wikihow.it"
-			},
-			{
-				"siteName": "lamenteemeravigliosa.it",
-				"siteLink": "https://lamenteemeravigliosa.it/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lamenteemeravigliosa.it"
-			},
-			{
-				"siteName": "ninjamarketing.it",
-				"siteLink": "https://www.ninjamarketing.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ninjamarketing.it"
-			},
-			{
-				"siteName": "skuola.net",
-				"siteLink": "https://www.skuola.net/rss.php",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=skuola.net"
-			},
-			{
-				"siteName": "thevision.com",
-				"siteLink": "https://thevision.com/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thevision.com"
-			},
-			{
-				"siteName": "wired.it",
-				"siteLink": "https://www.wired.it/feed/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wired.it"
-			},
-			{
-				"siteName": "vice.com",
-				"siteLink": "https://www.vice.com/it/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=vice.com"
-			}, {
-				"siteName": "focus.it",
-				"siteLink": "https://www.focus.it/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=focus.it"
-			}, {
-				"siteName": "www.lescienze.it",
-				"siteLink": "https://www.lescienze.it/rss/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.lescienze.it"
-			}, {
-				"siteName": "www.galileonet.it",
-				"siteLink": "https://www.galileonet.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.galileonet.it"
-			}, {
-				"siteName": "nationalgeographic.it",
-				"siteLink": "https://news.google.com/rss/search?q=nationalgeographic.it+when:4d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nationalgeographic.it"
-			}, {
-				"siteName": "gqitalia.it",
-				"siteLink": "https://www.gqitalia.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
-			}
-
-		]
-	},
-	{
-		"name": "Inter",
-		"color": 4279060385,
-		"iconData": 58866,
-		"language": "italiano",
-		"sites": [{
-				"siteName": "calciomercato.com",
-				"siteLink": "https://www.calciomercato.com/feed/teams/inter",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=calciomercato.com"
-			},
-			{
-				"siteName": "inter.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:inter.it+when:15d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=inter.it"
-			},
-			{
-				"siteName": "fcinternews.it",
-				"siteLink": "https://www.fcinternews.it/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcinternews.it"
-			},
-			{
-				"siteName": "fcinter1908.it",
-				"siteLink": "https://www.fcinter1908.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcinter1908.it"
-			},
-			{
-				"siteName": "passioneinter.com",
-				"siteLink": "https://www.passioneinter.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=passioneinter.com"
-			},
-			{
-				"siteName": "interlive.it",
-				"siteLink": "https://interlive.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=interlive.it"
-			},
-			{
-				"siteName": "internews24.com",
-				"siteLink": "https://www.internews24.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=internews24.com"
-			},
-			{
-				"siteName": "inter-news.it",
-				"siteLink": "https://www.inter-news.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=inter-news.it"
-			},
-			{
-				"siteName": "interdipendenza.net",
-				"siteLink": "https://www.interdipendenza.net/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=interdipendenza.net"
-			},
-			{
-				"siteName": "iminter.it",
-				"siteLink": "https://www.iminter.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iminter.it"
-			},
-			{
-				"siteName": "fcitalia.com",
-				"siteLink": "https://www.fcitalia.com/feed/rss/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcitalia.com"
-			},
-			{
-				"siteName": "sempreinter.com",
-				"siteLink": "https://sempreinter.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sempreinter.com"
-			},
-			{
-				"siteName": "iotifointer.it",
-				"siteLink": "https://www.iotifointer.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iotifointer.it"
-			},
-			{
-				"siteName": "bausciacafe.com",
-				"siteLink": "https://www.bausciacafe.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bausciacafe.com"
-			}
-		]
-	},
-	{
 		"name": "Musica",
 		"color": 4293880832,
 		"iconData": 58389,
@@ -1063,130 +929,6 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mbmusic.it"
 			}
 		]
-	},
-	{
-		"name": "Bergamo",
-		"color": 4278217052,
-		"iconData": 61871,
-		"language": "italiano",
-		"sites": [{
-				"siteName": "ecodibergamo.it",
-				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
-			},
-			{
-				"siteName": "bergamonews.it",
-				"siteLink": "http://www.bergamonews.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamonews.it"
-			},
-			{
-				"siteName": "lavocedellevalli.it",
-				"siteLink": "https://www.lavocedellevalli.it/rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lavocedellevalli.it"
-			},
-			{
-				"siteName": "primabergamo.it",
-				"siteLink": "https://primabergamo.it/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primabergamo.it"
-			},
-			{
-				"siteName": "araberara.it",
-				"siteLink": "https://araberara.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=araberara.it"
-			},
-			{
-				"siteName": "bgreport.org",
-				"siteLink": "https://bgreport.org/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bgreport.org"
-			},
-			{
-				"siteName": "bergamo.corriere.it",
-				"siteLink": "http://xml2.corriereobjects.it/rss/homepage_bergamo.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=corriere.it"
-			},
-			{
-				"siteName": "myvalley.it",
-				"siteLink": "https://myvalley.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=myvalley.it"
-			},
-			{
-				"siteName": "orobie.it",
-				"siteLink": "https://www.orobie.it/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=orobie.it"
-			},
-			{
-				"siteName": "primatreviglio.it",
-				"siteLink": "https://primatreviglio.it/feed",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primatreviglio.it"
-			},
-			{
-				"siteName": "socialbg.it",
-				"siteLink": "https://www.socialbg.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=socialbg.it"
-			},
-			{
-				"siteName": "valbrembanaweb.com",
-				"siteLink": "https://www.valbrembanaweb.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valbrembanaweb.com"
-			},
-			{
-				"siteName": "valseriananews.it",
-				"siteLink": "https://www.valseriananews.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valseriananews.it"
-			},
-			{
-				"siteName": "visitnembro.it",
-				"siteLink": "https://visitnembro.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=visitnembro.it"
-			},
-			{
-				"siteName": "bergamo.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:bergamo.it+when:10d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comune.bergamo.it"
-			},
-			{
-				"siteName": "bergamoesport.it",
-				"siteLink": "https://www.bergamoesport.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamoesport.it"
-			},
-			{
-				"siteName": "visitbergamo.net",
-				"siteLink": "https://news.google.com/rss/search?q=site:visitbergamo.net&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=visitbergamo.net"
-			},
-			{
-				"siteName": "comunedibergamo.medium.com",
-				"siteLink": "https://comunedibergamo.medium.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comunedibergamo.medium.com"
-			},
-			{
-				"siteName": "bg.camcom.it",
-				"siteLink": "https://www.bg.camcom.it/rss.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bg.camcom.it"
-			},
-			{
-				"siteName": "valseriana.eu/eventi",
-				"siteLink": "https://www.valseriana.eu/eventi/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valseriana.eu"
-			},
-			{
-				"siteName": "valseriana.eu",
-				"siteLink": "https://news.google.com/rss/search?q=site:valseriana.eu&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valseriana.eu"
-			}
-
-		]
-	},
-	{
-		"name": "Milano",
-		"color": 4281408402,
-		"iconData": 57907,
-		"language": "italiano",
-		"sites": [{
-			"siteName": "ecodibergamo.it",
-			"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
-			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
-		}]
 	},
 	{
 		"name": "Cibo",
@@ -1319,6 +1061,187 @@ class RecommendedList {
 		]
 	},
 	{
+		"name": "TV",
+		"color": 4286259106,
+		"iconData": 57943,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "badtaste.it",
+				"siteLink": "https://www.badtaste.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=badtaste.it"
+			},
+			{
+				"siteName": "davidemaggio.it",
+				"siteLink": "https://feeds.feedburner.com/DavideMaggio",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=davidemaggio.it"
+			},
+			{
+				"siteName": "digital-news.it",
+				"siteLink": "https://www.digital-news.it/rss.php",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=digital-news.it"
+			},
+			{
+				"siteName": "hallofseries.com",
+				"siteLink": "https://www.hallofseries.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hallofseries.com"
+			},
+			{
+				"siteName": "recenserie.com",
+				"siteLink": "https://recenserie.com/feed",
+				"iconUrl": "https://icons.duckduckgo.com/ip3/recenserie.com.ico"
+			},
+			{
+				"siteName": "serialminds.com",
+				"siteLink": "https://feeds.feedburner.com/serialminds",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=serialminds.com"
+			}, {
+				"siteName": "tvblog.it",
+				"siteLink": "https://www.tvblog.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tvblog.it"
+			}, {
+				"siteName": "gossipblog.it",
+				"siteLink": "https://www.gossipblog.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gossipblog.it"
+			}, {
+				"siteName": "televisionando.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:televisionando.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=televisionando.it"
+			}, {
+				"siteName": "webl0g.net",
+				"siteLink": "https://www.webl0g.net/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=webl0g.net"
+			}, {
+				"siteName": "movietele.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:movietele.it+when:4d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=movietele.it"
+			}
+		]
+	},
+	{
+		"name": "Bergamo",
+		"color": 4278217052,
+		"iconData": 61871,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "ecodibergamo.it",
+				"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+			},
+			{
+				"siteName": "bergamonews.it",
+				"siteLink": "http://www.bergamonews.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamonews.it"
+			},
+			{
+				"siteName": "lavocedellevalli.it",
+				"siteLink": "https://www.lavocedellevalli.it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lavocedellevalli.it"
+			},
+			{
+				"siteName": "primabergamo.it",
+				"siteLink": "https://primabergamo.it/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primabergamo.it"
+			},
+			{
+				"siteName": "araberara.it",
+				"siteLink": "https://araberara.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=araberara.it"
+			},
+			{
+				"siteName": "bgreport.org",
+				"siteLink": "https://bgreport.org/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bgreport.org"
+			},
+			{
+				"siteName": "bergamo.corriere.it",
+				"siteLink": "http://xml2.corriereobjects.it/rss/homepage_bergamo.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=corriere.it"
+			},
+			{
+				"siteName": "myvalley.it",
+				"siteLink": "https://myvalley.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=myvalley.it"
+			},
+			{
+				"siteName": "orobie.it",
+				"siteLink": "https://www.orobie.it/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=orobie.it"
+			},
+			{
+				"siteName": "primatreviglio.it",
+				"siteLink": "https://primatreviglio.it/feed",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primatreviglio.it"
+			},
+			{
+				"siteName": "socialbg.it",
+				"siteLink": "https://www.socialbg.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=socialbg.it"
+			},
+			{
+				"siteName": "valbrembanaweb.com",
+				"siteLink": "https://www.valbrembanaweb.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valbrembanaweb.com"
+			},
+			{
+				"siteName": "valseriananews.it",
+				"siteLink": "https://www.valseriananews.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valseriananews.it"
+			},
+			{
+				"siteName": "visitnembro.it",
+				"siteLink": "https://visitnembro.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=visitnembro.it"
+			},
+			{
+				"siteName": "bergamo.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:bergamo.it+when:10d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comune.bergamo.it"
+			},
+			{
+				"siteName": "bergamoesport.it",
+				"siteLink": "https://www.bergamoesport.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bergamoesport.it"
+			},
+			{
+				"siteName": "visitbergamo.net",
+				"siteLink": "https://news.google.com/rss/search?q=site:visitbergamo.net&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=visitbergamo.net"
+			},
+			{
+				"siteName": "comunedibergamo.medium.com",
+				"siteLink": "https://comunedibergamo.medium.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comunedibergamo.medium.com"
+			},
+			{
+				"siteName": "bg.camcom.it",
+				"siteLink": "https://www.bg.camcom.it/rss.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bg.camcom.it"
+			},
+			{
+				"siteName": "valseriana.eu/eventi",
+				"siteLink": "https://www.valseriana.eu/eventi/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valseriana.eu"
+			},
+			{
+				"siteName": "valseriana.eu",
+				"siteLink": "https://news.google.com/rss/search?q=site:valseriana.eu&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=valseriana.eu"
+			}
+
+		]
+	},
+	{
+		"name": "Milano",
+		"color": 4281408402,
+		"iconData": 57907,
+		"language": "italiano",
+		"sites": [{
+			"siteName": "ecodibergamo.it",
+			"siteLink": "https://www.ecodibergamo.it/feeds/latesthp/268/",
+			"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecodibergamo.it"
+		}]
+	},
+	{
 		"name": "Roma",
 		"color": 4292363029,
 		"iconData": 58280,
@@ -1352,6 +1275,113 @@ class RecommendedList {
 			}
 
 
+		]
+	},
+	{
+		"name": "Torino",
+		"color": 4283315246,
+		"iconData": 59068,
+		"language": "italiano",
+		"sites": [
+
+			{
+				"siteName": "cronacaqui.it",
+				"siteLink": "https://cronacaqui.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cronacaqui.it"
+			}, {
+				"siteName": "primatorino.it",
+				"siteLink": "https://primatorino.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primatorino.it"
+			}, {
+				"siteName": "torinoggi.it",
+				"siteLink": "https://www.torinoggi.it/links/rss/argomenti/torinoggiit/rss.xml",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinoggi.it"
+			}, {
+				"siteName": "torinonews24.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:torinonews24.it+when:3d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinonews24.it"
+			}, {
+				"siteName": "torinotoday.it",
+				"siteLink": "https://www.torinotoday.it/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinotoday.it"
+			}
+		]
+	},
+	{
+		"name": "Inter",
+		"color": 4279060385,
+		"iconData": 58866,
+		"language": "italiano",
+		"sites": [{
+				"siteName": "calciomercato.com",
+				"siteLink": "https://www.calciomercato.com/feed/teams/inter",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=calciomercato.com"
+			},
+			{
+				"siteName": "inter.it",
+				"siteLink": "https://news.google.com/rss/search?q=site:inter.it+when:15d&hl=it&gl=IT&ceid=IT:it",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=inter.it"
+			},
+			{
+				"siteName": "fcinternews.it",
+				"siteLink": "https://www.fcinternews.it/rss",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcinternews.it"
+			},
+			{
+				"siteName": "fcinter1908.it",
+				"siteLink": "https://www.fcinter1908.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcinter1908.it"
+			},
+			{
+				"siteName": "passioneinter.com",
+				"siteLink": "https://www.passioneinter.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=passioneinter.com"
+			},
+			{
+				"siteName": "interlive.it",
+				"siteLink": "https://interlive.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=interlive.it"
+			},
+			{
+				"siteName": "internews24.com",
+				"siteLink": "https://www.internews24.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=internews24.com"
+			},
+			{
+				"siteName": "inter-news.it",
+				"siteLink": "https://www.inter-news.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=inter-news.it"
+			},
+			{
+				"siteName": "interdipendenza.net",
+				"siteLink": "https://www.interdipendenza.net/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=interdipendenza.net"
+			},
+			{
+				"siteName": "iminter.it",
+				"siteLink": "https://www.iminter.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iminter.it"
+			},
+			{
+				"siteName": "fcitalia.com",
+				"siteLink": "https://www.fcitalia.com/feed/rss/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcitalia.com"
+			},
+			{
+				"siteName": "sempreinter.com",
+				"siteLink": "https://sempreinter.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sempreinter.com"
+			},
+			{
+				"siteName": "iotifointer.it",
+				"siteLink": "https://www.iotifointer.it/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iotifointer.it"
+			},
+			{
+				"siteName": "bausciacafe.com",
+				"siteLink": "https://www.bausciacafe.com/feed/",
+				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bausciacafe.com"
+			}
 		]
 	},
 	{
@@ -1449,36 +1479,6 @@ class RecommendedList {
 		}]
 	},
 	{
-		"name": "Torino",
-		"color": 4283315246,
-		"iconData": 59068,
-		"language": "italiano",
-		"sites": [
-
-			{
-				"siteName": "cronacaqui.it",
-				"siteLink": "https://cronacaqui.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cronacaqui.it"
-			}, {
-				"siteName": "primatorino.it",
-				"siteLink": "https://primatorino.it/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=primatorino.it"
-			}, {
-				"siteName": "torinoggi.it",
-				"siteLink": "https://www.torinoggi.it/links/rss/argomenti/torinoggiit/rss.xml",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinoggi.it"
-			}, {
-				"siteName": "torinonews24.it",
-				"siteLink": "https://news.google.com/rss/search?q=site:torinonews24.it+when:3d&hl=it&gl=IT&ceid=IT:it",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinonews24.it"
-			}, {
-				"siteName": "torinotoday.it",
-				"siteLink": "https://www.torinotoday.it/rss/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=torinotoday.it"
-			}
-		]
-	},
-	{
 		"name": "Atalanta",
 		"color": 4279903102,
 		"iconData": 58866,
@@ -1508,7 +1508,7 @@ class RecommendedList {
 	{
 		"name": "Technology",
 		"color": 4279060385,
-		"iconData": 61871,
+		"iconData": 58169,
 		"language": "english",
 		"sites": [{
 				"siteName": "blog.malwarebytes.com",
