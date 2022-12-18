@@ -800,7 +800,7 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=webl0g.net"
 			}, {
 				"siteName": "movietele.it",
-				"siteLink": "https://www.movietele.it/",
+				"siteLink": "https://news.google.com/rss/search?q=site:movietele.it+when:4d&hl=it&gl=IT&ceid=IT:it",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=movietele.it"
 			}
 		]
