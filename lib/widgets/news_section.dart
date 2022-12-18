@@ -16,12 +16,14 @@ import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
 
 class NewsSection extends StatefulWidget {
+  final int viewMode;
   final bool isLoading;
   final FeedsList feedsList;
   final String searchText;
   final Color mainColor;
   const NewsSection({
     Key? key,
+    required this.viewMode,
     required this.isLoading,
     required this.feedsList,
     required this.searchText,
@@ -257,6 +259,175 @@ class _NewsSectionState extends State<NewsSection>
         });
   }
 
+  PageController pageController = PageController();
+  int pageIndex = 0;
+
+  Widget pageView(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
+        child: PageView.builder(
+            controller: pageController,
+            scrollDirection: Axis.vertical,
+            itemCount: widget.feedsList.items.length,
+            onPageChanged: (i) {
+              setState(() {
+                pageIndex = i;
+              });
+            },
+            itemBuilder: (context, position) {
+              return Container(
+                  color: widget.mainColor.withAlpha(20),
+                  child: Container(
+                      margin: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 0, right: 0, top: 0, bottom: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Chip(
+                                  backgroundColor: darkMode
+                                      ? ThemeColor.dark2
+                                      : Colors.white,
+                                  avatar: SiteLogo(
+                                    //  color: colorCategory,
+                                    iconUrl: widget
+                                        .feedsList.items[pageIndex].iconUrl,
+                                  ),
+                                  label: Text(
+                                    (widget.feedsList.items[pageIndex].host),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                                Text(
+                                  Utility().dateFormat(
+                                    context,
+                                    widget.feedsList.items[pageIndex].pubDate,
+                                  ),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(),
+                          Text(
+                            widget.feedsList.items[pageIndex].title,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Container(
+                            height: 175,
+                            margin: const EdgeInsets.only(
+                                bottom: 7, top: 7, left: 7, right: 7),
+                            decoration: BoxDecoration(
+                                color: widget.mainColor,
+                                border: Border.all(
+                                  color: Colors.transparent,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(7),
+                                    topRight: Radius.circular(7))),
+                          ),
+                          Text(
+                            widget.feedsList.items[pageIndex].link,
+                            maxLines: 2,
+                          ),
+                          /* FloatingActionButton(
+                              child: Text(pageIndex.toString()),
+                              onPressed: () {
+                                pageController.jumpToPage(pageIndex + 1);
+                              })*/
+                        ],
+                      )));
+            }));
+  }
+
+  Widget listView(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 4, right: 4, bottom: 0),
+      child: Scrollbar(
+          controller: listviewController,
+          thickness: widget.searchText.isNotEmpty
+              ? 0
+              : 8, //hide scrollbar wrong if something is hidden is ok to hide them
+          child: MediaQuery.of(context).size.width <
+                  MediaQuery.of(context).size.height
+              ? ListView.builder(
+                  controller: listviewController,
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, index) {
+                    final item = items[index];
+
+                    return FeedTile(
+                      darkMode: darkMode,
+                      title: item.title,
+                      link: item.link,
+                      host: item.host,
+                      pubDate: item.pubDate,
+                      iconUrl: item.iconUrl,
+                      function: () => showOptionDialog(context, item),
+                      mainColor: widget.mainColor,
+                    );
+                  })
+              : GridView.builder(
+                  controller: listviewController,
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, index) {
+                    final item = items[index];
+
+                    return FeedTile(
+                      darkMode: darkMode,
+                      title: item.title,
+                      link: item.link,
+                      host: item.host,
+                      pubDate: item.pubDate,
+                      iconUrl: item.iconUrl,
+                      function: () => showOptionDialog(context, item),
+                      mainColor: widget.mainColor,
+                    );
+                  },
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: MediaQuery.of(context).size.width > 800
+                          ? MediaQuery.of(context).size.width > 1150
+                              ? 4
+                              : 3
+                          : 2,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                                  MediaQuery.of(context).size.height <
+                              1.9
+                          ? MediaQuery.of(context).size.width /
+                                      MediaQuery.of(context).size.height <
+                                  1.6
+                              ? MediaQuery.of(context).size.width /
+                                          MediaQuery.of(context).size.height <
+                                      1.4
+                                  ? 2.0
+                                  : 2.0
+                              : 2.1
+                          : 2.9),
+                )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -284,90 +455,9 @@ class _NewsSectionState extends State<NewsSection>
                     ),
                   ],
                 ))
-              : Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, left: 4, right: 4, bottom: 0),
-                  child: Scrollbar(
-                      controller: listviewController,
-                      thickness: widget.searchText.isNotEmpty
-                          ? 0
-                          : 8, //hide scrollbar wrong if something is hidden is ok to hide them
-                      child: MediaQuery.of(context).size.width <
-                              MediaQuery.of(context).size.height
-                          ? ListView.builder(
-                              controller: listviewController,
-                              itemCount: items.length,
-                              itemBuilder: (BuildContext context, index) {
-                                final item = items[index];
-
-                                return FeedTile(
-                                  darkMode: darkMode,
-                                  title: item.title,
-                                  link: item.link,
-                                  host: item.host,
-                                  pubDate: item.pubDate,
-                                  iconUrl: item.iconUrl,
-                                  function: () =>
-                                      showOptionDialog(context, item),
-                                  mainColor: widget.mainColor,
-                                );
-                              })
-                          : GridView.builder(
-                              controller: listviewController,
-                              itemCount: items.length,
-                              itemBuilder: (BuildContext context, index) {
-                                final item = items[index];
-
-                                return FeedTile(
-                                  darkMode: darkMode,
-                                  title: item.title,
-                                  link: item.link,
-                                  host: item.host,
-                                  pubDate: item.pubDate,
-                                  iconUrl: item.iconUrl,
-                                  function: () =>
-                                      showOptionDialog(context, item),
-                                  mainColor: widget.mainColor,
-                                );
-                              },
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: MediaQuery.of(context)
-                                                  .size
-                                                  .width >
-                                              800
-                                          ? MediaQuery.of(context).size.width >
-                                                  1150
-                                              ? 4
-                                              : 3
-                                          : 2,
-                                      crossAxisSpacing: 0,
-                                      mainAxisSpacing: 0,
-                                      childAspectRatio: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height <
-                                              1.9
-                                          ? MediaQuery.of(context).size.width /
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .height <
-                                                  1.6
-                                              ? MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .height <
-                                                      1.4
-                                                  ? 2.0
-                                                  : 2.0
-                                              : 2.1
-                                          : 2.9),
-                            )),
-                )
+              : widget.viewMode == 0
+                  ? listView(context)
+                  : pageView(context)
           : Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -288,14 +288,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         });
   }
 
-  void handleOptionsVertClick() {
-    Future(
-      () => Navigator.of(context)
-          .push(
-            MaterialPageRoute(builder: (_) => const SettingsPage()),
-          )
-          .then((value) => Phoenix.rebirth(context)),
-    );
+  int viewMode = 0;
+
+  void handleOptionsVertClick(String value) {
+    if (value == "settings") {
+      Future(
+        () => Navigator.of(context)
+            .push(
+              MaterialPageRoute(builder: (_) => const SettingsPage()),
+            )
+            .then((value) => Phoenix.rebirth(context)),
+      );
+    }
+
+    if (value == "viewmode") {
+      setState(() {
+        viewMode = viewMode == 0 ? 1 : 0;
+      });
+    }
   }
 
   @override
@@ -433,9 +443,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             PopupMenuItem<int>(
                                 value: 1,
                                 onTap: () {
-                                  handleOptionsVertClick();
+                                  handleOptionsVertClick("settings");
                                 },
                                 child: const Text('Settings')),
+                            PopupMenuItem<int>(
+                                value: 1,
+                                onTap: () {
+                                  handleOptionsVertClick("viewmode");
+                                },
+                                child: const Text('Change View')),
                           ],
                         ),
                       ],
@@ -684,6 +700,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           (index) => Container(
                                 alignment: Alignment.center,
                                 child: NewsSection(
+                                  viewMode: viewMode,
                                   searchText: searchController.text,
                                   feedsList: isLoading
                                       ? feedsListUpdate

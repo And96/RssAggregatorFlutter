@@ -234,6 +234,7 @@ class _NewsPageState extends State<NewsPage>
             : Container(
                 alignment: Alignment.center,
                 child: NewsSection(
+                  viewMode: 0,
                   searchText: searchController.text,
                   feedsList: feedList,
                   mainColor: mainColor,
