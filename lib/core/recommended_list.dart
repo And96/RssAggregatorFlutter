@@ -1032,12 +1032,6 @@ class RecommendedList {
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=inviaggiodasola.com"
 			},
 			{
-				"siteName": "montagnadiviaggi.it",
-				"siteLink": "https://www.bing.com/news/search?q=montagnadiviaggi.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=montagnadiviaggi.it"
-			},
-
-			{
 				"siteName": "nonsoloturisti.it",
 				"siteLink": "https://nonsoloturisti.it/feed/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nonsoloturisti.it"
@@ -1366,11 +1360,6 @@ class RecommendedList {
 				"siteName": "fcitalia.com",
 				"siteLink": "https://www.fcitalia.com/feed/rss/",
 				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcitalia.com"
-			},
-			{
-				"siteName": "sempreinter.com",
-				"siteLink": "https://sempreinter.com/feed/",
-				"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sempreinter.com"
 			},
 			{
 				"siteName": "iotifointer.it",
