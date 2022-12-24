@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/favourites_list.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/readlater_list.dart';
+import 'package:rss_aggregator_flutter/core/scroll_physics.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/news_page.dart';
@@ -266,6 +267,7 @@ class _NewsSectionState extends State<NewsSection>
     return Padding(
         padding: const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
         child: PageView.builder(
+            physics: const PageNewsScrollPhysics(),
             controller: pageController,
             scrollDirection: Axis.vertical,
             itemCount: widget.feedsList.items.length,
@@ -276,86 +278,119 @@ class _NewsSectionState extends State<NewsSection>
             },
             itemBuilder: (context, position) {
               return Container(
-                  color: widget.mainColor.withAlpha(20),
+                  color: darkMode
+                      ? ThemeColor.dark1.withAlpha(50)
+                      : widget.mainColor.withAlpha(40),
                   child: Container(
-                      margin: const EdgeInsets.all(12),
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.transparent,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15))),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(
-                                left: 0, right: 0, top: 0, bottom: 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Chip(
-                                  backgroundColor: darkMode
-                                      ? ThemeColor.dark2
-                                      : Colors.white,
-                                  avatar: SiteLogo(
-                                    //  color: colorCategory,
-                                    iconUrl: widget
-                                        .feedsList.items[pageIndex].iconUrl,
+                    margin: const EdgeInsets.only(
+                        top: 16, bottom: 16, left: 12, right: 12),
+                    padding: const EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                        color: darkMode ? ThemeColor.dark2 : Colors.white,
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15))),
+                    child: InkWell(
+                        onTap: () => showOptionDialog(
+                            context, widget.feedsList.items[pageIndex]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  left: 0, right: 0, top: 18, bottom: 7),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Chip(
+                                    backgroundColor: darkMode
+                                        ? ThemeColor.dark2
+                                        : Colors.white,
+                                    avatar: SiteLogo(
+                                      //  color: colorCategory,
+                                      iconUrl: widget
+                                          .feedsList.items[pageIndex].iconUrl,
+                                    ),
+                                    label: Text(
+                                      (widget.feedsList.items[pageIndex].host),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
                                   ),
-                                  label: Text(
-                                    (widget.feedsList.items[pageIndex].host),
+                                  Text(
+                                    Utility().dateFormat(
+                                      context,
+                                      widget.feedsList.items[pageIndex].pubDate,
+                                    ),
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.normal,
                                         fontSize: 16),
                                   ),
-                                ),
-                                Text(
-                                  Utility().dateFormat(
-                                    context,
-                                    widget.feedsList.items[pageIndex].pubDate,
-                                  ),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 16),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          const Divider(),
-                          Text(
-                            widget.feedsList.items[pageIndex].title,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 16,
+                            const Divider(),
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Text(
+                                widget.feedsList.items[pageIndex].title,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
                             ),
-                          ),
-                          Container(
-                            height: 175,
-                            margin: const EdgeInsets.only(
-                                bottom: 7, top: 7, left: 7, right: 7),
-                            decoration: BoxDecoration(
+                            Container(
+                              height: 200,
+                              color: ThemeColor().lighten(widget.mainColor, 95),
+                              margin: const EdgeInsets.only(
+                                  bottom: 7, top: 7, left: 0, right: 0),
+                              /* decoration: BoxDecoration(
                                 color: widget.mainColor,
                                 border: Border.all(
                                   color: Colors.transparent,
                                 ),
                                 borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(7),
-                                    topRight: Radius.circular(7))),
-                          ),
-                          Text(
-                            widget.feedsList.items[pageIndex].link,
-                            maxLines: 2,
-                          ),
-                          /* FloatingActionButton(
+                                    topRight: Radius.circular(7))),*/
+                            ),
+                            Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Text(
+                                    widget.feedsList.items[pageIndex].title,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  )),
+                            ),
+                            const Divider(),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 7, right: 7, top: 0, bottom: 10),
+                              child: Text(
+                                widget.feedsList.items[pageIndex].link,
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: darkMode
+                                      ? ThemeColor.light3
+                                      : ThemeColor.dark4,
+                                ),
+                              ),
+                            ),
+                            /* FloatingActionButton(
                               child: Text(pageIndex.toString()),
                               onPressed: () {
                                 pageController.jumpToPage(pageIndex + 1);
                               })*/
-                        ],
-                      )));
+                          ],
+                        )),
+                  ));
             }));
   }
 

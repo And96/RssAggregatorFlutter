@@ -1,13 +1,12 @@
 //custom page changing speed because by default on swiping _tabController.addListener(() { is fired later than on tap
 import 'package:flutter/material.dart';
 
-class CustomPageViewScrollPhysics extends ScrollPhysics {
-  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
+class TabBarScrollPhysics extends ScrollPhysics {
+  const TabBarScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
 
   @override
-  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return CustomPageViewScrollPhysics(parent: buildParent(ancestor)!);
+  TabBarScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return TabBarScrollPhysics(parent: buildParent(ancestor)!);
   }
 
   @override
@@ -15,5 +14,21 @@ class CustomPageViewScrollPhysics extends ScrollPhysics {
         mass: 200,
         stiffness: 100,
         damping: 0.4,
+      );
+}
+
+class PageNewsScrollPhysics extends ScrollPhysics {
+  const PageNewsScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
+
+  @override
+  PageNewsScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return PageNewsScrollPhysics(parent: buildParent(ancestor)!);
+  }
+
+  @override
+  SpringDescription get spring => const SpringDescription(
+        mass: 70,
+        stiffness: 100,
+        damping: 0.6,
       );
 }

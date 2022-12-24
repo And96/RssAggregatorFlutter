@@ -725,7 +725,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       ),
                     )
                   : TabBarView(
-                      physics: const CustomPageViewScrollPhysics(),
+                      physics: const TabBarScrollPhysics(),
                       controller: _tabController,
                       children: List.generate(
                           categoriesList.tabs.length,
