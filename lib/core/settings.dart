@@ -33,4 +33,24 @@ class Settings {
       //print('Caught error: $err');
     }
   }
+
+  Future<void> setNewsLayout(int layout) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('pref_news_layout', layout.toString());
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }
+
+  Future<int> getNewsLayout() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? layout = prefs.getString('pref_news_layout');
+      return layout == "0" ? 0 : 1;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return 0;
+  }
 }

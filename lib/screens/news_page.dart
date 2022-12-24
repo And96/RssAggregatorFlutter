@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
+import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:rss_aggregator_flutter/widgets/loading_indicator.dart';
@@ -76,6 +77,10 @@ class _NewsPageState extends State<NewsPage>
       }
       isLoading = true;
       setState(() {});
+
+//read news layout
+      viewMode = await Settings().getNewsLayout();
+
       await categoriesList.load(true);
 
       await sitesList.load();
@@ -165,6 +170,7 @@ class _NewsPageState extends State<NewsPage>
                     onPressed: () => {
                       setState(() {
                         viewMode = viewMode == 0 ? 1 : 0;
+                        Settings().setNewsLayout(viewMode);
                       })
                     },
                   ),

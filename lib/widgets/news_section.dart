@@ -280,7 +280,7 @@ class _NewsSectionState extends State<NewsSection>
               return Container(
                   color: darkMode
                       ? ThemeColor.dark1.withAlpha(50)
-                      : widget.mainColor.withAlpha(40),
+                      : widget.mainColor.withAlpha(30),
                   child: Container(
                     margin: const EdgeInsets.only(
                         top: 16, bottom: 16, left: 12, right: 12),

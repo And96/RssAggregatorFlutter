@@ -183,6 +183,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                                           Expanded(
                                               child: Text(widget.description,
                                                   textAlign: TextAlign.center,
+                                                  maxLines: 1,
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     fontWeight:

@@ -147,6 +147,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             darkMode = value,
             await loadPackageInfo(),
             await settings.init(),
+            //read news layout
+            viewMode = await settings.getNewsLayout(),
             await sitesList.load(),
             if (prefs.getBool('first_run_app') == null)
               {
@@ -309,6 +311,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     if (value == "viewmode") {
       setState(() {
         viewMode = viewMode == 0 ? 1 : 0;
+        settings.setNewsLayout(viewMode);
       });
     }
   }
