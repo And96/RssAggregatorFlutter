@@ -362,7 +362,7 @@ class _NewsSectionState extends State<NewsSection>
                               child: Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Text(
-                                    widget.feedsList.items[pageIndex].title,
+                                    "${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ",
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
@@ -371,7 +371,7 @@ class _NewsSectionState extends State<NewsSection>
                             const Divider(),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 7, right: 7, top: 0, bottom: 10),
+                                  left: 15, right: 15, top: 0, bottom: 10),
                               child: Text(
                                 widget.feedsList.items[pageIndex].link,
                                 maxLines: 2,
