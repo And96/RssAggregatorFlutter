@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
+import 'package:rss_aggregator_flutter/core/favourites_list.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
+import 'package:rss_aggregator_flutter/core/readlater_list.dart';
 import 'package:rss_aggregator_flutter/core/scroll_physics.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
@@ -62,6 +64,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
 
   //int _selectedIndex = 0;
+
+  int nReadLaterItems = 0;
+  int nFavouriteItems = 0;
 
   //Theme
   void pageRouterVerticalAnimation(StatefulWidget page) {
@@ -537,8 +542,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             leading: const Icon(
                               Icons.explore,
                             ),
-                            title: const Text("Scopri"),
+                            title: const Text("Scopri notizie"),
+                            trailing: Chip(
+                                label: Text(
+                                    feedsListUpdate.items.length.toString())),
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       DiscoverPage(feedsList: feedsList[0])));
@@ -548,6 +557,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ListTile(
                             leading: const Icon(Icons.public),
                             title: const Text("Gestisci siti"),
+                            trailing: Chip(
+                                label: Text(sitesList.items.length.toString())),
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
@@ -558,6 +569,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ListTile(
                             leading: const Icon(Icons.swap_horizontal_circle),
                             title: const Text("Categorie"),
+                            trailing: Chip(
+                                label: Text(
+                                    categoriesList.items.length.toString())),
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
@@ -569,7 +583,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ListTile(
                             leading: const Icon(Icons.watch_later),
                             title: const Text("Leggi piu tardi"),
+                            trailing: Chip(label: Text("$nReadLaterItems")),
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => const ReadlaterPage()));
                             },
@@ -577,7 +593,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ListTile(
                             leading: const Icon(Icons.favorite),
                             title: const Text("Preferiti"),
+                            trailing: Chip(label: Text("$nFavouriteItems")),
                             onTap: () {
+                              Navigator.pop(context);
+
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       const FavouritesPage()));
@@ -588,6 +607,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             leading: const Icon(Icons.settings),
                             title: const Text("Settings"),
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.of(context)
                                   .push(MaterialPageRoute(
                                       builder: (context) =>
@@ -610,6 +630,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ListTile(
                             leading: const Icon(Icons.info),
                             title: const Text("Info"),
+                            //trailing: Chip(label: Text("v$appVersion")),
                             onTap: () {
                               Navigator.pop(context);
                               _showInfoDialog(context);
@@ -676,6 +697,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       type: BottomNavigationBarType.fixed, // Fixed
                       onTap: _onBottomItemTap,
                     ),*/
+              onDrawerChanged: (isOpened) {
+                nReadLaterItems = 0;
+                nFavouriteItems = 0;
+                ReadlaterList()
+                    .get()
+                    .then((value) => nReadLaterItems = value.length);
+                FavouritesList()
+                    .get()
+                    .then((value) => nFavouriteItems = value.length);
+                setState(() {});
+              },
               body: isLoading
                   ? Container(
                       color: darkMode
