@@ -39,6 +39,8 @@ class _NewsPageState extends State<NewsPage>
 
   String siteName = "";
 
+  int viewMode = 0;
+
   //Controller
   TextEditingController searchController = TextEditingController();
 
@@ -155,6 +157,18 @@ class _NewsPageState extends State<NewsPage>
                       },
                     ),
 
+                  IconButton(
+                    icon: viewMode == 0
+                        ? const Icon(Icons.list_alt)
+                        : const Icon(Icons.featured_play_list),
+                    tooltip: 'Layout',
+                    onPressed: () => {
+                      setState(() {
+                        viewMode = viewMode == 0 ? 1 : 0;
+                      })
+                    },
+                  ),
+
                   if (isLoading)
                     IconButton(
                       icon: AnimatedBuilder(
@@ -234,7 +248,7 @@ class _NewsPageState extends State<NewsPage>
             : Container(
                 alignment: Alignment.center,
                 child: NewsSection(
-                  viewMode: 0,
+                  viewMode: viewMode,
                   searchText: searchController.text,
                   feedsList: feedList,
                   mainColor: mainColor,
