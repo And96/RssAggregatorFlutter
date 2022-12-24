@@ -123,7 +123,7 @@ class MyAppState extends State<MyApp> {
               ),
             ),
             dividerTheme: DividerThemeData(
-              color: ThemeColor.dark3,
+              color: ThemeColor.dark3.withAlpha(150),
             ),
           ),
           home: const MyHomePage(),
