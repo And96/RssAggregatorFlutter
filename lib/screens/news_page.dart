@@ -147,6 +147,7 @@ class _NewsPageState extends State<NewsPage>
                       onPressed: () {
                         sleep(const Duration(milliseconds: 200));
                         setState(() {
+                          viewMode = 0;
                           isOnSearch = isOnSearch ? false : true;
                           searchController.text = '';
                         });
