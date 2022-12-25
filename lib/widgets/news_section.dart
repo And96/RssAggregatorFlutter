@@ -298,9 +298,49 @@ class _NewsSectionState extends State<NewsSection>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            //const Divider(),
+                            Container(
+                              height: 220,
+                              margin: const EdgeInsets.only(
+                                  bottom: 7, top: 0, left: 0, right: 0),
+                              padding: const EdgeInsets.only(
+                                  bottom: 0, top: 0, left: 0, right: 0),
+                              decoration: BoxDecoration(
+                                  color: widget.mainColor.withAlpha(10),
+                                  border: Border.all(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15))),
+                              child: Stack(children: <Widget>[
+                                /*Positioned.fill(
+                                  child: Opacity(
+                                    opacity: 0.01,
+                                    child: Container(color: Colors.black),
+                                  ),
+                                ),*/
+                                Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    width: 365,
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Text(
+                                            widget.feedsList.items[pageIndex]
+                                                .title,
+                                            maxLines: 4,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.bold)))),
+                              ]),
+                            ),
+
                             Container(
                               padding: const EdgeInsets.only(
-                                  left: 0, right: 0, top: 18, bottom: 7),
+                                  left: 0, right: 0, top: 12, bottom: 18),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -333,8 +373,7 @@ class _NewsSectionState extends State<NewsSection>
                                 ],
                               ),
                             ),
-                            const Divider(),
-                            Padding(
+                            /* Padding(
                               padding: const EdgeInsets.all(15),
                               child: Text(
                                 widget.feedsList.items[pageIndex].title,
@@ -343,24 +382,11 @@ class _NewsSectionState extends State<NewsSection>
                                   fontSize: 18,
                                 ),
                               ),
-                            ),
-                            Container(
-                              height: 200,
-                              color: ThemeColor().lighten(widget.mainColor, 95),
-                              margin: const EdgeInsets.only(
-                                  bottom: 7, top: 7, left: 0, right: 0),
-                              /* decoration: BoxDecoration(
-                                color: widget.mainColor,
-                                border: Border.all(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(7),
-                                    topRight: Radius.circular(7))),*/
-                            ),
+                            ),*/
                             Expanded(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(15),
+                              child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 5, 20, 5),
                                   child: Text(
                                     "${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ",
                                     style: const TextStyle(

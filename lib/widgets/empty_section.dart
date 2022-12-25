@@ -27,32 +27,34 @@ class EmptySection extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 100,
-            color: darkMode ? ThemeColor.dark3 : ThemeColor.light2,
+            size: 120,
+            color: darkMode
+                ? ThemeColor.dark3.withAlpha(150)
+                : ThemeColor.light2.withAlpha(150),
           ),
           const SizedBox(
-            height: 10,
+            height: 30,
           ),
           Align(
             alignment: Alignment.center,
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.normal,
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
                 color: darkMode ? ThemeColor.light3 : ThemeColor.dark3,
               ),
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 15,
           ),
           SizedBox(
               width: double.infinity,
               child: Text(description,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.normal,
                     color: darkMode ? ThemeColor.light4 : ThemeColor.dark4,
                   ))),
