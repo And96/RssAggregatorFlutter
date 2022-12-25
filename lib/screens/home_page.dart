@@ -544,8 +544,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           const Divider(),*/
                           ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               Icons.explore,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
                             ),
                             title: const Text("Scopri notizie"),
                             trailing: Chip(
@@ -560,7 +563,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           const Divider(),
                           ListTile(
-                            leading: const Icon(Icons.public),
+                            leading: Icon(
+                              Icons.public,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Gestisci siti"),
                             trailing: Chip(
                                 label: Text(sitesList.items.length.toString())),
@@ -572,7 +580,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.swap_horizontal_circle),
+                            leading: Icon(
+                              Icons.swap_horizontal_circle,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Categorie"),
                             trailing: Chip(
                                 label: Text(
@@ -586,7 +599,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.watch_later),
+                            leading: Icon(
+                              Icons.watch_later,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Leggi piu tardi"),
                             trailing: Chip(label: Text("$nReadLaterItems")),
                             onTap: () {
@@ -596,7 +614,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.favorite),
+                            leading: Icon(
+                              Icons.favorite,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Preferiti"),
                             trailing: Chip(label: Text("$nFavouriteItems")),
                             onTap: () {
@@ -609,7 +632,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           const Divider(),
                           ListTile(
-                            leading: const Icon(Icons.settings),
+                            leading: Icon(
+                              Icons.settings,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Settings"),
                             onTap: () {
                               Navigator.pop(context);
@@ -621,7 +649,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.help),
+                            leading: Icon(
+                              Icons.help,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Help"),
                             onTap: () {
                               Navigator.pop(context);
@@ -633,7 +666,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.info),
+                            leading: Icon(
+                              Icons.info,
+                              color: darkMode
+                                  ? ThemeColor.light1
+                                  : Colors.grey[700],
+                            ),
                             title: const Text("Info"),
                             //trailing: Chip(label: Text("v$appVersion")),
                             onTap: () {
@@ -694,7 +732,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       unselectedItemColor:
                           Theme.of(context).brightness == Brightness.dark
                               ? Colors.grey[300]
-                              : Colors.blueGrey[600],
+                              : Colors.bluegrey[700],
                       showSelectedLabels: true,
                       showUnselectedLabels: true,
                       selectedLabelStyle:
