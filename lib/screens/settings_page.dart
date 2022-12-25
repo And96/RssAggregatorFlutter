@@ -116,10 +116,10 @@ class SettingsPageState extends State<SettingsPage> {
               items: [
                 DropdownMenuItem(value: 1, child: Text('1 feed')),
                 DropdownMenuItem(value: 2, child: Text('2 feeds')),
-                DropdownMenuItem(value: 3, child: Text('3 feeds')),
                 DropdownMenuItem(value: 5, child: Text('5 feeds')),
                 DropdownMenuItem(value: 10, child: Text('10 feeds')),
                 DropdownMenuItem(value: 20, child: Text('20 feeds')),
+                DropdownMenuItem(value: 100, child: Text('100 feeds')),
                 DropdownMenuItem(value: 0, child: Text('All')),
               ],
             ),
