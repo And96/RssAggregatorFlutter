@@ -21,7 +21,7 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage>
     with SingleTickerProviderStateMixin {
   late CategoriesList categoriesList = CategoriesList();
-  late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
+  late SitesList sitesList = SitesList();
   bool darkMode = false;
 
   bool isLoading = true;
@@ -89,10 +89,6 @@ class _CategoriesPageState extends State<CategoriesPage>
 
   ColorSwatch? _selectedColor = ThemeColor()
       .createMaterialColor(Color(ThemeColor().defaultCategoryColor));
-
-  void _updateItemLoading(String itemLoading) {
-    setState(() {});
-  }
 
   Future<bool> _changeCategory(
       S2MultiSelected<String> selectedValues, String categoryName) async {

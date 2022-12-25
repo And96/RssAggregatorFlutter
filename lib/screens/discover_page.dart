@@ -28,7 +28,7 @@ class _DiscoverPageState extends State<DiscoverPage>
     with SingleTickerProviderStateMixin {
   bool darkMode = false;
 
-  late SitesList sitesList = SitesList(updateItemLoading: (String value) {});
+  late SitesList sitesList = SitesList();
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _DiscoverPageState extends State<DiscoverPage>
     descMeta2 = ""; //metadata_fetch
     imageUrlMeta2 = "";
     setState(() {});
-    siteColor = (await ThemeColor().getMainColorFromUrl(f.iconUrl))!;
+    siteColor = (await ThemeColor().getMainColorFromUrl(f.iconUrl));
     setState(() {});
     any_link_preview.Metadata? metadata =
         await any_link_preview.AnyLinkPreview.getMetadata(

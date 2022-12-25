@@ -24,7 +24,8 @@ class _NewsPageState extends State<NewsPage>
     with SingleTickerProviderStateMixin {
   late FeedsList feedList = FeedsList(updateItemLoading: _updateItemLoading);
   late CategoriesList categoriesList = CategoriesList();
-  late SitesList sitesList = SitesList(updateItemLoading: (String value) {});
+  late SitesList sitesList =
+      SitesList.withIndicator(updateItemLoading: (String value) {});
   void _updateItemLoading(String itemLoading) {
     setState(() {});
   }
@@ -110,7 +111,7 @@ class _NewsPageState extends State<NewsPage>
           mainColor = (await ThemeColor().getMainColorFromUrl(sitesList.items
               .where((e) => e.siteID == widget.siteFilter)
               .first
-              .iconUrl))!;
+              .iconUrl));
           if (mainColor.blue + mainColor.red + mainColor.green > 400) {
             mainColor = Color.fromARGB(
                 255,

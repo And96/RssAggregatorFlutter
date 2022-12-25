@@ -94,7 +94,8 @@ class CategoriesList {
       List<Category> tabs = [];
       tabs.add(Category(
           name: '*', color: ThemeColor().defaultCategoryColor, icon: 0));
-      SitesList sitesList = SitesList(updateItemLoading: (String value) {});
+      SitesList sitesList =
+          SitesList.withIndicator(updateItemLoading: (String value) {});
       await sitesList.load();
       for (Category c in categories) {
         List<String> sites = await sitesList.getSitesFromCategory(c.name);

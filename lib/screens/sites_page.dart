@@ -27,7 +27,7 @@ class _SitesPageState extends State<SitesPage>
     with SingleTickerProviderStateMixin {
   bool isLoading = false;
   double progressLoading = 0;
-  late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
+  late SitesList sitesList = SitesList();
   late CategoriesList categoriesList = CategoriesList();
   bool darkMode = false;
   double opacityAnimation = 1.0;
@@ -68,10 +68,6 @@ class _SitesPageState extends State<SitesPage>
   late final AnimationController _refreshIconController =
       AnimationController(vsync: this, duration: const Duration(seconds: 2))
         ..repeat();
-
-  void _updateItemLoading(String itemLoading) {
-    setState(() {});
-  }
 
   void showOptionDialog(BuildContext context, Site site) {
     var dialog = SimpleDialog(

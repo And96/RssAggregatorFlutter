@@ -1625,7 +1625,8 @@ class RecommendedList {
 	}
 ]""";
 
-  late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
+  late SitesList sitesList =
+      SitesList.withIndicator(updateItemLoading: _updateItemLoading);
   void _updateItemLoading(String itemLoading) {
     //setState(() {});
   }

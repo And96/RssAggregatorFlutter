@@ -116,7 +116,7 @@ class ThemeColor {
     return MaterialColor(color.value, swatch);
   }
 
-  Future<Color?> getMainColorFromUrl(String url) async {
+  Future<Color> getMainColorFromUrl(String url) async {
     try {
       PaletteGenerator paletteGenerator;
       paletteGenerator = await PaletteGenerator.fromImageProvider(
@@ -135,7 +135,7 @@ class ThemeColor {
     } catch (e) {
       //
     }
-    return Colors.blueGrey[900];
+    return Colors.blueGrey[900]!;
   }
 
   bool isColorDark(Color color) {

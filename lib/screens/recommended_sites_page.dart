@@ -61,10 +61,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
   late AnimateIconController c1;
   late CategoriesList categoriesList = CategoriesList();
 
-  late SitesList sitesList = SitesList(updateItemLoading: _updateItemLoading);
-  void _updateItemLoading(String itemLoading) {
-    setState(() {});
-  }
+  late SitesList sitesList = SitesList();
 
   Future<bool> onTapIconList(
       BuildContext context, RecommendedSite selected) async {

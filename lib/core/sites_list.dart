@@ -16,7 +16,8 @@ class SitesList {
   late CategoriesList categoriesList = CategoriesList();
 
   late final ValueChanged<String> updateItemLoading;
-  SitesList({required this.updateItemLoading});
+  SitesList.withIndicator({required this.updateItemLoading});
+  SitesList();
 
   List<String> toList() {
     List<String> list = [];
@@ -28,6 +29,18 @@ class SitesList {
       // print('Caught error: $err');
     }
     return list;
+  }
+
+  String getCategory(int siteID) {
+    try {
+      if (items.isEmpty) {
+        load();
+      }
+      return items.firstWhere((e) => e.siteID == siteID).category;
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return " ";
   }
 
   Future<List<String>> getSitesFromCategory(String category) async {

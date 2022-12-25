@@ -40,7 +40,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       FeedsList(updateItemLoading: _updateItemLoading);
   late List<FeedsList> feedsList = [];
   late CategoriesList categoriesList = CategoriesList();
-  late SitesList sitesList = SitesList(updateItemLoading: (String value) {});
+  late SitesList sitesList =
+      SitesList.withIndicator(updateItemLoading: (String value) {});
   void _updateItemLoading(String itemLoading) {
     setState(() {});
   }
