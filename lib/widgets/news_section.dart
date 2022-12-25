@@ -355,26 +355,24 @@ class _NewsSectionState extends State<NewsSection>
                                     child: Container(color: Colors.black),
                                   ),
                                 ),
-                                Center(
-                                  child: Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      width: 365,
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Text(
-                                              widget.feedsList.items[pageIndex]
-                                                  .title,
-                                              maxLines: 5,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: darkMode
-                                                      ? Colors.white
-                                                      : Colors.black,
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                      FontWeight.normal)))),
-                                )
+                                Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    width: 365,
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Text(
+                                            widget.feedsList.items[pageIndex]
+                                                .title,
+                                            maxLines: 5,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: darkMode
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontSize: 20,
+                                                fontWeight:
+                                                    FontWeight.normal)))),
                               ]),
                             ),
 
