@@ -27,8 +27,8 @@ class PageNewsScrollPhysics extends ScrollPhysics {
 
   @override
   SpringDescription get spring => const SpringDescription(
-        mass: 70,
+        mass: 100,
         stiffness: 100,
-        damping: 0.6,
+        damping: 0.4,
       );
 }
