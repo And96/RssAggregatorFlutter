@@ -300,47 +300,8 @@ class _NewsSectionState extends State<NewsSection>
                           children: [
                             //const Divider(),
                             Container(
-                              height: 220,
-                              margin: const EdgeInsets.only(
-                                  bottom: 7, top: 0, left: 0, right: 0),
                               padding: const EdgeInsets.only(
-                                  bottom: 0, top: 0, left: 0, right: 0),
-                              decoration: BoxDecoration(
-                                  color: widget.mainColor.withAlpha(10),
-                                  border: Border.all(
-                                    color: Colors.transparent,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15))),
-                              child: Stack(children: <Widget>[
-                                /*Positioned.fill(
-                                  child: Opacity(
-                                    opacity: 0.01,
-                                    child: Container(color: Colors.black),
-                                  ),
-                                ),*/
-                                Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    width: 365,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Text(
-                                            widget.feedsList.items[pageIndex]
-                                                .title,
-                                            maxLines: 4,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 21,
-                                                fontWeight: FontWeight.bold)))),
-                              ]),
-                            ),
-
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  left: 0, right: 0, top: 12, bottom: 18),
+                                  left: 0, right: 0, top: 18, bottom: 12),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -373,6 +334,104 @@ class _NewsSectionState extends State<NewsSection>
                                 ],
                               ),
                             ),
+                            Container(
+                              height: 220, //senza img 120
+                              margin: const EdgeInsets.only(
+                                  bottom: 7, top: 0, left: 0, right: 0),
+                              padding: const EdgeInsets.only(
+                                  bottom: 0, top: 0, left: 0, right: 0),
+                              decoration: BoxDecoration(
+                                  color: widget.mainColor.withAlpha(8),
+                                  border: Border.all(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(0),
+                                      topRight: Radius.circular(0))),
+                              child: Stack(children: <Widget>[
+                                Positioned.fill(
+                                  child: Opacity(
+                                    opacity: 0.01,
+                                    child: Container(color: Colors.black),
+                                  ),
+                                ),
+                                Center(
+                                  child: Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      width: 365,
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Text(
+                                              widget.feedsList.items[pageIndex]
+                                                  .title,
+                                              maxLines: 5,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: darkMode
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                  fontSize: 20,
+                                                  fontWeight:
+                                                      FontWeight.normal)))),
+                                )
+                              ]),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  left: 0, right: 0, top: 7, bottom: 4),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Chip(
+                                    backgroundColor: darkMode
+                                        ? ThemeColor.dark2
+                                        : Colors.white,
+                                    avatar: Icon(
+                                      Icons.label,
+                                      color: darkMode
+                                          ? Colors.blueGrey[200]
+                                          : Colors.blueGrey[800],
+                                    ),
+                                    label: const Text(
+                                      "Tecnologia",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.share_outlined,
+                                    color: darkMode
+                                        ? Colors.blueGrey[200]
+                                        : Colors.blueGrey[800],
+                                  ),
+                                  Icon(
+                                    Icons.copy,
+                                    color: darkMode
+                                        ? Colors.blueGrey[200]
+                                        : Colors.blueGrey[800],
+                                  ),
+                                  Icon(
+                                    Icons.watch_later_outlined,
+                                    color: darkMode
+                                        ? Colors.blueGrey[200]
+                                        : Colors.blueGrey[800],
+                                  ),
+                                  Icon(
+                                    Icons.favorite_outline,
+                                    color: darkMode
+                                        ? Colors.blueGrey[200]
+                                        : Colors.blueGrey[800],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Divider(),
+
                             /* Padding(
                               padding: const EdgeInsets.all(15),
                               child: Text(
