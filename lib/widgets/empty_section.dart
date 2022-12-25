@@ -40,14 +40,14 @@ class EmptySection extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
                 color: darkMode ? ThemeColor.light3 : ThemeColor.dark3,
               ),
             ),
           ),
           const SizedBox(
-            height: 15,
+            height: 13,
           ),
           SizedBox(
               width: double.infinity,
