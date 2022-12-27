@@ -77,7 +77,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
                         : ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
                     child: Container(
                         height: 235,
-                        width: 275,
+                        width: 280,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 20),
                         decoration: BoxDecoration(
