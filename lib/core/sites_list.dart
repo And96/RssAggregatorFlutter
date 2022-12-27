@@ -15,7 +15,7 @@ class SitesList {
   String sort = "name";
   late CategoriesList categoriesList = CategoriesList();
 
-  late final ValueChanged<String> updateItemLoading;
+  ValueChanged<String> updateItemLoading = (value) => {};
   SitesList.withIndicator({required this.updateItemLoading});
   SitesList();
 
@@ -148,12 +148,12 @@ class SitesList {
       await load();
       if (url == "*") {
         items = [];
-        await FeedsList(updateItemLoading: null).deleteAllDB();
+        await FeedsList().deleteAllDB();
       } else {
         items.removeWhere((e) => (e.siteID == siteID));
         items.removeWhere((e) =>
             (e.siteLink.trim().toLowerCase() == url.trim().toLowerCase()));
-        await FeedsList(updateItemLoading: null).deleteDB(siteName, siteID);
+        await FeedsList().deleteDB(siteName, siteID);
       }
       await save(items);
       await load();

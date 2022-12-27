@@ -335,7 +335,7 @@ class _NewsSectionState extends State<NewsSection>
                               ),
                             ),
                             Container(
-                              height: 220, //senza img 120
+                              height: 200, //senza img 120
                               margin: const EdgeInsets.only(
                                   bottom: 7, top: 0, left: 0, right: 0),
                               padding: const EdgeInsets.only(
@@ -358,7 +358,8 @@ class _NewsSectionState extends State<NewsSection>
                                 Positioned(
                                     bottom: 0,
                                     left: 0,
-                                    width: 365,
+                                    width:
+                                        MediaQuery.of(context).size.width - 20,
                                     child: Padding(
                                         padding: const EdgeInsets.all(20.0),
                                         child: Text(
