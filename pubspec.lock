@@ -382,6 +382,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  ogp_data_extract:
+    dependency: "direct main"
+    description:
+      name: ogp_data_extract
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   package_config:
     dependency: transitive
     description:

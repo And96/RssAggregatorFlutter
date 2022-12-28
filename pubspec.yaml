@@ -66,6 +66,7 @@ dependencies:
   cube_transition: ^1.0.2
   cube_transition_plus: ^2.0.1
   flutter_carousel_slider: ^1.1.0
+  ogp_data_extract: ^0.1.2
 
 flutter_launcher_icons:
     path: ../..

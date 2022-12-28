@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/favourites_list.dart';
+import 'package:rss_aggregator_flutter/core/feed_extended.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/readlater_list.dart';
 import 'package:rss_aggregator_flutter/core/scroll_physics.dart';
@@ -99,6 +101,7 @@ class _NewsSectionState extends State<NewsSection>
                 [item.title, item.link, item.host], widget.searchText))
             .toList();
       }
+      loadFeedExtended();
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -263,6 +266,22 @@ class _NewsSectionState extends State<NewsSection>
   PageController pageController = PageController();
   int pageIndex = 0;
 
+  FeedExtended feedExtended = FeedExtended();
+
+  void refresh() {
+    setState(() {}); //non va bene xe non ha ancora restituito l'oggetto
+  }
+
+  void loadFeedExtended() async {
+    try {
+      feedExtended =
+          await FeedExtended().getFromFeed(widget.feedsList.items[pageIndex]);
+      setState(() {});
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
   Widget pageView(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
@@ -271,10 +290,12 @@ class _NewsSectionState extends State<NewsSection>
             controller: pageController,
             scrollDirection: Axis.vertical,
             itemCount: widget.feedsList.items.length,
-            onPageChanged: (i) {
+            onPageChanged: (i) async {
+              feedExtended = FeedExtended();
               setState(() {
                 pageIndex = i;
               });
+              loadFeedExtended();
             },
             itemBuilder: (context, position) {
               return Container(
@@ -335,47 +356,112 @@ class _NewsSectionState extends State<NewsSection>
                               ),
                             ),
                             Container(
-                              height: 200, //senza img 120
-                              margin: const EdgeInsets.only(
-                                  bottom: 7, top: 0, left: 0, right: 0),
-                              padding: const EdgeInsets.only(
-                                  bottom: 0, top: 0, left: 0, right: 0),
-                              decoration: BoxDecoration(
-                                  color: widget.mainColor.withAlpha(8),
-                                  border: Border.all(
-                                    color: Colors.transparent,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(0),
-                                      topRight: Radius.circular(0))),
-                              child: Stack(children: <Widget>[
-                                Positioned.fill(
-                                  child: Opacity(
-                                    opacity: 0.01,
-                                    child: Container(color: Colors.black),
-                                  ),
-                                ),
-                                Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    width:
-                                        MediaQuery.of(context).size.width - 20,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Text(
-                                            widget.feedsList.items[pageIndex]
-                                                .title,
-                                            maxLines: 5,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: darkMode
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                                fontSize: 20,
-                                                fontWeight:
-                                                    FontWeight.normal)))),
-                              ]),
-                            ),
+                                height: 200, //senza img 120
+                                margin: const EdgeInsets.only(
+                                    bottom: 7, top: 0, left: 0, right: 0),
+                                padding: const EdgeInsets.only(
+                                    bottom: 0, top: 0, left: 0, right: 0),
+                                decoration: BoxDecoration(
+                                    color: widget.mainColor.withAlpha(8),
+                                    border: Border.all(
+                                      color: Colors.transparent,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(0),
+                                        topRight: Radius.circular(0))),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Stack(fit: StackFit.expand, children: <
+                                        Widget>[
+                                      Stack(children: <Widget>[
+                                        Container(
+                                          //    color: Colors
+                                          //       .purple,
+                                          margin: const EdgeInsets.only(
+                                              left: 0,
+                                              right: 0,
+                                              top: 0,
+                                              bottom: 0),
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: Image(
+                                                        // height: 100,
+                                                        //width: 100,
+                                                        image:
+                                                            CachedNetworkImageProvider(
+                                                                feedExtended
+                                                                    .image))
+                                                    .image),
+                                          ),
+                                          foregroundDecoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.transparent,
+                                                Colors.black.withAlpha(220),
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              stops: const [0.2, 0.9],
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned.fill(
+                                          child: Opacity(
+                                            opacity: 0.1,
+                                            child: Container(
+                                              color: const Color(0xFF000000),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                      Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          width: 320,
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: Text(
+                                                  widget.feedsList
+                                                      .items[pageIndex].title,
+                                                  maxLines: 4,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 21,
+                                                      fontWeight:
+                                                          FontWeight.bold)))),
+                                      /*Positioned.fill(
+                                        child: Opacity(
+                                          opacity: 0.01,
+                                          child: Container(color: Colors.black),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              20,
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: Text(
+                                                  widget.feedsList
+                                                      .items[pageIndex].title,
+                                                  maxLines: 5,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: darkMode
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.normal)))),*/
+                                    ]),
+                                  ],
+                                )),
 
                             Container(
                               padding: const EdgeInsets.only(
@@ -385,21 +471,19 @@ class _NewsSectionState extends State<NewsSection>
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Chip(
-                                    backgroundColor: darkMode
-                                        ? ThemeColor.dark2
-                                        : Colors.white,
+                                    backgroundColor: feedExtended.categoryColor,
                                     avatar: Icon(
-                                      Icons.label,
-                                      color: darkMode
-                                          ? Colors.blueGrey[200]
-                                          : Colors.blueGrey[800],
+                                      IconData(feedExtended.categoryIcon,
+                                          fontFamily: 'MaterialIcons'),
+                                      color: Colors.white,
+                                      size: 15,
                                     ),
-                                    label: const Text(
-                                      "Tecnologia",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
+                                    label: Text(
+                                      feedExtended.category,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                          color: Colors.white),
                                     ),
                                   ),
                                   Icon(
@@ -446,7 +530,7 @@ class _NewsSectionState extends State<NewsSection>
                                   padding:
                                       const EdgeInsets.fromLTRB(20, 5, 20, 5),
                                   child: Text(
-                                    "${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ${widget.feedsList.items[pageIndex].title} ",
+                                    feedExtended.description,
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),

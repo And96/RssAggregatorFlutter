@@ -34,9 +34,10 @@ class FeedExtended {
       f.date = feed.pubDate;
       f.siteID = feed.siteID;
       f.color = await ThemeColor().getMainColorFromUrl(f.icon);
-      f.category = SitesList().getCategory(f.siteID);
+      f.category = await SitesList().getCategory(f.siteID);
       f.categoryIcon = CategoriesList().getIcon(f.category);
       f.categoryColor = Color(CategoriesList().getColor(f.category));
+      //  refresh.call();
       any_link_preview.Metadata? metadata1 =
           await any_link_preview.AnyLinkPreview.getMetadata(
         link: f.link,
@@ -52,8 +53,14 @@ class FeedExtended {
         f.description = Utility().cleanText(metadata2?.description);
         f.image = metadata2?.image ?? f.image;
       }
+      if (f.description.length < 10 || f.description.contains("http")) {
+        f.description = f.title;
+      }
+
+      //hdblog ad esempio nn funziona, nonostande whatsapp e siti internet riescono ad estrarre testo ed img
+
     } catch (err) {
-      // print('Caught error: $err');
+      //print('Caught error: $err');
     }
     return f;
   }

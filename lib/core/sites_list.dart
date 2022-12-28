@@ -31,10 +31,10 @@ class SitesList {
     return list;
   }
 
-  String getCategory(int siteID) {
+  Future<String> getCategory(int siteID) async {
     try {
       if (items.isEmpty) {
-        load();
+        await load();
       }
       return items.firstWhere((e) => e.siteID == siteID).category;
     } catch (err) {
