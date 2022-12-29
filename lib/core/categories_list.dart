@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/animation.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,22 +10,34 @@ class CategoriesList {
   late List<Category> tabs = [];
   String defaultCategory = 'News';
 
-  int getColor(String categoryName) {
+  Color getColorSync(String categoryName) {
     try {
       if (items.isEmpty) {
         load(false);
       }
-      return items.firstWhere((e) => e.name == categoryName).color;
+      return Color(items.firstWhere((e) => e.name == categoryName).color);
     } catch (err) {
       // print('Caught error: $err');
     }
-    return ThemeColor().defaultCategoryColor;
+    return Color(ThemeColor().defaultCategoryColor);
   }
 
-  int getIcon(String categoryName) {
+  Future<Color> getColor(String categoryName) async {
     try {
       if (items.isEmpty) {
-        load(false);
+        await load(false);
+      }
+      return Color(items.firstWhere((e) => e.name == categoryName).color);
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return Color(ThemeColor().defaultCategoryColor);
+  }
+
+  Future<int> getIcon(String categoryName) async {
+    try {
+      if (items.isEmpty) {
+        await load(false);
       }
       return items.firstWhere((e) => e.name == categoryName).icon;
     } catch (err) {

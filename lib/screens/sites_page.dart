@@ -551,8 +551,8 @@ class _SitesPageState extends State<SitesPage>
                                 minLeadingWidth: 50,
                                 leading: SiteLogoBig(
                                   iconUrl: item.iconUrl,
-                                  color: Color(
-                                      categoriesList.getColor(item.category)),
+                                  color: categoriesList
+                                      .getColorSync(item.category),
                                 ),
                                 title: Row(
                                     mainAxisAlignment:
@@ -583,11 +583,13 @@ class _SitesPageState extends State<SitesPage>
                                                 right: 8,
                                                 bottom: 1),
                                             decoration: BoxDecoration(
-                                                color: Color(categoriesList
-                                                    .getColor(item.category)),
+                                                color:
+                                                    categoriesList.getColorSync(
+                                                        item.category),
                                                 border: Border.all(
-                                                  color: Color(categoriesList
-                                                      .getColor(item.category)),
+                                                  color: categoriesList
+                                                      .getColorSync(
+                                                          item.category),
                                                 ),
                                                 borderRadius:
                                                     const BorderRadius.all(

@@ -121,7 +121,7 @@ class _NewsPageState extends State<NewsPage>
           }
         }
       } else {
-        mainColor = Color(categoriesList.getColor(widget.categoryFilter));
+        mainColor = categoriesList.getColorSync(widget.categoryFilter);
       }
     } catch (err) {
       // print('Caught error: $err');

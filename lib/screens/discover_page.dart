@@ -74,8 +74,8 @@ class _DiscoverPageState extends State<DiscoverPage>
     if (s != null) {
       categoryName = s.category;
     }
-    colorCategory = Color(categoriesList.getColor(categoryName));
-    categoryIcon = categoriesList.getIcon(categoryName);
+    colorCategory = await categoriesList.getColor(categoryName);
+    categoryIcon = await categoriesList.getIcon(categoryName);
     descMeta1 = ""; //any_link_preview
     imageUrlMeta1 = "";
     descMeta2 = ""; //metadata_fetch

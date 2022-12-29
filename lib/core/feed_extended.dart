@@ -24,37 +24,43 @@ class FeedExtended {
 
   FeedExtended();
 
-  Future<FeedExtended> getFromFeed(Feed feed) async {
-    FeedExtended f = FeedExtended();
+  Future<void> setFromFeed(Feed feed) async {
     try {
-      f.link = feed.link;
-      f.title = feed.title;
-      f.host = feed.host;
-      f.icon = feed.iconUrl;
-      f.date = feed.pubDate;
-      f.siteID = feed.siteID;
-      f.color = await ThemeColor().getMainColorFromUrl(f.icon);
-      f.category = await SitesList().getCategory(f.siteID);
-      f.categoryIcon = CategoriesList().getIcon(f.category);
-      f.categoryColor = Color(CategoriesList().getColor(f.category));
-      //  refresh.call();
+      FeedExtended();
+      link = feed.link;
+      title = feed.title;
+      host = feed.host;
+      icon = feed.iconUrl;
+      date = feed.pubDate;
+      siteID = feed.siteID;
+      color = await ThemeColor().getMainColorFromUrl(icon);
+      category = await SitesList().getCategory(siteID);
+      categoryIcon = await CategoriesList().getIcon(category);
+      categoryColor = await CategoriesList().getColor(category);
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
+
+  Future<void> setWebData() async {
+    try {
       any_link_preview.Metadata? metadata1 =
           await any_link_preview.AnyLinkPreview.getMetadata(
-        link: f.link,
+        link: link,
         cache: const Duration(days: 1),
       );
-      f.description = Utility().cleanText(metadata1?.desc);
-      f.image = metadata1?.image ?? "";
-      if (f.description.length < 10 ||
-          f.description.contains("http") ||
-          f.image.length < 10) {
+      description = Utility().cleanText(metadata1?.desc);
+      image = metadata1?.image ?? "";
+      if (description.length < 10 ||
+          description.contains("http") ||
+          image.length < 10) {
         metadata_fetch.Metadata? metadata2 =
-            await metadata_fetch.MetadataFetch.extract(f.link);
-        f.description = Utility().cleanText(metadata2?.description);
-        f.image = metadata2?.image ?? f.image;
+            await metadata_fetch.MetadataFetch.extract(link);
+        description = Utility().cleanText(metadata2?.description);
+        image = metadata2?.image ?? image;
       }
-      if (f.description.length < 10 || f.description.contains("http")) {
-        f.description = f.title;
+      if (description.length < 10 || description.contains("http")) {
+        description = title;
       }
 
       //hdblog ad esempio nn funziona, nonostande whatsapp e siti internet riescono ad estrarre testo ed img
@@ -62,24 +68,7 @@ class FeedExtended {
     } catch (err) {
       //print('Caught error: $err');
     }
-    return f;
   }
-
-  /* FeedExtended.fromUrl(String url) {
-    link = url;
-    Feed feed = getFeedFromDB(url);
-    FeedExtended.fromFeed(feed);
-  }*/
-
-  /*Feed getFeedFromDB(String url) {
-    return Feed(
-        link: url,
-        title: "title",
-        pubDate: DateTime(1900),
-        iconUrl: "iconUrl",
-        host: "host",
-        siteID: 0);
-  }*/
 
   @override
   String toString() => '{link: $link title: $title host: $host}';
