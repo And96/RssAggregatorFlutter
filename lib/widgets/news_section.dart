@@ -267,15 +267,37 @@ class _NewsSectionState extends State<NewsSection>
   int pageIndex = 0;
 
   FeedExtended feedExtended = FeedExtended();
+  FeedExtended feedExtendedNext = FeedExtended();
+
+  void loadFeedExtendedF(int next) async {
+    try {
+      //load current page
+      if (next == 0) {
+        feedExtended = FeedExtended();
+        setState(() {});
+        await feedExtended
+            .setFromFeed(widget.feedsList.items[pageIndex + next]);
+        setState(() {});
+        await feedExtended.setWebData(false);
+        setState(() {});
+      }
+
+      //load next page
+      if (next == 1) {
+        feedExtendedNext = FeedExtended();
+        await feedExtendedNext
+            .setFromFeed(widget.feedsList.items[pageIndex + next]);
+        await feedExtendedNext.setWebData(true);
+      }
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
 
   void loadFeedExtended() async {
     try {
-      feedExtended = FeedExtended();
-      setState(() {});
-      await feedExtended.setFromFeed(widget.feedsList.items[pageIndex]);
-      setState(() {});
-      await feedExtended.setWebData();
-      setState(() {});
+      loadFeedExtendedF(0);
+      loadFeedExtendedF(1);
     } catch (err) {
       //print('Caught error: $err');
     }
@@ -306,7 +328,7 @@ class _NewsSectionState extends State<NewsSection>
                 ),
                 child: Container(
                     margin: const EdgeInsets.only(
-                        top: 16, bottom: 16, left: 10, right: 10),
+                        top: 10, bottom: 10, left: 5, right: 5),
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                         color: darkMode ? ThemeColor.dark2 : Colors.white,
@@ -320,7 +342,7 @@ class _NewsSectionState extends State<NewsSection>
                         //const Divider(),
 
                         Container(
-                            height: 270, //senza img 120
+                            height: 300, //senza img 120
                             margin: const EdgeInsets.only(
                                 bottom: 7, top: 0, left: 0, right: 0),
                             padding: const EdgeInsets.all(0),

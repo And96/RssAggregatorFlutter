@@ -7,6 +7,8 @@ import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
 import 'package:any_link_preview/any_link_preview.dart' as any_link_preview;
 import 'package:metadata_fetch/metadata_fetch.dart' as metadata_fetch;
+// ignore: depend_on_referenced_packages
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class FeedExtended {
   String link = "";
@@ -42,7 +44,7 @@ class FeedExtended {
     }
   }
 
-  Future<void> setWebData() async {
+  Future<void> setWebData(bool preCacheImg) async {
     try {
       any_link_preview.Metadata? metadata1 =
           await any_link_preview.AnyLinkPreview.getMetadata(
@@ -61,6 +63,19 @@ class FeedExtended {
       }
       if (description.length < 10 || description.contains("http")) {
         description = title;
+      }
+
+      //cache network image (if not cached yet)
+      if (preCacheImg) {
+        if (image.length > 10) {
+          var obj = await DefaultCacheManager().getFileFromCache(image);
+          if (obj?.originalUrl == null) {
+            DefaultCacheManager()
+                .downloadFile(image)
+                .timeout(const Duration(milliseconds: 4000))
+                .then((_) {});
+          }
+        }
       }
 
       //hdblog ad esempio nn funziona, nonostande whatsapp e siti internet riescono ad estrarre testo ed img
