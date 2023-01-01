@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -187,471 +186,438 @@ class _DiscoverPageState extends State<DiscoverPage>
                                               : imageUrlMeta1))
                                   .image),
                         ),
-                        child: BackdropFilter(
-                            filter:
-                                ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                            child: Expanded(
-                                child: CarouselSlider.builder(
-                                    // key: _sliderKey,
-                                    onSlideChanged: (i) {
-                                      pageChanged(pageIndex + 1);
-                                    },
-                                    unlimitedMode: true,
-                                    slideTransform: const CubeTransform(),
-                                    /*slideIndicator: CircularSlideIndicator(
+                        child: CarouselSlider.builder(
+                            // key: _sliderKey,
+                            onSlideChanged: (i) {
+                              pageChanged(pageIndex + 1);
+                            },
+                            unlimitedMode: true,
+                            slideTransform: const CubeTransform(),
+                            /*slideIndicator: CircularSlideIndicator(
                                       padding:
                                           const EdgeInsets.only(bottom: 32),
                                     ),*/
-                                    itemCount: widget.feedsList.items.length,
-                                    slideBuilder: (index) {
-                                      return Container(
+                            itemCount: widget.feedsList.items.length,
+                            slideBuilder: (index) {
+                              return Container(
+                                  color: darkMode
+                                      ? ThemeColor.dark2
+                                      : Colors.white,
+                                  padding: const EdgeInsets.only(
+                                      left: 0, right: 0, top: 0, bottom: 0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Container(
                                           color: darkMode
                                               ? ThemeColor.dark2
-                                              : Colors.white,
+                                              : siteColor,
                                           padding: const EdgeInsets.only(
                                               left: 0,
                                               right: 0,
                                               top: 0,
                                               bottom: 0),
-                                          child: Column(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              100 *
+                                              60,
+                                          child: Stack(
+                                              fit: StackFit.expand,
+                                              children: <Widget>[
+                                                Stack(children: <Widget>[
+                                                  Container(
+                                                    //    color: Colors
+                                                    //       .purple,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 0,
+                                                            right: 0,
+                                                            top: 0,
+                                                            bottom: 0),
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image: Image(
+                                                                  // height: 100,
+                                                                  //width: 100,
+                                                                  image: CachedNetworkImageProvider(
+                                                                      imageUrlMeta2.length >
+                                                                              10
+                                                                          ? imageUrlMeta2
+                                                                          : imageUrlMeta1))
+                                                              .image),
+                                                    ),
+                                                    foregroundDecoration:
+                                                        BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                        colors: [
+                                                          Colors.transparent,
+                                                          Colors.black
+                                                              .withAlpha(220),
+                                                        ],
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        stops: const [0.2, 0.9],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned.fill(
+                                                    child: Opacity(
+                                                      opacity: 0.1,
+                                                      child: Container(
+                                                        color: const Color(
+                                                            0xFF000000),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ]),
+                                                Positioned(
+                                                    top: 20,
+                                                    right: 0,
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(13.0),
+                                                        child: Wrap(
+                                                          direction:
+                                                              Axis.vertical,
+                                                          spacing:
+                                                              2.5, // gap between adjacent chips
+                                                          runSpacing:
+                                                              2.5, // gap between lines
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .more_vert_rounded,
+                                                                size: 27,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              tooltip:
+                                                                  'Options',
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  _showMoreOptions =
+                                                                      !_showMoreOptions;
+                                                                });
+                                                              },
+                                                            ),
+                                                            if (_showMoreOptions)
+                                                              IconButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .favorite_outline,
+                                                                  size: 27,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                tooltip:
+                                                                    'Favourite',
+                                                                onPressed: () {
+                                                                  pageChanged(
+                                                                      pageIndex +
+                                                                          1);
+                                                                },
+                                                              ),
+                                                            if (_showMoreOptions)
+                                                              IconButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .watch_later_outlined,
+                                                                  size: 27,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                tooltip:
+                                                                    'Read Later',
+                                                                onPressed: () {
+                                                                  pageChanged(
+                                                                      pageIndex +
+                                                                          1);
+                                                                },
+                                                              ),
+                                                            if (_showMoreOptions)
+                                                              IconButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.copy,
+                                                                  size: 27,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                tooltip:
+                                                                    'Copy link',
+                                                                onPressed: () {
+                                                                  pageChanged(
+                                                                      pageIndex +
+                                                                          1);
+                                                                },
+                                                              ),
+                                                          ],
+                                                        ))),
+                                                Positioned(
+                                                    top: 20,
+                                                    right: 0,
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 13.0,
+                                                                right: 60),
+                                                        child: Wrap(
+                                                          direction:
+                                                              Axis.vertical,
+                                                          spacing:
+                                                              2.5, // gap between adjacent chips
+                                                          runSpacing:
+                                                              2.5, // gap between lines
+                                                          children: <Widget>[
+                                                            if (_showMoreOptions)
+                                                              IconButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.share,
+                                                                  size: 27,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                tooltip:
+                                                                    'Share',
+                                                                onPressed: () {
+                                                                  pageChanged(
+                                                                      pageIndex +
+                                                                          1);
+                                                                },
+                                                              ),
+                                                          ],
+                                                        ))),
+                                                Positioned(
+                                                    top: 20,
+                                                    left: 0,
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20.0),
+                                                        child: Wrap(
+                                                            direction:
+                                                                Axis.horizontal,
+                                                            spacing:
+                                                                4.0, // gap between adjacent chips
+                                                            runSpacing:
+                                                                240, // gap between lines
+                                                            children: <Widget>[
+                                                              Chip(
+                                                                  /*avatar: Icon(
+                                                                                            IconData(categoryIcon, fontFamily: 'MaterialIcons'),
+                                                                                            size: 18,
+                                                                                          ),*/
+                                                                  backgroundColor: darkMode
+                                                                      ? ThemeColor
+                                                                          .dark2
+                                                                      : Colors
+                                                                          .white,
+                                                                  label: Text(
+                                                                    Utility().dateFormat(
+                                                                        context,
+                                                                        f.pubDate),
+                                                                  ))
+                                                            ]))),
+                                                Positioned(
+                                                    bottom: 0,
+                                                    left: 0,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            20,
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20.0),
+                                                        child: Text(f.title,
+                                                            maxLines: 4,
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 24,
+                                                                height: 1.5,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)))),
+                                              ])),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 7,
+                                            right: 7,
+                                            top: 20,
+                                            bottom: 2),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Chip(
+                                              backgroundColor: darkMode
+                                                  ? ThemeColor.dark2
+                                                  : Colors.white,
+                                              avatar: SiteLogo(
+                                                //  color: colorCategory,
+                                                iconUrl: f.iconUrl,
+                                              ),
+                                              label: Text(
+                                                (f.host),
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16
+                                                    /*color:
+                                                                              Colors.white,*/
+                                                    ),
+                                              ),
+                                            ),
+                                            Chip(
+                                              backgroundColor: colorCategory,
+                                              avatar: ClipRRect(
+                                                  child: Icon(
+                                                IconData(categoryIcon,
+                                                    fontFamily:
+                                                        'MaterialIcons'),
+                                                color:
+                                                    Colors.white.withAlpha(200),
+                                                size: 15,
+                                              )),
+                                              label: Text(
+                                                (categoryName.toString()),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider(),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.max,
                                             children: <Widget>[
-                                              Container(
-                                                  color: darkMode
-                                                      ? ThemeColor.dark2
-                                                      : siteColor,
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 0,
-                                                          right: 0,
-                                                          top: 0,
-                                                          bottom: 0),
-                                                  height: 400,
-                                                  child: Stack(
-                                                      fit: StackFit.expand,
-                                                      children: <Widget>[
-                                                        Stack(children: <
-                                                            Widget>[
-                                                          Container(
-                                                            //    color: Colors
-                                                            //       .purple,
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 0,
-                                                                    right: 0,
-                                                                    top: 0,
-                                                                    bottom: 0),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              image: DecorationImage(
-                                                                  fit: BoxFit.cover,
-                                                                  image: Image(
-                                                                          // height: 100,
-                                                                          //width: 100,
-                                                                          image: CachedNetworkImageProvider(imageUrlMeta2.length > 10 ? imageUrlMeta2 : imageUrlMeta1))
-                                                                      .image),
-                                                            ),
-                                                            foregroundDecoration:
-                                                                BoxDecoration(
-                                                              gradient:
-                                                                  LinearGradient(
-                                                                colors: [
-                                                                  Colors
-                                                                      .transparent,
-                                                                  Colors.black
-                                                                      .withAlpha(
-                                                                          220),
-                                                                ],
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                stops: const [
-                                                                  0.2,
-                                                                  0.9
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Positioned.fill(
-                                                            child: Opacity(
-                                                              opacity: 0.1,
-                                                              child: Container(
-                                                                color: const Color(
-                                                                    0xFF000000),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ]),
-                                                        Positioned(
-                                                            top: 0,
-                                                            right: 0,
-                                                            child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        13.0),
-                                                                child: Wrap(
-                                                                  direction: Axis
-                                                                      .vertical,
-                                                                  spacing:
-                                                                      2.5, // gap between adjacent chips
-                                                                  runSpacing:
-                                                                      2.5, // gap between lines
-                                                                  children: <
-                                                                      Widget>[
-                                                                    IconButton(
-                                                                      padding:
-                                                                          EdgeInsets
-                                                                              .zero,
-                                                                      icon:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .more_vert_rounded,
-                                                                        size:
-                                                                            27,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                      tooltip:
-                                                                          'Options',
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
-                                                                          _showMoreOptions =
-                                                                              !_showMoreOptions;
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                    if (_showMoreOptions)
-                                                                      IconButton(
-                                                                        padding:
-                                                                            EdgeInsets.zero,
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .favorite_outline,
-                                                                          size:
-                                                                              27,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                        tooltip:
-                                                                            'Favourite',
-                                                                        onPressed:
-                                                                            () {
-                                                                          pageChanged(pageIndex +
-                                                                              1);
-                                                                        },
-                                                                      ),
-                                                                    if (_showMoreOptions)
-                                                                      IconButton(
-                                                                        padding:
-                                                                            EdgeInsets.zero,
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .watch_later_outlined,
-                                                                          size:
-                                                                              27,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                        tooltip:
-                                                                            'Read Later',
-                                                                        onPressed:
-                                                                            () {
-                                                                          pageChanged(pageIndex +
-                                                                              1);
-                                                                        },
-                                                                      ),
-                                                                    if (_showMoreOptions)
-                                                                      IconButton(
-                                                                        padding:
-                                                                            EdgeInsets.zero,
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .copy,
-                                                                          size:
-                                                                              27,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                        tooltip:
-                                                                            'Copy link',
-                                                                        onPressed:
-                                                                            () {
-                                                                          pageChanged(pageIndex +
-                                                                              1);
-                                                                        },
-                                                                      ),
-                                                                  ],
-                                                                ))),
-                                                        Positioned(
-                                                            top: 0,
-                                                            right: 0,
-                                                            child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top:
-                                                                            13.0,
-                                                                        right:
-                                                                            60),
-                                                                child: Wrap(
-                                                                  direction: Axis
-                                                                      .vertical,
-                                                                  spacing:
-                                                                      2.5, // gap between adjacent chips
-                                                                  runSpacing:
-                                                                      2.5, // gap between lines
-                                                                  children: <
-                                                                      Widget>[
-                                                                    if (_showMoreOptions)
-                                                                      IconButton(
-                                                                        padding:
-                                                                            EdgeInsets.zero,
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .share,
-                                                                          size:
-                                                                              27,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                        tooltip:
-                                                                            'Share',
-                                                                        onPressed:
-                                                                            () {
-                                                                          pageChanged(pageIndex +
-                                                                              1);
-                                                                        },
-                                                                      ),
-                                                                  ],
-                                                                ))),
-                                                        Positioned(
-                                                            top: 0,
-                                                            left: 0,
-                                                            child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        20.0),
-                                                                child: Wrap(
-                                                                    direction: Axis
-                                                                        .horizontal,
-                                                                    spacing:
-                                                                        4.0, // gap between adjacent chips
-                                                                    runSpacing:
-                                                                        240, // gap between lines
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Chip(
-                                                                          /*avatar: Icon(
-                                                                                            IconData(categoryIcon, fontFamily: 'MaterialIcons'),
-                                                                                            size: 18,
-                                                                                          ),*/
-                                                                          backgroundColor: darkMode
-                                                                              ? ThemeColor.dark2
-                                                                              : Colors.white,
-                                                                          label: Text(
-                                                                            Utility().dateFormat(context,
-                                                                                f.pubDate),
-                                                                          ))
-                                                                    ]))),
-                                                        Positioned(
-                                                            bottom: 0,
-                                                            left: 0,
-                                                            width: 320,
-                                                            child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets.all(
-                                                                        20.0),
-                                                                child: Text(
-                                                                    f.title,
-                                                                    maxLines: 4,
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            21,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)))),
-                                                      ])),
-                                              Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 7,
-                                                    right: 7,
-                                                    top: 13,
-                                                    bottom: 2),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Chip(
-                                                      backgroundColor: darkMode
-                                                          ? ThemeColor.dark2
-                                                          : Colors.white,
-                                                      avatar: SiteLogo(
-                                                        //  color: colorCategory,
-                                                        iconUrl: f.iconUrl,
-                                                      ),
-                                                      label: Text(
-                                                        (f.host),
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 16
-                                                            /*color:
-                                                                              Colors.white,*/
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Chip(
-                                                      backgroundColor:
-                                                          colorCategory,
-                                                      avatar: ClipRRect(
-                                                          child: Icon(
-                                                        IconData(categoryIcon,
-                                                            fontFamily:
-                                                                'MaterialIcons'),
-                                                        color: Colors.white
-                                                            .withAlpha(200),
-                                                        size: 15,
-                                                      )),
-                                                      label: Text(
-                                                        (categoryName
-                                                            .toString()),
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                              Text(
+                                                descMeta1.length > 10 &&
+                                                        !descMeta1
+                                                            .contains("http")
+                                                    ? descMeta1
+                                                    : descMeta1.length > 10 &&
+                                                            !descMeta1.contains(
+                                                                "http")
+                                                        ? descMeta2
+                                                        : f.title,
+                                                maxLines: 7,
+                                                style: const TextStyle(
+                                                  fontSize: 17,
                                                 ),
                                               ),
                                               const Divider(),
-                                              Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 15,
-                                                    right: 15,
-                                                    top: 5,
-                                                    bottom: 5),
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        descMeta1.length > 10 &&
-                                                                !descMeta1
-                                                                    .contains(
-                                                                        "http")
-                                                            ? descMeta1
-                                                            : descMeta1.length >
-                                                                        10 &&
-                                                                    !descMeta1
-                                                                        .contains(
-                                                                            "http")
-                                                                ? descMeta2
-                                                                : f.title,
-                                                        maxLines: 7,
-                                                        style: const TextStyle(
-                                                          fontSize: 17,
-                                                        ),
-                                                      ),
-                                                      const Divider(),
-                                                      Text(
-                                                        '${f.link.padRight(100).substring(0, 100).trim()}\n',
-                                                        maxLines: 2,
-                                                      ),
-                                                      const Divider(),
-                                                    ]),
+                                              Text(
+                                                '${f.link.padRight(100).substring(0, 100).trim()}\n',
+                                                maxLines: 2,
                                               ),
-                                              Container(
-                                                width: double.infinity,
-                                                height: 65,
-                                                /*  color: siteColor
+                                              const Divider(),
+                                            ]),
+                                      ),
+                                      Container(
+                                        width: double.infinity,
+                                        height: 65,
+                                        /*  color: siteColor
                                                                     .withAlpha(
                                                                         170),*/
-                                                color: darkMode
-                                                    ? ThemeColor.dark1
-                                                        .withAlpha(100)
-                                                    : ThemeColor.light1
-                                                        .withAlpha(200),
-                                                child: InkWell(
-                                                  customBorder:
-                                                      RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  onTap: () async {
-                                                    Utility().launchInBrowser(
-                                                        Uri.parse(f.link));
-                                                  },
-                                                  child: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  0, 0, 15, 0),
-                                                          child: Icon(
-                                                            Icons.public,
-                                                            /*   color: ThemeColor().isColorDark(siteColor)
+                                        color: darkMode
+                                            ? ThemeColor.dark1.withAlpha(100)
+                                            : ThemeColor.light1.withAlpha(200),
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          onTap: () async {
+                                            Utility().launchInBrowser(
+                                                Uri.parse(f.link));
+                                          },
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 0, 15, 0),
+                                                  child: Icon(
+                                                    Icons.public,
+                                                    /*   color: ThemeColor().isColorDark(siteColor)
                                                                                 ? Colors.white
                                                                                 : Colors.black,*/
 
-                                                            color: darkMode
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            size: 28.0,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Leggi sul sito',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 15,
-                                                            /*   color: ThemeColor().isColorDark(siteColor)
-                                                                                ? Colors.white
-                                                                                : Colors.black,*/
-
-                                                            color: darkMode
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                          ),
-                                                          maxLines: 1,
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    color: darkMode
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    size: 28.0,
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          ));
-                                    })))));
+                                                Text(
+                                                  'Leggi sul sito',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    /*   color: ThemeColor().isColorDark(siteColor)
+                                                                                ? Colors.white
+                                                                                : Colors.black,*/
+
+                                                    color: darkMode
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
+                                                  maxLines: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ));
+                            })));
           }),
     ));
   }

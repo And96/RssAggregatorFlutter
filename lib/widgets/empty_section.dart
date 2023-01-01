@@ -27,7 +27,7 @@ class EmptySection extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 120,
+            size: 100,
             color: darkMode
                 ? ThemeColor.dark3.withAlpha(150)
                 : ThemeColor.light2.withAlpha(150),

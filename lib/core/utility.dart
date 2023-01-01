@@ -215,7 +215,10 @@ class Utility {
 
   DateTime tryParse(String dateString) {
     DateTime now = DateTime.now().toUtc();
-    DateTime defaultDate = DateTime.utc(now.year, now.month, now.day);
+    DateTime defaultDate = DateTime.now().hour > 12
+        ? DateTime.utc(now.year, now.month, now.day) //midnight today
+        : DateTime.utc(now.year, now.month, now.day)
+            .add(const Duration(days: -1)); //midnight yesterday
     bool ok = false;
     try {
       DateTime dataOra = DateTime.utc(now.year, now.month, now.day);

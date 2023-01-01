@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
+import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/sites_list.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/theme/theme_color.dart';
@@ -23,6 +24,8 @@ class FeedExtended {
   String category = "";
   int categoryIcon = 0;
   Color categoryColor = Color(ThemeColor().defaultCategoryColor);
+
+  Settings settings = Settings();
 
   FeedExtended();
 
@@ -46,6 +49,7 @@ class FeedExtended {
 
   Future<void> setWebData(bool preCacheImg) async {
     try {
+      await settings.init();
       any_link_preview.Metadata? metadata1 =
           await any_link_preview.AnyLinkPreview.getMetadata(
         link: link,
@@ -66,14 +70,16 @@ class FeedExtended {
       }
 
       //cache network image (if not cached yet)
-      if (preCacheImg) {
-        if (image.length > 10) {
-          var obj = await DefaultCacheManager().getFileFromCache(image);
-          if (obj?.originalUrl == null) {
-            DefaultCacheManager()
-                .downloadFile(image)
-                .timeout(const Duration(milliseconds: 4000))
-                .then((_) {});
+      if (settings.settingsLoadImages) {
+        if (preCacheImg) {
+          if (image.length > 10) {
+            var obj = await DefaultCacheManager().getFileFromCache(image);
+            if (obj?.originalUrl == null) {
+              DefaultCacheManager()
+                  .downloadFile(image)
+                  .timeout(const Duration(milliseconds: 4000))
+                  .then((_) {});
+            }
           }
         }
       }

@@ -617,7 +617,8 @@ class _SitesPageState extends State<SitesPage>
                                 padding: EdgeInsets.only(right: 10),
                                 child: Icon(Icons.more_vert),
                               ),*/
-                                isThreeLine: false,
+                                isThreeLine:
+                                    item.siteLink.length > 45 ? true : false,
                                 onTap: () {
                                   showOptionDialog(context, item);
                                 },

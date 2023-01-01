@@ -5,6 +5,7 @@ import 'package:rss_aggregator_flutter/core/feed_extended.dart';
 import 'package:rss_aggregator_flutter/core/feeds_list.dart';
 import 'package:rss_aggregator_flutter/core/readlater_list.dart';
 import 'package:rss_aggregator_flutter/core/scroll_physics.dart';
+import 'package:rss_aggregator_flutter/core/settings.dart';
 import 'package:rss_aggregator_flutter/core/utility.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/screens/news_page.dart';
@@ -48,6 +49,8 @@ class _NewsSectionState extends State<NewsSection>
   //Theme
   static bool darkMode = false;
 
+  Settings settings = Settings();
+
   late FavouritesList favouritesList = FavouritesList();
   late ReadlaterList readlaterList = ReadlaterList();
 
@@ -68,6 +71,7 @@ class _NewsSectionState extends State<NewsSection>
         await ThemeColor.isDarkMode().then((value) => {
               darkMode = value,
             });
+
         await loadData(false);
       } catch (err) {
         //print('Caught error: $err');
@@ -92,6 +96,7 @@ class _NewsSectionState extends State<NewsSection>
       setState(() {
         isLoading = true;
       });
+      await settings.init();
       await favouritesList.load();
       await readlaterList.load();
       items = widget.feedsList.items.map((e) => e).toList();
@@ -322,16 +327,18 @@ class _NewsSectionState extends State<NewsSection>
               return Container(
                 decoration: BoxDecoration(
                   color: darkMode
-                      ? ThemeColor.dark1.withAlpha(200)
-                      : widget.mainColor.withAlpha(30),
+                      ? ThemeColor().lighten(ThemeColor.dark1, 1)
+                      : ThemeColor.light2.withAlpha(120),
                   border: Border.all(color: Colors.transparent, width: 0),
                 ),
                 child: Container(
                     margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 5, right: 5),
-                    padding: const EdgeInsets.all(4),
+                        top: 10, bottom: 10, left: 8, right: 8),
+                    padding: EdgeInsets.all(darkMode ? 0 : 4),
                     decoration: BoxDecoration(
-                        color: darkMode ? ThemeColor.dark2 : Colors.white,
+                        color: darkMode
+                            ? ThemeColor().darken(ThemeColor.dark2, 30)
+                            : Colors.white,
                         border: Border.all(color: Colors.transparent, width: 0),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(15),
@@ -342,7 +349,9 @@ class _NewsSectionState extends State<NewsSection>
                         //const Divider(),
 
                         Container(
-                            height: 300, //senza img 120
+                            height:
+                                MediaQuery.of(context).size.height / 100 * 50 -
+                                    100,
                             margin: const EdgeInsets.only(
                                 bottom: 7, top: 0, left: 0, right: 0),
                             padding: const EdgeInsets.all(0),
@@ -369,38 +378,50 @@ class _NewsSectionState extends State<NewsSection>
                                         borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(15),
                                             topRight: Radius.circular(15)),
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: Image(
-                                                    // height: 100,
-                                                    //width: 100,
-                                                    image:
-                                                        CachedNetworkImageProvider(
-                                                            feedExtended.image))
-                                                .image),
+                                        image: (settings.settingsLoadImages)
+                                            ? DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: Image(
+                                                        image:
+                                                            CachedNetworkImageProvider(
+                                                                feedExtended
+                                                                    .image))
+                                                    .image)
+                                            : null,
                                       ),
-                                      foregroundDecoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(15),
-                                            topRight: Radius.circular(15)),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.transparent,
-                                            Colors.black.withAlpha(220),
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          stops: const [0.2, 0.9],
-                                        ),
-                                      ),
+                                      foregroundDecoration: settings
+                                                  .settingsLoadImages &&
+                                              feedExtended.image.length > 10
+                                          ? BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.transparent,
+                                                width: 0,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(15),
+                                                      topRight:
+                                                          Radius.circular(15)),
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.transparent,
+                                                  Colors.black.withAlpha(220)
+                                                ],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                stops: const [0.2, 0.9],
+                                              ),
+                                            )
+                                          : null,
                                     ),
                                     Positioned.fill(
                                       child: Opacity(
-                                          opacity: 0.1,
+                                          opacity: !darkMode &&
+                                                  settings.settingsLoadImages &&
+                                                  feedExtended.image.length > 10
+                                              ? 0.1
+                                              : 0.3,
                                           child: Container(
                                             decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.only(
@@ -425,10 +446,6 @@ class _NewsSectionState extends State<NewsSection>
                                                   240, // gap between lines
                                               children: <Widget>[
                                                 Chip(
-                                                    /*avatar: Icon(
-                                                                                            IconData(categoryIcon, fontFamily: 'MaterialIcons'),
-                                                                                            size: 18,
-                                                                                          ),*/
                                                     backgroundColor: darkMode
                                                         ? ThemeColor.dark2
                                                         : Colors.white,
@@ -468,16 +485,25 @@ class _NewsSectionState extends State<NewsSection>
                                   Positioned(
                                       bottom: 0,
                                       left: 0,
-                                      width: 340,
+                                      width: MediaQuery.of(context).size.width -
+                                          20,
                                       child: Padding(
                                           padding: const EdgeInsets.all(20.0),
                                           child: Text(
                                               widget.feedsList.items[pageIndex]
                                                   .title,
-                                              maxLines: 4,
+                                              maxLines: MediaQuery.of(context)
+                                                          .size
+                                                          .height <
+                                                      600
+                                                  ? 3
+                                                  : 4,
                                               style: const TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 21,
+                                                  fontSize: 22,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  height: 1.5,
                                                   fontWeight:
                                                       FontWeight.bold)))),
                                 ]),
@@ -490,23 +516,29 @@ class _NewsSectionState extends State<NewsSection>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Chip(
-                                backgroundColor:
-                                    darkMode ? ThemeColor.dark2 : Colors.white,
-                                avatar: SiteLogo(
-                                  //  color: colorCategory,
-                                  iconUrl:
-                                      widget.feedsList.items[pageIndex].iconUrl,
-                                ),
-                                label: Text(
-                                  (widget.feedsList.items[pageIndex].host),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                              InkWell(
+                                onTap: () => showOptionDialog(
+                                    context, widget.feedsList.items[pageIndex]),
+                                child: Chip(
+                                  backgroundColor: darkMode
+                                      ? ThemeColor.dark2
+                                      : Colors.white,
+                                  avatar: SiteLogo(
+                                    iconUrl: widget
+                                        .feedsList.items[pageIndex].iconUrl,
+                                  ),
+                                  label: Text(
+                                    (widget.feedsList.items[pageIndex].host),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
                                 ),
                               ),
                               Chip(
-                                backgroundColor: feedExtended.categoryColor,
+                                backgroundColor: darkMode
+                                    ? ThemeColor.dark2
+                                    : feedExtended.categoryColor,
                                 avatar: Icon(
                                   IconData(feedExtended.categoryIcon,
                                       fontFamily: 'MaterialIcons'),
@@ -532,7 +564,9 @@ class _NewsSectionState extends State<NewsSection>
                               child: Text(
                                 feedExtended.description,
                                 style: const TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 18,
+                                  height: 1.5,
+                                  overflow: TextOverflow.fade,
                                 ),
                               )),
                         ),

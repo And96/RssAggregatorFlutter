@@ -130,6 +130,15 @@ class _NewsPageState extends State<NewsPage>
     setState(() {});
   }
 
+  void handleOptionsVertClick(String value) {
+    if (value == "viewmode") {
+      setState(() {
+        viewMode = viewMode == 0 ? 1 : 0;
+        Settings().setNewsLayout(viewMode);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,17 +173,15 @@ class _NewsPageState extends State<NewsPage>
                       },
                     ),
 
-                  IconButton(
-                    icon: viewMode == 0
-                        ? const Icon(Icons.list_alt)
-                        : const Icon(Icons.featured_play_list),
-                    tooltip: 'Layout',
-                    onPressed: () => {
-                      setState(() {
-                        viewMode = viewMode == 0 ? 1 : 0;
-                        Settings().setNewsLayout(viewMode);
-                      })
-                    },
+                  PopupMenuButton<int>(
+                    itemBuilder: (context) => [
+                      PopupMenuItem<int>(
+                          value: 1,
+                          onTap: () {
+                            handleOptionsVertClick("viewmode");
+                          },
+                          child: const Text('Change View')),
+                    ],
                   ),
 
                   if (isLoading)
