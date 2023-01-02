@@ -75,7 +75,7 @@ class ThemeColor {
 
   List<Color> pickerColors = [
     Colors.green[500]!,
-    Colors.green[700]!,
+    Colors.green[800]!,
     Colors.teal[800]!,
     Colors.cyan[800]!,
     Colors.lightBlue[800]!,
