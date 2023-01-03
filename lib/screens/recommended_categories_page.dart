@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:rss_aggregator_flutter/core/recommended_list.dart';
 import 'package:rss_aggregator_flutter/screens/recommended_sites_page.dart';
@@ -28,6 +30,9 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
       await ThemeColor.isDarkMode().then((value) => {
             darkMode = value,
           });
+      dropdownValue = Platform.localeName.toLowerCase().contains("it")
+          ? 'Italiano'
+          : 'English';
       await loadData();
     });
   }
@@ -47,6 +52,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
     try {
       isLoading = true;
       setState(() {});
+
       await recommendedList.load(dropdownValue, '');
     } catch (err) {
       //print('Caught error: $err');
