@@ -310,10 +310,15 @@ class _SitesPageState extends State<SitesPage>
       // after the SecondScreen result comes back update the Text widget with it
       if (resultTextInput != null) {
         setState(() {
+          isOnAdded = false;
+          isOnSearch = false;
+          searchController.text = '';
+        });
+
+        setState(() {
           isLoading = true;
         });
 
-        //await sitesList.delete(siteLink, siteName, siteID);
         String inputText = resultTextInput.toString().replaceAll("amp;", "");
         if (Utility().isMultipleLink(inputText)) {
           List<String> listUrl = Utility().getUrlsFromText(inputText);
@@ -437,9 +442,11 @@ class _SitesPageState extends State<SitesPage>
     return Scaffold(
       appBar: !isOnSearch && !isOnAdded
           ? AppBar(
-              title: sitesList.items.isEmpty
-                  ? const Text('Sites')
-                  : Text('Sites (${sitesList.items.length})'),
+              title: isLoading
+                  ? const Text("Searching")
+                  : sitesList.items.isEmpty
+                      ? const Text('Sites')
+                      : Text('Sites (${sitesList.items.length})'),
               actions: <Widget>[
                 if (isLoading)
                   IconButton(
@@ -595,16 +602,19 @@ class _SitesPageState extends State<SitesPage>
                                         MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 0),
-                                        child: Text(
-                                          (item.siteName.toString()),
-                                          style: TextStyle(
-                                            // fontSize: 16,
-                                            //fontWeight: FontWeight.normal,
-                                            color: darkMode
-                                                ? Colors.white
-                                                : Colors.black,
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 0),
+                                          child: Text(
+                                            (item.siteName.toString()),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: darkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -650,16 +660,17 @@ class _SitesPageState extends State<SitesPage>
                                         ),
                                     ]),
                                 /* trailing: const Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Icon(Icons.more_vert),
-                              ),*/
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Icon(Icons.more_vert),
+                                ),*/
                                 isThreeLine:
-                                    item.siteLink.length > 45 ? true : false,
+                                    item.siteLink.length > 40 ? true : false,
                                 onTap: () {
                                   showOptionDialog(context, item);
                                 },
                                 subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 5),
+                                    padding: const EdgeInsets.only(
+                                        top: 8, right: 25),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -670,13 +681,6 @@ class _SitesPageState extends State<SitesPage>
                                             item.siteLink.toString(),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
-                                            /*style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            color: darkMode
-                                                ? ThemeColor.light3
-                                                : ThemeColor.dark3,
-                                          ),*/
                                           ),
                                         ),
                                       ],
