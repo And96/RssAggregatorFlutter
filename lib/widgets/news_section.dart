@@ -349,9 +349,9 @@ class _NewsSectionState extends State<NewsSection>
                         //const Divider(),
 
                         Container(
-                            height:
-                                MediaQuery.of(context).size.height / 100 * 50 -
-                                    100,
+                            height: settingsLoadImages ?
+                                MediaQuery.of(context).size.height / 100 * 50 - 100 
+                            : MediaQuery.of(context).size.height / 100 * 30 + 50,
                             margin: const EdgeInsets.only(
                                 bottom: 7, top: 0, left: 0, right: 0),
                             padding: const EdgeInsets.all(0),
