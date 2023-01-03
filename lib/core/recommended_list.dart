@@ -1917,11 +1917,6 @@ class RecommendedList {
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=techradar.com"
       },
       {
-        "siteName": "tecmint.com",
-        "siteLink": "feeds.feedburner.com/tecmint",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tecmint.com"
-      },
-      {
         "siteName": "ghacks.net",
         "siteLink": "https://www.ghacks.net/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ghacks.net"
