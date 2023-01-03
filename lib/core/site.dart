@@ -453,6 +453,7 @@ class Site {
         }
       }
 
+      //multi-language
       if (url.length > 1) {
         if (!url.contains("news.google") &&
             !url.contains("feedburner") &&
@@ -464,6 +465,26 @@ class Site {
           } else {
             langGoogleNews = "&hl=en-US&gl=US&ceid=US:en";
           }
+          String siteFilter = "";
+          if (url.contains(".")) {
+            siteFilter = "site:";
+          }
+          //https://news.google.com/rss?hl=<LANGUAGE_CODE>&gl=<COUNTRY_CODE>&ceid=<COUNTRY_CODE>:<LANGUAGE_CODE>'
+          String urlRss =
+              "https://news.google.com/rss/search?q=$siteFilter${name.replaceAll("http://", "").replaceAll("https://", "").replaceAll("www.", "")}+when:3d$langGoogleNews";
+          bool valid = await isUrlRSS(urlRss);
+          if (valid) {
+            return urlRss;
+          }
+        }
+      }
+
+      //english only (required because e.g italian user search for an english sites)
+      if (url.length > 1) {
+        if (!url.contains("news.google") &&
+            !url.contains("feedburner") &&
+            !url.contains("bing.com")) {
+          String langGoogleNews = "&hl=en-US&gl=US&ceid=US:en";
           String siteFilter = "";
           if (url.contains(".")) {
             siteFilter = "site:";
