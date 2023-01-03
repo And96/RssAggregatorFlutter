@@ -103,7 +103,7 @@ class _NewsSectionState extends State<NewsSection>
       if (widget.searchText.isNotEmpty) {
         items = items
             .where((item) => Utility().compareSearch(
-                [item.title, item.link, item.host], widget.searchText))
+                [item.title, item.link, item.host], widget.searchText, false))
             .toList();
       }
       loadFeedExtended();

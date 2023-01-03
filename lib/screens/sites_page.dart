@@ -560,19 +560,28 @@ class _SitesPageState extends State<SitesPage>
                       separatorBuilder: (context, index) {
                         return Visibility(
                             visible: searchController.text.isEmpty ||
-                                Utility().compareSearch([
-                                  sitesList.items[index].siteName,
-                                  sitesList.items[index].siteLink,
-                                ], searchController.text),
+                                (isOnAdded
+                                    ? Utility().compareSearch([
+                                        sitesList.items[index].siteLink,
+                                      ], searchController.text, true)
+                                    : Utility().compareSearch([
+                                        sitesList.items[index].siteName,
+                                        sitesList.items[index].siteLink,
+                                      ], searchController.text, false)),
                             child: const Divider());
                       },
                       itemBuilder: (BuildContext context, index) {
                         final item = sitesList.items[index];
                         return Visibility(
                           visible: searchController.text.isEmpty ||
-                              Utility().compareSearch(
-                                  [item.siteLink, item.siteName],
-                                  searchController.text),
+                              (isOnAdded
+                                  ? Utility().compareSearch([
+                                      sitesList.items[index].siteLink,
+                                    ], searchController.text, true)
+                                  : Utility().compareSearch([
+                                      sitesList.items[index].siteName,
+                                      sitesList.items[index].siteLink,
+                                    ], searchController.text, false)),
                           child: InkWell(
                             child: ListTile(
                                 minLeadingWidth: 50,

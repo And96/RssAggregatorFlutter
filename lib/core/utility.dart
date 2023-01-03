@@ -181,12 +181,21 @@ class Utility {
     return val;
   }
 
-  bool compareSearch(List<String?> textList, String? textSearch) {
+  bool compareSearch(List<String?> textList, String? textSearch, bool equal) {
     try {
       for (var text in textList) {
         for (var value in textSearch.toString().split(";")) {
-          if (cleanSearchText(text).contains(cleanSearchText(value))) {
-            return true;
+          if (equal) {
+            if (cleanSearchText(text).toLowerCase() ==
+                (cleanSearchText(value)).toLowerCase()) {
+              return true;
+            }
+          } else {
+            if (cleanSearchText(text)
+                .toLowerCase()
+                .contains(cleanSearchText(value).toLowerCase())) {
+              return true;
+            }
           }
         }
       }
