@@ -321,7 +321,11 @@ class RecommendedList {
         "siteName": "androidworld.it",
         "siteLink": "https://www.androidworld.it/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=androidworld.it"
-      },
+      },{
+         "siteName": "xiaomitoday.it",
+         "siteLink": "https://xiaomitoday.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=xiaomitoday.it"
+         },
       {
         "siteName": "batista70phone.com",
         "siteLink": "https://www.batista70phone.com/feed/",
