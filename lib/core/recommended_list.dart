@@ -1636,11 +1636,6 @@ class RecommendedList {
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iminter.it"
       },
       {
-        "siteName": "fcitalia.com",
-        "siteLink": "https://www.fcitalia.com/feed/rss/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fcitalia.com"
-      },
-      {
         "siteName": "iotifointer.it",
         "siteLink": "https://www.iotifointer.it/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iotifointer.it"
