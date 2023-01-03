@@ -561,7 +561,7 @@ class _SitesPageState extends State<SitesPage>
         children: [
           isLoading == false
               ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 9),
                   child: ListView.separated(
                       itemCount: sitesList.items.length,
                       separatorBuilder: (context, index) {
@@ -659,9 +659,12 @@ class _SitesPageState extends State<SitesPage>
                                           ),
                                         ),
                                     ]),
-                                /* trailing: const Padding(
+                                /*trailing: const Padding(
                                   padding: EdgeInsets.only(right: 10),
-                                  child: Icon(Icons.more_vert),
+                                  child: Icon(
+                                    Icons.warning,
+                                    color: Colors.red,
+                                  ),
                                 ),*/
                                 isThreeLine:
                                     item.siteLink.length > 40 ? true : false,
@@ -683,6 +686,26 @@ class _SitesPageState extends State<SitesPage>
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
+                                        /*Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Chip(
+                                            backgroundColor: darkMode
+                                                ? ThemeColor.dark2
+                                                : ThemeColor.light1,
+                                            label: const Text(
+                                              "Ultimo aggiornamento 01/01/2022",
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            avatar: const Icon(
+                                              Icons.warning,
+                                              color: Colors.red,
+                                              size: 15,
+                                            ),
+                                          ),
+                                        ),*/
                                       ],
                                     ))),
                           ),
