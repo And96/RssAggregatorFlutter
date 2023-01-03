@@ -564,8 +564,8 @@ class _NewsSectionState extends State<NewsSection>
                               child: Text(
                                 feedExtended.description,
                                 style: const TextStyle(
-                                  fontSize: 18,
-                                  height: 1.5,
+                                  fontSize: 17,
+                                  height: 1.3,
                                   overflow: TextOverflow.fade,
                                 ),
                               )),
