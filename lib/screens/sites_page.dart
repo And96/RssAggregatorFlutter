@@ -263,6 +263,28 @@ class _SitesPageState extends State<SitesPage>
     }
   }
 
+  void export() async {
+    try {
+      String text = "";
+      for (Site site in sitesList.items) {
+        text += """,{
+         "siteName": "${site.siteName}",
+         "siteLink": "${site.siteLink}",
+         "iconUrl": "${site.iconUrl}"
+         }""";
+      }
+
+      // start the SecondScreen and wait for it to finish with a result
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SiteUrlPage(textInput: text),
+          ));
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+  }
+
   Future<List<String>> _awaitEditSite(
       BuildContext context, Site? siteUpdated) async {
     List<String> siteAgg = [];
@@ -455,6 +477,11 @@ class _SitesPageState extends State<SitesPage>
                             sort = sort == "name" ? "category" : "name",
                             loadData().then((value) => setState(() {}))
                           }),
+                if (sitesList.items.isNotEmpty && !isLoading)
+                  IconButton(
+                      icon: const Icon(Icons.upload_file),
+                      tooltip: 'Export',
+                      onPressed: () => export()),
                 if (sitesList.items.isNotEmpty && !isLoading)
                   IconButton(
                       icon: const Icon(Icons.delete),
