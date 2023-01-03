@@ -283,9 +283,9 @@ class _ReadlaterPageState extends State<ReadlaterPage>
           ],
         ),
         body: Container(
-            color: darkMode
-                ? ThemeColor.dark1.withAlpha(120)
-                : ThemeColor.light1.withAlpha(255),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ThemeColor().darken(ThemeColor.dark2, 20)
+                : ThemeColor.light1,
             padding:
                 const EdgeInsets.only(top: 6, left: 6, right: 6, bottom: 0),
             child: Stack(children: [
@@ -306,7 +306,10 @@ class _ReadlaterPageState extends State<ReadlaterPage>
                             ),
                           ],
                         ))
-                      : Padding(
+                      : Container(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? ThemeColor().darken(ThemeColor.dark2, 30)
+                              : ThemeColor.light1.withAlpha(75),
                           padding: const EdgeInsets.only(
                               top: 5, left: 1, right: 1, bottom: 0),
                           child: Scrollbar(

@@ -104,6 +104,8 @@ class MyAppState extends State<MyApp> {
             drawerTheme: DrawerThemeData(
               backgroundColor: ThemeColor.dark2,
             ),
+            appBarTheme: AppBarTheme(color: ThemeColor.dark2),
+            bottomAppBarTheme: BottomAppBarTheme(color: ThemeColor.dark2),
             cardColor: ThemeColor.dark2,
             dialogBackgroundColor: ThemeColor.dark2,
             backgroundColor: ThemeColor.dark2,

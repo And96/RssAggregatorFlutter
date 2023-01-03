@@ -355,7 +355,7 @@ class _NewsSectionState extends State<NewsSection>
                                     100
                                 : MediaQuery.of(context).size.height /
                                         100 *
-                                        30 +
+                                        25 +
                                     50,
                             margin: const EdgeInsets.only(
                                 bottom: 7, top: 0, left: 0, right: 0),
@@ -570,7 +570,7 @@ class _NewsSectionState extends State<NewsSection>
                                 feedExtended.description,
                                 style: const TextStyle(
                                   fontSize: 17,
-                                  height: 1.3,
+                                  height: 1.4,
                                   overflow: TextOverflow.fade,
                                 ),
                               )),
