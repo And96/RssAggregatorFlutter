@@ -172,7 +172,7 @@ class _NewsPageState extends State<NewsPage>
                         loadData(true)
                       },
                     ),
-
+                  if (!isLoading)
                   PopupMenuButton<int>(
                     itemBuilder: (context) => [
                       PopupMenuItem<int>(
