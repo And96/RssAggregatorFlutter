@@ -109,6 +109,7 @@ class Utility {
           .replaceAll("&iacute;", "i")
           .replaceAll("&oacute;", "o")
           .replaceAll("&uacute;", "u")
+          .replaceAll("[node:summary]", "")
           .replaceAll("�", " ")
           .replaceAll("&#039;", " ")
           .replaceAll("&quot;", " ")
