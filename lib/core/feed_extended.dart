@@ -50,38 +50,53 @@ class FeedExtended {
   Future<void> setWebData(bool preCacheImg) async {
     try {
       await settings.init();
-      any_link_preview.Metadata? metadata1 =
-          await any_link_preview.AnyLinkPreview.getMetadata(
-        link: link,
-        cache: const Duration(days: 1),
-      );
-      description = Utility().cleanText(metadata1?.desc);
-      image = metadata1?.image ?? "";
-      if (description.length < 10 ||
-          description.contains("http") ||
-          image.length < 10) {
-        metadata_fetch.Metadata? metadata2 =
-            await metadata_fetch.MetadataFetch.extract(link);
-        description = Utility().cleanText(metadata2?.description);
-        image = metadata2?.image ?? image;
-      }
-      if (description.length < 10 || description.contains("http")) {
-        description = title;
+
+      try {
+        any_link_preview.Metadata? metadata1 =
+            await any_link_preview.AnyLinkPreview.getMetadata(
+          link: link,
+          cache: const Duration(days: 1),
+        );
+        description = Utility().cleanText(metadata1?.desc);
+        image = metadata1?.image ?? "";
+      } catch (err) {
+        //print('Caught error: $err');
       }
 
-      //cache network image (if not cached yet)
-      if (settings.settingsLoadImages) {
-        if (preCacheImg) {
-          if (image.length > 10) {
-            var obj = await DefaultCacheManager().getFileFromCache(image);
-            if (obj?.originalUrl == null) {
-              DefaultCacheManager()
-                  .downloadFile(image)
-                  .timeout(const Duration(milliseconds: 4000))
-                  .then((_) {});
+      try {
+        if (description.length < 10 ||
+            description.contains("http") ||
+            image.length < 10) {
+          metadata_fetch.Metadata? metadata2 =
+              await metadata_fetch.MetadataFetch.extract(link);
+          description = Utility().cleanText(metadata2?.description);
+          image = metadata2?.image ?? image;
+        }
+      } catch (err) {
+        //print('Caught error: $err');
+      }
+
+      try {
+        //cache network image (if not cached yet)
+        if (settings.settingsLoadImages) {
+          if (preCacheImg) {
+            if (image.length > 10) {
+              var obj = await DefaultCacheManager().getFileFromCache(image);
+              if (obj?.originalUrl == null) {
+                DefaultCacheManager()
+                    .downloadFile(image)
+                    .timeout(const Duration(milliseconds: 4000))
+                    .then((_) {});
+              }
             }
           }
         }
+      } catch (err) {
+        //print('Caught error: $err');
+      }
+
+      if (description.length < 10 || description.contains("http")) {
+        description = title;
       }
 
       //hdblog ad esempio nn funziona, nonostande whatsapp e siti internet riescono ad estrarre testo ed img
