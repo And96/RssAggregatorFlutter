@@ -1965,7 +1965,142 @@ class RecommendedList {
         "siteName": "xda-developers.com",
         "siteLink": "https://www.xda-developers.com/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=xda-developers.com"
-      }
+      },
+{
+  "siteName": "theverge.com",
+  "siteLink": "https://www.theverge.com/rss/index.xml",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=theverge.com"
+},
+{
+  "siteName": "thenextweb.com",
+  "siteLink": "https://thenextweb.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thenextweb.com"
+},
+{
+  "siteName": "9to5google.com",
+  "siteLink": "https://9to5google.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=9to5google.com"
+},
+{
+  "siteName": "9to5mac.com",
+  "siteLink": "https://9to5mac.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=9to5mac.com"
+},
+{
+  "siteName": "anandtech.com",
+  "siteLink": "http://www.anandtech.com/rss/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=anandtech.com"
+},
+{
+  "siteName": "androidauthority.com",
+  "siteLink": "https://www.androidauthority.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=androidauthority.com"
+},
+{
+  "siteName": "androidcentral.com",
+  "siteLink": "https://androidcentral.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=androidcentral.com"
+},
+{
+  "siteName": "androidpolice.com",
+  "siteLink": "https://www.androidpolice.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=androidpolice.com"
+},
+{
+  "siteName": "appleinsider.com",
+  "siteLink": "https://appleinsider.com/rss/news",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=appleinsider.com"
+},
+{
+  "siteName": "arstechnica.com",
+  "siteLink": "https://arstechnica.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=arstechnica.com"
+},
+{
+  "siteName": "bgr.com",
+  "siteLink": "https://bgr.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bgr.com"
+},
+{
+  "siteName": "boingboing.net",
+  "siteLink": "https://boingboing.net/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=boingboing.net"
+},
+{
+  "siteName": "digitaltrends.com",
+  "siteLink": "https://www.digitaltrends.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=digitaltrends.com"
+},
+{
+  "siteName": "engadget.com",
+  "siteLink": "http://www.engadget.com//www.engadget.com/rss.xml",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=engadget.com"
+},
+{
+  "siteName": "extremetech.com",
+  "siteLink": "https://www.extremetech.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=extremetech.com"
+},
+{
+  "siteName": "gizmodo.com",
+  "siteLink": "https://gizmodo.com/rss",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gizmodo.com"
+},
+{
+  "siteName": "gsmarena.com",
+  "siteLink": "https://www.gsmarena.com/rss-news-reviews.php3",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gsmarena.com"
+},
+{
+  "siteName": "hackaday.com",
+  "siteLink": "https://hackaday.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hackaday.com"
+},
+{
+  "siteName": "howtogeek.com",
+  "siteLink": "https://www.howtogeek.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=howtogeek.com"
+},
+{
+  "siteName": "makezine.com",
+  "siteLink": "https://makezine.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=makezine.com"
+},
+{
+  "siteName": "pcworld.com",
+  "siteLink": "https://www.pcworld.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=pcworld.com"
+},
+{
+  "siteName": "slashdot.org",
+  "siteLink": "http://rss.slashdot.org/Slashdot/slashdotMain",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=slashdot.org"
+},
+{
+  "siteName": "slashgear.com",
+  "siteLink": "https://www.slashgear.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=slashgear.com"
+},
+{
+  "siteName": "techmeme.com",
+  "siteLink": "https://www.techmeme.com/feed.xml",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=techmeme.com"
+},
+{
+  "siteName": "technologyreview.com",
+  "siteLink": "https://www.technologyreview.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=technologyreview.com"
+},
+{
+  "siteName": "venturebeat.com",
+  "siteLink": "https://venturebeat.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=venturebeat.com"
+},
+{
+  "siteName": "gigaom.com",
+  "siteLink": "https://gigaom.com/feed/",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gigaom.com"
+}
     ]
   },
   {
@@ -2028,7 +2163,19 @@ class RecommendedList {
         "siteName": "smittenkitchen.com",
         "siteLink": "https://smittenkitchen.com/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=smittenkitchen.com"
-      }
+      },
+{
+  "siteName": "daringfireball.net",
+  "siteLink": "https://daringfireball.net/feeds/main",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=daringfireball.net"
+}
+,
+{
+  "siteName": "mashable.com",
+  "siteLink": "https://mashable.com/feeds/rss/all",
+  "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=aaaaaaaaaa"
+}
+
     ]
   },
   {
