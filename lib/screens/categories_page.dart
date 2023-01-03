@@ -411,13 +411,13 @@ class _CategoriesPageState extends State<CategoriesPage>
                                                 size: 25,
                                               ))),
                                 /*Positioned(
-                                    top: 25,v
-                                    left: 25,
+                                    top: 27,
+                                    left: 27,
                                     child: CircleAvatar(
                                         radius: 10,
                                         backgroundColor: Color(item.color),
                                         child: const Icon(
-                                          Icons.label,
+                                          Icons.warning_amber,
                                           size: 13,
                                           color: Colors.white,
                                         ))),*/
@@ -434,7 +434,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                               ),
                             ),
                             subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 0),
+                              padding: const EdgeInsets.only(top: 5),
                               child: Text(
                                 ("${sitesList.getNrSitesFromCategory(item.name)} siti in questa categoria"),
                                 style: const TextStyle(
