@@ -74,26 +74,26 @@ class ThemeColor {
   static Color dark4 = const Color.fromARGB(255, 130, 130, 130);
 
   List<Color> pickerColors = [
-    Colors.green[500]!,
-    Colors.green[800]!,
-    Colors.teal[800]!,
-    Colors.cyan[800]!,
-    Colors.lightBlue[800]!,
-    Colors.blue[900]!,
-    Colors.indigo[900]!,
-    Colors.deepPurple[900]!,
-    Colors.purple[900]!,
-    Colors.purple[700]!,
-    Colors.pink[800]!,
-    Colors.red[800]!,
-    Colors.deepOrange[800]!,
-    Colors.orange[800]!,
-    Colors.amber[800]!,
-    Colors.yellow[800]!,
-    Colors.brown[800]!,
-    Colors.blueGrey[900]!,
-    Colors.blueGrey[700]!,
-    Colors.blueGrey[500]!,
+    Colors.green[500]!, //4283215696
+    const Color.fromARGB(255, 25, 115, 55), //4279857975
+    Colors.teal[800]!, //4278217052
+    Colors.cyan[800]!, //4278223759
+    Colors.lightBlue[800]!, //4278351805
+    Colors.blue[900]!, //4279060385
+    Colors.indigo[900]!, //4279903102
+    Colors.deepPurple[900]!, //4281408402
+    Colors.purple[900]!, //4283045004
+    Colors.purple[700]!, //4286259106
+    Colors.pink[800]!, //4289533015
+    Colors.red[800]!, //4291176488
+    Colors.deepOrange[800]!, //4292363029
+    Colors.orange[800]!, //4293880832
+    Colors.amber[800]!, //4294938368
+    Colors.yellow[800]!, //4294551589
+    Colors.brown[800]!, //4283315246
+    Colors.blueGrey[900]!, //4280693304
+    Colors.blueGrey[700]!, //4282735204
+    Colors.blueGrey[500]!, //4284513675
   ];
 
   MaterialColor createMaterialColor(Color color) {

@@ -55,7 +55,11 @@ class RecommendedList {
     "color": 4280693304,
     "iconData": 984385,
     "language": "italiano",
-    "sites": [
+    "sites": [{
+         "siteName": "news.google.it",
+         "siteLink": "https://news.google.it/rss/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=news.google.it"
+         },
       {
         "siteName": "ansa.it",
         "siteLink": "https://www.ansa.it/sito/ansait_rss.xml",
@@ -160,316 +164,6 @@ class RecommendedList {
         "siteName": "ilgiorno.it",
         "siteLink": "https://news.google.com/rss/search?q=site:ilgiorno.it+when:3d&hl=it&gl=IT&ceid=IT:it",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilgiorno.it"
-      }
-    ]
-  },
-  {
-    "name": "Curiosita",
-    "color": 4289533015,
-    "iconData": 984461,
-    "language": "italiano",
-    "sites": [
-      {
-        "siteName": "geopop.it",
-        "siteLink": "https://www.geopop.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=geopop.it"
-      },
-      {
-        "siteName": "thewom.it",
-        "siteLink": "https://www.thewom.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thewom.it"
-      },
-      {
-        "siteName": "thevision.com",
-        "siteLink": "https://thevision.com/feed",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thevision.com"
-      },
-      {
-        "siteName": "wired.it",
-        "siteLink": "https://www.wired.it/feed/rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wired.it"
-      },
-      {
-        "siteName": "vice.com",
-        "siteLink": "https://www.vice.com/it/rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=vice.com"
-      },
-      {
-        "siteName": "focus.it",
-        "siteLink": "https://www.focus.it/rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=focus.it"
-      },
-      {
-        "siteName": "www.lescienze.it",
-        "siteLink": "https://www.lescienze.it/rss/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.lescienze.it"
-      },
-      {
-        "siteName": "www.galileonet.it",
-        "siteLink": "https://www.galileonet.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.galileonet.it"
-      },
-      {
-        "siteName": "nationalgeographic.it",
-        "siteLink": "https://news.google.com/rss/search?q=nationalgeographic.it+when:4d&hl=it&gl=IT&ceid=IT:it",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nationalgeographic.it"
-      },
-      {
-        "siteName": "gqitalia.it",
-        "siteLink": "https://www.gqitalia.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
-      },
-      {
-        "siteName": "rollingstone.it",
-        "siteLink": "https://www.rollingstone.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rollingstone.it"
-      },
-      {
-        "siteName": "ecoblog.it",
-        "siteLink": "https://www.ecoblog.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecoblog.it"
-      },
-      {
-        "siteName": "attivissimo.blogspot.com",
-        "siteLink": "https://feeds.feedburner.com/Disinformatico",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=attivissimo.blogspot.com"
-      },
-      {
-        "siteName": "lescienze.it",
-        "siteLink": "http://www.lescienze.it/rss/all/rss2.0.xml",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lescienze.it"
-      },
-      {
-        "siteName": "my-personaltrainer.it",
-        "siteLink": "https://feeds.feedburner.com/My-personaltrainer/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=my-personaltrainer.it"
-      },
-      {
-        "siteName": "stateofmind.it",
-        "siteLink": "https://www.stateofmind.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stateofmind.it"
-      },
-      {
-        "siteName": "tantasalute.it",
-        "siteLink": "https://www.tantasalute.it/rss/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tantasalute.it"
-      },
-      {
-        "siteName": "benessereblog.it",
-        "siteLink": "https://www.benessereblog.it/rss2.xml",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=benessereblog.it"
-      },
-      {
-        "siteName": "efficacemente.com",
-        "siteLink": "https://feeds2.feedburner.com/EfficaceMente",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=efficacemente.com"
-      },
-      {
-        "siteName": "wikihow.it",
-        "siteLink": "https://www.wikihow.it/feed.rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wikihow.it"
-      },
-      {
-        "siteName": "lamenteemeravigliosa.it",
-        "siteLink": "https://lamenteemeravigliosa.it/rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lamenteemeravigliosa.it"
-      },
-      {
-        "siteName": "ninjamarketing.it",
-        "siteLink": "https://www.ninjamarketing.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ninjamarketing.it"
-      },
-      {
-        "siteName": "skuola.net",
-        "siteLink": "https://www.skuola.net/rss.php",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=skuola.net"
-      },
-      {
-        "siteName": "prevenzioneatavola.it",
-        "siteLink": "https://blog.prevenzioneatavola.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=prevenzioneatavola.it"
-      }
-    ]
-  },
-  {
-    "name": "Tecnologia",
-    "color": 4283215696,
-    "iconData": 58169,
-    "language": "italiano",
-    "sites": [
-      {
-        "siteName": "telefonino.net",
-        "siteLink": "https://www.telefonino.net/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=telefonino.net"
-      },
-      {
-        "siteName": "andreagaleazzi.com",
-        "siteLink": "https://andreagaleazzi.com/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=andreagaleazzi.com"
-      },
-      {
-        "siteName": "hdblog.it",
-        "siteLink": "https://www.hdblog.it/feed",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hdblog.it/"
-      },
-      {
-        "siteName": "tuttoandroid.net",
-        "siteLink": "https://www.tuttoandroid.net/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tuttoandroid.net"
-      },
-      {
-        "siteName": "androidworld.it",
-        "siteLink": "https://www.androidworld.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=androidworld.it"
-      },{
-         "siteName": "xiaomitoday.it",
-         "siteLink": "https://xiaomitoday.it/feed/",
-         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=xiaomitoday.it"
-         },
-      {
-        "siteName": "batista70phone.com",
-        "siteLink": "https://www.batista70phone.com/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=batista70phone.com"
-      },
-      {
-        "siteName": "html.it",
-        "siteLink": "https://www.html.it/rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=html.it"
-      },
-      {
-        "siteName": "ispazio.net",
-        "siteLink": "https://feeds.feedburner.com/Ispazio",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ispazio.net"
-      },
-      {
-        "siteName": "chimerarevo.com",
-        "siteLink": "https://www.chimerarevo.com/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=chimerarevo.com"
-      },
-      {
-        "siteName": "iphoneitalia.com",
-        "siteLink": "https://www.iphoneitalia.com/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iphoneitalia.com"
-      },
-      {
-        "siteName": "multiplayer.it",
-        "siteLink": "https://multiplayer.it/feed/rss/homepage/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=multiplayer.it"
-      },
-      {
-        "siteName": "tomshw.it",
-        "siteLink": "https://www.tomshw.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tomshw.it"
-      },
-      {
-        "siteName": "zeusnews.it",
-        "siteLink": "https://feeds.feedburner.com/ZeusNews",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=zeusnews.it"
-      },
-      {
-        "siteName": "punto-informatico.it",
-        "siteLink": "https://www.punto-informatico.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=punto-informatico.it"
-      },
-      {
-        "siteName": "scubidu.eu",
-        "siteLink": "https://scubidu.eu/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=scubidu.eu"
-      },
-      {
-        "siteName": "mondo3.com",
-        "siteLink": "https://mondo3.com/rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mondo3.com"
-      },
-      {
-        "siteName": "mondomobileweb.it",
-        "siteLink": "https://www.mondomobileweb.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mondomobileweb.it"
-      },
-      {
-        "siteName": "tariffando.it",
-        "siteLink": "https://feeds.feedburner.com/Tariffando",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tariffando.it"
-      },
-      {
-        "siteName": "universofree.com",
-        "siteLink": "https://www.universofree.com/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=universofree.com"
-      },
-      {
-        "siteName": "mvnonews.com",
-        "siteLink": "https://www.mvnonews.com/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mvnonews.com"
-      },
-      {
-        "siteName": "psbprivacyesicurezza.it",
-        "siteLink": "https://www.psbprivacyesicurezza.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=psbprivacyesicurezza.it"
-      },
-      {
-        "siteName": "amcomputers.org",
-        "siteLink": "https://www.amcomputers.org/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=amcomputers.org"
-      },
-      {
-        "siteName": "cryptonomist.ch",
-        "siteLink": "https://cryptonomist.ch",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cryptonomist.ch"
-      },
-      {
-        "siteName": "socializziamo.net",
-        "siteLink": "https://www.socializziamo.net/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=socializziamo.net"
-      },
-      {
-        "siteName": "turbolab.it",
-        "siteLink": "http://turbolab.it",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=turbolab.it"
-      },
-      {
-        "siteName": "italiancoders.it",
-        "siteLink": "https://italiancoders.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=italiancoders.it"
-      },
-      {
-        "siteName": "hackerjournal.it",
-        "siteLink": "https://hackerjournal.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hackerjournal.it"
-      },
-      {
-        "siteName": "blog.kaspersky.it",
-        "siteLink": "https://blog.kaspersky.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.kaspersky.it"
-      },
-      {
-        "siteName": "lffl.org",
-        "siteLink": "https://www.lffl.org/feed",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lffl.org"
-      },
-      {
-        "siteName": "miamammausalinux.org",
-        "siteLink": "https://www.miamammausalinux.org/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=miamammausalinux.org"
-      },
-      {
-        "siteName": "ilsoftware.it",
-        "siteLink": "https://www.bing.com/news/search?q=ilsoftware.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilsoftware.it"
-      },
-      {
-        "siteName": "aranzulla.it",
-        "siteLink": "https://www.aranzulla.it/feed/",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=aranzulla.it"
-      },
-      {
-        "siteName": "mrwebmaster.it",
-        "siteLink": "https://feeds.feedburner.com/Mr_Webmaster",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mrwebmaster.it"
-      },
-      {
-        "siteName": "forum.mrwebmaster.it",
-        "siteLink": "https://forum.mrwebmaster.it/forums/-/index.rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=forum.mrwebmaster.it"
       }
     ]
   },
@@ -714,6 +408,315 @@ class RecommendedList {
         "siteName": "veloce.it",
         "siteLink": "https://veloce.it/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=veloce.it"
+      }
+    ]
+  }, {
+    "name": "Tecnologia",
+    "color": 4283215696,
+    "iconData": 63506,
+    "language": "italiano",
+    "sites": [
+      {
+        "siteName": "telefonino.net",
+        "siteLink": "https://www.telefonino.net/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=telefonino.net"
+      },
+      {
+        "siteName": "andreagaleazzi.com",
+        "siteLink": "https://andreagaleazzi.com/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=andreagaleazzi.com"
+      },
+      {
+        "siteName": "hdblog.it",
+        "siteLink": "https://www.hdblog.it/feed",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hdblog.it/"
+      },
+      {
+        "siteName": "tuttoandroid.net",
+        "siteLink": "https://www.tuttoandroid.net/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tuttoandroid.net"
+      },
+      {
+        "siteName": "androidworld.it",
+        "siteLink": "https://www.androidworld.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=androidworld.it"
+      },{
+         "siteName": "xiaomitoday.it",
+         "siteLink": "https://xiaomitoday.it/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=xiaomitoday.it"
+         },
+      {
+        "siteName": "batista70phone.com",
+        "siteLink": "https://www.batista70phone.com/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=batista70phone.com"
+      },
+      {
+        "siteName": "html.it",
+        "siteLink": "https://www.html.it/rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=html.it"
+      },
+      {
+        "siteName": "ispazio.net",
+        "siteLink": "https://feeds.feedburner.com/Ispazio",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ispazio.net"
+      },
+      {
+        "siteName": "chimerarevo.com",
+        "siteLink": "https://www.chimerarevo.com/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=chimerarevo.com"
+      },
+      {
+        "siteName": "iphoneitalia.com",
+        "siteLink": "https://www.iphoneitalia.com/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iphoneitalia.com"
+      },
+      {
+        "siteName": "multiplayer.it",
+        "siteLink": "https://multiplayer.it/feed/rss/homepage/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=multiplayer.it"
+      },
+      {
+        "siteName": "tomshw.it",
+        "siteLink": "https://www.tomshw.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tomshw.it"
+      },
+      {
+        "siteName": "zeusnews.it",
+        "siteLink": "https://feeds.feedburner.com/ZeusNews",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=zeusnews.it"
+      },
+      {
+        "siteName": "punto-informatico.it",
+        "siteLink": "https://www.punto-informatico.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=punto-informatico.it"
+      },
+      {
+        "siteName": "scubidu.eu",
+        "siteLink": "https://scubidu.eu/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=scubidu.eu"
+      },
+      {
+        "siteName": "mondo3.com",
+        "siteLink": "https://mondo3.com/rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mondo3.com"
+      },
+      {
+        "siteName": "mondomobileweb.it",
+        "siteLink": "https://www.mondomobileweb.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mondomobileweb.it"
+      },
+      {
+        "siteName": "tariffando.it",
+        "siteLink": "https://feeds.feedburner.com/Tariffando",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tariffando.it"
+      },
+      {
+        "siteName": "universofree.com",
+        "siteLink": "https://www.universofree.com/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=universofree.com"
+      },
+      {
+        "siteName": "mvnonews.com",
+        "siteLink": "https://www.mvnonews.com/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mvnonews.com"
+      },
+      {
+        "siteName": "psbprivacyesicurezza.it",
+        "siteLink": "https://www.psbprivacyesicurezza.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=psbprivacyesicurezza.it"
+      },
+      {
+        "siteName": "amcomputers.org",
+        "siteLink": "https://www.amcomputers.org/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=amcomputers.org"
+      },
+      {
+        "siteName": "cryptonomist.ch",
+        "siteLink": "https://cryptonomist.ch",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cryptonomist.ch"
+      },
+      {
+        "siteName": "socializziamo.net",
+        "siteLink": "https://www.socializziamo.net/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=socializziamo.net"
+      },
+      {
+        "siteName": "turbolab.it",
+        "siteLink": "http://turbolab.it",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=turbolab.it"
+      },
+      {
+        "siteName": "italiancoders.it",
+        "siteLink": "https://italiancoders.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=italiancoders.it"
+      },
+      {
+        "siteName": "hackerjournal.it",
+        "siteLink": "https://hackerjournal.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hackerjournal.it"
+      },
+      {
+        "siteName": "blog.kaspersky.it",
+        "siteLink": "https://blog.kaspersky.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.kaspersky.it"
+      },
+      {
+        "siteName": "lffl.org",
+        "siteLink": "https://www.lffl.org/feed",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lffl.org"
+      },
+      {
+        "siteName": "miamammausalinux.org",
+        "siteLink": "https://www.miamammausalinux.org/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=miamammausalinux.org"
+      },
+      {
+        "siteName": "ilsoftware.it",
+        "siteLink": "https://www.bing.com/news/search?q=ilsoftware.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ilsoftware.it"
+      },
+      {
+        "siteName": "aranzulla.it",
+        "siteLink": "https://www.aranzulla.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=aranzulla.it"
+      },
+      {
+        "siteName": "mrwebmaster.it",
+        "siteLink": "https://feeds.feedburner.com/Mr_Webmaster",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mrwebmaster.it"
+      },
+      {
+        "siteName": "forum.mrwebmaster.it",
+        "siteLink": "https://forum.mrwebmaster.it/forums/-/index.rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=forum.mrwebmaster.it"
+      }
+    ]
+  },
+  {
+    "name": "Curiosita",
+    "color": 4289533015,
+    "iconData": 984461,
+    "language": "italiano",
+    "sites": [
+      {
+        "siteName": "geopop.it",
+        "siteLink": "https://www.geopop.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=geopop.it"
+      },
+      {
+        "siteName": "thewom.it",
+        "siteLink": "https://www.thewom.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thewom.it"
+      },
+      {
+        "siteName": "thevision.com",
+        "siteLink": "https://thevision.com/feed",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thevision.com"
+      },
+      {
+        "siteName": "wired.it",
+        "siteLink": "https://www.wired.it/feed/rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wired.it"
+      },
+      {
+        "siteName": "vice.com",
+        "siteLink": "https://www.vice.com/it/rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=vice.com"
+      },
+      {
+        "siteName": "focus.it",
+        "siteLink": "https://www.focus.it/rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=focus.it"
+      },
+      {
+        "siteName": "www.lescienze.it",
+        "siteLink": "https://www.lescienze.it/rss/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.lescienze.it"
+      },
+      {
+        "siteName": "www.galileonet.it",
+        "siteLink": "https://www.galileonet.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=www.galileonet.it"
+      },
+      {
+        "siteName": "nationalgeographic.it",
+        "siteLink": "https://news.google.com/rss/search?q=nationalgeographic.it+when:4d&hl=it&gl=IT&ceid=IT:it",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nationalgeographic.it"
+      },
+      {
+        "siteName": "gqitalia.it",
+        "siteLink": "https://www.gqitalia.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gqitalia.it"
+      },
+      {
+        "siteName": "rollingstone.it",
+        "siteLink": "https://www.rollingstone.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rollingstone.it"
+      },
+      {
+        "siteName": "ecoblog.it",
+        "siteLink": "https://www.ecoblog.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ecoblog.it"
+      },
+      {
+        "siteName": "attivissimo.blogspot.com",
+        "siteLink": "https://feeds.feedburner.com/Disinformatico",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=attivissimo.blogspot.com"
+      },
+      {
+        "siteName": "lescienze.it",
+        "siteLink": "http://www.lescienze.it/rss/all/rss2.0.xml",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lescienze.it"
+      },
+      {
+        "siteName": "my-personaltrainer.it",
+        "siteLink": "https://feeds.feedburner.com/My-personaltrainer/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=my-personaltrainer.it"
+      },
+      {
+        "siteName": "stateofmind.it",
+        "siteLink": "https://www.stateofmind.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stateofmind.it"
+      },
+      {
+        "siteName": "tantasalute.it",
+        "siteLink": "https://www.tantasalute.it/rss/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=tantasalute.it"
+      },
+      {
+        "siteName": "benessereblog.it",
+        "siteLink": "https://www.benessereblog.it/rss2.xml",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=benessereblog.it"
+      },
+      {
+        "siteName": "efficacemente.com",
+        "siteLink": "https://feeds2.feedburner.com/EfficaceMente",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=efficacemente.com"
+      },
+      {
+        "siteName": "wikihow.it",
+        "siteLink": "https://www.wikihow.it/feed.rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=wikihow.it"
+      },
+      {
+        "siteName": "lamenteemeravigliosa.it",
+        "siteLink": "https://lamenteemeravigliosa.it/rss",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lamenteemeravigliosa.it"
+      },
+      {
+        "siteName": "ninjamarketing.it",
+        "siteLink": "https://www.ninjamarketing.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ninjamarketing.it"
+      },
+      {
+        "siteName": "skuola.net",
+        "siteLink": "https://www.skuola.net/rss.php",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=skuola.net"
+      },
+      {
+        "siteName": "prevenzioneatavola.it",
+        "siteLink": "https://blog.prevenzioneatavola.it/feed/",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=prevenzioneatavola.it"
       }
     ]
   },
@@ -1106,7 +1109,7 @@ class RecommendedList {
   {
     "name": "Cibo",
     "color": 4294551589,
-    "iconData": 57946,
+    "iconData": 58674,
     "language": "italiano",
     "sites": [
       {
@@ -1459,7 +1462,7 @@ class RecommendedList {
       {
         "siteName": "milano.it",
         "siteLink": "https://news.google.com/rss/search?q=site:milano.it+when:3d&hl=it&gl=IT&ceid=IT:it",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=milano.it"
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=comune.milano.it"
       },
       {
         "siteName": "milano.notizie.it",
@@ -1500,11 +1503,6 @@ class RecommendedList {
         "siteName": "quindicinews.it",
         "siteLink": "https://www.quindicinews.it/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=quindicinews.it"
-      },
-      {
-        "siteName": "serravalle.it",
-        "siteLink": "https://www.bing.com/news/search?q=serravalle.it&qft=interval%3d%229%22+sortbydate%3d%221%22&form=PTFTNR&format=rss",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=serravalle.it"
       }
     ]
   },
@@ -1820,7 +1818,7 @@ class RecommendedList {
       {
         "siteName": "skynews.com",
         "siteLink": "http://feeds.skynews.com/feeds/rss/home.xml",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=skynews.com"
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=news.sky.com"
       },
       {
         "siteName": "washingtonpost.com",
@@ -1886,12 +1884,84 @@ class RecommendedList {
         "siteName": "thehill.com",
         "siteLink": "https://thehill.com/news/feed/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thehill.com"
-      }
+      },{
+"siteName": "bbc.co.uk",
+"siteLink": "https://www.bbc.co.uk/news/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bbc.co.uk"
+},{
+"siteName": "bostonglobe.com",
+"siteLink": "https://news.google.com/rss/search?q=site:bostonglobe.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bostonglobe.com"
+},{
+"siteName": "dailymail.co.uk",
+"siteLink": "https://www.dailymail.co.uk/home/index.rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dailymail.co.uk"
+},{
+"siteName": "economist.com",
+"siteLink": "https://www.economist.com/the-world-this-week/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=economist.com"
+},{
+"siteName": "euronews.com",
+"siteLink": "https://news.google.com/rss/search?q=site:euronews.com+when:3d&hl=it&gl=IT&ceid=IT:it",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=euronews.com"
+},{
+"siteName": "independent.co.uk",
+"siteLink": "https://www.independent.co.uk/rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=independent.co.uk"
+},{
+"siteName": "marketwatch.com",
+"siteLink": "https://news.google.com/rss/search?q=site:marketwatch.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=marketwatch.com"
+},{
+"siteName": "msnbc.com",
+"siteLink": "https://www.msnbc.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=msnbc.com"
+},{
+"siteName": "newyorker.com",
+"siteLink": "https://news.google.com/rss/search?q=site:newyorker.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=newyorker.com"
+},{
+"siteName": "npr.org",
+"siteLink": "https://feeds.npr.org/1001/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=npr.org"
+},{
+"siteName": "nypost.com",
+"siteLink": "https://nypost.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nypost.com"
+},{
+"siteName": "rt.com",
+"siteLink": "https://www.rt.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rt.com"
+},{
+"siteName": "slate.com",
+"siteLink": "https://news.google.com/rss/search?q=site:slate.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=slate.com"
+},{
+"siteName": "telegraph.co.uk",
+"siteLink": "http://www.telegraph.co.uk/rss/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=telegraph.co.uk"
+},{
+"siteName": "theatlantic.com",
+"siteLink": "https://www.theatlantic.com/feed/all/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=theatlantic.com"
+},{
+"siteName": "theintercept.com",
+"siteLink": "https://theintercept.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=theintercept.com"
+},{
+"siteName": "time.com",
+"siteLink": "https://time.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=time.com"
+},{
+"siteName": "vox.com",
+"siteLink": "https://www.vox.com/rss/index.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=vox.com"
+}
     ]
   },
   {
     "name": "Technology",
-    "color": 4281408402,
+    "color": 4278351805,
     "iconData": 58169,
     "language": "english",
     "sites": [
@@ -2104,7 +2174,7 @@ class RecommendedList {
   },
   {
     "name": "Curiosity",
-    "color": 4289533015,
+    "color": 4292363029,
     "iconData": 984461,
     "language": "english",
     "sites": [
@@ -2183,11 +2253,7 @@ class RecommendedList {
     "iconData": 58857,
     "language": "english",
     "sites": [
-      {
-        "siteName": "derbytelegraph.co.uk",
-        "siteLink": "https://www.derbytelegraph.co.uk/sport/rss.xml",
-        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=derbytelegraph.co.uk"
-      },
+    
       {
         "siteName": "eurosport.com",
         "siteLink": "https://www.eurosport.com/rss.xml",
@@ -2227,12 +2293,80 @@ class RecommendedList {
         "siteName": "sportingnews.com",
         "siteLink": "https://www.sportingnews.com/uk/rss/",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportingnews.com"
-      }
+      },{
+"siteName": "bleacherreport.com",
+"siteLink": "https://news.google.com/rss/search?q=site:bleacherreport.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bleacherreport.com"
+},{
+"siteName": "deadspin.com",
+"siteLink": "https://deadspin.com/rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=deadspin.com"
+},{
+"siteName": "espn.com",
+"siteLink": "https://news.google.com/rss/search?q=site:espn.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=espn.com"
+},{
+"siteName": "fivethirtyeight.com",
+"siteLink": "https://fivethirtyeight.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fivethirtyeight.com"
+},{
+"siteName": "footbag.org",
+"siteLink": "http://www.footbag.org/index2/index.rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=footbag.org"
+},{
+"siteName": "footballoutsiders.com",
+"siteLink": "http://feeds.feedburner.com/FootballOutsiders",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=footballoutsiders.com"
+},{
+"siteName": "foxsports.com",
+"siteLink": "https://news.google.com/rss/search?q=site:foxsports.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=foxsports.com"
+},{
+"siteName": "hoopshabit.com",
+"siteLink": "https://hoopshabit.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=hoopshabit.com"
+},  {
+        "siteName": "derbytelegraph.co.uk",
+        "siteLink": "https://www.derbytelegraph.co.uk/sport/rss.xml",
+        "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=derbytelegraph.co.uk"
+      },{
+"siteName": "mlbtraderumors.com",
+"siteLink": "https://www.mlbtraderumors.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mlbtraderumors.com"
+},{
+"siteName": "nba.com",
+"siteLink": "https://news.google.com/rss/search?q=site:nba.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nba.com"
+},{
+"siteName": "profootballtalk.nbcsports.com",
+"siteLink": "https://profootballtalk.nbcsports.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=profootballtalk.nbcsports.com"
+},{
+"siteName": "sbnation.com",
+"siteLink": "https://www.sbnation.com/rss/index.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sbnation.com"
+},{
+"siteName": "si.com",
+"siteLink": "https://news.google.com/rss/search?q=site:si.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=si.com"
+},{
+"siteName": "sportingnews.com",
+"siteLink": "https://www.sportingnews.com/us/rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportingnews.com"
+},{
+"siteName": "sportsnet.ca",
+"siteLink": "http://sportsnet.ca/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sportsnet.ca"
+},{
+"siteName": "theringer.com",
+"siteLink": "https://www.theringer.com/rss/index.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=theringer.com"
+}
     ]
   },
   {
     "name": "Business",
-    "color": 4283215696,
+    "color": 4283315246,
     "iconData": 57628,
     "language": "english",
     "sites": [
@@ -2260,8 +2394,8 @@ class RecommendedList {
   },
   {
     "name": "Programming",
-    "color": 4278351805,
-    "iconData": 61871,
+    "color": 4282735204,
+    "iconData": 57718,
     "language": "english",
     "sites": [
       {
@@ -2288,9 +2422,668 @@ class RecommendedList {
         "siteName": "stackoverflow.blog",
         "siteLink": "https://stackoverflow.blog/feed",
         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stackoverflow.blog"
-      }
+      },{
+         "siteName": "8thlight.com",
+         "siteLink": "https://8thlight.com/insights/feed/rss.xml",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=8thlight.com"
+         },{
+         "siteName": "alvinashcraft.com",
+         "siteLink": "https://www.alvinashcraft.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alvinashcraft.com"
+         },{
+         "siteName": "ayende.com",
+         "siteLink": "http://feeds.feedburner.com/AyendeRahien",
+         "iconUrl": ""
+         },{
+         "siteName": "blog.cwa.me.uk",
+         "siteLink": "https://blog.cwa.me.uk/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.cwa.me.uk"
+         },{
+         "siteName": "blog.jetbrains.com",
+         "siteLink": "https://blog.jetbrains.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.jetbrains.com"
+         },{
+         "siteName": "blog.ploeh.dk",
+         "siteLink": "https://blog.ploeh.dk/rss.xml",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.ploeh.dk"
+         },{
+         "siteName": "changelog.com",
+         "siteLink": "https://changelog.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=changelog.com"
+         },{
+         "siteName": "code.tutsplus.com",
+         "siteLink": "https://tutsplus.com/posts.atom",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=code.tutsplus.com"
+         },{
+         "siteName": "codeproject.com",
+         "siteLink": "https://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=1",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=codeproject.com"
+         },{
+         "siteName": "davidwalsh.name",
+         "siteLink": "https://davidwalsh.name/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=davidwalsh.name"
+         },{
+         "siteName": "dev.to",
+         "siteLink": "https://dev.to/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dev.to"
+         },{
+         "siteName": "developers.googleblog.com",
+         "siteLink": "https://developers.googleblog.com/feeds/posts/default",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=developers.googleblog.com"
+         },{
+         "siteName": "engineering.atspotify.com",
+         "siteLink": "https://engineering.atspotify.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=engineering.atspotify.com"
+         },{
+         "siteName": "engineering.fb.com",
+         "siteLink": "https://engineering.fb.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=engineering.fb.com"
+         },{
+         "siteName": "freecodecamp.org",
+         "siteLink": "https://www.freecodecamp.org/news/rss/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=freecodecamp.org"
+         },{
+         "siteName": "github.blog",
+         "siteLink": "https://github.blog/category/engineering/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=github.blog"
+         },{
+         "siteName": "herbsutter.com",
+         "siteLink": "https://herbsutter.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=herbsutter.com"
+         },{
+         "siteName": "infoq.com",
+         "siteLink": "https://www.infoq.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=infoq.com"
+         },{
+         "siteName": "javacodegeeks.com",
+         "siteLink": "https://www.javacodegeeks.com/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=javacodegeeks.com"
+         },{
+         "siteName": "javascriptweekly.com",
+         "siteLink": "https://javascriptweekly.com/rss/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=javascriptweekly.com"
+         },{
+         "siteName": "johnpapa.net",
+         "siteLink": "https://www.johnpapa.net/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=johnpapa.net"
+         },{
+         "siteName": "martinfowler.com",
+         "siteLink": "https://martinfowler.com/feed.atom",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=martinfowler.com"
+         },{
+         "siteName": "nodejs.org",
+         "siteLink": "https://nodejs.org/en/feed/blog.xml",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nodejs.org"
+         },{
+         "siteName": "planetpython.org",
+         "siteLink": "https://realpython.com/atom.xml#get-started-with-bpython",
+         "iconUrl": ""
+         },{
+         "siteName": "stackoverflow.blog",
+         "siteLink": "https://stackoverflow.blog/feed/",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=stackoverflow.blog"
+         },{
+         "siteName": "thedailywtf.com",
+         "siteLink": "https://syndication.thedailywtf.com/TheDailyWtf",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thedailywtf.com"
+         },{
+         "siteName": "weblog.west-wind.com",
+         "siteLink": "https://feeds.feedburner.com/rickstrahl",
+         "iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=weblog.west-wind.com"
+         }
     ]
-  }
+  },
+  {
+    "name": "Finance",
+    "color": 4283215696,
+    "iconData": 58498,
+    "language": "english",
+    "sites": [
+{
+"siteName": "abnormalreturns.com",
+"siteLink": "https://abnormalreturns.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=abnormalreturns.com"
+},{
+"siteName": "bloomberg.com",
+"siteLink": "https://news.google.com/rss/search?q=site:bloomberg.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bloomberg.com"
+},{
+"siteName": "budgetsaresexy.com",
+"siteLink": "https://budgetsaresexy.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=budgetsaresexy.com"
+},{
+"siteName": "businessinsider.com",
+"siteLink": "https://feeds.businessinsider.com/custom/all",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=businessinsider.com"
+},{
+"siteName": "calculatedriskblog.com",
+"siteLink": "https://www.calculatedriskblog.com/feeds/posts/default",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=calculatedriskblog.com"
+},{
+"siteName": "economist.com",
+"siteLink": "https://www.economist.com/finance-and-economics/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=economist.com"
+},{
+"siteName": "finance.yahoo.com",
+"siteLink": "https://finance.yahoo.com/rss/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=finance.yahoo.com"
+},{
+"siteName": "financialsamurai.com",
+"siteLink": "https://www.financialsamurai.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=financialsamurai.com"
+},{
+"siteName": "fool.com",
+"siteLink": "https://www.fool.com/a/feeds/partner/googlechromefollow?apikey=5e092c1f-c5f9-4428-9219-908a47d2e2de",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=fool.com"
+},{
+"siteName": "forbes.com",
+"siteLink": "https://www.forbes.com/investing/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=forbes.com"
+},{
+"siteName": "getrichslowly.org",
+"siteLink": "https://www.getrichslowly.org/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=getrichslowly.org"
+},{
+"siteName": "iwillteachyoutoberich.com",
+"siteLink": "https://www.iwillteachyoutoberich.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iwillteachyoutoberich.com"
+},{
+"siteName": "madfientist.com",
+"siteLink": "https://www.madfientist.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=madfientist.com"
+},{
+"siteName": "marketwatch.com",
+"siteLink": "https://news.google.com/rss/search?q=site:marketwatch.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=marketwatch.com"
+},{
+"siteName": "monevator.com",
+"siteLink": "https://monevator.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=monevator.com"
+},{
+"siteName": "moneycrashers.com",
+"siteLink": "https://www.moneycrashers.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=moneycrashers.com"
+},{
+"siteName": "moneysense.ca",
+"siteLink": "https://www.moneysense.ca/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=moneysense.ca"
+},{
+"siteName": "moneyunder30.com",
+"siteLink": "https://www.moneyunder30.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=moneyunder30.com"
+},{
+"siteName": "mrmoneymustache.com",
+"siteLink": "https://www.mrmoneymustache.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mrmoneymustache.com"
+},{
+"siteName": "mymoneyblog.com",
+"siteLink": "https://www.mymoneyblog.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mymoneyblog.com"
+},{
+"siteName": "nasdaq.com",
+"siteLink": "https://news.google.com/rss/search?q=site:nasdaq.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nasdaq.com"
+},{
+"siteName": "nerdwallet.com",
+"siteLink": "https://www.nerdwallet.com/blog/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nerdwallet.com"
+},{
+"siteName": "ritholtz.com",
+"siteLink": "https://ritholtz.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ritholtz.com"
+},{
+"siteName": "seekingalpha.com",
+"siteLink": "https://seekingalpha.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=seekingalpha.com"
+},{
+"siteName": "whitecoatinvestor.com",
+"siteLink": "https://www.whitecoatinvestor.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=whitecoatinvestor.com"
+},{
+"siteName": "youneedabudget.com",
+"siteLink": "https://www.youneedabudget.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=youneedabudget.com"
+}
+    ]}
+
+,
+  {
+    "name": "Gaming",
+    "color": 4289533015,
+    "iconData": 983484,
+    "language": "english",
+    "sites": [
+{
+"siteName": "blog.humblebundle.com",
+"siteLink": "https://blog.humblebundle.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.humblebundle.com"
+},{
+"siteName": "blog.playstation.com",
+"siteLink": "https://blog.playstation.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=blog.playstation.com"
+},{
+"siteName": "engadget.com",
+"siteLink": "http://www.engadget.com//www.engadget.com/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=engadget.com"
+},{
+"siteName": "eurogamer.net",
+"siteLink": "https://www.eurogamer.net/feed",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=eurogamer.net"
+},{
+"siteName": "gameinformer.com",
+"siteLink": "https://www.gameinformer.com/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gameinformer.com"
+},{
+"siteName": "gamesindustry.biz",
+"siteLink": "https://www.gamesindustry.biz/feed",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gamesindustry.biz"
+},{
+"siteName": "gamespot.com",
+"siteLink": "https://www.gamespot.com/feeds/mashup/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gamespot.com"
+},{
+"siteName": "giantbomb.com",
+"siteLink": "https://www.giantbomb.com/feeds/mashup/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=giantbomb.com"
+},{
+"siteName": "gog.com",
+"siteLink": "http://www.gog.com/frontpage/rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gog.com"
+},{
+"siteName": "indiegamesplus.com",
+"siteLink": "https://indiegamesplus.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=indiegamesplus.com"
+},{
+"siteName": "kotaku.com",
+"siteLink": "https://kotaku.com/rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=kotaku.com"
+},{
+"siteName": "mynintendonews.com",
+"siteLink": "https://mynintendonews.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mynintendonews.com"
+},{
+"siteName": "news.xbox.com",
+"siteLink": "https://news.xbox.com/en-us/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=news.xbox.com"
+},{
+"siteName": "nintendolife.com",
+"siteLink": "https://www.nintendolife.com/feeds/latest",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nintendolife.com"
+},{
+"siteName": "pcgamesn.com",
+"siteLink": "https://www.pcgamesn.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=pcgamesn.com"
+},{
+"siteName": "playstationlifestyle.net",
+"siteLink": "https://www.playstationlifestyle.net/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=playstationlifestyle.net"
+},{
+"siteName": "pocketgamer.com",
+"siteLink": "https://www.pocketgamer.com/index.rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=pocketgamer.com"
+},{
+"siteName": "pockettactics.com",
+"siteLink": "https://www.pockettactics.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=pockettactics.com"
+},{
+"siteName": "polygon.com",
+"siteLink": "https://www.polygon.com/rss/index.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=polygon.com"
+},{
+"siteName": "rockpapershotgun.com",
+"siteLink": "https://www.rockpapershotgun.com/feed",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=rockpapershotgun.com"
+},{
+"siteName": "siliconera.com",
+"siteLink": "https://www.siliconera.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=siliconera.com"
+},{
+"siteName": "steampowered.com",
+"siteLink": "http://www.steampowered.com/feeds/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=steampowered.com"
+},{
+"siteName": "toucharcade.com",
+"siteLink": "https://toucharcade.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=toucharcade.com"
+},{
+"siteName": "vg247.com",
+"siteLink": "https://www.vg247.com/feed",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=vg247.com"
+}
+    ]
+    }
+,
+ {
+    "name": "Science",
+    "color": 4278217052,
+    "iconData": 983343,
+    "language": "english",
+    "sites": [
+{
+"siteName": "discovermagazine.com",
+"siteLink": "https://www.discovermagazine.com/rss/all",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=discovermagazine.com"
+},{
+"siteName": "feeds.nature.com",
+"siteLink": "http://feeds.nature.com/nature/rss/current",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=feeds.nature.com"
+},{
+"siteName": "futurism.com",
+"siteLink": "https://futurism.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=futurism.com"
+},{
+"siteName": "futurity.org",
+"siteLink": "https://www.futurity.org/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=futurity.org"
+},{
+"siteName": "informationisbeautiful.net",
+"siteLink": "https://informationisbeautiful.net/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=informationisbeautiful.net"
+},{
+"siteName": "lastwordonnothing.com",
+"siteLink": "https://www.lastwordonnothing.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lastwordonnothing.com"
+},{
+"siteName": "nasa.gov",
+"siteLink": "https://news.google.com/rss/search?q=site:nasa.gov+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nasa.gov"
+},{
+"siteName": "newscientist.com",
+"siteLink": "https://feeds.newscientist.com/home",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=newscientist.com"
+},{
+"siteName": "npr.org",
+"siteLink": "https://feeds.npr.org/1001/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=npr.org"
+},{
+"siteName": "phys.org",
+"siteLink": "https://phys.org/rss-feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=phys.org"
+},{
+"siteName": "popsci.com",
+"siteLink": "https://www.popsci.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=popsci.com"
+},{
+"siteName": "quantamagazine.org",
+"siteLink": "https://www.quantamagazine.org/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=quantamagazine.org"
+},{
+"siteName": "retractionwatch.com",
+"siteLink": "https://news.google.com/rss/search?q=site:retractionwatch.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=retractionwatch.com"
+},{
+"siteName": "science.org",
+"siteLink": "https://news.google.com/rss/search?q=site:science.org+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=science.org"
+},{
+"siteName": "sciencealert.com",
+"siteLink": "https://www.sciencealert.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sciencealert.com"
+},{
+"siteName": "sciencebasedmedicine.org",
+"siteLink": "https://sciencebasedmedicine.org/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sciencebasedmedicine.org"
+},{
+"siteName": "sciencedaily.com",
+"siteLink": "https://www.sciencedaily.com/rss/all.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sciencedaily.com"
+},{
+"siteName": "sciencedirect.com",
+"siteLink": "https://rss.sciencedirect.com/publication/science/00928674",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=sciencedirect.com"
+},{
+"siteName": "scientificamerican.com",
+"siteLink": "http://rss.sciam.com/ScientificAmerican-Global",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=scientificamerican.com"
+},{
+"siteName": "smithsonianmag.com",
+"siteLink": "https://www.smithsonianmag.com/rss/science-nature/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=smithsonianmag.com"
+},{
+"siteName": "technologyreview.com",
+"siteLink": "https://www.technologyreview.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=technologyreview.com"
+},{
+"siteName": "the-scientist.com",
+"siteLink": "https://news.google.com/rss/search?q=site:the-scientist.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=the-scientist.com"
+},{
+"siteName": "thelancet.com",
+"siteLink": "https://news.google.com/rss/search?q=site:thelancet.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thelancet.com"
+},{
+"siteName": "universetoday.com",
+"siteLink": "https://www.universetoday.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=universetoday.com"
+},{
+"siteName": "whyevolutionistrue.com",
+"siteLink": "https://whyevolutionistrue.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=whyevolutionistrue.com"
+}
+    ]
+}
+,
+ {
+    "name": "Food",
+    "color": 4294551589,
+    "iconData": 57946,
+    "language": "english",
+    "sites": [
+{
+"siteName": "101cookbooks.com",
+"siteLink": "https://www.101cookbooks.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=101cookbooks.com"
+},{
+"siteName": "acouplecooks.com",
+"siteLink": "https://www.acouplecooks.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=acouplecooks.com"
+},{
+"siteName": "acozykitchen.com",
+"siteLink": "https://www.acozykitchen.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=acozykitchen.com"
+},{
+"siteName": "adventuresincooking.com",
+"siteLink": "https://adventuresincooking.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=adventuresincooking.com"
+},{
+"siteName": "alexandracooks.com",
+"siteLink": "https://alexandracooks.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=alexandracooks.com"
+},{
+"siteName": "ayearofslowcooking.com",
+"siteLink": "http://www.ayearofslowcooking.com/rss.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ayearofslowcooking.com"
+},{
+"siteName": "bakerella.com",
+"siteLink": "https://www.bakerella.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bakerella.com"
+},{
+"siteName": "bakingbites.com",
+"siteLink": "https://bakingbites.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bakingbites.com"
+},{
+"siteName": "bonappetit.com",
+"siteLink": "https://www.bonappetit.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=bonappetit.com"
+},{
+"siteName": "browneyedbaker.com",
+"siteLink": "https://www.browneyedbaker.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=browneyedbaker.com"
+},{
+"siteName": "budgetbytes.com",
+"siteLink": "https://www.budgetbytes.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=budgetbytes.com"
+},{
+"siteName": "closetcooking.com",
+"siteLink": "https://www.closetcooking.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=closetcooking.com"
+},{
+"siteName": "cookieandkate.com",
+"siteLink": "https://cookieandkate.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=cookieandkate.com"
+},{
+"siteName": "davidlebovitz.com",
+"siteLink": "https://www.davidlebovitz.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=davidlebovitz.com"
+},{
+"siteName": "dinneralovestory.com",
+"siteLink": "http://www.dinneralovestory.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=dinneralovestory.com"
+},{
+"siteName": "eater.com",
+"siteLink": "https://www.eater.com/rss/index.xml",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=eater.com"
+},{
+"siteName": "emikodavies.com",
+"siteLink": "https://www.emikodavies.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=emikodavies.com"
+},{
+"siteName": "food52.com",
+"siteLink": "https://food52.com/blog.rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=food52.com"
+},{
+"siteName": "gimmesomeoven.com",
+"siteLink": "https://www.gimmesomeoven.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=gimmesomeoven.com"
+},{
+"siteName": "homesicktexan.com",
+"siteLink": "https://www.homesicktexan.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=homesicktexan.com"
+},{
+"siteName": "howsweeteats.com",
+"siteLink": "https://www.howsweeteats.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=howsweeteats.com"
+},{
+"siteName": "iamafoodblog.com",
+"siteLink": "https://iamafoodblog.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iamafoodblog.com"
+},{
+"siteName": "iowagirleats.com",
+"siteLink": "https://iowagirleats.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=iowagirleats.com"
+},{
+"siteName": "joythebaker.com",
+"siteLink": "https://joythebaker.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=joythebaker.com"
+},{
+"siteName": "lottieanddoof.com",
+"siteLink": "https://www.lottieanddoof.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=lottieanddoof.com"
+},{
+"siteName": "loveandlemons.com",
+"siteLink": "https://www.loveandlemons.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=loveandlemons.com"
+},{
+"siteName": "loveandoliveoil.com",
+"siteLink": "https://www.loveandoliveoil.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=loveandoliveoil.com"
+},{
+"siteName": "melskitchencafe.com",
+"siteLink": "https://www.melskitchencafe.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=melskitchencafe.com"
+},{
+"siteName": "minimalistbaker.com",
+"siteLink": "https://minimalistbaker.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=minimalistbaker.com"
+},{
+"siteName": "mynewroots.org",
+"siteLink": "https://www.mynewroots.org/site/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=mynewroots.org"
+},{
+"siteName": "nomnompaleo.com",
+"siteLink": "https://nomnompaleo.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=nomnompaleo.com"
+},{
+"siteName": "ourbestbites.com",
+"siteLink": "https://ourbestbites.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=ourbestbites.com"
+},{
+"siteName": "pinchofyum.com",
+"siteLink": "https://pinchofyum.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=pinchofyum.com"
+},{
+"siteName": "skinnytaste.com",
+"siteLink": "https://www.skinnytaste.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=skinnytaste.com"
+},{
+"siteName": "spoonforkbacon.com",
+"siteLink": "https://www.spoonforkbacon.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=spoonforkbacon.com"
+},{
+"siteName": "thefirstmess.com",
+"siteLink": "https://thefirstmess.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thefirstmess.com"
+},{
+"siteName": "thefullhelping.com",
+"siteLink": "https://www.thefullhelping.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thefullhelping.com"
+},{
+"siteName": "thekitchn.com",
+"siteLink": "https://www.thekitchn.com/main.rss",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thekitchn.com"
+},{
+"siteName": "thevanillabeanblog.com",
+"siteLink": "https://www.thevanillabeanblog.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thevanillabeanblog.com"
+},{
+"siteName": "thewoksoflife.com",
+"siteLink": "https://thewoksoflife.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=thewoksoflife.com"
+},{
+"siteName": "twopeasandtheirpod.com",
+"siteLink": "https://www.twopeasandtheirpod.com/feed/",
+"iconUrl": "https://www.google.com/s2/favicons?sz=64&domain_url=twopeasandtheirpod.com"
+}
+    ]
+}
+,
+ {
+    "name": "Music",
+    "color": 4293880832,
+    "iconData": 58389,
+    "language": "english",
+    "sites": [
+
+    ]
+},
+ {
+    "name": "Travel",
+    "color": 4283045004,
+    "iconData": 58131,
+    "language": "english",
+    "sites": [
+
+    ]
+},
+ {
+    "name": "Design",
+    "color": 4286259106,
+    "iconData": 983820,
+    "language": "english",
+    "sites": [
+
+    ]
+},
+ {
+    "name": "Cinema",
+    "color": 4279060385,
+    "iconData": 63718,
+    "language": "english",
+    "sites": [
+
+    ]
+},
+ {
+    "name": "Motors",
+    "color": 4291176488,
+    "iconData": 57815,
+    "language": "english",
+    "sites": [
+
+    ]
+}
+
+
 ]""";
 
   late SitesList sitesList =
