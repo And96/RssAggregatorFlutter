@@ -378,17 +378,36 @@ class _CategoriesPageState extends State<CategoriesPage>
       body: Stack(
         children: [
           isLoading == false
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: ListView.separated(
+              ? Container(
+                  color: darkMode
+                      ? ThemeColor.dark1.withAlpha(120)
+                      : ThemeColor.light1,
+                  padding: const EdgeInsets.only(top: 9),
+                  child: ListView.builder(
                       itemCount: categoriesList.items.length,
-                      separatorBuilder: (context, index) {
+                      /*separatorBuilder: (context, index) {
                         return const Divider();
-                      },
+                      },*/
                       itemBuilder: (BuildContext context, index) {
                         final item = categoriesList.items[index];
                         return InkWell(
+                            child: Card(
+                          margin: const EdgeInsets.only(
+                              left: 12, right: 12, top: 7, bottom: 7),
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: Colors.transparent,
+                              width: 0.0,
+                            ),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          elevation: 0,
+                          color: darkMode ? Colors.transparent : Colors.white,
+                          shadowColor: darkMode ? Colors.black : Colors.white,
                           child: ListTile(
+                            contentPadding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 10, bottom: 10),
                             minLeadingWidth: 55,
                             leading: Stack(
                               clipBehavior: Clip.none,
@@ -452,7 +471,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                                       });
                             },
                           ),
-                        );
+                        ));
                       }))
               : Center(
                   child: Column(

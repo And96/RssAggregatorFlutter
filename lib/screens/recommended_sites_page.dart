@@ -110,19 +110,41 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
       body: Stack(
         children: [
           isLoading == false
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5),
+              ? Container(
+                  padding: const EdgeInsets.only(top: 9),
+                  color: darkMode
+                      ? ThemeColor.dark1.withAlpha(120)
+                      : ThemeColor.light1,
                   child: recommendedList.items.isEmpty
                       ? null
-                      : ListView.separated(
+                      : ListView.builder(
                           itemCount: recommendedList.items[0].sites.length,
-                          separatorBuilder: (context, index) {
+                          /* separatorBuilder: (context, index) {
                             return const Divider();
-                          },
+                          },*/
+
                           itemBuilder: (BuildContext context, index) {
                             final item = recommendedList.items[0].sites[index];
                             return InkWell(
+                                child: Card(
+                              margin: const EdgeInsets.only(
+                                  left: 12, right: 12, top: 7, bottom: 7),
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 0.0,
+                                ),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 0,
+                              color:
+                                  darkMode ? Colors.transparent : Colors.white,
+                              shadowColor:
+                                  darkMode ? Colors.black : Colors.white,
                               child: ListTile(
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, right: 15, top: 10, bottom: 10),
                                   minLeadingWidth: 50,
                                   leading: SiteLogoBig(
                                       iconUrl: item.iconUrl,
@@ -189,7 +211,7 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                                           ),
                                         ],
                                       ))),
-                            );
+                            ));
                           }))
               : Center(
                   child: Column(

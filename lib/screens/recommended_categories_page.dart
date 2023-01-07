@@ -106,7 +106,7 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
         ]),
         body: Container(
           padding: const EdgeInsets.only(right: 7, left: 7, top: 7, bottom: 7),
-          color: darkMode ? ThemeColor.dark1.withAlpha(180) : ThemeColor.light2,
+          color: darkMode ? ThemeColor.dark1.withAlpha(120) : ThemeColor.light1,
           child: isLoading == false
               ? GridView.builder(
                   itemCount: recommendedList.items.length,
@@ -128,19 +128,15 @@ class _RecommendedCategoriesPageState extends State<RecommendedCategoriesPage>
                   ) {
                     return Card(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: darkMode
-                                ? ThemeColor.dark3.withAlpha(0)
-                                : Colors.black.withAlpha(10),
+                          side: const BorderSide(
+                            color: Colors.transparent,
                             width: 0.0,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         elevation: 0.0,
                         //color: Color(recommendedList.items[index].color),
-                        color: darkMode
-                            ? ThemeColor.dark2.withAlpha(150)
-                            : ThemeColor.light1.withAlpha(150),
+                        color: darkMode ? ThemeColor.dark2 : Colors.white,
                         child: InkWell(
                             onTap: () {
                               Future.delayed(const Duration(milliseconds: 120))
