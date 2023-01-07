@@ -63,37 +63,236 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
 
   late SitesList sitesList = SitesList();
 
-  Future<bool> onTapIconList(
-      BuildContext context, RecommendedSite selected) async {
+  Future<void> addRecommendation(RecommendedSite selected, int siteID) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      bool exists = await categoriesList.exists(recommendedList.items[0].name);
+      if (!exists) {
+        await categoriesList.add(recommendedList.items[0].name,
+            recommendedList.items[0].color, recommendedList.items[0].iconData);
+      }
+      Site site = Site(
+          siteID: siteID,
+          siteName: selected.siteName,
+          siteLink: selected.siteLink,
+          iconUrl: selected.iconUrl,
+          category: recommendedList.items[0].name);
+      await sitesList.addSite(site);
+      selected.added = true;
+    } catch (err) {
+      //print('Caught error: $err');
+    }
+  }
 
-      int siteID = await sitesList.getSiteID(selected.siteLink);
-      if (siteID > 0) {
-        await sitesList.delete(selected.siteLink, selected.siteName, 0);
-        selected.added = false;
-      } else {
-        bool exists =
-            await categoriesList.exists(recommendedList.items[0].name);
-        if (!exists) {
-          await categoriesList.add(
-              recommendedList.items[0].name,
-              recommendedList.items[0].color,
-              recommendedList.items[0].iconData);
+  Future<bool> onTapIconList(BuildContext context,
+      List<RecommendedSite> listSelected, String operation) async {
+    try {
+      if (listSelected.length == 1) {
+        await Future.delayed(const Duration(milliseconds: 1000));
+      }
+      for (RecommendedSite selected in listSelected) {
+        if (operation == "insert") {
+          int siteID = await sitesList.getSiteID(selected.siteLink);
+          if (siteID > 0) {
+            await sitesList.delete(selected.siteLink, selected.siteName, 0);
+            selected.added = false;
+          }
+          await addRecommendation(selected, siteID);
         }
-        Site site = Site(
-            siteID: siteID,
-            siteName: selected.siteName,
-            siteLink: selected.siteLink,
-            iconUrl: selected.iconUrl,
-            category: recommendedList.items[0].name);
-        await sitesList.addSite(site);
-        selected.added = true;
+        if (operation == "delete") {
+          int siteID = await sitesList.getSiteID(selected.siteLink);
+          if (siteID > 0) {
+            await sitesList.delete(selected.siteLink, selected.siteName, 0);
+            selected.added = false;
+          }
+        }
+        if (operation == "reverse") {
+          int siteID = await sitesList.getSiteID(selected.siteLink);
+          if (siteID > 0) {
+            await sitesList.delete(selected.siteLink, selected.siteName, 0);
+            selected.added = false;
+          } else {
+            await addRecommendation(selected, siteID);
+          }
+        }
       }
     } catch (err) {
       //print('Caught error: $err');
     }
     return true;
+  }
+
+  showActionDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+        content: SizedBox(
+      width: 400,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Choose operation",
+                      style: TextStyle(fontWeight: FontWeight.normal),
+                    ),
+                    IconButton(
+                        icon: const Icon(Icons.close),
+                        tooltip: 'Close',
+                        onPressed: () => Navigator.pop(context)),
+                  ],
+                )),
+            const Divider(),
+            if (recommendedList.items[0].sites.isNotEmpty)
+              Card(
+                margin: const EdgeInsets.only(top: 10),
+                color: darkMode
+                    ? ThemeColor.dark3.withAlpha(20)
+                    : ThemeColor.light1.withAlpha(50),
+                elevation: 0,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Colors.transparent,
+                    width: 0.0,
+                  ),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: ListTile(
+                  tileColor: ThemeColor.dark3.withAlpha(20),
+                  contentPadding: const EdgeInsets.all(12),
+                  leading: const CircleAvatar(
+                    radius: 23,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.add),
+                  ),
+                  title: const Text("Aggiunti tutti i siti"),
+                  onTap: () async {
+                    await onTapIconList(
+                            context, recommendedList.items[0].sites, "insert")
+                        .then((value) =>
+                            {Navigator.pop(context), Navigator.pop(context)});
+                  },
+                ),
+              ),
+            if (recommendedList.items[0].sites.length >= 5)
+              Card(
+                margin: const EdgeInsets.only(top: 10),
+                color: darkMode
+                    ? ThemeColor.dark3.withAlpha(20)
+                    : ThemeColor.light1.withAlpha(50),
+                elevation: 0,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Colors.transparent,
+                    width: 0.0,
+                  ),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: ListTile(
+                  tileColor: ThemeColor.dark3.withAlpha(20),
+                  contentPadding: const EdgeInsets.all(12),
+                  leading: const CircleAvatar(
+                    radius: 23,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      "5",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  title: const Text("Aggiunti i primi 5 siti"),
+                  onTap: () async {
+                    await onTapIconList(
+                            context,
+                            recommendedList.items[0].sites.take(5).toList(),
+                            "insert")
+                        .then((value) =>
+                            {Navigator.pop(context), Navigator.pop(context)});
+                  },
+                ),
+              ),
+            if (recommendedList.items[0].sites.length >= 10)
+              Card(
+                margin: const EdgeInsets.only(top: 10),
+                color: darkMode
+                    ? ThemeColor.dark3.withAlpha(20)
+                    : ThemeColor.light1.withAlpha(50),
+                elevation: 0,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Colors.transparent,
+                    width: 0.0,
+                  ),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: ListTile(
+                  tileColor: ThemeColor.dark3.withAlpha(20),
+                  contentPadding: const EdgeInsets.all(12),
+                  leading: const CircleAvatar(
+                    radius: 23,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      "10",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  title: const Text("Aggiunti i primi 10 siti"),
+                  onTap: () async {
+                    await onTapIconList(
+                            context,
+                            recommendedList.items[0].sites.take(10).toList(),
+                            "insert")
+                        .then((value) =>
+                            {Navigator.pop(context), Navigator.pop(context)});
+                  },
+                ),
+              ),
+            Card(
+              margin: const EdgeInsets.only(top: 10),
+              color: darkMode
+                  ? ThemeColor.dark3.withAlpha(20)
+                  : ThemeColor.light1.withAlpha(50),
+              elevation: 0,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  color: Colors.transparent,
+                  width: 0.0,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: ListTile(
+                tileColor: ThemeColor.dark3.withAlpha(20),
+                contentPadding: const EdgeInsets.all(12),
+                leading: const CircleAvatar(
+                  radius: 23,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.delete),
+                ),
+                title: const Text("Rimuovi tutti i siti"),
+                onTap: () async {
+                  await onTapIconList(
+                          context, recommendedList.items[0].sites, "delete")
+                      .then((value) =>
+                          {Navigator.pop(context), Navigator.pop(context)});
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.75),
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -106,6 +305,13 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
         backgroundColor: darkMode || recommendedList.items.isEmpty
             ? null
             : Color(recommendedList.items[0].color),
+        actions: <Widget>[
+          if (recommendedList.items.isNotEmpty && !isLoading)
+            IconButton(
+                icon: const Icon(Icons.settings),
+                tooltip: 'Multiple Operations',
+                onPressed: () => showActionDialog(context)),
+        ],
       ),
       body: Stack(
         children: [
@@ -184,12 +390,14 @@ class _RecommendedSitesPageState extends State<RecommendedSitesPage> {
                                           const Duration(milliseconds: 400),
                                       clockwise: false,
                                       onEndIconPress: () {
-                                        onTapIconList(context, item)
+                                        onTapIconList(
+                                                context, [item], "reverse")
                                             .then((value) => null);
                                         return true;
                                       },
                                       onStartIconPress: () {
-                                        onTapIconList(context, item)
+                                        onTapIconList(
+                                                context, [item], "reverse")
                                             .then((value) => null);
                                         return true;
                                       },
