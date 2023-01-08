@@ -613,7 +613,7 @@ class _SitesPageState extends State<SitesPage>
                                     contentPadding: const EdgeInsets.only(
                                         left: 15,
                                         right: 15,
-                                        top: 10,
+                                        top: 8,
                                         bottom: 10),
                                     minLeadingWidth: 50,
                                     leading: SiteLogoBig(
@@ -629,7 +629,7 @@ class _SitesPageState extends State<SitesPage>
                                           Expanded(
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.only(top: 0),
+                                                  const EdgeInsets.only(top: 3),
                                               child: Text(
                                                 (item.siteName.toString()),
                                                 maxLines: 1,
@@ -702,7 +702,7 @@ class _SitesPageState extends State<SitesPage>
                                     },
                                     subtitle: Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 8, right: 25),
+                                            top: 10, right: 7),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
