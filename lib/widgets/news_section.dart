@@ -115,6 +115,160 @@ class _NewsSectionState extends State<NewsSection>
     });
   }
 
+  void showOptionDialogBottom(BuildContext context, Feed item) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+            height: 999,
+            width: 9999,
+            color: darkMode ? ThemeColor.dark1 : ThemeColor.light1,
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: Container(
+                padding: const EdgeInsets.fromLTRB(3, 3, 3, 3),
+                width: 300,
+                child: SingleChildScrollView(
+                  //MUST TO ADDED
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => NewsPage(
+                                        siteFilter: item.siteID,
+                                        categoryFilter: '*',
+                                      )));
+                            },
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: SiteLogo(iconUrl: item.iconUrl),
+                            ),
+                          ),
+                          Text(
+                            item.host,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(Icons.close),
+                            tooltip: 'Close',
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                        child: Text(
+                          item.link,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.left,
+                          maxLines: 2,
+                        ),
+                      ),
+                      const Divider(),
+                      FutureBuilder<Color?>(
+                        future: ThemeColor()
+                            .getMainColorFromUrl(item.iconUrl), // async work
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Color?> snapshot) {
+                          Color paletteColor = snapshot.data == null
+                              ? Color(ThemeColor().defaultCategoryColor)
+                              : snapshot.data!;
+                          return ButtonFeedOpen(
+                              text: "Leggi sul sito",
+                              function: () {
+                                Utility().launchInBrowser(Uri.parse(item.link));
+                                Navigator.pop(context);
+                              },
+                              icon: Icons.public,
+                              color1: Colors.transparent,
+                              color2: paletteColor);
+                        },
+                      ),
+                      const Divider(),
+                      GridView(
+                          shrinkWrap: true, //MUST TO ADDED
+
+                          physics:
+                              const NeverScrollableScrollPhysics(), //MUST TO ADDED
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 3,
+                                  crossAxisSpacing: 3,
+                                  childAspectRatio: 2.0),
+                          children: [
+                            ButtonFeedOption(
+                              text: "Leggi\npiu tardi",
+                              icon: Icons.watch_later_outlined,
+                              function: () {
+                                readlaterList.add(item);
+                                Navigator.pop(context);
+                                const snackBar = SnackBar(
+                                  duration: Duration(milliseconds: 500),
+                                  content: Text('Added to read later'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                            ),
+                            ButtonFeedOption(
+                              text: "Salva\nin preferiti",
+                              icon: Icons.favorite_border,
+                              function: () {
+                                favouritesList.add(item);
+                                Navigator.pop(context);
+                                const snackBar = SnackBar(
+                                  duration: Duration(milliseconds: 500),
+                                  content: Text('Added to favourites'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                            ),
+                            ButtonFeedOption(
+                              text: "Copia\nLink",
+                              icon: Icons.copy,
+                              function: () {
+                                Clipboard.setData(
+                                    ClipboardData(text: item.link));
+                                Navigator.pop(context);
+                                const snackBar = SnackBar(
+                                  duration: Duration(milliseconds: 500),
+                                  content: Text('Link copied to clipboard'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                            ),
+                            ButtonFeedOption(
+                              text: "Condividi\nLink",
+                              icon: Icons.share,
+                              function: () {
+                                Share.share(item.link);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ]),
+                    ],
+                  ),
+                )));
+      },
+    );
+  }
+
   void showOptionDialog(BuildContext context, Feed item) {
     var dialog = SimpleDialog(
       title: Row(
@@ -522,6 +676,8 @@ class _NewsSectionState extends State<NewsSection>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
+                                onLongPress: () => showOptionDialogBottom(
+                                    context, widget.feedsList.items[pageIndex]),
                                 onTap: () => showOptionDialog(
                                     context, widget.feedsList.items[pageIndex]),
                                 child: Chip(
@@ -577,6 +733,8 @@ class _NewsSectionState extends State<NewsSection>
                         ),
                         const Divider(),
                         InkWell(
+                          onLongPress: () => showOptionDialogBottom(
+                              context, widget.feedsList.items[pageIndex]),
                           onTap: () => showOptionDialog(
                               context, widget.feedsList.items[pageIndex]),
                           child: Padding(
