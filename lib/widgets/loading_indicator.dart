@@ -73,7 +73,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
               if (widget.progressLoading > 0)
                 BackdropFilter(
                     filter: darkMode
-                        ? ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0)
+                        ? ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0)
                         : ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
                     child: Container(
                         height: 235,

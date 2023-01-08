@@ -13,8 +13,8 @@ class LoadingListBackground extends StatelessWidget {
   CardLoadingTheme cardLoadingTheme() {
     return darkMode
         ? CardLoadingTheme(
-            colorOne: ThemeColor.dark2.withAlpha(120),
-            colorTwo: ThemeColor.dark2.withAlpha(170))
+            colorOne: ThemeColor.dark2.withAlpha(40),
+            colorTwo: ThemeColor.dark2.withAlpha(60))
         : CardLoadingTheme(
             colorOne: ThemeColor.light2.withAlpha(30),
             colorTwo: ThemeColor.light2.withAlpha(50));
