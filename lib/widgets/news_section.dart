@@ -482,13 +482,13 @@ class _NewsSectionState extends State<NewsSection>
                 decoration: BoxDecoration(
                   color: darkMode
                       ? ThemeColor().lighten(ThemeColor.dark1, 1)
-                      : ThemeColor.light2.withAlpha(120),
+                      : ThemeColor().lighten(ThemeColor.light2, 40),
                   border: Border.all(color: Colors.transparent, width: 0),
                 ),
                 child: Container(
                     margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 8, right: 8),
-                    padding: EdgeInsets.all(darkMode ? 0 : 4),
+                        top: 16, bottom: 16, left: 11, right: 11),
+                    padding: EdgeInsets.all(darkMode ? 0 : 0),
                     decoration: BoxDecoration(
                         color: darkMode
                             ? ThemeColor().darken(ThemeColor.dark2, 30)
@@ -500,19 +500,56 @@ class _NewsSectionState extends State<NewsSection>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Container(
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 5, top: 3, bottom: 1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onLongPress: () => showOptionDialogBottom(
+                                    context, widget.feedsList.items[pageIndex]),
+                                onTap: () => showOptionDialog(
+                                    context, widget.feedsList.items[pageIndex]),
+                                child: Chip(
+                                  backgroundColor: darkMode
+                                      ? ThemeColor.dark2
+                                      : Colors.white,
+                                  avatar: SiteLogo(
+                                    iconUrl: widget
+                                        .feedsList.items[pageIndex].iconUrl,
+                                  ),
+                                  label: Text(
+                                    (widget.feedsList.items[pageIndex].host),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                padding: const EdgeInsets.all(20.0),
+                                icon: const Icon(Icons.more_vert, size: 25),
+                                //color: Colors.black,
+                                onPressed: () => showOptionDialog(
+                                    context, widget.feedsList.items[pageIndex]),
+                              )
+                            ],
+                          ),
+                        ),
                         //const Divider(),
                         Container(
                             height: settings.settingsLoadImages
                                 ? MediaQuery.of(context).size.height /
                                         100 *
                                         50 -
-                                    100
+                                    150
                                 : MediaQuery.of(context).size.height /
                                         100 *
                                         25 +
                                     50,
                             margin: const EdgeInsets.only(
-                                bottom: 7, top: 0, left: 0, right: 0),
+                                bottom: 0, top: 0, left: 0, right: 0),
                             padding: const EdgeInsets.all(0),
                             decoration: BoxDecoration(
                               color: feedExtended.color,
@@ -520,9 +557,9 @@ class _NewsSectionState extends State<NewsSection>
                                 color: Colors.transparent,
                                 width: 0,
                               ),
-                              borderRadius: const BorderRadius.only(
+                              /* borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15)),
+                                  topRight: Radius.circular(15)),*/
                             ),
                             child: Stack(
                               children: <Widget>[
@@ -534,9 +571,9 @@ class _NewsSectionState extends State<NewsSection>
                                       margin: const EdgeInsets.only(
                                           left: 0, right: 0, top: 0, bottom: 0),
                                       decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
+                                        /*  borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(15),
-                                            topRight: Radius.circular(15)),
+                                            topRight: Radius.circular(15)),*/
                                         image: (settings.settingsLoadImages)
                                             ? DecorationImage(
                                                 fit: BoxFit.cover,
@@ -556,20 +593,29 @@ class _NewsSectionState extends State<NewsSection>
                                                 color: Colors.transparent,
                                                 width: 0,
                                               ),
-                                              borderRadius:
+                                              /* borderRadius:
                                                   const BorderRadius.only(
                                                       topLeft:
                                                           Radius.circular(15),
                                                       topRight:
-                                                          Radius.circular(15)),
+                                                          Radius.circular(15)),*/
                                               gradient: LinearGradient(
                                                 colors: [
+                                                  Colors.black.withAlpha(50),
                                                   Colors.transparent,
+                                                  Colors.black.withAlpha(20),
+                                                  Colors.black.withAlpha(160),
                                                   Colors.black.withAlpha(220)
                                                 ],
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
-                                                stops: const [0.2, 0.9],
+                                                stops: const [
+                                                  0.0,
+                                                  0.1,
+                                                  0.3,
+                                                  0.6,
+                                                  0.9
+                                                ],
                                               ),
                                             )
                                           : null,
@@ -580,19 +626,19 @@ class _NewsSectionState extends State<NewsSection>
                                                   settings.settingsLoadImages &&
                                                   feedExtended.image.length > 10
                                               ? 0.1
-                                              : 0.3,
+                                              : 0.2,
                                           child: Container(
                                             decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.only(
+                                              /* borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(15),
                                                   topRight:
-                                                      Radius.circular(15)),
+                                                      Radius.circular(15)),*/
                                               color: Color(0xFF000000),
                                             ),
                                           )),
                                     ),
                                   ]),
-                                  Positioned(
+                                  /*Positioned(
                                       top: 0,
                                       left: 0,
                                       child: Padding(
@@ -613,8 +659,8 @@ class _NewsSectionState extends State<NewsSection>
                                                           context,
                                                           feedExtended.date),
                                                     ))
-                                              ]))),
-                                  Positioned(
+                                              ]))),*/
+                                  /*Positioned(
                                       top: 0,
                                       right: 0,
                                       child: Padding(
@@ -640,7 +686,7 @@ class _NewsSectionState extends State<NewsSection>
                                                                   .items[
                                                               pageIndex]),
                                                 )
-                                              ]))),
+                                              ]))),*/
                                   Positioned(
                                       bottom: 0,
                                       left: 0,
@@ -651,6 +697,7 @@ class _NewsSectionState extends State<NewsSection>
                                           child: Text(
                                               widget.feedsList.items[pageIndex]
                                                   .title,
+                                              textAlign: TextAlign.center,
                                               maxLines: MediaQuery.of(context)
                                                           .size
                                                           .height <
@@ -659,7 +706,7 @@ class _NewsSectionState extends State<NewsSection>
                                                   : 4,
                                               style: const TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 22,
+                                                  fontSize: 21,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   height: 1.5,
@@ -671,31 +718,18 @@ class _NewsSectionState extends State<NewsSection>
 
                         Container(
                           padding: const EdgeInsets.only(
-                              left: 0, right: 0, top: 7, bottom: 4),
+                              left: 0, right: 0, top: 8, bottom: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              InkWell(
-                                onLongPress: () => showOptionDialogBottom(
-                                    context, widget.feedsList.items[pageIndex]),
-                                onTap: () => showOptionDialog(
-                                    context, widget.feedsList.items[pageIndex]),
-                                child: Chip(
+                              Chip(
                                   backgroundColor: darkMode
                                       ? ThemeColor.dark2
                                       : Colors.white,
-                                  avatar: SiteLogo(
-                                    iconUrl: widget
-                                        .feedsList.items[pageIndex].iconUrl,
-                                  ),
                                   label: Text(
-                                    (widget.feedsList.items[pageIndex].host),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                ),
-                              ),
+                                    Utility()
+                                        .dateFormat(context, feedExtended.date),
+                                  )),
                               Chip(
                                 backgroundColor: darkMode
                                     ? ThemeColor.dark2
@@ -710,7 +744,7 @@ class _NewsSectionState extends State<NewsSection>
                                   feedExtended.category,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 16,
+                                      //fontSize: 15,
                                       color: Colors.white),
                                 ),
                               ),
