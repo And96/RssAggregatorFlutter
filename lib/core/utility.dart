@@ -55,14 +55,48 @@ class Utility {
     return false;
   }
 
+  String descrizioneMese(int mese) {
+    try {
+      switch (mese) {
+        case 1:
+          return 'Gennaio';
+        case 2:
+          return 'Febbraio';
+        case 3:
+          return 'Marzo';
+        case 4:
+          return 'Aprile';
+        case 5:
+          return 'Maggio';
+        case 6:
+          return 'Giugno';
+        case 7:
+          return 'Luglio';
+        case 8:
+          return 'Agosto';
+        case 9:
+          return 'Settembre';
+        case 10:
+          return 'Ottobre';
+        case 11:
+          return 'Novembre';
+        case 12:
+          return 'Dicembre';
+      }
+    } catch (err) {
+      // print('Caught error: $err');
+    }
+    return " ";
+  }
+
   String dateFormat(BuildContext context, DateTime date) {
     try {
-      var languageTag = "it"; // TO-DO IMPLEMENT LANGUAGE LATER
       final now = DateTime.now();
       final today = DateTime(now.year, now.month, now.day);
       final yesterday = DateTime(now.year, now.month, now.day - 1);
 
-      if (languageTag.toString().toLowerCase().contains("it") == true) {
+      //date format for italy
+      if (Platform.localeName.toString().toLowerCase().contains("it")) {
         final aDate = DateTime(date.year, date.month, date.day);
         if (aDate == today) {
           return "Oggi${DateFormat(' HH:mm').format(
@@ -72,17 +106,20 @@ class Utility {
           return "Ieri${DateFormat(' HH:mm').format(
             date.toLocal(),
           )}";
-        } else if (aDate.year == today.year) {
-          return DateFormat('dd/MM/yy HH:mm').format(
+        } else if (daysBetween(today, aDate) < 9999) {
+          int mese = date.month;
+          String annoDesc = aDate.year != today.year ? " ${aDate.year}" : "";
+          return "${DateFormat('d').format(
             date.toLocal(),
-          );
+          )} ${descrizioneMese(mese)}$annoDesc";
         } else {
-          return DateFormat('dd/MM/yy HH:mm').format(
+          return DateFormat('dd/MM/yy').format(
             date.toLocal(),
           );
         }
       }
 
+      //all languages
       return DateFormat('dd MMM HH:mm').format(
         date.toLocal(),
       );
