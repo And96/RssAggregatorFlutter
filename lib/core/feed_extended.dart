@@ -47,6 +47,16 @@ class FeedExtended {
     }
   }
 
+  String cleanText(String? text) {
+    try {
+      // ignore: unnecessary_string_escapes
+      return "${Utility().cleanText(text).replaceAll("[...]", "").replaceAll("[…]", "").replaceAll("...", "").replaceAll("..", "").replaceAll(RegExp('\\.\$'), " ").trim()}...";
+    } catch (e) {
+      //print('Caught error: $err');
+    }
+    return " ";
+  }
+
   Future<void> setWebData(bool preCacheImg) async {
     try {
       await settings.init();
@@ -57,8 +67,7 @@ class FeedExtended {
           link: link,
           cache: const Duration(days: 1),
         );
-        description =
-            "${Utility().cleanText(metadata1?.desc).replaceAll("[...]", "").replaceAll("...", "").replaceAll("..", "").replaceAll(RegExp('.\$'), " ").trim()} ...";
+        description = cleanText(metadata1?.desc);
         image = metadata1?.image ?? "";
       } catch (err) {
         //print('Caught error: $err');
@@ -70,8 +79,7 @@ class FeedExtended {
             image.length < 10) {
           metadata_fetch.Metadata? metadata2 =
               await metadata_fetch.MetadataFetch.extract(link);
-          description =
-              "${Utility().cleanText(metadata2?.description).replaceAll("[...]", "").replaceAll("...", "").replaceAll("..", "").replaceAll(RegExp('.\$'), " ").trim()} ...";
+          description = cleanText(metadata2?.description);
           image = metadata2?.image ?? image;
         }
       } catch (err) {
