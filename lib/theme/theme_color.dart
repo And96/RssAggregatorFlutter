@@ -118,20 +118,21 @@ class ThemeColor {
 
   Future<Color> getMainColorFromUrl(String url) async {
     try {
-      PaletteGenerator paletteGenerator;
-      paletteGenerator = await PaletteGenerator.fromImageProvider(
-        Image(image: CachedNetworkImageProvider(url)).image,
-        //Image.network(url).image,
-      ).timeout(const Duration(seconds: 1));
-      Color paletteColor = paletteGenerator.dominantColor!.color;
-      if (0.299 * paletteColor.red +
-              0.587 * paletteColor.green +
-              0.114 * paletteColor.blue >
-          205) {
-        paletteColor = darken(paletteColor, 70);
+      if (url.length > 5 && url.contains(".")) {
+        PaletteGenerator paletteGenerator;
+        paletteGenerator = await PaletteGenerator.fromImageProvider(
+          Image(image: CachedNetworkImageProvider(url)).image,
+          //Image.network(url).image,
+        ).timeout(const Duration(seconds: 1));
+        Color paletteColor = paletteGenerator.dominantColor!.color;
+        if (0.299 * paletteColor.red +
+                0.587 * paletteColor.green +
+                0.114 * paletteColor.blue >
+            205) {
+          paletteColor = darken(paletteColor, 70);
+        }
+        return paletteColor;
       }
-
-      return paletteColor;
     } catch (e) {
       //
     }

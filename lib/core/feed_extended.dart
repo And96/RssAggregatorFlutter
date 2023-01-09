@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:rss_aggregator_flutter/core/cache.dart';
 import 'package:rss_aggregator_flutter/core/categories_list.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
 import 'package:rss_aggregator_flutter/core/settings.dart';
@@ -61,29 +62,48 @@ class FeedExtended {
     try {
       await settings.init();
 
-      try {
-        any_link_preview.Metadata? metadata1 =
-            await any_link_preview.AnyLinkPreview.getMetadata(
-          link: link,
-          cache: const Duration(days: 1),
-        );
-        description = cleanText(metadata1?.desc);
-        image = metadata1?.image ?? "";
-      } catch (err) {
-        //print('Caught error: $err');
-      }
+      //get value from cache
+      image = await Cache().get(link, "img");
+      description = await Cache().get(link, "desc");
 
-      try {
-        if (description.length < 10 ||
-            description.contains("http") ||
-            image.length < 10) {
-          metadata_fetch.Metadata? metadata2 =
-              await metadata_fetch.MetadataFetch.extract(link);
-          description = cleanText(metadata2?.description);
-          image = metadata2?.image ?? image;
+      //if not cached
+      if (description.length < 5) {
+        try {
+          any_link_preview.Metadata? metadata1 =
+              await any_link_preview.AnyLinkPreview.getMetadata(
+            link: link,
+            cache: const Duration(days: 1),
+          ).timeout(const Duration(milliseconds: 4000));
+          description = cleanText(metadata1?.desc);
+          image = metadata1?.image ?? "";
+        } catch (err) {
+          //print('Caught errorx: $err');
         }
-      } catch (err) {
-        //print('Caught error: $err');
+
+        try {
+          if (description.length < 10 ||
+              description.contains("http") ||
+              image.length < 10) {
+            metadata_fetch.Metadata? metadata2 =
+                await metadata_fetch.MetadataFetch.extract(link)
+                    .timeout(const Duration(milliseconds: 4000));
+            description = cleanText(metadata2?.description);
+            image = metadata2?.image ?? image;
+          }
+        } catch (err) {
+          //print('Caught error: $err');
+        }
+
+        //hdblog ad esempio nn funziona, nonostande whatsapp e siti internet riescono ad estrarre testo ed img
+        //trovare alternative o fare fork per cercare in un ordine diverso
+
+        if (description.length < 10 || description.contains("http")) {
+          description = cleanText(title);
+        }
+
+        //save value to cache
+        await Cache().save(link, "img", image);
+        await Cache().save(link, "desc", description);
       }
 
       try {
@@ -102,17 +122,10 @@ class FeedExtended {
           }
         }
       } catch (err) {
-        //print('Caught error: $err');
+        // print('Caught error: $err');
       }
-
-      if (description.length < 10 || description.contains("http")) {
-        description = title;
-      }
-
-      //hdblog ad esempio nn funziona, nonostande whatsapp e siti internet riescono ad estrarre testo ed img
-
     } catch (err) {
-      //print('Caught error: $err');
+      // print('Caught error: $err');
     }
   }
 

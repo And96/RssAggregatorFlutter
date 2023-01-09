@@ -491,7 +491,7 @@ class _NewsSectionState extends State<NewsSection>
                     padding: EdgeInsets.all(darkMode ? 0 : 0),
                     decoration: BoxDecoration(
                         color: darkMode
-                            ? ThemeColor().darken(ThemeColor.dark2, 30)
+                            ? ThemeColor().darken(ThemeColor.dark2, 20)
                             : Colors.white,
                         border: Border.all(color: Colors.transparent, width: 0),
                         borderRadius: const BorderRadius.all(
@@ -552,7 +552,10 @@ class _NewsSectionState extends State<NewsSection>
                                 bottom: 0, top: 0, left: 0, right: 0),
                             padding: const EdgeInsets.all(0),
                             decoration: BoxDecoration(
-                              color: feedExtended.color,
+                              color: settings.settingsLoadImages &&
+                                      feedExtended.image.length > 10
+                                  ? ThemeColor.dark1
+                                  : feedExtended.color,
                               border: Border.all(
                                 color: Colors.transparent,
                                 width: 0,
@@ -574,7 +577,8 @@ class _NewsSectionState extends State<NewsSection>
                                         /*  borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(15),
                                             topRight: Radius.circular(15)),*/
-                                        image: (settings.settingsLoadImages)
+                                        image: (settings.settingsLoadImages &&
+                                                feedExtended.image.length > 10)
                                             ? DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: Image(
@@ -721,6 +725,7 @@ class _NewsSectionState extends State<NewsSection>
                               left: 0, right: 0, top: 8, bottom: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Chip(
                                   backgroundColor: darkMode
@@ -755,7 +760,7 @@ class _NewsSectionState extends State<NewsSection>
 
                         Expanded(
                           child: Container(
-                              padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                               child: Text(
                                 feedExtended.description,
                                 style: const TextStyle(

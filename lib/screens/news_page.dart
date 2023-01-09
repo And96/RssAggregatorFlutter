@@ -27,7 +27,9 @@ class _NewsPageState extends State<NewsPage>
   late SitesList sitesList =
       SitesList.withIndicator(updateItemLoading: (String value) {});
   void _updateItemLoading(String itemLoading) {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
 //Loading indicator
@@ -173,16 +175,16 @@ class _NewsPageState extends State<NewsPage>
                       },
                     ),
                   if (!isLoading)
-                  PopupMenuButton<int>(
-                    itemBuilder: (context) => [
-                      PopupMenuItem<int>(
-                          value: 1,
-                          onTap: () {
-                            handleOptionsVertClick("viewmode");
-                          },
-                          child: const Text('Change View')),
-                    ],
-                  ),
+                    PopupMenuButton<int>(
+                      itemBuilder: (context) => [
+                        PopupMenuItem<int>(
+                            value: 1,
+                            onTap: () {
+                              handleOptionsVertClick("viewmode");
+                            },
+                            child: const Text('Change View')),
+                      ],
+                    ),
 
                   if (isLoading)
                     IconButton(

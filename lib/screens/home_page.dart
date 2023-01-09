@@ -1,6 +1,7 @@
 import 'dart:io';
 //import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/core/cache.dart';
 //import 'package:flutter/services.dart';
 import 'package:rss_aggregator_flutter/core/category.dart';
 import 'package:rss_aggregator_flutter/core/favourites_list.dart';
@@ -168,6 +169,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               setCategoryColor();
               setState(() {});
             }),
+            await Cache().cleanOld(),
             isLoading = false,
             await loadData(loadFromWeb),
           });

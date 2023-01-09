@@ -38,22 +38,25 @@ class DB {
         // When the database is first created, create a table to store dogs.
         onUpgrade: (db, versionOld, versionNew) {
           // Run the CREATE TABLE statement on the database.
-          /*return db.execute(
-            'CREATE INDEX idx_siteID ON feeds (siteID);',
+          /*return  db.execute(
+            'CREATE TABLE [cache] ([key] TEXT, [type] TEXT, [value] TEXT, [date] INTEGER, PRIMARY KEY ([key], [type]))',
           );*/
         },
         onCreate: (db, version) {
           // Run the CREATE TABLE statement on the database.
           db.execute(
-            'CREATE TABLE feeds(link TEXT PRIMARY KEY, title TEXT, pubDate TEXT, iconUrl TEXT, host TEXT, siteID INT)',
+            'CREATE TABLE [feeds] ([link] TEXT PRIMARY KEY, [title] TEXT, [pubDate] TEXT, [iconUrl] TEXT, [host] TEXT, [siteID] INT)',
           );
           db.execute(
-            'CREATE INDEX idx_siteID ON feeds (siteID);',
+            'CREATE INDEX [idx_siteID] ON [feeds] ([siteID]);',
+          );
+          db.execute(
+            'CREATE TABLE [cache] ([key] TEXT, [type] TEXT, [value] TEXT, [date] INT, PRIMARY KEY ([key], [type]))',
           );
         },
         // Set the version. This executes the onCreate function and provides a
         // path to perform database upgrades and downgrades.
-        version: 6,
+        version: 7,
       );
     } catch (err) {
       //print('Caught error: $err');

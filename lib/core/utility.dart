@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rss_aggregator_flutter/core/cache.dart';
 import 'package:rss_aggregator_flutter/core/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -401,6 +402,7 @@ class Utility {
 
   Future<void> clearCache() async {
     try {
+      await Cache().clean();
       DefaultCacheManager().emptyCache();
       //ON WINDOWS IT DELETE ALL C:/Users/ADMIN/AppData/Local/Temp/
       /* final cacheDir = await getTemporaryDirectory();

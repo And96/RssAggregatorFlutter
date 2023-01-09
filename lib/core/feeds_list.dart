@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:rss_aggregator_flutter/core/cache.dart';
 import 'package:rss_aggregator_flutter/core/database.dart';
 import 'package:rss_aggregator_flutter/core/site.dart';
 import 'package:rss_aggregator_flutter/core/feed.dart';
@@ -30,6 +31,12 @@ class FeedsList {
     try {
       await settings.init();
       sites = await readSites(siteID, categoryName);
+
+      //clean cache for feed that didnt found img or desc
+      if (loadFromWeb) {
+        await Cache().cleanEmpty();
+      }
+
       items = await readFeeds(loadFromWeb);
       if (loadFromWeb &&
           items.isNotEmpty &&
